@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import HeaderModal from "../components/modals/header-modal";
+import HeaderModal from "../../components/modals/header-modal";
 import { Content } from "next/font/google";
-import Input from "../components/imputs/input";
+import Input from "../../components/imputs/input";
 
 interface ModalsProps {
     isOpen: boolean,

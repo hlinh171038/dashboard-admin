@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-menubar": "^1.0.4",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "lucide-react": "^0.311.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
     "react-icon": "^1.0.0",
     "react-icons": "^5.0.1",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

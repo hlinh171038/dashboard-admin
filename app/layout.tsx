@@ -3,7 +3,8 @@ import {Nunito} from 'next/font/google'
 import './globals.css'
 import Modals from './modals/modals'
 import LoginModals from './modals/login-modals'
-import Navbar from './components/navbar'
+import Navbar from '../components/navbar'
+import RegisterModal from './modals/register-modals'
 
 const inter = Nunito({ subsets: ['latin'] })
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <LoginModals />
+        <RegisterModal />
         </body>
     </html>
   )

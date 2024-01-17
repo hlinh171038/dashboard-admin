@@ -1,7 +1,7 @@
 "use client"
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
-import Input from "../components/imputs/input"
+import Input from "../../components/imputs/input"
 import useLoginModal from "../hooks/useLoginModal"
 import Modals from "./modals"
 import { useState } from "react"
