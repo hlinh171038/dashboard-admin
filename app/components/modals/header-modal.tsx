@@ -13,9 +13,10 @@ const HeaderModal:React.FC<HeaderModalProps> = ({
 }) => {
 
     return (
-        <div>
+        <div className="relative ">
             <div>{title}</div>
             <button 
+                className="absolute top-1 right-4"
                 onClick={onClose}
             >
                 <CgClose />

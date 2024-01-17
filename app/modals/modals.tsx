@@ -2,23 +2,25 @@
 
 import { useEffect, useState } from "react";
 import HeaderModal from "../components/modals/header-modal";
+import { Content } from "next/font/google";
+import Input from "../components/imputs/input";
 
 interface ModalsProps {
     isOpen: boolean,
     onClose: () =>void;
     onOpen: () =>void;
-    title: string
+    title: string,
+    content:React.ReactElement
 }
 
 const Modals:React.FC<ModalsProps> = ({
     isOpen,
     onClose,
     onOpen,
-    title
+    title,
+    content
 }) =>{
     const [showModal,setShowModal] = useState(isOpen)
-
-
     
 
     useEffect(()=>{
@@ -32,7 +34,7 @@ const Modals:React.FC<ModalsProps> = ({
         <div
 
             className="
-                bg-neutral-700/80
+                bg-neutral-800/80
                 border-[1px]
                 shadow-md
                 flex
@@ -50,13 +52,14 @@ const Modals:React.FC<ModalsProps> = ({
                     md:w-3/6
                     h-full
                     md:h-auto
+                    bg-white
                 "
             >
                 <HeaderModal 
                     title="title"
                     onClose={onClose}
                 />
-                modal
+                {content}
             </div>
         </div>
     )
