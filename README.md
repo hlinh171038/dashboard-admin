@@ -1,7 +1,9 @@
-set up prisma 
- 1. push github + deploy vercel
- 2. install prisma
- 3. connect db ( vercel ) to take link connect
- 4. change .env.local... into .env and pass link take form vercel
- 5. npx prisma db push
- 6. npx prisma studio ( to show table )
+1.npm i @prisma/client to interract with data
+2.updata prisma
+ --> npx prisma generate
+
+ How to declare prisma client in next js
+  1. create lib folder
+  2. setup prisma client
+  
+
