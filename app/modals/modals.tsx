@@ -1,14 +1,16 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HeaderModal from "../../components/modals/header-modal";
 import { Content } from "next/font/google";
 import Input from "../../components/imputs/input";
+import Button from "@/components/button";
 
 interface ModalsProps {
     isOpen: boolean,
     onClose: () =>void;
     onOpen: () =>void;
+    onSubmit: () => void;
     title: string,
     content:React.ReactElement
 }
@@ -17,12 +19,19 @@ const Modals:React.FC<ModalsProps> = ({
     isOpen,
     onClose,
     onOpen,
+    onSubmit,
     title,
     content
 }) =>{
     const [showModal,setShowModal] = useState(isOpen)
     
 
+    // handle submit
+    const handleSubmit = useCallback(()=>{
+        onSubmit()
+    },[onSubmit])
+
+    
     useEffect(()=>{
         setShowModal(isOpen)
     },[isOpen])
@@ -60,6 +69,11 @@ const Modals:React.FC<ModalsProps> = ({
                     onClose={onClose}
                 />
                 {content}
+
+                <Button
+                    label="Register"
+                    onClick={handleSubmit}
+                />
             </div>
         </div>
     )

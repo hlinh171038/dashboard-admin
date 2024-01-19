@@ -5,6 +5,7 @@ import useRegister from "../hooks/useRegisterModal"
 import Modals from "./modals"
 import Input from "../../components/imputs/input"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import axios from "axios"
 
 const RegisterModal = () =>{
     const useRegisterModal = useRegister()
@@ -19,10 +20,17 @@ const RegisterModal = () =>{
         defaultValues :{
             email: "",
             password: "",
-            passwordConfirm: ""
         }
       })
-      const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data)
+      const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        axios.post('/api/register', data)
+                .then((res: any)=>{
+                    console.log(res.data)
+                })
+                .catch((err:any)=>{
+                    console.log(err)
+                })
+      }
 
 
     const content = (
@@ -61,6 +69,7 @@ const RegisterModal = () =>{
         <Modals 
             isOpen={useRegisterModal.isOpen}
             onClose = {useRegisterModal.onClose}
+            onSubmit ={handleSubmit(onSubmit)}
             title="Register"
             content = {content}
             onOpen = {useRegisterModal.onOpen}
