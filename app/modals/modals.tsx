@@ -45,7 +45,7 @@ const Modals:React.FC<ModalsProps> = ({
         <div
 
             className="
-                bg-neutral-800/80
+                bg-neutral-600/60
                 border-[1px]
                 shadow-md
                 flex
@@ -64,18 +64,29 @@ const Modals:React.FC<ModalsProps> = ({
                     h-full
                     md:h-auto
                     bg-white
+                    rounded-md
+                    shadow-md
                 "
             >
                 <HeaderModal 
-                    title="title"
+                    title={title}
                     onClose={onClose}
                 />
                 {content}
 
-                <Button
-                    label="Register"
+               <div className="p-2 w-full">
+                <button
                     onClick={handleSubmit}
-                />
+                    className="text-white bg-blue-600 py-1.5 rounded-md flex items-center justify-center w-full hover:bg-blue-500 transition-colors"
+                >
+                    {title}
+                </button>
+               </div>
+               <div className="px-2 py-2 pt-4 flex items-center justify-center text-neutral-400">
+                    <div className="border-t-2 border-neutral-400 w-[50%] text-blue-600   px-2"></div>
+                    <div>or</div>
+                    <div className="border-t-2 border-neutral-400 w-[50%] text-blue-600   px-2"></div>
+               </div>
                 {footer}
             </div>
            

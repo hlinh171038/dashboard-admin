@@ -29,7 +29,7 @@ const Input:React.FC<InputPros> = ({
                 type={type}
                 {...register(id,{required})}
                 placeholder={label}
-                className={clsx("rounded-md border-black-700 focus:border-black-700 text-zinc-600 w-full p-2",
+                className={clsx("rounded-md tranparent focus:outline-none border-2 focus:border-sky-500  text-slate-600 placeholder:text-slate-300 w-full p-2",
                     errors[id] && "text-rose-500 border-rose-500 focus:boder-rose-500"
                 )}
             />

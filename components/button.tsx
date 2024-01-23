@@ -23,8 +23,8 @@ const Button:React.FC<ButtonProps> = ({
         <button
             onClick={onClick}
             disabled={disabled}
-            className={clsx("relative px-2 py-1 rounded-lg bg-blue-950 hover:bg-blue-700 transition-all", 
-                        outline && 'bg-white border-black text-black', 
+            className={clsx("relative px-2 py-1 rounded-lg  bg-blue-600 hover:bg-blue-500 transition-all text-white", 
+                        outline && 'bg-white text-blue-600 hover:bg-white hover:border-blue-400 hover:text-blue-500 border-2 border-blue-600', 
                         disabled && 'opacity-70 cursor-not-allowed'
                         )}
         >
@@ -32,9 +32,10 @@ const Button:React.FC<ButtonProps> = ({
                 <Icon 
                    size={24}
                    className='
+                   text-black
                     absolute
                     left-4
-                    top-3
+                    top-1.5
                    ' 
                 />
             )}

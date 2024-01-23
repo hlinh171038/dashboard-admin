@@ -13,13 +13,17 @@ const HeaderModal:React.FC<HeaderModalProps> = ({
 }) => {
 
     return (
-        <div className="relative ">
-            <div>{title}</div>
+        <div className="relative my-3">
+            <div
+                className="uppercase text-blue-600 font-semibold text-center text-[30px]"
+            >
+                {title}
+            </div>
             <button 
                 className="absolute top-1 right-4"
                 onClick={onClose}
             >
-                <CgClose />
+                <CgClose className="text-red-600 hover:text-red-500 transition-all"/>
             </button>
         </div>
     )
