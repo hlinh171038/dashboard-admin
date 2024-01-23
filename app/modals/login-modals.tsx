@@ -22,7 +22,6 @@ const LoginModals = () =>{
         formState: { errors },
       } = useForm<FieldValues>({
         defaultValues: {
-            name: "",
             email: "",
             password: ""
         }
@@ -31,24 +30,20 @@ const LoginModals = () =>{
 
         setIsLoading(true)
 
-        signIn('Credentials',{
-            ...data,
-            redirect: false
-        })
-        .then((callback) =>{
-            setIsLoading(true)
+        signIn('credentials',
+        {...data, redirect: false
+       })
+       .then((callback) => {
+           if (callback?.error) {
+               toast.error(callback.error)
+           }
 
-            if(callback?.ok) {
-                toast.success("Logined.");
-                router.refresh();
-                loginModal.onClose()
-            }
-
-            if(callback?.error) {
-                toast.error("Some thing went wrong !")
-            }
-
-        })
+           if(callback?.ok && !callback?.error) {
+               loginModal.onClose();
+               router.refresh()
+               toast.success('Logged in successfully!')
+           }
+       } )
       }
 
     const content = (

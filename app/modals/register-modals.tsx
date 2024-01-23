@@ -6,10 +6,13 @@ import Modals from "./modals"
 import Input from "../../components/imputs/input"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import axios from "axios"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 const RegisterModal = () =>{
     const useRegisterModal = useRegister()
     const [isLoading,setIsLoading] = useState(false)
+    const router = useRouter()
 
     const {
         register,
@@ -18,23 +21,36 @@ const RegisterModal = () =>{
         formState: { errors },
       } = useForm<FieldValues>({
         defaultValues :{
+            name: "",
             email: "",
-            password: "",
+            hashedPassword: "",
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         axios.post('/api/register', data)
                 .then((res: any)=>{
-                    console.log(res.data)
+                    useRegisterModal.onClose()
+                    toast.success("success !!!")
+                    router.refresh();
                 })
                 .catch((err:any)=>{
-                    console.log(err)
+                    toast.error("Some thing went wrong !!!")
+                    
                 })
       }
 
 
     const content = (
         <div>
+            <Input
+                id="name"
+                type="text"
+                label="name"
+                register={register}
+                required
+                disabled ={isLoading}
+                errors={errors}
+            />
             <Input
                 id="email"
                 type="email"
@@ -45,18 +61,9 @@ const RegisterModal = () =>{
                 errors={errors}
             />
             <Input
-                id="password"
-                type="password"
-                label="password"
-                register={register}
-                required
-                disabled ={isLoading}
-                errors={errors}
-            />
-            <Input
-                id="passwordConfirm"
-                type="password"
-                label="passwordConfirm"
+                id="hashedPassword"
+                type="hashedPassword"
+                label="hashedPassword"
                 register={register}
                 required
                 disabled ={isLoading}
