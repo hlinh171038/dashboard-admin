@@ -8,6 +8,10 @@ import { useState } from "react"
 import {signIn} from 'next-auth/react'
 import {toast} from 'react-hot-toast'
 import { useRouter } from "next/navigation"
+import Button from "@/components/button"
+
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginModals = () =>{
     const loginModal = useLoginModal()
@@ -69,6 +73,21 @@ const LoginModals = () =>{
             />
         </div>
     )
+
+    const footer = (
+        <div className="">
+            <Button
+                label="Sign In with Github"
+                onClick={()=>signIn('github')}
+                icon={FaGithub}
+            />
+            <Button 
+                label="Sign In with Google"
+                onClick={()=>signIn('google')}
+                icon={FcGoogle}
+            />
+        </div>
+    )
     return (
         <Modals
                 isOpen={loginModal.isOpen}
@@ -77,6 +96,7 @@ const LoginModals = () =>{
                 onOpen = {loginModal.onOpen}
                 title="login"
                 content= {content}
+                footer = {footer}
            />
     )
 }

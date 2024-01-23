@@ -12,7 +12,8 @@ interface ModalsProps {
     onOpen: () =>void;
     onSubmit: () => void;
     title: string,
-    content:React.ReactElement
+    content:React.ReactElement,
+    footer:React.ReactElement
 }
 
 const Modals:React.FC<ModalsProps> = ({
@@ -21,7 +22,8 @@ const Modals:React.FC<ModalsProps> = ({
     onOpen,
     onSubmit,
     title,
-    content
+    content, 
+    footer
 }) =>{
     const [showModal,setShowModal] = useState(isOpen)
     
@@ -74,7 +76,9 @@ const Modals:React.FC<ModalsProps> = ({
                     label="Register"
                     onClick={handleSubmit}
                 />
+                {footer}
             </div>
+           
         </div>
     )
 }
