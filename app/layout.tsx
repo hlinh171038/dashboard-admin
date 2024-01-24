@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <LoginModals />
         <RegisterModal />
-        <div className='grid grid-cols-5 gap-1 w-full'>
+        <div className='grid grid-cols-5 w-full'>
           <div className='bg-blue-600 col-span-1 '>
             <Sidebar />
           </div>

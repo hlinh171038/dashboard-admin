@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
     {
@@ -47,14 +48,14 @@ const Sidebar = () =>{
     console.log(path)
     return (
         <div className="h-screen  flex flex-col">
-            <Link  href={"/dashboards/dashboard-home"} className="h-auto bg-slate-900 text-white py-1 flex items-center justify-between">
-                <Image src="/logo2.png" width="100" height="100" alt="logo"/>
+            <Link  href={"/dashboards/dashboard-home"} className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
+                <Image src="/logo2.png" width="96" height="96" alt="logo"/>
                 <MdArrowBackIos className="text-white w-5 h-5 mr-4"/>
             </Link>
             
             <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
-                <Link  href={"/dashboard/home-dashboard"} 
-                       className={clsx("flex items-center text-white text-sm gap-4 cursor-pointer transition-all",
+                <Link  href={"/dashboard/dashboard-home"} 
+                       className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all",
                                 path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-800"
                         )}
                 >
@@ -67,15 +68,15 @@ const Sidebar = () =>{
                         <Link 
                             href={item.link} 
                             key={item.title} 
-                            className={clsx("ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin transition-all",
-                                path === item.link && "text-slate-900 hover:text-slate-800 font-bold"
+                            className={cn("ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin transition-all",
+                                path === item.link && "text-slate-900 hover:text-slate-800 font-semibold"
                             )}>
                             <Icon className="w-4 h-4" />
                             <div> {item.title}</div>
                         </Link>
                     )
                 })}
-                <div className={clsx("flex items-center text-white text-sm gap-4 cursor-pointer",
+                <div className={cn("flex items-center text-white text-sm gap-4 cursor-pointer",
                     path.includes("/setting") && "text-slate-900 hover:text-slate-800 font-bold"
                 )}>
                     <IoSettingsSharp className="w-5 h-5"/>

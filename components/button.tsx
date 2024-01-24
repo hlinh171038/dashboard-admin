@@ -23,8 +23,8 @@ const Button:React.FC<ButtonProps> = ({
         <button
             onClick={onClick}
             disabled={disabled}
-            className={clsx("relative px-2 py-1 rounded-lg  bg-blue-600 hover:bg-blue-500 transition-all text-white", 
-                        outline && 'bg-white text-blue-600 hover:bg-white hover:border-blue-400 hover:text-blue-500 border-2 border-blue-600', 
+            className={clsx("relative px-2 py-1 rounded-lg  bg-slate-600 hover:bg-slate-500 transition-all text-white w-full", 
+                        outline && 'bg-white text-slate-600 hover:bg-white hover:border-slate-500 hover:text-slate-500 border-2 border-slate-600', 
                         disabled && 'opacity-70 cursor-not-allowed'
                         )}
         >
