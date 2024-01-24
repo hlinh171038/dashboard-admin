@@ -35,7 +35,7 @@ const Navbar:React.FC<NavProps>= ({
 
     return (
         <div 
-            className="bg-blue-600 w-screen h-[70px] flex gap-x-4 justify-between items-center px-4"
+            className="bg-blue-600 w-full h-[70px] flex gap-x-4 justify-between items-center px-4"
         >
             <div>logo</div>
             <div>menu</div>

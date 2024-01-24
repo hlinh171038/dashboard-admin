@@ -8,6 +8,7 @@ import RegisterModal from './modals/register-modals'
 import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
+import Sidebar from '@/components/sidebar'
 
 
 
@@ -31,13 +32,16 @@ export default async function RootLayout({
       <body className={inter.className}>
         <LoginModals />
         <RegisterModal />
-        <Navbar name ={session?.user?.name}/>
-        
-        <Toaster/>
-        {children}
-     
-       
-        
+        <div className='grid grid-cols-5 gap-1 w-full'>
+          <div className='bg-blue-600 col-span-1 '>
+            <Sidebar />
+          </div>
+          <div className="bg-red-200 col-span-4 w-full">
+            <Navbar name ={session?.user?.name}/>
+            {children}
+            <Toaster/>
+          </div>
+        </div>
         </body>
     </html>
   )

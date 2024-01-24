@@ -13,7 +13,7 @@ const HeaderModal:React.FC<HeaderModalProps> = ({
 }) => {
 
     return (
-        <div className="relative my-3">
+        <div className="relative my-3 duration-300 transition-all">
             <div
                 className="uppercase text-blue-600 font-semibold text-center text-[30px]"
             >
