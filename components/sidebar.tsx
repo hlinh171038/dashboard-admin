@@ -12,6 +12,8 @@ import { RiContactsBookUploadFill } from "react-icons/ri";
 import { MdLogout } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import clsx from "clsx";
 
 const menuItems = [
     {
@@ -34,7 +36,9 @@ const menuItems = [
 const setting = [
     {
         title:"Theme",
-        icon: IoIosColorPalette
+        icon: IoIosColorPalette,
+        link: "/setting/theme"
+
     }
 ]
 
@@ -49,20 +53,31 @@ const Sidebar = () =>{
             </Link>
             
             <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
-                <Link  href={"/dashboard/home-dashboard"} className="flex items-center text-white text-sm gap-4 cursor-pointer">
+                <Link  href={"/dashboard/home-dashboard"} 
+                       className={clsx("flex items-center text-white text-sm gap-4 cursor-pointer transition-all",
+                                path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-800"
+                        )}
+                >
                     <MdDashboardCustomize className="w-5 h-5"/>
                     <div>Dashboard</div>
                 </Link>
                 {menuItems.map((item)=>{
                     const Icon = item.icon
                     return (
-                        <Link href={item.link} key={item.title} className="ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin">
+                        <Link 
+                            href={item.link} 
+                            key={item.title} 
+                            className={clsx("ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin transition-all",
+                                path === item.link && "text-slate-900 hover:text-slate-800 font-bold"
+                            )}>
                             <Icon className="w-4 h-4" />
                             <div> {item.title}</div>
                         </Link>
                     )
                 })}
-                <div className="flex items-center text-white text-sm gap-4 cursor-pointer">
+                <div className={clsx("flex items-center text-white text-sm gap-4 cursor-pointer",
+                    path.includes("/setting") && "text-slate-900 hover:text-slate-800 font-bold"
+                )}>
                     <IoSettingsSharp className="w-5 h-5"/>
                     <div>Setting</div>
 
@@ -70,19 +85,27 @@ const Sidebar = () =>{
                     {setting.map((item)=>{
                         const Icon = item.icon;
                         return (
-                            <div key={item.title} className="ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin">
-                            <Icon className="w-4 h-4" />
-                            <div> {item.title}</div>
-                        </div>
+                            <Link href={item.link} key={item.title} className={clsx("ml-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm font-thin",
+                            
+                                path === item.link && "text-slate-900 hover:text-slate-800 font-bold"
+                            )}>
+                                <Icon className="w-4 h-4" />
+                                <div> {item.title}</div>
+                            </Link>
                         )
                     })}
-                <div className="flex items-center text-white text-sm gap-4 cursor-pointer">
+                <Link href="/contact" className={clsx("flex items-center text-white text-sm gap-4 cursor-pointer",
+                    path === '/contact' && "text-slate-900 hover:text-slate-800 font-bold"
+                )}>
                     <RiContactsBookUploadFill className="w-5 h-5"/>
                     <div>Contact Us</div>
-                </div>
+                </Link>
                 
             </div>
-            <div className="bg-slate-900 text-white">log out</div>
+            <div onClick={()=>signOut()} className="bg-slate-900 text-white flex items-center justify-center gap-4 cursor-pointer hover:text-neutral-200">
+                <div >Log out</div>
+                <MdLogout className="w-4 h-4" />
+            </div>
         </div>
     )
 }
