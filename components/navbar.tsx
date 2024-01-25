@@ -14,21 +14,27 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 
 import { HiOutlineBars3 } from "react-icons/hi2";
 import clsx from "clsx"
+import useSidebar from "@/app/hooks/useSidebar"
+import { cn } from "@/lib/utils"
 
 interface NavProps {
-    name: string |undefined | null
+    name: string |undefined | null;
+    img: string | undefined | null;
+    email: string | undefined | null;
 }
 
 const Navbar:React.FC<NavProps>= ({
-    name
+    name,
+    img,
+    email
 }) => {
 
     const loginModal = useLoginModal()
     const registerModal = useRegister()
+    const sidebar = useSidebar()
 
     const [hover,setHover] = useState(false)
    
-    console.log(hover)
     const handleLogin = useCallback(()=>{
         loginModal.onOpen()
     },[loginModal])
@@ -46,20 +52,28 @@ const Navbar:React.FC<NavProps>= ({
             className="bg-white shadow-sm  w-full h-[70px] flex gap-x-4 justify-between items-center px-4 relative"
         >
             <div>
-                <HiOutlineBars3 className="w-6 h-6 hover:text-neutral-700 cursor-pointer transition" />
+                <HiOutlineBars3 
+                    onClick={()=>sidebar.onOpen()}
+                    className={cn("w-6 h-6 hover:text-neutral-700 cursor-pointer transition block hover: text-slate-600",
+                                sidebar.isOpen && " hidden"
+                    
+                            )} 
+                />
             </div>
             <div>
                 menu
             </div>
             <div 
-                className="group flex gap-4 justify-center items-center cursor-pointer hover:bg-slate-600 transition overflow-hidden px-2 py-1 rounded-lg duration-300"
+                className="group  cursor-pointer  transition overflow-hidden px-2 py-1 rounded-lg duration-300 "
                 onClick ={()=>setHover(!hover)}
             >
-                <div className="group-hover:block group-hover:text-white hidden transition">{hover ? <MdKeyboardArrowUp className="w-4 h-4" />: <MdOutlineKeyboardArrowDown className="w-4 h-4" />}</div>
-                <div className="group-hover:text-white text-slate-900 text-sm">{name}</div>
+                <div className="group-hover:flex group-hover:text-white group-hover:w-auto group-hover:pr-8 bg-slate-600 overflow-hidden  transition-all  absolute top-3 right-9 w-0  gap-0.5 h-10 justify-center items-center rounded-full  px-2 py-0.5 duration-300">
+                    <div className=" group-hover:block hidden ">{hover ? <MdKeyboardArrowUp className="w-4 h-4" />: <MdOutlineKeyboardArrowDown className="w-4 h-4" />}</div>
+                    <div className=" group-hover:block hidden  text-sm">{name}</div>
+                </div>
                 
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={img as string} />
                     <AvatarFallback>LT</AvatarFallback>
                 </Avatar>
             </div>

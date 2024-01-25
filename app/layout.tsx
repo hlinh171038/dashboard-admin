@@ -9,6 +9,9 @@ import { Toaster } from 'react-hot-toast'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import Sidebar from '@/components/sidebar'
+import useSidebar from './hooks/useSidebar'
+import SidebarCover from '@/components/sidebar-cover'
+import NavbarCover from '@/components/navbar-cover'
 
 
 
@@ -24,7 +27,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
+  
   const session = await getServerSession(authOptions)
 
   return (
@@ -32,15 +35,19 @@ export default async function RootLayout({
       <body className={inter.className}>
         <LoginModals />
         <RegisterModal />
-        <div className='grid grid-cols-5 w-full'>
-          <div className='bg-blue-600 col-span-1 '>
+        <div className='flex justify-start items-start w-full '>
+          <SidebarCover >
             <Sidebar />
-          </div>
-          <div className="bg-red-200 col-span-4 w-full">
-            <Navbar name ={session?.user?.name}/>
-            {children}
+          </SidebarCover>
+            <NavbarCover >
+              <Navbar 
+                name ={session?.user?.name}
+                img = {session?.user?.image}
+                email = {session?.user?.email}
+                />
+              {children}
             <Toaster/>
-          </div>
+          </NavbarCover>
         </div>
         </body>
     </html>

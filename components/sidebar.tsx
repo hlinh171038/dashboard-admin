@@ -15,6 +15,8 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import useSidebar from "@/app/hooks/useSidebar";
 
 const menuItems = [
     {
@@ -45,12 +47,17 @@ const setting = [
 
 const Sidebar = () =>{
     const path = usePathname();
-    console.log(path)
+    const sidebar = useSidebar()
+    console.log(sidebar.isOpen)
     return (
-        <div className="h-screen  flex flex-col">
+        <div className={cn("flex flex-col h-screen"
+            )}>
             <Link  href={"/dashboards/dashboard-home"} className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
                 <Image src="/logo2.png" width="96" height="96" alt="logo"/>
-                <MdArrowBackIos className="text-white w-5 h-5 mr-4"/>
+                <MdArrowBackIos 
+                    className="text-white w-5 h-5 mr-4 hover:text-slate-600 transition-all"
+                    onClick={()=>sidebar.onClose()}
+                />
             </Link>
             
             <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
