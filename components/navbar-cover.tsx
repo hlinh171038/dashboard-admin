@@ -16,8 +16,8 @@ const NavbarCover = (
 
     const sidebar = useSidebar()
     return (
-        <div className={cn("bg-slate-900/90 flex-initial  duration-300 w-full h-screen ",
-                    sidebar.isOpen && ""
+        <div className={cn(" duration-200 w-full h-auto ml-[25%]",
+                    !sidebar.isOpen && "ml-0"
                 )}>
            {children}
         </div>

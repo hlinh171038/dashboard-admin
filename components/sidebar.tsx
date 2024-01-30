@@ -87,7 +87,7 @@ const Sidebar = () =>{
     const sidebar = useSidebar()
     console.log(sidebar.isOpen)
     return (
-        <div className={cn("flex flex-col h-screen rounded-md"
+        <div className={cn("flex flex-col rounded-md h-screen"
             )}>
             <Link  href={"/dashboards"} className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
                 <Image src="/logo2.png" width="96" height="96" alt="logo"/>
@@ -97,7 +97,7 @@ const Sidebar = () =>{
                 />
             </Link>
             
-            <div className="bg-slate-600/80 h-screen text-white flex flex-col gap-4 px-4 py-4">
+            <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
                 <Link  href={"/dashboards"} 
                        className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
                                 path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-80"

@@ -35,7 +35,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <LoginModals />
         <RegisterModal />
-        <div className='flex justify-start items-start w-full '>
+        <div className='flex justify-start items-start w-full h-auto bg-slate-900/90'>
           <SidebarCover >
             <Sidebar />
           </SidebarCover>

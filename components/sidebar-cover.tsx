@@ -8,7 +8,7 @@ const SidebarCover = ({children}:{children:React.ReactNode}) =>{
 
     const sidebar = useSidebar()
     return (
-        <div className={cn('bg-slate-600  overflow-hidden transition-all duration-300 h-screen',
+        <div className={cn('bg-slate-600  overflow-hidden transition-all duration-200 h-auto w-full fixed top-0 left-0',
                         !sidebar.isOpen && 'translate-x-[-100%] w-0 ' ,
                         sidebar.isOpen && ' translate-x-0 w-[25%] '
                         
