@@ -28,11 +28,14 @@ const Dashboard = () =>{
                 </div>
                 {/* chart */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 py-6">
+                    <div className="text-white">
+                        Weekly Statictical
+                    </div>
                    <Chart />
                 </div>
            </div>
            {/* right */}
-           <div className="col-span-1 h-[3000px] flex flex-col gap-2 cursor-pointer">
+           <div className="col-span-1  flex flex-col gap-2 cursor-pointer">
                  
                     <NewVersion 
                         title = "Availble Now"

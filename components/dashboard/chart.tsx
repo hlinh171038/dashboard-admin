@@ -48,16 +48,14 @@ const data = [
 ];
 
 export default class Example extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+ 
 
   render() {
     return (
-      <div className="w-full h-[300px]">
-        <h2 className='text-lg text-white py-4'>Weekly Recap</h2>
+      <div className="w-full h-[350px] ">
         <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          width={500}
-          height={300}
+        
           data={data}
           margin={{
             top: 5,

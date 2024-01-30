@@ -12,6 +12,7 @@ import Sidebar from '@/components/sidebar'
 import useSidebar from './hooks/useSidebar'
 import SidebarCover from '@/components/sidebar-cover'
 import NavbarCover from '@/components/navbar-cover'
+import Footer from '@/components/footer'
 
 
 
@@ -32,7 +33,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} >
         <LoginModals />
         <RegisterModal />
         <div className='flex justify-start items-start w-full h-auto bg-slate-900/90'>
@@ -49,6 +50,7 @@ export default async function RootLayout({
             <Toaster/>
           </NavbarCover>
         </div>
+        <Footer/>
         </body>
     </html>
   )
