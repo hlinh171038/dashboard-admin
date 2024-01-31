@@ -89,13 +89,16 @@ const Sidebar = () =>{
     return (
         <div className={cn("flex flex-col rounded-md h-screen"
             )}>
-            <Link  href={"/dashboards"} className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
-                <Image src="/logo2.png" width="96" height="96" alt="logo"/>
+            <div   className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
+                <Link href={"/dashboards"}>
+                    <Image src="/logo2.png" width="96" height="96" alt="logo"/>
+                </Link>
                 <MdArrowBackIos 
                     className="text-white w-5 h-5 mr-4 hover:text-slate-600 transition-all"
                     onClick={()=>sidebar.onClose()}
                 />
-            </Link>
+            </div>
+            
             
             <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
                 <Link  href={"/dashboards"} 
