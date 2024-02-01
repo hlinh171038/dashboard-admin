@@ -8,9 +8,14 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 
-const SelectCustomer = () => {
+interface SelectCustomerProps {
+    title: string
+}
+const SelectCustomer:React.FC<SelectCustomerProps> = ({
+    title
+}) => {
     const [option,setOption] = useState(false)
-    const [selected,setSelected] = useState("Is Admin ?")
+    const [selected,setSelected] = useState(title)
 
 
     const handleSelected = useCallback((item: string)=>{
@@ -26,7 +31,7 @@ const SelectCustomer = () => {
     return (
         <div className="relative h-[70px]">
             <div className={cn(" absolute w-full top-5 left-0 w-50 border-1 border-neutral-200 rounded-md px-2 py-1 flex items-center justify-between transition ",
-                selected === "Is Admin ?" ?"bg-slate-500/60 w-full text-neutral-400":"bg-slate-500/60 w-full text-slate-900"
+                selected === `${title}` ?"bg-slate-500/60 w-full text-neutral-400":"bg-slate-500/60 w-full text-slate-900"
             )}>
                 <div className={cn("text-[14px] ",
                                     
@@ -42,7 +47,7 @@ const SelectCustomer = () => {
                 <div onClick={() =>handleSelected("Yes")} className="hover:bg-slate-500/60 rounded-md transition px-2 text-slate-900  text-[14px]">Yes</div>
                 <div onClick={()=>handleSelected("No")} className="hover:bg-slate-500/60 rounded-md transition px-2 text-slate-900 text-[14px]">No</div>
             </div>
-            <label className="peer-click:text-white peer-checked:font-bold  peer-focus:drop-shadow-xl  absolute top-0 left-0 text-neutral-200 text-[15px]">Is Admin ?</label>
+            <label className="peer-click:text-white peer-checked:font-bold  peer-focus:drop-shadow-xl  absolute top-0 left-0 text-neutral-200 text-[15px]">{title}</label>
         </div>
     )
 }

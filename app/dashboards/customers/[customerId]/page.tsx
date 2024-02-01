@@ -22,13 +22,37 @@ const DetailCustomer = () =>{
            </div>
            <div className="bg-slate-600 rounded-md col-span-2 px-2 py-4">
                 <form>
-                    <InputCustomerId />
-                    <InputCustomerId />
-                    <InputCustomerId />
-                    <InputCustomerId />
-                    <InputCustomerId />
-                    <SelectCustomer/>
-                    <SelectCustomer/>
+                    <InputCustomerId 
+                         title ="username"
+                         placeholder = "username"
+                         type = "text"
+                    />
+                    <InputCustomerId 
+                        title ="email"
+                        placeholder = "email"
+                        type = "text"
+                    />
+                    <InputCustomerId 
+                        title ="password"
+                        placeholder = "password"
+                        type = "password"
+                    />
+                    <InputCustomerId 
+                        title ="phone"
+                        placeholder = "phone"
+                        type = "text"
+                    />
+                    <InputCustomerId 
+                        title ="address"
+                        placeholder = "address"
+                        type = "text"
+                    />
+                    <SelectCustomer
+                        title = "Is Admin ?"
+                        />
+                    <SelectCustomer
+                        title="Is Active ?"
+                    />
                    <input 
                         type="submit"
                         value="Update user"
