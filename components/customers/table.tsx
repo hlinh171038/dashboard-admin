@@ -4,6 +4,7 @@ import ItemCustomer from "./item"
 
 const table = [
     {
+        id: "1",
         name:"hello",
         img:"/avatar-empty.png",
         email: "hello@gmail.com",
@@ -12,6 +13,7 @@ const table = [
         action: "passive"
     },
     {
+        id:"2",
         name:"hello",
         img:"/avatar-empty.png",
         email: "hello@gmail.com",
@@ -35,7 +37,8 @@ const TableCustomer = () =>{
             {table.map((item)=>{
                 return (
                     <ItemCustomer 
-                        key={item.name}
+                        key={item.id}
+                        id={item.id}
                         name={item.name}
                         img={item.img}
                         email={item.email}
