@@ -24,11 +24,13 @@ const UploadImage:React.FC<UploadImageProps> = ({
     },[onChange])
     return (
         <CldUploadWidget 
+        
             onUpload={handleUpload}
             uploadPreset="hhbqtryr"
             options = {{
                 maxFiles: 1
            }}
+          
         >
         {({ open }) => {
             return (
@@ -44,14 +46,18 @@ const UploadImage:React.FC<UploadImageProps> = ({
                         p-20
                         border-neutral-300
                         flex
+                        flex-col
                         justify-center
                         items-center
-                        gap-4
-                        text-neutral-600
+                        gap-2
+                        hover:text-neutral-200
                        aspect-square
+                       
+                       text-white
+                       text-[15px]
                     '
                 >
-                    <MdAddPhotoAlternate className='w-4 h-4' />
+                    <MdAddPhotoAlternate className='w-6 h-6' />
                     <div className='font-semibold text-lg'>
                         Click to Upload
                     </div>

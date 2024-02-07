@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import QuestionNotified from "../question-notified";
 
 interface InputCustomerIdProps {
     id: string
@@ -11,6 +12,7 @@ interface InputCustomerIdProps {
     type: string
     errors: FieldErrors
     disabled?: boolean
+    question?: boolean
 }
 
 const InputCustomerId:React.FC<InputCustomerIdProps> = (
@@ -21,7 +23,8 @@ const InputCustomerId:React.FC<InputCustomerIdProps> = (
         disabled,
         title,
         placeholder,
-        type
+        type,
+        question
     }
 ) =>{
     return (
@@ -43,9 +46,23 @@ const InputCustomerId:React.FC<InputCustomerIdProps> = (
                     top-0 
                     left-0 
                     text-neutral-200 
-                    text-[15px]"
+                    text-[15px]
+                    flex
+                    items-center
+                    justify-between
+                    w-full
+                    "
+                    
                 >
                     {title}
+                    {question && (
+                        <span>
+                        <QuestionNotified
+                             title="?"
+                            content="second email to vertified !!!"
+                        />
+                    </span>
+                    )}
                 </label>
          </div>
     )

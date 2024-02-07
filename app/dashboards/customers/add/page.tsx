@@ -3,6 +3,7 @@
 import InputCustomerId from "@/components/customers/input"
 import SelectCustomer from "@/components/customers/select"
 import UploadImage from "@/components/customers/upload-img"
+import QuestionNotified from "@/components/question-notified"
 import { Textarea } from "@/components/ui/textarea"
 import axios from "axios"
 import { useState } from "react"
@@ -61,20 +62,19 @@ const AddNewCustomer = () =>{
         <div className="px-2 ">
             <div className="bg-slate-600 w-full h-auto rounded-md px-2 py-2 flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-8">
-                    <div className="col-span-1 flex flex-col gap-1">
-                       
-                        
-                      
-                       
+                    <div className="col-span-1 flex flex-col ">
                         {/* upload image */}
-                        
+                            <div>
+                                <QuestionNotified 
+                                    title="?"
+                                    content="content"
+                                />    
+                            </div> 
                             <UploadImage 
                                 value={imgUrl}
                                 onChange = {(value) =>setCustomValue("imgUrl", value)}
-                            />
-                      
-                       
-                        
+                            /> 
+                            
                     </div>
                     <div className="col-span-1 flex flex-col gap-1">
                     <InputCustomerId 
@@ -114,6 +114,7 @@ const AddNewCustomer = () =>{
                                 text-[15px]"
                             >
                                 Confirm Password
+                               
                             </label>
                     </div>
                     <div>
@@ -136,6 +137,7 @@ const AddNewCustomer = () =>{
                             type = "text"
                             errors ={errors}
                             disabled = {isLoading}
+                            question
                         />
                       
                         <InputCustomerId 
