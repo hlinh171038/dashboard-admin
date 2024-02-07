@@ -72,6 +72,12 @@ const RegisterModal = () =>{
         </div>
     )
 
+    const footer = (
+        <div>
+            footer
+        </div>
+    )
+
     return (
         <Modals 
             isOpen={useRegisterModal.isOpen}
@@ -80,6 +86,7 @@ const RegisterModal = () =>{
             title="Register"
             content = {content}
             onOpen = {useRegisterModal.onOpen}
+            footer={footer}
         />
     )
 }
