@@ -17,7 +17,8 @@ export async function POST(request:Request) {
             role,
             active,
             imgUrl,
-            address
+            address,
+            emailVerified
     } = body;
 
     let action = null;
@@ -36,7 +37,8 @@ export async function POST(request:Request) {
             action,
             hashedPassword,
             image: imgUrl,
-            address
+            address,
+            emailVerified
         }
     })
     return NextResponse.json(newUser)

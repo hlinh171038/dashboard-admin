@@ -12,7 +12,7 @@ interface InputCustomerIdProps {
     type: string
     errors: FieldErrors
     disabled?: boolean
-    question?: boolean
+    question?: boolean,
 }
 
 const InputCustomerId:React.FC<InputCustomerIdProps> = (
@@ -24,12 +24,12 @@ const InputCustomerId:React.FC<InputCustomerIdProps> = (
         title,
         placeholder,
         type,
-        question
+        question,
     }
 ) =>{
     return (
         <div className="  flex flex-col items-start justify-start gap-2 relative h-[70px]">
-             <input 
+                <input 
                 type={type} 
                 {...register(id,{ required: true })}
                 placeholder={placeholder} 
