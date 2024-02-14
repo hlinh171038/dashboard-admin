@@ -27,28 +27,42 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
 }
 
 ) =>{
-
+    const day = new Date(created_at).getDate()
+    const triggerDay = day <10 ? "0"+ day: day
+    const month = new Date(created_at).getMonth() + 1;
+    const triggerMonth = month <10 ? "0"+ month: month
+    const year = new Date(created_at).getFullYear().toString()
+    
     const route = useRouter()
     const handleRouteDetailUser = useCallback(()=>{
         route.push(`/dashboards/customers/${id}`)
     },[id,route])
+
     return (
        <tr>
-            <td className="flex items-center justify-start gap-1 py-2">
+        <td className="flex items-center justify-start gap-1 py-2">
                 <Image 
-                    src={img}
+                    src={img ? img :"/avatar.png"}
                     width="30"
                     height="30"
                     alt="avatar"
+                    className="rounded-full aspect-square object-cover  "
                 />
                 <div>{name}</div>
-            </td>
-            <td>
-                {email}
-            </td>
-            <td>{created_at}</td>
-            <td>{role}</td>
-            <td className="">{action}</td>
+        </td>
+        <td>
+            {email}
+        </td>
+        <td className="">
+            <span>{triggerDay + "/" + 
+                   triggerMonth + "-" + 
+                   year} 
+            </span>
+            {/* <span>{new Date(created_at).getMonth()+1 + "-"}</span>
+            <span>{new Date(created_at).getFullYear().toString()}</span> */}
+        </td>
+        <td>{role}</td>
+            <td className="">{action === "true" ? "yes": "no"}</td>
             <td className="">
                 <button 
                     onClick={handleRouteDetailUser}

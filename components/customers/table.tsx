@@ -1,5 +1,6 @@
 "use client"
 
+import { User } from "@prisma/client"
 import ItemCustomer from "./item"
 
 const table = [
@@ -23,7 +24,14 @@ const table = [
     }
 ]
 
-const TableCustomer = () =>{
+interface TableCustomerProps {
+    users?: User[] | any
+}
+
+const TableCustomer:React.FC<TableCustomerProps> = ({
+    users
+}) =>{
+    console.log(users)
     return (
        <table className="w-full text-[15px] text-white ">
             <tr className="font-bold ">
@@ -34,15 +42,14 @@ const TableCustomer = () =>{
                 <td>Action</td>
                 <td></td>
             </tr>
-            {table.map((item)=>{
-                return (
-                    <ItemCustomer 
+            {users && users.map((item:any)=>{
+                return (<ItemCustomer 
                         key={item.id}
                         id={item.id}
                         name={item.name}
-                        img={item.img}
+                        img={item.image}
                         email={item.email}
-                        created_at={item.created_at}
+                        created_at={item.createdAt}
                         role={item.role}
                         action={item.action}
                     />
