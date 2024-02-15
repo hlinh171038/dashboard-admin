@@ -10,16 +10,31 @@ export async function getAlluser(params: Iparams) {
         const query:any = {}
 
         if(search) {
-            query.name = search
+            const users = await prisma.user.findMany({
+                where: {
+                    OR: [
+                        {
+                            name: { contains: search}
+                        },
+                        {
+                            email: {contains: search}
+                        }
+                    ]
+                    
+                },
+                orderBy:{
+                    createdAt: "desc"
+                }
+            })
+            return users
         }
-       
         const users = await prisma.user.findMany({
-            where: query,
             orderBy:{
                 createdAt: "desc"
             }
         })
         return users
+       
     } catch (error:any) {
         throw new Error(error)
     }
