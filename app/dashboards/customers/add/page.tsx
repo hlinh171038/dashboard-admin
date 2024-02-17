@@ -11,6 +11,7 @@ import {ZodType, z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import validator from 'validator';
 
+
 type formData = {
     name: string,
     email: string,
@@ -24,8 +25,16 @@ type formData = {
 }
 
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
-const AddNewCustomer = () =>{
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
+import { cn } from "@/lib/utils"
 
+
+
+
+const AddNewCustomer = () =>{
+    const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
   
     const schema: ZodType<formData> = z.object({
@@ -61,7 +70,7 @@ const AddNewCustomer = () =>{
             email: "",
             password: "",
             emailVerified: "",
-            phone: "",
+            phone: null,
             role: "",
             active: "",
             imgUrl: "",
@@ -77,15 +86,20 @@ const AddNewCustomer = () =>{
       const passwordConfirm = watch('confirmPassword')
       console.log(password,passwordConfirm)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
+        setIsLoading(true)
         axios.post('/api/add-new-user', data)
-                .then((res: any)=>{
-                   console.log(res.data)
+                .then(()=>{
+                  toast.success("created new user.")
+                  router.push('/dashboards/customers')
+                  router.refresh()
                 })
                 .catch((err:any)=>{
-                   
-                    console.log(err)
+                    toast.error('Email already exists !!!')
                 })
+                .finally(()=>{
+                    setIsLoading(false)
+                })
+               
       }
 
       const setCustomValue = (id:string, value: any) =>{
@@ -95,10 +109,12 @@ const AddNewCustomer = () =>{
             shouldTouch: true
         })
     }
-    
+    const notify = () => toast.error("Event has been created.")
 
     return (
         <div className="px-2 ">
+            <Toaster/>
+            <button onClick={notify}>click</button>
             <div className="bg-slate-600 w-full h-auto rounded-md px-2 py-2 flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-8">
                     <div className="col-span-1 flex flex-col ">
@@ -311,21 +327,10 @@ const AddNewCustomer = () =>{
             </div>
             <button 
                 onClick={handleSubmit(onSubmit)} 
-                className="
-                text-[15px] 
-                w-full 
-                px-2 
-                py-1 
-                rounded 
-                flex 
-                items-center 
-                justify-center 
-                text-white 
-                bg-slate-950 
-                hover:text-neutral-200 
-                hover:bg-slate-800/60 
-                transition-all 
-                duration-300"
+                disabled ={isLoading ? true: false}
+                className={cn(" text-[15px]  w-full  px-2  py-1  rounded  flex items-center justify-center  text-white  bg-slate-950  hover:text-neutral-200  hover:bg-slate-800/60 transition-all duration-300 ",
+                    isLoading ? "cursor-not-allowed" :"cursor-pointer"
+                )}
             >
                 Add New
             </button>

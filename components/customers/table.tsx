@@ -25,11 +25,11 @@ const table = [
 ]
 
 interface TableCustomerProps {
-    users?: User[] | any
+    users?: User[] | null
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
-    users
+    users =[]
 }) =>{
     console.log(users)
     return (

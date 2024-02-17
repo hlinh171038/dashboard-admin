@@ -21,6 +21,8 @@ import clsx from "clsx"
 import useSidebar from "@/app/hooks/useSidebar"
 import { cn } from "@/lib/utils"
 
+
+
 interface NavProps {
     name: string |undefined | null;
     img: string | undefined | null;
@@ -38,6 +40,8 @@ const Navbar:React.FC<NavProps>= ({
     const sidebar = useSidebar()
 
     const [hover,setHover] = useState(false)
+
+
    
     const handleLogin = useCallback(()=>{
         loginModal.onOpen()

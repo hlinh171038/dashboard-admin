@@ -10,10 +10,12 @@ import { FcLinux } from "react-icons/fc";
 import { FaPencilAlt } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FcCloseUpMode } from "react-icons/fc";
+import { Toaster } from "react-hot-toast" 
 
 const Dashboard = () =>{
     return (
         <div className="grid grid-cols-4 px-2 gap-2 ">
+           
             {/* left */}
            <div className="col-span-3 flex flex-col gap-2 ">
                 {/* statistical */}

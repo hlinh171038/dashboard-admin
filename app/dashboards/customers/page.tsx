@@ -1,5 +1,4 @@
 import { Iparams, getAlluser } from "@/app/actions/getAllUser"
-import { getFilterUser } from "@/app/actions/getFilterUser"
 import HeaderCustomer from "@/components/customers/header"
 import TableCustomer from "@/components/customers/table"
 import { useSearchParams } from "next/navigation"

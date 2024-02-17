@@ -6,9 +6,8 @@ const bcrypt = require('bcrypt');
 
 
 export async function POST(request:Request) {
-    const body = await request.json() 
-
- 
+    try {
+        const body = await request.json() 
     const {
             name,
             email,
@@ -20,8 +19,8 @@ export async function POST(request:Request) {
             address,
             emailVerified
     } = body;
-
-    let action = null;
+   
+    let action ;
     // convert action
     if(active === 'yes') {
         action = true
@@ -33,13 +32,19 @@ export async function POST(request:Request) {
         data: {
             name,
             email,
+            phone,
             role,
             action,
             hashedPassword,
             image: imgUrl,
             address,
-            emailVerified
+            emailVerified,
+           
         }
     })
     return NextResponse.json(newUser)
+    } catch (error:any) {
+        console.error(error)
+        return NextResponse.json({ error: 'Internal Server Error' },{status:500});
+    }
 } 

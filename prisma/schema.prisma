@@ -19,7 +19,8 @@ model User {
   role           String?
   action         Boolean?
   address        String?
-  emailVerified  DateTime?
+  emailVerified  String?
+  phone          String?
   image          String?
   hashedPassword String?
   createdAt      DateTime  @default(now())
