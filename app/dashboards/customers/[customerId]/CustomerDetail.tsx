@@ -15,10 +15,13 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { User } from "@prisma/client"
 import { error } from "console"
 import { MdCopyAll } from "react-icons/md";
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import { Toaster, toast } from "sonner"
 import Radio from "@/components/customers/radio"
 import axios from "axios"
+import UploadImage from "@/components/customers/upload-img"
+import { Value } from "@radix-ui/react-select"
+import { MdAddPhotoAlternate } from "react-icons/md";
 
 
 
@@ -30,10 +33,14 @@ interface DetailCustomerProps {
 const DetailCustomer:React.FC<DetailCustomerProps> = ({
     user=[]
 }) =>{
+    const [isLoading,setisLoading] = useState(false)
+
+
    const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -65,6 +72,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
   console.log(id)
   
   const onSubmit: SubmitHandler<FieldValues> = () => {
+    setisLoading(true)
     axios.post('/api/updated-user',{
         id,
         name,
@@ -77,10 +85,13 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
         address
     })
         .then((res)=>{
-            console.log(res.data)
+            toast.success('User is uplaoded')
         })
         .catch((err:any)=>{
-            console.log(err)
+            toast.error('Some thing went wrong !!')
+        })
+        .finally(()=>{
+            setisLoading(false)
         })
 
   }
@@ -92,18 +103,31 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     toast.success("coppied to clipboard")
   }
 
+
+  // set customer 
+  const setCustomValue = (id:string, value: any) =>{
+    setValue(id,value, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+    })
+}
 //    console.log(customerById)
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
             
-           <div className=" rounded-md col-span-1 flex flex-col items-center justify-center gap-4">
-            <Image 
-                src={imgUrl ? imgUrl: '/avatar-empty.png'}
-                width="300"
-                height="300"
-                alt="Avatar"
-                className="rounded-full aspect-square object-cover"
-            />
+           <div className=" rounded-md col-span-1 flex flex-col items-center justify-start gap-4">
+            <div className="relative w-full  ">
+                <div className="absolute top-[48%] left-[48%] hover:z-50 transition-all duration-300 flex flex-col items-center justify-center gap-2">
+                    <MdAddPhotoAlternate className="w-6 h-6 text-white" />
+                   
+                </div>
+                <UploadImage 
+                    value={imgUrl}
+                    onChange={(value)=>setCustomValue('imgUrl', value)}
+                    update
+                />
+            </div>
             <div className="flex items-center justify-between bg-slate-600/80 rounded-md px-2 py-1 w-full">
                 <div className="flex items-center justify-center text-[15px]">
                     <div className="text-neutral-200">ID : </div>
@@ -183,7 +207,10 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         type="submit"
                         value="Update user"
                         onClick={handleSubmit(onSubmit)}
-                        className="w-full px-2 py-1 rounded flex items-center justify-center text-white bg-slate-950 hover:text-neutral-200 hover:bg-slate-800/60 transition-all duration-300"
+                        disabled = {isLoading}
+                        className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-white bg-slate-950 hover:text-neutral-200 hover:bg-slate-800/60 transition-all duration-300 cursor-pointer",
+                                    isLoading && 'cursor-not-allowed'
+                                )}
                    />
                 </form>
            </div>
