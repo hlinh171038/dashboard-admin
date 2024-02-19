@@ -1,8 +1,10 @@
 "use client"
 
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
 
 interface ItemCustomerProps {
     id: string,
@@ -27,6 +29,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
 }
 
 ) =>{
+    const [isLoading,setIsLoading] = useState(false)
     const day = new Date(created_at).getDate()
     const triggerDay = day <10 ? "0"+ day: day
     const month = new Date(created_at).getMonth() + 1;
@@ -37,6 +40,22 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     const handleRouteDetailUser = useCallback(()=>{
         route.push(`/dashboards/customers/${id}`)
     },[id,route])
+
+    // delete by id
+    const handleDeleteUser = (id:string)=>{
+        setIsLoading(true)
+        axios.post(`/api/delete-user/`,{id})
+            .then((res)=>{
+                toast.success('deleted')
+                route.refresh()
+            })
+            .catch((err:any)=>{
+                toast.error('Some thing went wrong!!!')
+            })
+            .finally(()=>{
+                setIsLoading(false)
+            })
+    }
 
     return (
        <tr>
@@ -69,7 +88,11 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                     className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
                     View
                 </button>
-                <button className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300">
+                <button 
+                    disabled = {isLoading}
+                    onClick={()=>handleDeleteUser(id)}
+                    className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300"
+                >
                     Delete
                 </button>
             </td>

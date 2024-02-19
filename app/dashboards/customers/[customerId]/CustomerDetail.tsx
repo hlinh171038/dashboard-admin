@@ -85,7 +85,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
         address
     })
         .then((res)=>{
-            toast.success('User is uplaoded')
+            toast.success('User is uploaded')
         })
         .catch((err:any)=>{
             toast.error('Some thing went wrong !!')
