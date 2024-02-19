@@ -1,5 +1,5 @@
 import { getuserById } from "@/app/actions/getUserById"
-//import DetailCustomer from "./CustomerDetail";
+import DetailCustomer from "./CustomerDetail";
 
 interface Iparams {
     customerId: string;
@@ -9,9 +9,9 @@ const CustomerId = async({params}:{params:Iparams}) => {
     console.log(customerById)
     return (
         <div>
-            {/* <DetailCustomer 
+            <DetailCustomer 
                 user = {customerById}
-            /> */}
+            />
         </div>
     )
 }

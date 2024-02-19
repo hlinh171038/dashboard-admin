@@ -8,41 +8,12 @@ import {useDebounce} from 'use-debounce'
 
 const HeaderCustomer = () =>{
     const [text,setText] = useState('')
-    const [query] = useDebounce(text, 500);
+ 
+    const [query] = useDebounce(text, 300);
     const searchparams = useSearchParams()
     const pathname = usePathname()
     const {replace} = useRouter()
-    // 1. input variable to capturing the input user
-    // const handleSearch = useCallback((term:string) =>{
-    //     const params = new URLSearchParams(searchparams);
-    //     if (term) {
-    //       params.set('query', term);
-    //     } else {
-    //       params.delete('query');
-    //     }
-    //     replace(`${pathname}?${params.toString()}`);
-    //     if(params){
-    //         axios.get(`/api/filter-user/`,{params})
-    //         .then((res)=>{
-    //             console.log(res.data)
-    //         })
-    //         .catch((err)=>{
-    //             console.log(err)
-    //         })
-    //     }
-        
-    //   },[pathname,replace,searchparams])
-
-    // const handleSearch = async() =>{
-    //     axios.get(`/api/filter-user/`)
-    //             .then((res)=>{
-    //                 console.log(res.data)
-    //             })
-    //             .catch((err)=>{
-    //                 console.log(err)
-    //             })
-    // }
-   
+    
 
     const router = useRouter()
 
@@ -51,7 +22,7 @@ const HeaderCustomer = () =>{
     }
 
     useEffect(()=>{
-        router.push(`/dashboards/customers/?search=${query}`)
+        router.push(`/dashboards/customers/?search=${query}&page=1&per_page=10`)
     },[router,query])
 
     return (

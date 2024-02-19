@@ -1,11 +1,9 @@
 import prisma from "@/lib/prisma"
 
-export interface Iparams {
-    search: string
-}
-export async function getAlluser(params: Iparams) {
+
+export async function getAlluser({search}:{search?: string}) {
     try {
-        const {search} = params
+        // const {search} = params
 
         const query:any = {}
 
