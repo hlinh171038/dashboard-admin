@@ -1,4 +1,5 @@
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "sonner"
+
 
 
 const Layout = (
@@ -11,6 +12,7 @@ const Layout = (
 ) =>{
     return (
         <div>
+            <Toaster />
             {children}
         </div>
     )

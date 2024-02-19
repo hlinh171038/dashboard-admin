@@ -9,11 +9,17 @@ import '@/app/globals.css'
 
 import InputCustomerId from "@/components/customers/input"
 import SelectCustomer from "@/components/customers/select"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import { getuserById } from "@/app/actions/getUserById"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { User } from "@prisma/client"
 import { error } from "console"
+import { MdCopyAll } from "react-icons/md";
+import { useCallback } from "react"
+import { Toaster, toast } from "sonner"
+import Radio from "@/components/customers/radio"
+import axios from "axios"
+
 
 
 
@@ -24,9 +30,6 @@ interface DetailCustomerProps {
 const DetailCustomer:React.FC<DetailCustomerProps> = ({
     user=[]
 }) =>{
-  
-
-    console.log(user)
    const {
     register,
     handleSubmit,
@@ -34,19 +37,22 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
+        id: user?.id,
         name: user?.name,
         email:user?.email,
-        password: user?.password,
+        password: user?.hashedPassword,
         emailVerified: user?.emailVerified,
         phone: user?.phone,
         role: user?.role,
         active: user?.active,
-        imgUrl: user?.imgUrl,
+        imgUrl: user?.image,
         address: user?.address,
         confirmPassword: ""
     }
   })
 
+
+  const id = watch('id');
   const name = watch('name');
   const email = watch('email');
   const password = watch('password');
@@ -56,23 +62,59 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
   const active = watch('active');
   const imgUrl = watch('imgUrl');
   const address = watch('address')
+  console.log(id)
   
-  console.log(name)
-  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<FieldValues> = () => {
+    axios.post('/api/updated-user',{
+        id,
+        name,
+        email,
+        emailVerified,
+        phone,
+        role,
+        active,
+        imgUrl,
+        address
+    })
+        .then((res)=>{
+            console.log(res.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
 
-  console.log(watch("example")) // watch input value by passing the name of it
+  }
 
+  //handle coppy id
+
+  const handleCopy =(id:string) =>{
+    navigator.clipboard.writeText(id)
+    toast.success("coppied to clipboard")
+  }
 
 //    console.log(customerById)
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
-           <div className=" rounded-md col-span-1 flex items-start justify-center">
+            
+           <div className=" rounded-md col-span-1 flex flex-col items-center justify-center gap-4">
             <Image 
-                src='/avatar-empty.png'
+                src={imgUrl ? imgUrl: '/avatar-empty.png'}
                 width="300"
                 height="300"
                 alt="Avatar"
+                className="rounded-full aspect-square object-cover"
             />
+            <div className="flex items-center justify-between bg-slate-600/80 rounded-md px-2 py-1 w-full">
+                <div className="flex items-center justify-center text-[15px]">
+                    <div className="text-neutral-200">ID : </div>
+                    <div className="text-neutral-400"> {id}</div>
+                </div>
+                <div>
+                    <MdCopyAll 
+                    className="w-4 h-4 hover:text-white cursor-pointer text-neutral-200" 
+                    onClick={()=>handleCopy(id)}/>
+                </div>
+            </div>
            </div>
            <div className="bg-slate-600 rounded-md col-span-2 px-2 py-4">
                 <form>
@@ -94,14 +136,14 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         errors={errors}
                         defaultValues={email}
                     />
-                    <InputCustomerId 
-                        id="password"
-                        title ="password"
+                     <InputCustomerId
+                        id="emailVerified" 
+                        title ="emailVerified"
                         register={register}
-                        placeholder = "password"
-                        type = "password"
+                        placeholder = "emailVerified"
+                        type = "text"
                         errors={errors}
-                        defaultValues={password}
+                        defaultValues={emailVerified}
                     />
                     <InputCustomerId 
                         id="phone"
@@ -121,12 +163,22 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         errors={errors}
                         defaultValues={address}
                     />
-                    {/* <SelectCustomer
-                        title = "Is Admin ?"
-                        />
-                    <SelectCustomer
-                        title="Is Active ?"
-                    /> */}
+                    <Radio 
+                        id="active"
+                        title1="yes"
+                        title2="no"
+                        register={register}
+                        errors={errors}
+                        defaultValues={active}
+                    />
+                    <Radio 
+                        id="role"
+                        title1="user"
+                        title2="admin"
+                        register={register}
+                        errors={errors}
+                       
+                    />
                    <input 
                         type="submit"
                         value="Update user"

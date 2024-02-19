@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
+import Radio from "@/components/customers/radio"
 
 
 
@@ -84,8 +85,12 @@ const AddNewCustomer = () =>{
       const email = watch('email')
       const password = watch('password')
       const passwordConfirm = watch('confirmPassword')
-      console.log(password,passwordConfirm)
+      const active = watch('active')
+
+      console.log(active)
+      
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
         setIsLoading(true)
         axios.post('/api/add-new-user', data)
                 .then(()=>{
@@ -275,25 +280,39 @@ const AddNewCustomer = () =>{
                             {errors.phone && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
                     </div>
                        {/* active */}
-                       <div className="relative">
-                       <SelectCustomer 
+                    <div className="relative">
+                       {/* <SelectCustomer 
                             id="active"
                             register = {register}
                             title="Is Active ?"
                             errors = {errors}
                         />
-                        {errors.active && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.active.message as string}</span>}
+                        {errors.active && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.active.message as string}</span>} */}
+                        <Radio 
+                            id="active"
+                            title1="yes"
+                            title2="no"
+                            register={register}
+                            errors={errors}
+                        />
                     </div>
                         
                         {/* admin */}
                         <div className="relative">
-                        <SelectCustomer 
+                        {/* <SelectCustomer 
                             id="role"
                             register = {register}
                             title="Is Admin ?"
                             errors = {errors}
                         />
-                            {errors.role && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.role.message as string}</span>}
+                            {errors.role && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.role.message as string}</span>} */}
+                        <Radio 
+                            id="role"
+                            title1="yes"
+                            title2="no"
+                            register={register}
+                            errors={errors}
+                        />
                         </div>
                         
                         {/* address */}

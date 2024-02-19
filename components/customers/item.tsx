@@ -11,7 +11,7 @@ interface ItemCustomerProps {
     email: string;
     created_at: string;
     role: string;
-    action: string;
+    action: boolean;
 
 }
 
@@ -62,7 +62,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             <span>{new Date(created_at).getFullYear().toString()}</span> */}
         </td>
         <td>{role}</td>
-            <td className="">{action === "true" ? "yes": "no"}</td>
+            <td className="">{action  ? "yes": "no"}</td>
             <td className="">
                 <button 
                     onClick={handleRouteDetailUser}
