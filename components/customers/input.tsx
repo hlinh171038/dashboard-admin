@@ -40,7 +40,7 @@ const InputCustomerId:React.FC<InputCustomerIdProps> = (
                 {...register(id,{ required: true })}
                 placeholder={placeholder} 
                 value={defaultValues && defaultValues}
-                className={cn(" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 ",
+                className={cn(" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200",
                                 errors[id] && "text-red-600 border-red-600"
                              )}
              />
