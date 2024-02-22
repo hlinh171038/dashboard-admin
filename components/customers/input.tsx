@@ -14,6 +14,7 @@ interface InputCustomerIdProps {
     disabled?: boolean
     question?: boolean,
     defaultValues?: string,
+    wide?: boolean
 }
 
 const InputCustomerId:React.FC<InputCustomerIdProps> = (
@@ -26,11 +27,14 @@ const InputCustomerId:React.FC<InputCustomerIdProps> = (
         placeholder,
         type,
         question,
-        defaultValues
+        defaultValues,
+        wide
     }
 ) =>{
     return (
-        <div className="  flex flex-col items-start justify-start gap-2 relative h-[70px]">
+        <div className={cn(" flex flex-col items-start justify-start gap-2 relative ",
+                        wide ? "h[200px]":"h-[70px]"
+                    )}>
                 <input 
                 type={type} 
                 {...register(id,{ required: true })}

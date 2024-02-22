@@ -14,6 +14,7 @@ import SidebarCover from '@/components/sidebar-cover'
 import NavbarCover from '@/components/navbar-cover'
 import Footer from '@/components/footer'
 import { Toaster } from 'react-hot-toast'
+import CategoryModal from './modals/category-modal'
 
 
 
@@ -36,7 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} >
-      
+        <CategoryModal />
         <LoginModals />
         <RegisterModal />
         <div className='flex justify-start items-start w-full h-auto bg-slate-900/90'>

@@ -54,13 +54,26 @@ model Product {
   id String @default(cuid()) @id
   userId String
   title String?
+  brand String?
   image String?
+  category String?
+  weight String?
+  location String?
   description String?
-  price BigInt?
-  stock Int?
-  created_at DateTime
+  defaultPrice String?
+  margin String?
+  tax String?
+  tag String[]
+  unit String?
+  transportation String[]
+  salePrice Int?
+  stock String?
+  color String[]
+  size String[]
+  designFor String[]
+  created_at DateTime @default(now())
 
-  transaction Transaction[]
+  //transaction Transaction[]
 
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }
@@ -75,5 +88,5 @@ model Transaction {
   totalPrice BigInt?
 
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
-  product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
+  //product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
 }

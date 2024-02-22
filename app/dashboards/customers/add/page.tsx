@@ -114,12 +114,11 @@ const AddNewCustomer = () =>{
             shouldTouch: true
         })
     }
-    const notify = () => toast.error("Event has been created.")
+   
 
     return (
         <div className="px-2 ">
             <Toaster/>
-            <button onClick={notify}>click</button>
             <div className="bg-slate-600 w-full h-auto rounded-md px-2 py-2 flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-8">
                     <div className="col-span-1 flex flex-col ">
