@@ -50,6 +50,7 @@ const personArr = ['men','women','both','kid','young','elder','sport','office','
 //   designFor String[]
 
 type formData = {
+  userId: string,
   title: string,
   brand: string,
   stock: number,
@@ -77,10 +78,11 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
 }) => {
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
-  const [userId,setUserId] = useState(user?.id || '')
+  //const [userId,setUserId] = useState(user?.id )
   const [cate,setCate] = useState('')
 
   const schema: ZodType<formData> = z.object({
+      userId: z.string(),
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       stock: z.coerce.number().lte(10000).gte(1),
@@ -98,7 +100,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       tag: z.array(z.string()).nonempty(),
   })
 
-  console.log(user)
+  
   const modal = useCategoryModal()
     const {
         register,
@@ -109,21 +111,21 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       } = useForm<FieldValues>({
         resolver:zodResolver(schema),
         defaultValues: {
-          userId,
+          userId: user.id ,
           title: '',
           brand: '',
           image: '',
-          weight: '0',
+          weight: 0,
           location: '',
           description: '',
-          stock: '0',
+          stock: 0,
           category: 'cloth',
           tag:[],
           unit: 'vnd',
           transaction: [],
-          defaultPrice: '0',
-          margin: '0',
-          tax: '0',
+          defaultPrice: 0,
+          margin: 0,
+          tax: 0,
           salePrice: 0,
           color: [],
           size: [],
@@ -144,13 +146,15 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const size = watch('size')
       const person = watch('person')
       const stock = watch('stock')
+      const userId = watch('userId')
 
-      console.log(typeof stock)
+      console.log(userId)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
               .then((res)=>{
                 toast.success('Created new product.')
+                router.push('/dashboards/product')
                 router.refresh()
               })
               .catch((err:any)=>{

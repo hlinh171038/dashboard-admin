@@ -57,17 +57,17 @@ model Product {
   brand String?
   image String?
   category String?
-  weight String?
+  weight Int?
   location String?
   description String?
-  defaultPrice String?
-  margin String?
-  tax String?
+  defaultPrice Int?
+  margin Int?
+  tax Int?
   tag String[]
   unit String?
   transportation String[]
   salePrice Int?
-  stock String?
+  stock Int?
   color String[]
   size String[]
   designFor String[]
