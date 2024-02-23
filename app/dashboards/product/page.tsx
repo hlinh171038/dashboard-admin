@@ -1,16 +1,21 @@
+import { getAllProduct } from "@/app/actions/getAllProduct"
 import ProductHeader from "@/components/products/header"
 import TableProduct from "@/components/products/table"
 
 
 
-const Product = () =>{
+const Product = async() =>{
+    const product = await getAllProduct()
+    console.log(product)
     return (
         <div className="w-full h-screen px-2">
             <div className=" bg-slate-600  rounded-md ">
                 <div>
                     <ProductHeader/>
                     <div className="px-2">
-                        <TableProduct/>
+                        <TableProduct
+                            data = {product}
+                        />
                     </div>
                 </div>
                 {/* check condition if page =1 / page = last page */}

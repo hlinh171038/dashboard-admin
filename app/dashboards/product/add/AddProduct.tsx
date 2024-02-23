@@ -21,14 +21,14 @@ import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Checkbox from "@/components/products/checkbox";
-import { ZodType,z } from "zod";
+import { ZodType,string,z } from "zod";
 import CheckboxSize from "@/components/products/checkbox-size";
 import CheckboxPerson from "@/components/products/checkbox-person";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','lime','silver']
-const sizeArr = ['SX','S','KL','M','L','XL','XXL','3XL','4XL',]
-const personArr = ['men','women','both','kid','young','elder','sport','office','student']
+const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','gold','silver']
+const sizeArr = [,'S','4XL','<25','M',"25-30",'35-40','L','>50','45-50','XL','30-35','40-45','3XL',]
+const personArr = ['men','women','party','kid','young','elder','sport','office','student','luxury']
 
 // title String?
 //   brand String?
@@ -65,7 +65,10 @@ type formData = {
   color: string[],
   size: string[],
   person: string[],
-  tag: string[]
+  tag: string[],
+  image: string,
+  category: string,
+  unit: string
 }
 
 interface AddNewProductProps {
@@ -98,6 +101,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       size: z.array(z.string()).nonempty(),
       person: z.array(z.string()).nonempty(),
       tag: z.array(z.string()).nonempty(),
+      image: z.string(),
+      category: z.string(),
+      unit: string()
   })
 
   
@@ -149,6 +155,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const userId = watch('userId')
 
       console.log(userId)
+      console.log(image)
+      console.log(category)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
@@ -214,7 +222,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
     
       useEffect(()=>{
         
-        if(defaultPrice !== '0' && margin !=='0'){
+        if(defaultPrice !== 0 && margin !==0){
           const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
           setCustomerValue('salePrice',price)
         }
@@ -411,7 +419,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     <CheckboxSize 
                       handleCheck={handleCheckSize}
                       array={sizeArr}
-                      column={2}
+                      column={3}
                       title="Size"
                     />
                      {errors.size && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.size.message as string}</span>}
