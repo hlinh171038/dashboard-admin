@@ -4,9 +4,10 @@ import TableProduct from "@/components/products/table"
 
 
 
-const Product = async() =>{
-    const product = await getAllProduct()
-    console.log(product)
+const Product = async({searchParams}:{searchParams:{[key:string]: string | string[] | undefined}}) =>{
+    const query = typeof searchParams.query === 'string' ? searchParams.query : ''
+    const product = await getAllProduct({query})
+        console.log(searchParams)
     return (
         <div className="w-full h-screen px-2">
             <div className=" bg-slate-600  rounded-md ">
