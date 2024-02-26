@@ -1,5 +1,7 @@
 import { getAllProduct } from "@/app/actions/getAllProduct"
+
 import ProductHeader from "@/components/products/header"
+import Pagination from "@/components/products/pagination";
 import TableProduct from "@/components/products/table"
 
 
@@ -11,8 +13,15 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
     const price = typeof searchParams.price ==='string' ? searchParams.price : ''
     const location = typeof searchParams.location ==='string' ? searchParams.location : ''
     const stock = typeof searchParams.stock === 'string' ? searchParams.stock : ''
+    const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+    const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10
     const product = await getAllProduct({query,category,brand,price,location,stock})
-        console.log(searchParams)
+
+    const start = (page - 1) * per_page; // 0,5,10
+    const end = start + per_page;//5,10,15
+    const max = product.length
+    
+    const updateProduct = product.slice(start,end)
     return (
         <div className="w-full h-screen px-2">
             <div className=" bg-slate-600  rounded-md ">
@@ -27,7 +36,7 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
                     />
                     <div className="px-2">
                         <TableProduct
-                            data = {product}
+                            data = {updateProduct}
                             query = {query}
                             category ={category}
                             brand = {brand}
@@ -38,7 +47,18 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
                     </div>
                 </div>
                 {/* check condition if page =1 / page = last page */}
-                <div
+                <Pagination 
+                    page = {page}
+                    per_page={per_page}
+                    max ={max}
+                    query ={query}
+                    category ={category}
+                    brand ={brand}
+                    location ={location}
+                    stock = {stock}
+                    price ={price}
+                />
+                {/* <div
                 className="flex items-center justify-between px-2 py-2 text-[15px] "
                 >
                     <button className="bg-neutral-200 text-slate-950 rounded-md px-2 py-0.5">
@@ -47,7 +67,7 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
                     <button className="bg-neutral-200 text-slate-950 rounded-md px-2 py-0.5">
                         Next
                     </button>
-                </div>
+                </div> */}
             </div>
            
         </div>
