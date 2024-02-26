@@ -15,6 +15,7 @@ interface CategoryRadioProps {
     errors: FieldErrors
 
 }
+const cate = ['cloth','t-shirt','shirt','pant','jean','vest','tie','belt','glasses','hat','craft','skirt','stock','bag','slipper','shoes','underware','watch','jacket']
 const CategoryRadio:React.FC<CategoryRadioProps> = ({
     id,
     category,
@@ -42,10 +43,15 @@ const CategoryRadio:React.FC<CategoryRadioProps> = ({
                         >
                            <div className="uppercase w-full flex items-center justify-center">categories</div>
                           <div className="grid grid-cols-3 text-[14px] text-slate-900">
-                              <label  className="flex items-center justify-start">
-                                  <input type="radio" {...register(id)} value="cloth" defaultChecked/>
-                                  <span>Cloth</span>
-                              </label>
+                            {cate.map((item)=>{
+                                return (<label 
+                                            key={item} 
+                                            className="flex items-center justify-start">
+                                            <input type="radio" {...register(id)} value={item}  />
+                                            <span>{item}</span>
+                                        </label>)
+                            })}
+                              {/* 
                               <label  className="flex items-center justify-start">
                                   <input type="radio" {...register(id)} value="bag"/>
                                   <span>Bag</span>
@@ -53,7 +59,7 @@ const CategoryRadio:React.FC<CategoryRadioProps> = ({
                               </label>
                               <label  className="flex items-center justify-start">
                                   <input type="radio" {...register(id)} value="paint"/>
-                                  <span>Paint</span>
+                                  <span>Pant</span>
                                   
                               </label>
                               <label  className="flex items-center justify-start">
@@ -90,7 +96,7 @@ const CategoryRadio:React.FC<CategoryRadioProps> = ({
                                   <input type="radio" {...register(id)} value="skirt"/>
                                   <span>Skirt</span>
                                   
-                              </label>
+                              </label> */}
                           </div>
                           
                       </PopoverContent>

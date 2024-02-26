@@ -5,15 +5,29 @@ import { useEffect, useState } from "react"
 import { IoSearchSharp } from "react-icons/io5"
 import { useDebounce } from "use-debounce"
 
-const ProductHeader = () =>{
+interface ProducHeaderProps {
+    category: string
+    brand: string
+    price: string
+    location: string
+    stock: string
+}
+
+const ProductHeader:React.FC<ProducHeaderProps> = ({
+    category,
+    brand,
+    price,
+    location,
+    stock
+}) =>{
     const [text,setText] = useState('')
     const [query] = useDebounce(text, 300);
     console.log(text)
     const router = useRouter()
 
     useEffect(()=>{
-        router.push(`/dashboards/product?query=${query}&page=1&per_page=10`)
-    },[query,router])
+        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${price}&stock=${stock}&page=1&per_page=10`)
+    },[query,category,price,location,stock,brand,router])
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">
