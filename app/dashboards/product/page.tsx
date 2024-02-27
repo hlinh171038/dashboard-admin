@@ -19,7 +19,7 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
 
     const start = (page - 1) * per_page; // 0,5,10
     const end = start + per_page;//5,10,15
-    const max = product.length
+    const max = Math.ceil(product.length / per_page);
     
     const updateProduct = product.slice(start,end)
     return (

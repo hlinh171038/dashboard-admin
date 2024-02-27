@@ -33,7 +33,8 @@ const Pagination:React.FC<PaginationParams> = ({
     // const pageQuery = searchParams.get('page');
     // console.log(pageQuery)
     const pagin=[]
-    for(let i= 0;i<Math.ceil(max/per_page);i++){
+   
+    for(let i= 0;i<max;i++){
         pagin.push(i)
     }
     return (
