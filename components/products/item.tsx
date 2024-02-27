@@ -1,9 +1,12 @@
 "use client"
 
+import { cn } from "@/lib/utils";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface ItemProductProps {
     title: string,
@@ -35,6 +38,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
 
     const router = useRouter()
    const [result,setResult] = useState('')
+   const [isLoading,setIsLoading] = useState(false)
 
    const day = new Date(created_at).getDate()
    const triggerDay = day <10 ? "0"+ day: day
@@ -47,6 +51,22 @@ const ItemProduct:React.FC<ItemProductProps> = (
    const handleViewDetail =useCallback(()=>{
     router.push(`/dashboards/product/${id}`)
    },[router,id])
+
+   //handle delete
+   const handleDelete = useCallback(()=>{
+    setIsLoading(true)
+    axios.post('/api/delete-product',{id})
+        .then((res)=>{
+            toast.success('Deleted product')
+            router.refresh()
+        })
+        .catch((error:any)=>{
+           toast.error('Something went wrong !')
+        })
+        .finally(()=>{
+            setIsLoading(false)
+        })
+   },[id,router])
 
     useEffect(()=>{
        if(location.includes('ho chi minh') || location.includes('hồ ')){
@@ -85,7 +105,12 @@ const ItemProduct:React.FC<ItemProductProps> = (
                     className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
                     View
                 </button>
-                <button className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300">
+                <button 
+                    disabled = {isLoading}
+                    onClick={handleDelete}
+                    className={cn(" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300",
+                                    isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
+                                )}>
                     Delete
                 </button>
             </td>
