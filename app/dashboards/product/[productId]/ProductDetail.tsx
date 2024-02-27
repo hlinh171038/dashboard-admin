@@ -1,95 +1,74 @@
-"use client"
-import useCategoryModal from "@/app/hooks/useCategoryModal";
+'use client'
+
 import InputCustomerId from "@/components/customers/input"
 import UploadImage from "@/components/customers/upload-img"
-import { useCallback, useEffect, useState } from "react";
+import InputNumber from "@/components/products/Input-number"
+import CategoryRadio from "@/components/products/category-radio"
+import CategoryRadioUnit from "@/components/products/category-radio-unit"
+import Transaction from "@/components/products/category-transaction"
+import Checkbox from "@/components/products/checkbox"
+import CheckboxPerson from "@/components/products/checkbox-person"
+import CheckboxSize from "@/components/products/checkbox-size"
+import InputPrice from "@/components/products/input-price"
+import QuestionNotified from "@/components/question-notified"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Product, User } from "@prisma/client"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 
-import { Textarea } from "@/components/ui/textarea";
-import CategoryRadio from "@/components/products/category-radio";
-import CategoryCheck from "@/components/products/category-check";
-import QuestionNotified from "@/components/question-notified";
-import CategoryRadioUnit from "@/components/products/category-radio-unit";
-import { toast } from "sonner";
-import Transaction from "@/components/products/category-transaction";
-import InputNumber from "@/components/products/Input-number";
-
-import { FaPlus } from "react-icons/fa6";
-import InputPrice from "@/components/products/input-price";
-import axios from "axios";
-import { User } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import Checkbox from "@/components/products/checkbox";
-import { ZodType,string,z } from "zod";
-import CheckboxSize from "@/components/products/checkbox-size";
-import CheckboxPerson from "@/components/products/checkbox-person";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-export const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','gold','silver']
-export const sizeArr = [,'S','4XL','<25','M',"25-30",'35-40','L','>50','45-50','XL','30-35','40-45','3XL',]
-export const personArr = ['men','women','party','kid','young','elder','sport','office','student','luxury']
-
-// title String?
-//   brand String?
-//   image String?
-//   category String?
-//   weight String?
-//   location String?
-//   description String?
-//   defaultPrice String?
-//   margin String?
-//   tax String?
-//   tag String[]
-//   unit String?
-//   transportation String[]
-//   salePrice Int?
-//   stock String?
-//   color String[]
-//   size String[]
-//   designFor String[]
+import { FaPlus } from "react-icons/fa"
+import { ZodType, z } from "zod"
+import { colorArr } from "../add/AddProduct"
+import { sizeArr } from "../add/AddProduct"
+import { personArr } from "../add/AddProduct"
+import { toast } from "sonner"
 
 type formData = {
-  userId: string,
-  title: string,
-  brand: string,
-  stock: number,
-  weight: number,
-  location: string,
-  description: string,
-  defaultPrice: number,
-  margin: number,
-  tax: number,
-  transaction: string[],
-  salePrice: number,
-  color: string[],
-  size: string[],
-  person: string[],
-  tag: string[],
-  image: string,
-  category: string,
-  unit: string
+    productId: string,
+    title: string,
+    brand: string,
+    stock: number,
+    weight: number,
+    location: string,
+    description: string,
+    defaultPrice: number,
+    margin: number,
+    tax: number,
+    transaction: string[],
+    salePrice: number,
+    color: string[],
+    size: string[],
+    person: string[],
+    tag: string[],
+    image: string,
+    category: string,
+    unit: string
+  }
+
+interface ProductDetailProps {
+    product: Product[] | undefined | any;
+   
 }
 
-interface AddNewProductProps {
-    user: User | any
-}
 
-
-const AddNewProduct:React.FC<AddNewProductProps>= ({
-    user
-}) => {
-  const router = useRouter()
+const ProductDetail:React.FC<ProductDetailProps> = ({
+    product,
+  
+}) =>{
+    const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
   //const [userId,setUserId] = useState(user?.id )
   const [cate,setCate] = useState('')
 
   const schema: ZodType<formData> = z.object({
-      userId: z.string(),
+    productId: z.string(),
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       stock: z.coerce.number().lte(10000).gte(1),
-      weight: z.coerce.number().lte(100).gte(0.1),
+      weight: z.coerce.number().lte(100).gte(0),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
@@ -106,8 +85,6 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       unit: z.string()
   })
 
-  
-  const modal = useCategoryModal()
     const {
         register,
         handleSubmit,
@@ -117,25 +94,25 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       } = useForm<FieldValues>({
         resolver:zodResolver(schema),
         defaultValues: {
-          userId: user.id ,
-          title: '',
-          brand: '',
-          image: '',
-          weight: 0,
-          location: '',
-          description: '',
-          stock: 0,
-          category: 'cloth',
-          tag:[],
-          unit: 'vnd',
-          transaction: [],
-          defaultPrice: 0,
-          margin: 0,
-          tax: 0,
-          salePrice: 0,
-          color: [],
-          size: [],
-          person:[]
+          productId: product.id ,
+          title: product.title,
+          brand: product.brand,
+          image: product.image,
+          weight: product.weight ,
+          location: product.location,
+          description: product.description,
+          stock: product.stock,
+          category: product.category,
+          tag: product.tag,
+          unit: product.unit,
+          transaction: product.transportation,
+          defaultPrice: product.defaultPrice,
+          margin: product.margin,
+          tax: product.tax,
+          salePrice: product.salePrice,
+          color: product.color,
+          size: product.size,
+          person: product.designFor
         }
       })
 
@@ -154,19 +131,19 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const stock = watch('stock')
       const userId = watch('userId')
 
-      console.log(userId)
-      console.log(image)
-      console.log(category)
-      const onSubmit: SubmitHandler<FieldValues> = (data) => {
+      console.log(color)
+      const onSubmit: SubmitHandler<FieldValues> = (data) => {  
+        console.log(data)
+        console.log('try1')
         setIsLoading(true)
-        axios.post('/api/add-new-product',data)
+        axios.post('/api/update-product',data)
               .then((res)=>{
-                toast.success('Created new product.')
+                toast.success('Product is updated.')
                 router.push('/dashboards/product')
                 router.refresh()
               })
               .catch((err:any)=>{
-                toast.error('Some thing went wrong')
+                toast.error('Something went wrong')
               })
               .finally(()=>{
                 setIsLoading(false)
@@ -181,13 +158,6 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         })
       }
 
-      //handle open categories
-      const handleOpenCategory = useCallback(() =>{
-        console.log(modal.isOpen)
-        modal.onOpen()
-      },[modal])
-
-      // handle add tag
       const handleAdd = (item:string) =>{
         if(item === ''){
           return;
@@ -228,12 +198,14 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         }
       },[defaultPrice,margin])
 
-      //handle add checkbox
+   
       const handleCheckbox = (check:any,value:any) =>{
-        
+        console.log(check)
        
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+
+        console.log(index)
+        if(index!== -1){
           const deleteColor = check.splice(index,1);
          setCustomerValue('color',check);
          return;
@@ -244,8 +216,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       }
       //handleCheckSize
       const handleCheckSize = (check:any,value:any)=>{
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+        if(index !== -1){
            check.splice(index,1);
          setCustomerValue('size',check);
          return;
@@ -256,8 +228,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       }
       //handle check person
       const handleCheckPerson = (check:any,value:any)=>{
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+        if(index !== -1){
            check.splice(index,1);
          setCustomerValue('person',check);
          return;
@@ -267,6 +239,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
        
       }
     return (
+        
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
           <div className="grid grid-cols-3 w-full rounded-md  gap-2 ">
            <div className="col-span-1  w-full h-auto rounded-md  flex flex-col gap-2">
@@ -290,7 +263,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
 
                 <div className="grid grid-cols-2 w-full gap-2 ">
                   <div className="col-span-1 relative">
-                      <InputCustomerId 
+                      <InputCustomerId
                         id="brand"
                         title="Brand"
                         register={register}
@@ -412,6 +385,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     array={colorArr}
                     column= {3}
                     title="Color"
+                    colorValue ={color}
                   />
                    {errors.color && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.color.message as string}</span>}
                  </div>
@@ -421,15 +395,17 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                       array={sizeArr}
                       column={3}
                       title="Size"
+                      sizeValue = {size}
                     />
                      {errors.size && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.size.message as string}</span>}
                   </div>
                   <div className="relative">
-                    <CheckboxPerson 
+                    <CheckboxPerson
                       handleCheck={handleCheckPerson}
                       array={personArr}
                       column={2}
                       title="Design for"
+                      personValue ={person}
                     />
                     {errors.person && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.person.message as string}</span>}
                   </div>
@@ -498,7 +474,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
               </div>
               {/* price sale */}
               <div className="relative">
-                <InputNumber 
+                <InputNumber
                     id= "salePrice"
                     title="Sale's Price"
                     placeholder="sale of price"
@@ -544,7 +520,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     
                 >Tag</label>
                 <div className="absolute top-0 right-2">
-                  <QuestionNotified 
+                  <QuestionNotified
                     title="?"
                     content="How to tag. 1.typing some tag 2.click + to add new tag"
                    
@@ -573,10 +549,11 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                             isLoading ?'cursor-not-allowed': 'cursor-pointer'
               )}
             > 
-            Add New Product
+           Update Product
           </button>
+        
         </div>
     )
 }
 
-export default AddNewProduct
+export default ProductDetail

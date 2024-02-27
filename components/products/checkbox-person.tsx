@@ -8,7 +8,8 @@ interface CheckboxPersonProps {
     handleCheck: (check:any,value:string) =>void;
     array: any
     column?: number
-    title: string
+    title: string,
+    personValue?: string[]
 }
 
 
@@ -16,13 +17,14 @@ const CheckboxPerson:React.FC<CheckboxPersonProps> = ({
     handleCheck,
     array ,
     column,
-    title
+    title,
+    personValue
 }) =>{
 
     const [data,setData] = useState(array)
-    const [check,setCheck] = useState([])
+    const [check,setCheck] = useState(personValue || [])
 
-    console.log(column)
+    console.log(check)
     
     return (
         <div>
@@ -34,7 +36,7 @@ const CheckboxPerson:React.FC<CheckboxPersonProps> = ({
             >
                 {data.map((item:string)=>{
                     return <label key={item}  className="flex items-center justify-start" onClick={()=>handleCheck(check,item)}>
-                            <input type="checkbox" value={item}/>
+                            <input type="checkbox" value={item} checked={check.includes(item)}/>
                             <span>{item}</span>
                           </label>
                 })}

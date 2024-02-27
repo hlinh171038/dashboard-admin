@@ -242,7 +242,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                         price={item.defaultPrice as number }
                         created_at={item.created_at }
                         stock={item.stock as number}
-                        
+                        id = {item.id}
                     />
                 )
             })}

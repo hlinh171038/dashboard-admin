@@ -1,7 +1,9 @@
 "use client"
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { useCallback, useEffect, useState } from "react";
 
 interface ItemProductProps {
     title: string,
@@ -13,7 +15,7 @@ interface ItemProductProps {
     location: string,
     created_at: any,
     stock: number,
-
+    id: string,
 }
 
 const ItemProduct:React.FC<ItemProductProps> = (
@@ -26,10 +28,12 @@ const ItemProduct:React.FC<ItemProductProps> = (
     category,
     location,
     created_at,
-    stock
+    stock,
+    id
 }
 ) =>{
 
+    const router = useRouter()
    const [result,setResult] = useState('')
 
    const day = new Date(created_at).getDate()
@@ -37,6 +41,12 @@ const ItemProduct:React.FC<ItemProductProps> = (
    const month = new Date(created_at).getMonth() + 1;
    const triggerMonth = month <10 ? "0"+ month: month
    const year = new Date(created_at).getFullYear().toString()
+
+   //handle view detail
+
+   const handleViewDetail =useCallback(()=>{
+    router.push(`/dashboards/product/${id}`)
+   },[router,id])
 
     useEffect(()=>{
        if(location.includes('ho chi minh') || location.includes('hồ ')){
@@ -70,7 +80,9 @@ const ItemProduct:React.FC<ItemProductProps> = (
             </td>
             <td className="">{stock}</td>
             <td className="">
-                <button className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
+                <button 
+                    onClick={handleViewDetail}
+                    className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
                     View
                 </button>
                 <button className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300">

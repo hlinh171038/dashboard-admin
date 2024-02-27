@@ -58,16 +58,7 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
                     stock = {stock}
                     price ={price}
                 />
-                {/* <div
-                className="flex items-center justify-between px-2 py-2 text-[15px] "
-                >
-                    <button className="bg-neutral-200 text-slate-950 rounded-md px-2 py-0.5">
-                        Privious
-                    </button>
-                    <button className="bg-neutral-200 text-slate-950 rounded-md px-2 py-0.5">
-                        Next
-                    </button>
-                </div> */}
+               
             </div>
            
         </div>
