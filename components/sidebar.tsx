@@ -45,7 +45,7 @@ const menuItems = [
     {
         title:"Transactions",
         icon: MdAttachMoney,
-        link: "/dashboards/revueue"
+        link: "/dashboards/transaction"
     },
 ]
 
