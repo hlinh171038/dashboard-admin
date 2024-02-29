@@ -11,7 +11,7 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 //   {day:'cn',value:0 },
 // ];
 
-export const COLORS = ['#64D03E', '#CCEB24', '#468AE2','#CB26E9', '#DB2B78','#E62E2D','#EC8D4B'];
+export const COLORS = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9', '#DB2B78','#E62E2D',];
 
 const RADIAN = Math.PI / 180;
 

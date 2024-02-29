@@ -12,6 +12,10 @@ import { MdCircle } from "react-icons/md";
 
 const chartColor =[
     {
+        color:'#EC8D4B',
+        title: 'sunday'
+    },
+    {
         color:'#64D03E',
         title: 'monday'
     },
@@ -35,10 +39,7 @@ const chartColor =[
         color:'#E62E2D',
         title: 'saterday'
     },
-    {
-        color:'#EC8D4B',
-        title: 'sunday'
-    },
+   
 ]
 
 interface TransactionProps {
@@ -57,6 +58,7 @@ const Transaction:React.FC<TransactionProps> = ({
     useEffect(()=>{
         setAll(transaction.length)
     },[transaction.length])
+
 
     // count 7 day
     useEffect(()=>{
@@ -121,13 +123,23 @@ const Transaction:React.FC<TransactionProps> = ({
         setNext7Day(next7Days)
         setChart(result)
     },[transaction])
+
+    useEffect(()=>{
+        const initialValue = 0;
+        const result = chart.reduce(
+          (accumulator:number, currentValue:any) => accumulator + currentValue.value,
+          initialValue,
+        );
+        console.log(result)
+        setTotalIncrease(result)
+    },[chart])
     return (
-        <div className="flex flex-col items-start justify-start gap-2 w-full px-2">
+        <div className="flex flex-col items-start justify-start gap-2 w-full px-2 ">
             {/* header */}
             <div
-                className="grid grid-cols-3 items-center justify-between gap-2 w-full bg-slate-600 rounded-md"
+                className="grid grid-cols-2 items-center justify-between gap-2 w-full "
             >
-               <div className="flex items-start justify-start gap-4">
+               <div className="flex items-start justify-start gap-4 bg-slate-600 rounded-md">
                     <CircleChart
                         next7Day = {next7Day}
                         chart ={chart}
@@ -149,49 +161,21 @@ const Transaction:React.FC<TransactionProps> = ({
                         )
                        })}
                     </div>
+                   
                </div>
-                {/* budget */}
-                {/* <div 
-                    className="rounded-md bg-slate-500/60 px-2 py-1 flex flex-col items-start justify-start gap-3"
-                >
-                    <div>
+               <div
+                className="bg-slate-600 rounded-md min-h-[200px] px-2 py-4 flex flex-col justify-between"
+               >
+                     <div>
                         <div className="text-neutral-100 capitalize">Transaction</div>
-                        <div className="text-neutral-400 text-[13px] text-thin">Total transaction from this month.</div>
-                    </div>
-                    <div>
-                        <CircleChart />
+                        <div className="text-neutral-400 text-[13px] text-thin">Total transaction from this week.</div>
                     </div>
                     <div className="flex items-center justify-between w-full">
-                        <div className="text-neutral-100 text-lg">{all}</div>
-                        <div className="text-[15px] text-neutral-100 capitalize">total Increase : </div>
+                        <div className="text-neutral-100 text-[40px]">{all}</div>
+                        <div className="text-[15px] text-neutral-100 capitalize">total: {totalIncrease.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </div>
                     </div>
-                </div> */}
-                {/* extends */}
-                {/* <div 
-                    className="rounded-md bg-slate-500/60 px-2 py-1 flex flex-col items-start justify-start gap-3"
-                >
-                    <div>
-                        <div className="text-neutral-100 capitalize">Expends</div>
-                        <div className="text-neutral-400 text-[13px] text-thin">Total expends from this month.</div>
-                    </div>
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-neutral-100 text-lg">97.000.000 d</div>
-                        <div className="text-[15px] text-neutral-100 capitalize">Avarage</div>
-                    </div>
-                </div> */}
-                {/* income */}
-                {/* <div 
-                    className="rounded-md bg-slate-500/60 px-2 py-1 flex flex-col items-start justify-start gap-3"
-                >
-                    <div>
-                        <div className="text-neutral-100 capitalize">Income</div>
-                        <div className="text-neutral-400 text-[13px] text-thin">Total income from this month.</div>
-                    </div>
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-neutral-100 text-lg">97.000.000 d</div>
-                        <div className="text-[15px] text-neutral-100 capitalize">total Income:</div>
-                    </div>
-                </div> */}
+               </div>
+                
             </div>
             {/* table */}
             <div className="w-full rounded-md bg-slate-600 p-2 flex flex-col gap-2">
