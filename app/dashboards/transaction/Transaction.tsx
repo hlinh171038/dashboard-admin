@@ -2,8 +2,16 @@
 
 import Header from "@/components/transactions/header"
 import Table from "@/components/transactions/table"
+import { Product, Transaction, User } from "@prisma/client"
 
-const Transaction = () => {
+interface TransactionProps {
+    transaction : Transaction[] | any
+}
+
+const Transaction:React.FC<TransactionProps> = ({
+    transaction = [],
+}) => {
+    console.log(transaction)
     return (
         <div className="flex flex-col items-start justify-start gap-2 w-full px-2">
             {/* header */}
@@ -53,7 +61,9 @@ const Transaction = () => {
             {/* table */}
             <div className="w-full rounded-md bg-slate-600 p-2 flex flex-col gap-2">
                 <Header />
-                <Table />
+                <Table 
+                    transaction = {transaction}
+                />
             </div>
         </div>
     )

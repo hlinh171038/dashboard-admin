@@ -3,26 +3,6 @@
 import { User } from "@prisma/client"
 import ItemCustomer from "./item"
 
-const table = [
-    {
-        id: "1",
-        name:"hello",
-        img:"/avatar-empty.png",
-        email: "hello@gmail.com",
-        created_at: "20/11/2023",
-        role: "client",
-        action: "passive"
-    },
-    {
-        id:"2",
-        name:"hello",
-        img:"/avatar-empty.png",
-        email: "hello@gmail.com",
-        created_at: "20/11/2023",
-        role: "client",
-        action: "passive"
-    }
-]
 
 interface TableCustomerProps {
     users?: User[] | null

@@ -4,8 +4,10 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Product, User } from "@prisma/client"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
+import { toast } from "sonner"
 import { ZodType, z } from "zod"
 
 
@@ -30,6 +32,8 @@ const Create:React.FC<CreateProps> = ({
     user = []
 }) =>{
 
+    const router = useRouter()
+
     const [productItem,setProductItem] = useState<any>([])
     const [userItem,setUserItem] = useState('Add User')
     const [openProduct,setOpenProduct] = useState(false)
@@ -37,6 +41,7 @@ const Create:React.FC<CreateProps> = ({
     const [openCard,setOpenCard] = useState(false)
     const [amount,setAmount] = useState(0)
     const [totalPrice,setTotalPrice] = useState(0)
+    const [isLoading,setIsLoading] = useState(false)
 
     const schema : ZodType<dataForm>= z.object({
         userId: z.string(),
@@ -80,12 +85,17 @@ console.log(product)
       console.log(productId)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data)
+        setIsLoading(true)
         axios.post('/api/add-new-transaction', data)
                 .then((res)=>{
-                    console.log(res.data)
+                    toast.success('Add New Transaction.')
+                    router.refresh()
                 })
                 .catch((err:any)=>{
-                    console.log(err)
+                    toast.error('Something went wrong!!')
+                })
+                .finally(()=>{
+                    setIsLoading(false)
                 })
       }
 
@@ -467,7 +477,14 @@ console.log(user)
                     <div>Total Price</div>
                     <div>{totalPrice}</div>
                </div>
-               <input type="submit" value="Add Transaction" className="flex items-center justify-center py-1 bg-slate-500/40 rounded-md w-full text-[14px] text-neutral-100"/>
+               <input 
+                type="submit" 
+                value="Add Transaction" 
+                disabled ={isLoading}
+                className={cn("flex items-center justify-center py-1 bg-slate-500/40 rounded-md w-full text-[14px] text-neutral-100",
+                    isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
+                )}
+                />
             </form>
         </div>
     )
