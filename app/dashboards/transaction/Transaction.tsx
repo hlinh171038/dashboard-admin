@@ -43,11 +43,17 @@ const chartColor =[
 ]
 
 interface TransactionProps {
-    transaction : Transaction[] | any
+    transaction : Transaction[] | any;
+    search: string;
+    status: string;
+    payment: string
 }
 
 const Transaction:React.FC<TransactionProps> = ({
     transaction = [],
+    search,
+    status,
+    payment
 }) => {
     console.log(transaction)
     const [all,setAll] = useState(0)
@@ -179,9 +185,17 @@ const Transaction:React.FC<TransactionProps> = ({
             </div>
             {/* table */}
             <div className="w-full rounded-md bg-slate-600 p-2 flex flex-col gap-2">
-                <Header />
+                <Header 
+                 search = {search}
+                 status = {status}
+                 payment = {payment}
+                 transaction = {transaction}
+                />
                 <Table 
                     transaction = {transaction}
+                    search = {search}
+                    status = {status}
+                    payment = {payment}
                 />
             </div>
         </div>

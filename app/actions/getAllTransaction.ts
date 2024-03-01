@@ -1,8 +1,38 @@
 import prisma from '@/lib/prisma'
 
-export async function getAllTransaction() {
+export async function getAllTransaction({search,status,payment,startDate,endDate}: {search?:string,status?:string,payment?:string,startDate?:string,endDate?:string}) {
     try {
+        const query:any = {}
+
+        // if(search) {
+        //     query.OR = [
+        //         {
+        //             status: {contains: search}
+        //         }
+        //     ]
+        // }
+        if(status) {
+            query.status = status
+        }
+        if(payment) {
+            if(payment ==='online') {
+                query.transportation = 'card'
+            } else {
+                query.transportation = 'payment'
+            }
+            
+        }
+        console.log(typeof startDate)
+        if(startDate && endDate) {
+            query.date = {
+                gte: startDate, // Greater than or equal to start date
+                lte:  endDate,   // Less than end date (exclusive)
+            }
+
+            
+        }
         const transaction = await prisma.transaction.findMany({
+            where : query,
             include: {
                 user: true
             },
