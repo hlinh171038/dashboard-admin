@@ -18,7 +18,7 @@ const History:React.FC<HistoryProps> =({
             <div className="text-[18px] capitalize mx-2 mt-2">History </div>
             <hr/>
             <div
-                className="flex flex-col gap-2"
+                className="flex flex-col gap-2 px-2"
             >
                 {history.map((item:any)=>{
                     return <HistoryItem

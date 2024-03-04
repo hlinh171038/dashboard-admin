@@ -9,6 +9,8 @@ import TransactionDate from "@/components/transactions/transaction-date"
 import TransactionDetail from "@/components/transactions/transaction-detail"
 import { Product, Transaction, User } from "@prisma/client"
 import { useEffect, useState } from "react"
+import { MdCopyAll } from "react-icons/md";
+import { toast } from "sonner"
 
 interface TransactionByIdProps {
     transaction: Transaction| any
@@ -22,8 +24,14 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
     user = []
 }) =>{
     const [productInfo,setProductInfo] = useState<any>([])
-  console.log(product)
-  console.log(user)
+  
+
+    //handle coppy id
+
+  const handleCoppy =(id:string) =>{
+    navigator.clipboard.writeText(id)
+    toast.success("coppied to clipboard")
+  }
   useEffect(()=>{
     const result:any[] = [];
     for(let i=0;i<product.length;i++){
@@ -63,7 +71,18 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
                     productId={transaction.productId}
                 />
             </div>
-            <div className="col-span-1 flex flex-col ">
+            <div className="col-span-1 flex flex-col gap-2 ">
+                <div className="flex items-center justify-between rounded-md bg-slate-500/60 text-white hover:bg-slate-500/40 hover:text-white px-2">
+                    <div 
+                        className=" hover:text-white flex items-center justify-start  py-1 text-[15px] text-thin">
+                            {transaction.id}
+                    </div>
+                    <div>
+                        <MdCopyAll 
+                            onClick={()=>handleCoppy(transaction.id)}
+                            className="w-4 h-4 text-white" />
+                    </div>
+                </div>
                 <div className="bg-slate-600 rounded-md py-4 flex flex-col gap-4 ">
                     <HeaderInfor
                         name = {transaction.user.name}
