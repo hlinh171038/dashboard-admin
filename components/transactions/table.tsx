@@ -17,26 +17,34 @@ interface TableProps {
     search : string;
     status: string;
     payment: string;
+    startDate: string;
+    endDate: string;
+    page:number;
+    per_page:number
 }
 
 const Table:React.FC<TableProps> = ({
     transaction = [],
     search,
     status,
-    payment
+    payment,
+    startDate,
+    endDate,
+    page,
+    per_page
 }) => {
 
     const router = useRouter()
 
     //handle push payment
     const handlePushPayment = useCallback((value: string)=>{
-        router.push(`/dashboards/transaction?search=${search}&payment=${value}&status=${status}`)
-    },[router,search,status])
+        router.push(`/dashboards/transaction?search=${search}&payment=${value === 'all' ?'':value}&status=${status}&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
+    },[router,search,status,startDate,endDate])
 
     //handle push status
     const handlePushStatus = useCallback((value:string)=>{
-        router.push(`/dashboards/transaction?search=${search}&payment=${payment}&status=${value}`)
-    },[router,payment,search])
+        router.push(`/dashboards/transaction?search=${search}&payment=${payment}&status=${value === 'all' ?'':value}&&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
+    },[router,payment,search,startDate,endDate])
     return (
         <table className="text-neutral-200 w-full text-[15px]">
             <tr>
@@ -82,7 +90,9 @@ const Table:React.FC<TableProps> = ({
                 <td className="text-end">
                     Total Price
                 </td>
-                <td className="text-end">View Detail</td>
+                <td 
+                    className="text-end"
+                >View Detail</td>
             </tr>
             {transaction && transaction.map((item:any)=>{
                 return <Item 

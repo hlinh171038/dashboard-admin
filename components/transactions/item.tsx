@@ -83,7 +83,7 @@ const Item:React.FC<ItemProps> = ({
             <td className="">
                 <div className="w-full flex justify-end items-center px-2">
                     <button 
-                        onClick={()=>router.push(`dashboards/transaction/${productId}`)}
+                        onClick={()=>router.push(`/dashboards/transaction/${productId}`)}
                         className="bg-slate-900 rounded-md text-neutral-200 text-[15px] flex items-center justify-center capitalize px-2 py-1 hover:opacity-35 transition-all duration-300">
                         view 
                     </button>

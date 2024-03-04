@@ -2,6 +2,7 @@
 
 import CircleChart from "@/components/transactions/circle-chart"
 import Header from "@/components/transactions/header"
+import Pagination from "@/components/transactions/pagination"
 import Table from "@/components/transactions/table"
 import { Product, Transaction, User } from "@prisma/client"
 import { useEffect, useState } from "react"
@@ -46,21 +47,50 @@ interface TransactionProps {
     transaction : Transaction[] | any;
     search: string;
     status: string;
-    payment: string
+    payment: string;
+    startDate: string;
+    endDate:string;
+    page: number;
+    per_page:number;
 }
 
 const Transaction:React.FC<TransactionProps> = ({
     transaction = [],
     search,
     status,
-    payment
+    payment,
+    startDate,
+    endDate,
+    page,
+    per_page
 }) => {
     console.log(transaction)
     const [all,setAll] = useState(0)
     const [totalIncrease,setTotalIncrease] = useState(0)
     const [next7Day,setNext7Day] = useState<any>([])
     const [chart,setChart] = useState<any>([])
+    const [updateTransaction,setUpdateTransaction] = useState([])
+    //const [lengthTransaction,setLengthTransaction] = useState(0)
 
+    console.log(page)//0
+    console.log(per_page)//10
+    const lengthStransaction = Math.ceil(transaction.length / Number(per_page));
+        
+  
+        //pagination
+    const start = (page - 1) * per_page; // 0,5,10
+    const end = start + per_page;//5,10,15
+    
+    //update transaction
+    
+
+    useEffect(()=>{
+        const updateTransaction = transaction.slice(start,end)
+        console.log(updateTransaction)
+        setUpdateTransaction(updateTransaction)
+    },[end,start,transaction])
+  
+console.log(updateTransaction)
     useEffect(()=>{
         setAll(transaction.length)
     },[transaction.length])
@@ -70,12 +100,11 @@ const Transaction:React.FC<TransactionProps> = ({
     useEffect(()=>{
         // Lấy ngày hiện tại
         const today = new Date();
-
-        //day from today
-        const tr = new Date().getDay()
+        console.log(today)
 
         // back to cn
-        const backday = new Date(today.getFullYear(), today.getMonth(), today.getDate()- tr)
+        const backday = new Date(today.getFullYear(), today.getMonth(), today.getDay()- today.getDay())
+        console.log(backday)
 
         // Tạo mảng để lưu trữ 7 ngày tiếp theo
         const next7Days = [];
@@ -101,31 +130,29 @@ const Transaction:React.FC<TransactionProps> = ({
            {day:'bay',
            value:0
            },
-           
-           
+
         ]
         // Duyệt qua 7 ngày tiếp theo
         for (let i = 1; i <= 7; i++) {
         // Tạo ngày mới
-        const newDate = new Date(backday.getFullYear(), backday.getMonth(), backday.getDate() + i);
+        const newDate = new Date(backday.getFullYear(), backday.getMonth(), backday.getDay() + i);
 
         // Thêm ngày mới vào mảng
          next7Days.push(newDate);
          // reduce in this day
          for(let j= 0;j<transaction.length;j++){
-            const day1 = new Date(transaction[j].date).getDate();
-            const day2 = new Date(newDate).getDate()
-            console.log(day1)
-            console.log(day2)
+            const day1 = new Date(transaction[j].date).getDay();
+            const day2 = new Date(newDate).getDay()
+        
             if(day1 === day2) {
-                console.log('try')
+            
                 const check = new Date(newDate).getDay()
                 result[check].value += transaction[j].totalPrice;
                }
             }
        
         }
-        console.log(result)
+        
         setNext7Day(next7Days)
         setChart(result)
     },[transaction])
@@ -136,7 +163,7 @@ const Transaction:React.FC<TransactionProps> = ({
           (accumulator:number, currentValue:any) => accumulator + currentValue.value,
           initialValue,
         );
-        console.log(result)
+     
         setTotalIncrease(result)
     },[chart])
     return (
@@ -190,12 +217,30 @@ const Transaction:React.FC<TransactionProps> = ({
                  status = {status}
                  payment = {payment}
                  transaction = {transaction}
+                 startDate ={startDate}
+                 endDate = {endDate}
+                 page={page}
+                 per_page ={per_page}
                 />
                 <Table 
-                    transaction = {transaction}
+                    transaction = {updateTransaction}
                     search = {search}
                     status = {status}
                     payment = {payment}
+                    startDate ={startDate}
+                    endDate = {endDate}
+                    page={page}
+                    per_page ={per_page}
+                />
+                <Pagination
+                    page={page}
+                    search={search}
+                    status = {status}
+                    startDate = {startDate}
+                    endDate = {endDate}
+                    payment = {payment}
+                    per_page={per_page}
+                    max={lengthStransaction}
                 />
             </div>
         </div>
