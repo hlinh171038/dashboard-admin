@@ -2,6 +2,7 @@
 
 import ChartOcupancy from "@/components/report/chart-ocupancy";
 import OverView from "@/components/report/overview";
+import TrendingSale from "@/components/report/trend-sale";
 import { Product, Transaction, User } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
@@ -171,8 +172,18 @@ const Report:React.FC<ReportProps> = ({
            
             <div 
                 className="grid grid-cols-6 gap-2 text-neutral-100 "
-            >
-                
+
+            >   
+                {/* left */}
+                <div className="col-span-4 bg-slate-600 rounded-md">
+                    <TrendingSale 
+                     transaction = {transaction}
+                     product = {product}
+                     guestThisWeek = {guestThisWeek}
+                     guestLastWeek = {guestLastWeek}
+                    />
+                </div>
+                {/* right */}
                 <div
                     className="col-span-2 bg-slate-600 rounded-md"
                 >

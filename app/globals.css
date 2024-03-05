@@ -94,3 +94,15 @@
   align-items: center;
   justify-content: center;
 }
+#trend-sale-table, tr,td{
+  border: 1px dotted #ddd;
+  text-align: left;
+}
+#trend-sale-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
