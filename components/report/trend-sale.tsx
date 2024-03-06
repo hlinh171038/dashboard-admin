@@ -157,6 +157,11 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
             handleCateLastWeek()
         }
     },[handleCateLastWeek,handleCateThisWeek])
+
+    // 
+    useEffect(()=>{
+        handleCateThisWeek()
+    },[handleCateThisWeek])
     return (
         <div 
             className="flex flex-col items-center justify-between px-2 py-2 w-full"

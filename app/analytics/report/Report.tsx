@@ -2,6 +2,7 @@
 
 import ChartOcupancy from "@/components/report/chart-ocupancy";
 import OverView from "@/components/report/overview";
+import PaymentMethod from "@/components/report/payment-method";
 import TrendingSale from "@/components/report/trend-sale";
 import { Product, Transaction, User } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
@@ -142,6 +143,9 @@ const Report:React.FC<ReportProps> = ({
         setTotalPriceLastWeek(result)
     },[guestLastWeek])
 
+
+    // revenue of cash
+    // revenue of card
    
     return (
         <div className="flex flex-col gap-2 text-white px-2">
@@ -149,7 +153,7 @@ const Report:React.FC<ReportProps> = ({
                 <div className="col-span-2 rounded-md bg-slate-500/60">
                     <OverView 
                         revenue = {totalPriceThisWeek}
-                        guest = {guestThisWeek}
+                        guestThis = {guestThisWeek}
                         guestLast = {guestLastWeek}
                         thisWeek = {thisWeek}
                         lastWeek = {lastWeek}
@@ -187,7 +191,11 @@ const Report:React.FC<ReportProps> = ({
                 <div
                     className="col-span-2 bg-slate-600 rounded-md"
                 >
-                    payment
+                    <PaymentMethod
+                        guestThisWeek = {guestThisWeek}
+                        guestLastWeek = {guestLastWeek}
+                        transaction = {transaction}
+                    />
                 </div>
             </div>
         </div>

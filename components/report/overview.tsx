@@ -7,7 +7,7 @@ import { PiArrowFatLinesUpFill } from "react-icons/pi";
 
 interface OverViewProps {
     revenue: number;
-    guest: Transaction[] | any;
+    guestThis: Transaction[] | any;
     thisWeek: Date[] | any;
     lastWeek: Date[] | any;
     newUser: User[] | any;
@@ -18,7 +18,7 @@ interface OverViewProps {
 
 const OverView:React.FC<OverViewProps> = ({
     revenue,
-    guest = [],
+    guestThis = [],
     thisWeek = [],
     lastWeek = [],
     newUser = [],
@@ -58,7 +58,7 @@ const OverView:React.FC<OverViewProps> = ({
 
     //% order
     useEffect(()=>{
-        const orderThis = guest.length;
+        const orderThis = guestThis.length;
         const orderLast = guestLast.length;
         console.log(orderThis)// 2
         console.log(orderLast) // 15
@@ -73,7 +73,7 @@ const OverView:React.FC<OverViewProps> = ({
            const result:number = Math.round((orderThis - orderLast)/orderLast *100)
            console.log(result)
            setOrderPercent(result)
-    },[guest,guestLast.length])
+    },[guestThis,guestLast.length])
   
     return (
         <div className=" grid grid-cols-2 gap-4 px-2 py-2 "
@@ -102,7 +102,7 @@ const OverView:React.FC<OverViewProps> = ({
                             className="col-span-1 flex flex-col gap-1 text-white px-4 py-4 pb-1 rounded-md"
                             style={{background:"#E96F28"}}
                             >
-                            <div className="text-neutral-100 text-[15px]">Guest</div>
+                            <div className="text-neutral-100 text-[15px]"> New Guest</div>
                             <div className="text-neutral-100 text-[15px]">{newUser.length}</div>
                             <div className="text-neutral-100 text-[15px] flex items-end justify-end w-full">{userPercent <1 ?(
                                 <div className="flex items-center justify-start gap-0.5">
@@ -122,7 +122,7 @@ const OverView:React.FC<OverViewProps> = ({
                             style={{background:"#EEB316"}}
                             >
                             <div className="text-neutral-100 text-[15px]">Orders</div>
-                            <div className="text-neutral-100 text-[15px]">{guest.length}</div>
+                            <div className="text-neutral-100 text-[15px]">{guestThis.length}</div>
                             <div className="text-neutral-100 text-[15px] flex items-end justify-end w-full">{orderPercent <1 ?(
                                 <div className="flex items-center justify-start gap-0.5">
                                     <TbArrowBigDownLines className="w-3 h-4 text-red-600" />
