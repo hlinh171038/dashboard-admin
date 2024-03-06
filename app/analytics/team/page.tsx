@@ -1,9 +1,11 @@
-const Team = () =>{
+import Team from "./Team"
+
+const page = () =>{
     return (
         <div>
-            Team
+            <Team />
         </div>
     )
 }
 
-export default Team
+export default page

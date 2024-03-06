@@ -27,7 +27,7 @@ const QuestionNotified:React.FC<QuestionNotifiedProps> = ({
                 side="bottom" 
                 align="start" 
                 sideOffset={4}
-                className="bg-neutral-200 text-slate-600 text-[13px]"
+                className="bg-neutral-100 text-slate-600 text-[13px] px-4 py-2 rounded-md"
                 >
                     {content}
             </PopoverContent>

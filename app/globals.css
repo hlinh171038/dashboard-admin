@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
 }
-#trend-sale-table, tr,td{
+#trend-sale-table, #trend-sale-table>tr,#trend-sale-table>td{
   border: 1px dotted #ddd;
   text-align: left;
 }
@@ -103,6 +103,6 @@
   width: 100%;
 }
 
-th, td {
+#trend-sale-table>th, #trend-sale-table>td {
   padding: 15px;
 }

@@ -13,13 +13,15 @@ declare global {
 interface UploadImageProps {
     value: string;
     onChange: (value:string) => void;
-    update?: boolean
+    update?: boolean;
+    disabled?: boolean
 }
 
 const UploadImage:React.FC<UploadImageProps> = ({
     value,
     onChange,
-    update
+    update,
+    disabled
 }) =>{
 
     const handleUpload = useCallback((result: any)=>{
@@ -27,7 +29,6 @@ const UploadImage:React.FC<UploadImageProps> = ({
     },[onChange])
     return (
         <CldUploadWidget 
-        
             onUpload={handleUpload}
             uploadPreset="hhbqtryr"
             options = {{

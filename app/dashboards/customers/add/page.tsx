@@ -72,8 +72,8 @@ const AddNewCustomer = () =>{
             password: "",
             emailVerified: "",
             phone: null,
-            role: "",
-            active: "",
+            role: "no",
+            active: "yes",
             imgUrl: "",
             address: "",
             confirmPassword: ""
@@ -278,42 +278,6 @@ const AddNewCustomer = () =>{
                         </div>
                             {errors.phone && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
                     </div>
-                       {/* active */}
-                    <div className="relative">
-                       {/* <SelectCustomer 
-                            id="active"
-                            register = {register}
-                            title="Is Active ?"
-                            errors = {errors}
-                        />
-                        {errors.active && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.active.message as string}</span>} */}
-                        <Radio 
-                            id="active"
-                            title1="yes"
-                            title2="no"
-                            register={register}
-                            errors={errors}
-                        />
-                    </div>
-                        
-                        {/* admin */}
-                        <div className="relative">
-                        {/* <SelectCustomer 
-                            id="role"
-                            register = {register}
-                            title="Is Admin ?"
-                            errors = {errors}
-                        />
-                            {errors.role && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.role.message as string}</span>} */}
-                        <Radio 
-                            id="role"
-                            title1="yes"
-                            title2="no"
-                            register={register}
-                            errors={errors}
-                        />
-                        </div>
-                        
                         {/* address */}
                         <div className="relative">
                             <div className="flex flex-col items-start justify-start  relative ">

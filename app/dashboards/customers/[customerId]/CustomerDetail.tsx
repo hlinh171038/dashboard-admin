@@ -15,27 +15,32 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { User } from "@prisma/client"
 import { error } from "console"
 import { MdCopyAll } from "react-icons/md";
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Toaster, toast } from "sonner"
 import Radio from "@/components/customers/radio"
 import axios from "axios"
 import UploadImage from "@/components/customers/upload-img"
 import { Value } from "@radix-ui/react-select"
 import { MdAddPhotoAlternate } from "react-icons/md";
+import QuestionNotified from "@/components/question-notified"
+import { GoDotFill } from "react-icons/go";
 
 
 
 
 interface DetailCustomerProps {
-    user?: User[] | null | any
+    user?: User[] | null | any;
+    currentUser: any
 }
 
 const DetailCustomer:React.FC<DetailCustomerProps> = ({
-    user=[]
+    user=[],
+    currentUser
 }) =>{
     const [isLoading,setisLoading] = useState(false)
+    const[check,setCheck] = useState(false)
 
-
+    console.log(currentUser)
    const {
     register,
     handleSubmit,
@@ -113,6 +118,14 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     })
 }
 //    console.log(customerById)
+
+useEffect(()=>{
+    if(user.email === currentUser.email){
+        setCheck(true)
+    }
+    
+},[currentUser.email, user])
+console.log(check)
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
             
@@ -126,7 +139,18 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                     value={imgUrl}
                     onChange={(value)=>setCustomValue('imgUrl', value)}
                     update
+                    disabled
                 />
+                <div
+                    className="flex item-center justify-start gap-1 "
+                >
+                    <div className="flex items-center justify-center">
+                        <GoDotFill className={cn("w-4 h-4 ",
+                                                active ? 'text-green-600': 'text-red-600'
+                                            )}/>
+                    </div>
+                    <div className="text-[14px] text-neutral-100">{active ?'available for work': 'offline'}</div>
+                </div>
             </div>
             <div className="flex items-center justify-between bg-slate-600/80 rounded-md px-2 py-1 w-full">
                 <div className="flex items-center justify-center text-[15px]">
@@ -141,6 +165,12 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
             </div>
            </div>
            <div className="bg-slate-600 rounded-md col-span-2 px-2 py-4">
+            <QuestionNotified 
+                content="
+                    just be update user by admin's role
+                "
+                title="linh thai"
+            />
                 <form>
                     <InputCustomerId
                          id="name"
@@ -150,6 +180,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                          type = "text"
                          errors={errors}
                          defaultValues={name}
+                         disabled={check}
                     />
                     <InputCustomerId
                         id="email" 
@@ -159,6 +190,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         type = "text"
                         errors={errors}
                         defaultValues={email}
+                        disabled={check}
                     />
                      <InputCustomerId
                         id="emailVerified" 
@@ -168,6 +200,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         type = "text"
                         errors={errors}
                         defaultValues={emailVerified}
+                        disabled={check}
                     />
                     <InputCustomerId 
                         id="phone"
@@ -177,7 +210,17 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         type = "text"
                         errors={errors}
                         defaultValues={phone}
+                        disabled={check}
                     />
+                    <div
+                        className="flex flex-col justify-start gap-2 text-neutral-200 text-[15px] mb-4"
+                    >
+                        <div>
+                            <div>Role</div>
+                            <div className="text-[13px] text-neutral-400 mt-[-2px]">Can be change by Admin</div>
+                        </div>
+                        <div className="bg-slate-500/60 inline-block px-2 py-1 rounded-md text-[14px]">{role === 'no' ? "User": 'Admin'}</div>
+                    </div>
                     <InputCustomerId 
                         id="address"
                         title ="address"
@@ -186,28 +229,14 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
                         type = "text"
                         errors={errors}
                         defaultValues={address}
+                        disabled={check}
                     />
-                    <Radio 
-                        id="active"
-                        title1="yes"
-                        title2="no"
-                        register={register}
-                        errors={errors}
-                        defaultValues={active}
-                    />
-                    <Radio 
-                        id="role"
-                        title1="user"
-                        title2="admin"
-                        register={register}
-                        errors={errors}
-                       
-                    />
+                  
                    <input 
                         type="submit"
-                        value="Update user"
+                        value="Update User"
                         onClick={handleSubmit(onSubmit)}
-                        disabled = {isLoading}
+                        disabled = {isLoading || check===false}
                         className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-white bg-slate-950 hover:text-neutral-200 hover:bg-slate-800/60 transition-all duration-300 cursor-pointer",
                                     isLoading && 'cursor-not-allowed'
                                 )}
