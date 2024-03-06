@@ -29,16 +29,18 @@ import { GoDotFill } from "react-icons/go";
 
 
 interface DetailCustomerProps {
-    user?: User[] | null | any;
-    currentUser: any
+    userById?: User[] | null | any;
+    currentUser: any;
+    user: User[] | any
 }
 
 const DetailCustomer:React.FC<DetailCustomerProps> = ({
     user=[],
-    currentUser
+    currentUser,
+    userById
 }) =>{
     const [isLoading,setisLoading] = useState(false)
-    const[check,setCheck] = useState(false)
+    const[check,setCheck] = useState(true)
 
     console.log(currentUser)
    const {
@@ -49,16 +51,16 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-        id: user?.id,
-        name: user?.name,
-        email:user?.email,
-        password: user?.hashedPassword,
-        emailVerified: user?.emailVerified,
-        phone: user?.phone,
-        role: user?.role,
-        active: user?.active,
-        imgUrl: user?.image,
-        address: user?.address,
+        id: userById?.id,
+        name: userById ?.name,
+        email:userById?.email,
+        password: userById?.hashedPassword,
+        emailVerified: userById?.emailVerified,
+        phone: userById?.phone,
+        role: userById?.role,
+        active: userById?.active,
+        imgUrl: userById?.image,
+        address: userById?.address,
         confirmPassword: ""
     }
   })
@@ -120,11 +122,24 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
 //    console.log(customerById)
 
 useEffect(()=>{
-    if(user.email === currentUser.email){
-        setCheck(true)
+    setCheck(true)
+    if(userById.email === currentUser.user.email ){
+        setCheck(false)
     }
+    user && user.forEach((item:any)=>{
+      
+        console.log(item.email ===currentUser.user.email)
+        //console.log(currentUser.email)
+        if(item.email == currentUser.user.email){
+
+            if(item.role ==='yes'){
+                console.log('try')
+                setCheck(false)
+            }
+        }
+    })
     
-},[currentUser.email, user])
+},[currentUser.user.email, userById,user])
 console.log(check)
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
@@ -236,9 +251,9 @@ console.log(check)
                         type="submit"
                         value="Update User"
                         onClick={handleSubmit(onSubmit)}
-                        disabled = {isLoading || check===false}
+                        disabled = {isLoading || check}
                         className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-white bg-slate-950 hover:text-neutral-200 hover:bg-slate-800/60 transition-all duration-300 cursor-pointer",
-                                    isLoading && 'cursor-not-allowed'
+                                    isLoading && 'cursor-not-allowed', check && 'cursor-not-allowed'
                                 )}
                    />
                 </form>
