@@ -37,7 +37,7 @@ const HeaderCustomer = () =>{
                             value={text}
                             />
                             
-                    </div>
+                </div>
                 <button 
                     onClick={handleAddNew}
                     className="bg-slate-900 hover:bg-slate-900/40  hover:text-white text-neutral-200 px-2 py-1 text-[15px] rounded-md duration-300 transition-all"
