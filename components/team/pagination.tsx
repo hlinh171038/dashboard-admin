@@ -51,7 +51,8 @@ const Pagination:React.FC<PaginationParams> = ({
                                          }}
                                          key={item} 
                                          className={cn(" w-6 h-6 pt-0.5 border border-slate-900  rounded-full flex items-center justify-center text-slate-900 transition-all hover:bg-slate-900 hover:text-white hover:p-2 hover:w-8 hover:h-8 cursor-pointer",
-                                                      item + 1 == Number(pageQuery) && "bg-slate-900 p-2 w-8 h-8"                                                    
+                                                      item + 1 == Number(pageQuery) && "bg-slate-900 p-2 w-8 h-8 text-white",
+                                                                                                        
                                                     )}
                                     >
                                         {item + 1}

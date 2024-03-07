@@ -9,7 +9,13 @@ import {
   } from "@/components/ui/popover"
 import { ContactUs } from "./contact";
 
-const Leader = () =>{
+interface LeaderProps {
+    currentUser: any
+}
+
+const Leader:React.FC<LeaderProps> = ({
+    currentUser
+}) =>{
     return (
         <div className="grid grid-cols-6 items-center justify-start gap-2 px-2">
             <div className="col-span-3 flex flex-col items-start justify-start gap-1 text-neutral-100 text-[15px]">
@@ -25,7 +31,7 @@ const Leader = () =>{
                     
                     <QuestionNotified 
                         title="team leader"
-                        content= "memeber of team lead. Can be all role on dashboard."
+                        content= "Once of member of team lead. all role on dashboard."
                     />
                 </div>
                 <div className="flex items-center justify-between w-full">
@@ -51,7 +57,9 @@ const Leader = () =>{
                                         side="bottom"
                                         className="mr-2 min-w-[30rem] rounded-r-md shadow-md"
                                     >
-                                        <ContactUs />
+                                        <ContactUs 
+                                            currentUser = {currentUser}
+                                        />
                                     </PopoverContent>
                                 </Popover>
                         </div>

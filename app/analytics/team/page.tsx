@@ -1,6 +1,8 @@
 import { getAllUser2 } from "@/app/actions/getAllUser2"
 import Team from "./Team"
 import { getAlluser } from "@/app/actions/getAllUser"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const page = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     
@@ -10,6 +12,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     console.log(search)
     const userSearch = await getAlluser({search})
     const user = await getAllUser2()
+    const currentUser = await getServerSession(authOptions)
     
     console.log( userSearch)
     //console.log(user)
@@ -21,6 +24,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
                 search = {search}
                 page= {page}
                 per_page ={per_page}
+                currentUser = {currentUser}
             />
         </div>
     )

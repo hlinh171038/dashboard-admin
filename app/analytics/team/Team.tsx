@@ -7,6 +7,7 @@ import Member from "@/components/team/member";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { GoPlus } from "react-icons/go";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface TeamProps {
     user: User[] | any;
@@ -14,6 +15,7 @@ interface TeamProps {
     search: string;
     page: number;
     per_page: number;
+    currentUser: any
 }
 
 const Team:React.FC<TeamProps> = ({
@@ -21,7 +23,8 @@ const Team:React.FC<TeamProps> = ({
     userSearch =[],
     search,
     page,
-    per_page
+    per_page,
+    currentUser
 }) =>{
     const [member,setMember] = useState<any>([])
     
@@ -54,7 +57,9 @@ const Team:React.FC<TeamProps> = ({
                 <div>
                     <hr />
                 </div>
-                <Leader />
+                <Leader
+                    currentUser = {currentUser}
+                />
                 <div>
                     <hr />
                 </div>

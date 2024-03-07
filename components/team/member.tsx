@@ -13,6 +13,12 @@ import Table from "./table";
 import Pagination from "./pagination";
 import { RiMailSendLine } from "react-icons/ri";
 import { MdDeleteForever } from "react-icons/md";
+import { useCallback, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import MemberItem from "./member-item";
 
 interface MemberProps {
     member: User[] | any
@@ -33,6 +39,7 @@ const Member:React.FC<MemberProps> = ({
     per_page,
     max
 }) =>{
+    
     return (
         <div className="grid grid-cols-6 items-start justify-start gap-2 px-2 w-auto">
             <div className="col-span-3 flex flex-col items-start justify-start gap-1 text-neutral-100 text-[15px]">
@@ -52,28 +59,11 @@ const Member:React.FC<MemberProps> = ({
                 <div className="flex flex-col gap-2">
                     {member && member.map((item:any)=>{
                         return (
-                            <div className="flex items-center justify-between" key={item.id}>
-                                <div className=" inline-flex  items-center justify-start gap-2 text-neutral-100 text-[14px] bg-slate-500/30 rounded-md px-2 py-1 ">
-                                    <div>
-                                        <MdOutlineEmail className="w-4 h-4 text-neutral-100" />
-                                    </div>
-                                    <div>
-                                       {item.email}
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-end gap-2">
-                                    <div 
-                                        className="group text-neutral-100 px-2 py-1 rounded-md cursor-pointer"
-                                       
-                                        >
-                                            <RiMailSendLine className="w-4 h-4 text-neutral-200 group-hover:text-white transition-all duration-300"/>
-                                    </div>
-                                    <div 
-                                        className="group text-neutral-100 px-2 py-1 rounded-md cursor-pointer">
-                                            <MdDeleteForever className="w-4 h-4 text-neutral-200 group-hover:text-red-600 transition-all duration-300"/>
-                                    </div>
-                                </div>
-                            </div>
+                            <MemberItem
+                                key={item.id}
+                                id={item.id}
+                                email = {item.email}
+                            />
                         )
                     })}
                 </div>

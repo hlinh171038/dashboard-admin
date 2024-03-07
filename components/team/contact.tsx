@@ -2,9 +2,18 @@
 
 import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { toast } from 'sonner';
 
-export const ContactUs = () => {
+interface ContactUsProps {
+    currentUser: any
+}
+
+export const ContactUs:React.FC<ContactUsProps> = ({
+    currentUser
+}) => {
   const form:any = useRef();
+
+  console.log(currentUser)
 
   const sendEmail = (e:any) => {
     e.preventDefault();
@@ -15,9 +24,11 @@ export const ContactUs = () => {
       })
       .then(
         () => {
+            toast.success('send email success')
           console.log('SUCCESS!');
         },
         (error) => {
+            toast.error('some thing went wrong !!!')
           console.log('FAILED...', error.text);
         },
       );
@@ -38,6 +49,9 @@ export const ContactUs = () => {
             <input 
                 type="text" 
                 name="user_name"
+                value={currentUser.user.name}
+                required
+                disabled
                 className='rounded-md outline-none text-neutral-100 bg-slate-900/60 px-2 py-1 text-[14px]'
                 placeholder='your name'
                 />
@@ -46,6 +60,9 @@ export const ContactUs = () => {
             <label className='text-[14px]'>Email </label>
             <input 
                 type="email" 
+                required
+                disabled
+                value={currentUser.user.email}
                 name="user_email"
                 className='rounded-md outline-none text-neutral-100 bg-slate-900/60  px-2 py-1 text-[14px]'
                 placeholder='your email'
@@ -54,6 +71,7 @@ export const ContactUs = () => {
         <div className='flex flex-col gap-0.5'>
             <label className='text-[14px]'>Message </label>
             <textarea 
+                required
                 name="message" 
                 placeholder='message'
                 className='rounded-md outline-none text-neutral-100 bg-slate-900/60  px-2 py-1 text-[14px]'

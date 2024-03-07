@@ -2,8 +2,13 @@
 
 import { GoPlus } from "react-icons/go"
 import { AiOutlineTeam } from "react-icons/ai";
+import { toast } from "sonner";
 
 const Header = () =>{
+
+    const handleAddItem = () =>{
+        toast.warning("Use Lead's role to add new team")
+    }
     return (
         <div 
             className="text-[15px] text-neutral-100 px-2"
@@ -22,7 +27,9 @@ const Header = () =>{
                 >Overview of all teams without your organization</div>
             </div>
             <div className="flex justify-end items-center">
-                <span className="w-[12%] cursor-pointer rounded-md py-1 px-2 flex items-center justify-start gap-1 bg-slate-900 hover:bg-slate-800 hover:text-white">
+                <span
+                    onClick={handleAddItem}
+                    className="w-[12%] cursor-pointer rounded-md py-1 px-2 flex items-center justify-start gap-1 bg-slate-900 hover:bg-slate-800 hover:text-white">
                     <div>
                         <GoPlus className="w-4 h-4 text-neutral-100"/>
                     </div>
