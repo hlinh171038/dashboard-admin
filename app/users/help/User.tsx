@@ -27,7 +27,7 @@ const User:React.FC<UserProps> = ({
                     currentUser = {currentUser}/>
                 </div>
                 <div className="col-span-2 bg-slate-600 rounded-md text-neutral-100 text-[15px] px-2 py-4">
-                    <div className="text-xl capitalize">how Can We help?</div>
+                    <div className="text-md capitalize my-2">How Can We help?</div>
                     <ListHelp />
                 </div>
             </div>
