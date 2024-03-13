@@ -26,6 +26,11 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import useSidebar from "@/app/hooks/useSidebar";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FaPlus } from "react-icons/fa6";
+import SidebarItem from "./sidebar/sidebar-item";
+import { MdDiscount } from "react-icons/md";
+
 const menuItems = [
     {
         title:"Home",
@@ -35,12 +40,37 @@ const menuItems = [
     {
         title:"Customers",
         icon: FaUser,
-        link: "/dashboards/customers"
+        link: "/dashboards/customers",
+        add: 
+            {
+                title:'Add User',
+                icon:FaPlus,
+                link:"/dashboards/customers/add"
+            }
+        
+
     },
     {
         title:"Products",
         icon: FaBox,
-        link: "/dashboards/product"
+        link: "/dashboards/product",
+        add: 
+            {
+                title:'Add Product',
+                icon:FaPlus,
+                link:"/dashboards/product/add"
+            }
+    },
+    
+    {
+        title:"Discounts",
+        icon: MdDiscount,
+        link: "/dashboards/discount",
+        add: {
+            title:'Add New',
+            icon:FaPlus,
+            link:"/dashboards/discount/add"
+        }
     },
     {
         title:"Transactions",
@@ -50,57 +80,81 @@ const menuItems = [
 ]
 
 const analytics = [
+    // {
+    //     title:"Revueue",
+    //     icon:IoBag,
+    //     link: "/analytics/revueue"
+    // },
     {
-        title:"revueue",
-        icon:IoBag,
-        link: "/analytics/revueue"
-    },
-    {
-        title:"report",
+        title:"Report",
         icon:TbFileReport,
         link: "/analytics/report"
     },
     {
-        title:"team",
+        title:"Team",
         icon:AiOutlineTeam,
         link: "/analytics/team"
     },
 ]
 
 const setting = [
+   
     {
-        title:"setting",
-        icon: IoSettingsSharp,
-        link: "/users/setting"
-
-    },
-    {
-        title:"help",
+        title:"Help",
         icon: TbHelpHexagonFilled,
         link: "/users/help"
 
     }
 ]
 
-const Sidebar = () =>{
+interface SideProps {
+    name: string |undefined | null;
+    img: string | undefined | null;
+    email: string | undefined | null;
+}
+const Sidebar:React.FC<SideProps> = ({
+    name,
+    img,
+    email
+}) =>{
+    const [isCustomerOpen,setIsCustomerOpen] = useState(false);
+
     const path = usePathname();
     const sidebar = useSidebar()
     console.log(sidebar.isOpen)
     return (
-        <div className={cn("flex flex-col rounded-md h-screen"
+        <div className={cn("flex flex-col rounded-md h-full bg-slate-600  "
             )}>
-            <div   className="h-auto bg-slate-900 text-white pt-0.5 flex items-center justify-between">
+            <div className="h-auto text-white  flex items-center justify-between px-2 py-4">
                 <Link href={"/dashboards"}>
-                    <Image src="/logo2.png" width="96" height="96" alt="logo"/>
+                    {/* <Image src="/logo2.png" width="96" height="96" alt="logo"/> */}
+                    <div className="flex items-center justify-start gap-2 text-[15px] ">
+                        <Avatar className="">
+                                <AvatarImage src={img as string} />
+                                <AvatarFallback>LT</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col gap-0.5">
+                            <div className="capitalize ml-4">
+                                {name}
+                            </div>
+                            <div className="inline-flex justify-start items-center gap-2">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                <div className="font-thin text-[14px]">Ready for working</div>
+                            </div>
+                        </div>
+                    </div>
                 </Link>
                 <MdArrowBackIos 
-                    className="text-white w-5 h-5 mr-4 hover:text-slate-600 transition-all"
+                    className="text-white w-5 h-5 mr-4 hover:text-neutral-400 transition-all"
                     onClick={()=>sidebar.onClose()}
                 />
             </div>
             
             
-            <div className="bg-slate-600 h-screen text-white flex flex-col gap-4 px-4 py-4">
+            <div className=" h-screen text-white flex flex-col gap-4 px-4 py-4">
                 <Link  href={"/dashboards"} 
                        className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
                                 path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-80"
@@ -110,17 +164,17 @@ const Sidebar = () =>{
                     <div>Dashboard</div>
                 </Link>
                 {menuItems.map((item)=>{
-                    const Icon = item.icon
+                    
                     return (
-                        <Link 
-                            href={item.link} 
-                            key={item.title} 
-                            className={cn("px-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm  transition-all duration-300",
-                                path === item.link && "bg-slate-500/60 rounded-md py-1"
-                            )}>
-                            <Icon className="w-4 h-4" />
-                            <div> {item.title}</div>
-                        </Link>
+                        <SidebarItem
+                            key={item.title}
+                            link={item.link}
+                            title={item.title}
+                            icon ={item.icon}
+                            addTitle = {item.add &&item.add.title}
+                            addLink = {item.add && item.add.link}
+                            addIcon = {item.add && item.add.icon}
+                            />
                     )
                 })}
 
@@ -168,7 +222,7 @@ const Sidebar = () =>{
                 
                 
             </div>
-            <div onClick={()=>signOut()} className="bg-slate-900 text-white flex items-center justify-center gap-4 cursor-pointer hover:text-neutral-200">
+            <div onClick={()=>signOut()} className=" px-2 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
                 <div >Log out</div>
                 <MdLogout className="w-4 h-4" />
             </div>

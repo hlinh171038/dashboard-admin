@@ -81,7 +81,7 @@ const Navbar:React.FC<NavProps>= ({
                     <AiFillBell className="w-5 h-5 text-white" />
                     <MdOutlineComment className="w-5 h-5 text-white" />
                 </div>
-                <div 
+                {/* <div 
                     className="col-span-1 group cursor-pointer  transition overflow-hidden px-2 py-1 rounded-lg duration-300 "
                     onClick ={()=>setHover(!hover)}
                 >
@@ -125,7 +125,7 @@ const Navbar:React.FC<NavProps>= ({
                             onClick={handleSignOut}
                         
                         />
-                </div>
+                </div> */}
             </div>
         </div>
     )

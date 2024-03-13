@@ -50,9 +50,12 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+
+
 model Product {
   id String @default(cuid()) @id
   userId String
+  discountId String
   title String?
   brand String?
   image String?
@@ -74,13 +77,16 @@ model Product {
   created_at DateTime @default(now())
 
   //transaction Transaction[]
+  
 
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
+  discount Discount @relation(fields: [discountId],references: [id],onDelete: Cascade)
 }
 
 model Transaction {
   id String @default(cuid()) @id
   userId String
+  discountId String
   productId String[]
   status String?
   date DateTime @default(now())
@@ -89,6 +95,22 @@ model Transaction {
   transportation String?
   type String?
   bank String?
+
    user User @relation(fields: [userId], references: [id],onDelete: Cascade)
   //product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
+  discount Discount @relation(fields: [discountId], references: [id],onDelete: Cascade)
+}
+
+model Discount {
+  id String @default(cuid()) @id
+  startDate DateTime @default(now())
+  endDate DateTime @default(now())
+  title String?
+  description String?
+  type String?
+  percent Int?
+  code String?
+  count Int?
+  transaction Transaction[]
+  product Product[]
 }

@@ -40,9 +40,13 @@ export default async function RootLayout({
         <CategoryModal />
         <LoginModals />
         <RegisterModal />
-        <div className='flex justify-start items-start w-full h-auto bg-slate-900/90'>
+        <div className='flex justify-start items-start w-full min-h-screen h-auto bg-slate-900/90'>
           <SidebarCover >
-            <Sidebar />
+            <Sidebar 
+              name ={session?.user?.name}
+              img = {session?.user?.image}
+              email = {session?.user?.email}
+            />
           </SidebarCover>
             <NavbarCover >
               <Navbar 
