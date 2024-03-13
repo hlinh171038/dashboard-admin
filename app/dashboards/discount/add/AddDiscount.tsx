@@ -10,6 +10,8 @@ import axios from "axios"
 import { ZodType, z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 type dataForm = {
      title: string,
@@ -24,6 +26,9 @@ type dataForm = {
  
 
 const AddDiscount = () =>{
+
+    const [isLoading,setIsLoading] = useState(false)
+    const router = useRouter()
 
     const schema: ZodType<dataForm> = z.object({
          title: z.string().min(3,{
@@ -72,13 +77,17 @@ const AddDiscount = () =>{
       console.log(ma)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data)
-
+        setIsLoading(true)
         axios.post('/api/add-new-coupon',data)
                 .then((res)=>{
-                    console.log(res.data)
+                    router.refresh()
+                    toast.success("Add new coupon")
                 })
                 .catch((err:any)=>{
-                    console.log(err)
+                    toast.error("something went wrong")
+                })
+                .finally(()=>{
+                    setIsLoading(false)
                 })
       }
 
@@ -216,10 +225,12 @@ const AddDiscount = () =>{
                     </div>
                     {/* submit */}
                     <button
-                        className=" bg-slate-900/80 text-[15px] text-neutral-100 flex items-center justify-center w-full rounded-md px-2 py-1"
+                        disabled={isLoading}
+                        className=" bg-slate-900/80 text-[15px] text-neutral-100 flex items-center justify-center gap-2 w-full rounded-md px-2 py-1"
                         onClick={handleSubmit(onSubmit)}
                     >
-                        Add New Coupon
+                       <span> Add New Coupon</span>
+                        {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
                     </button>
                 </div>
 
