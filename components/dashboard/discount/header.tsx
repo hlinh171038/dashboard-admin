@@ -1,18 +1,27 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { IoSearchSharp } from "react-icons/io5"
+import { useDebounce } from "use-debounce"
 
 const Header = () =>{
     const [text,setText] = useState('')
-
+    const [query] = useDebounce(text,300)
     const router = useRouter()
+
+    console.log(query)
+
+    
 
     //handle add new
     const handleAddNew = useCallback(()=>{
-        
-    },[])
+        router.push('/dashboards/discount/add')
+    },[router])
+
+    useEffect(()=>{
+        router.push(`/dashboards/discount?search=${query}`)
+    },[router,query])
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">

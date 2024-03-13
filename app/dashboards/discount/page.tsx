@@ -1,16 +1,16 @@
+import { getAllDiscount } from "@/app/actions/getAllDiscount"
 import Discount from "./Discount"
 
-const page = () =>{
+const page = async ({searchParams}:{searchParams:{[key: string]: string[] | string | undefined}}) =>{
+
+    console.log(searchParams.search)
+    const search = typeof(searchParams.search) === 'string' ?searchParams.search : '' 
+    const discount = await getAllDiscount({search})
     return (
         <div>
-            <Discount />
-            {/* 
-                title
-                percent
-                description
-                relative (product)
-                relative (transaction)
-            */}
+            <Discount 
+                discount = {discount}
+            />
         </div>
     )
 }

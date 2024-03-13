@@ -111,6 +111,7 @@ model Discount {
   percent Int?
   code String?
   count Int?
+  created_at DateTime @default(now())
   transaction Transaction[]
   product Product[]
 }
