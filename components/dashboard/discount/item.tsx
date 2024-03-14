@@ -83,10 +83,10 @@ const Item:React.FC<ItemCustomerProps> = (
             </span>
         </td>
         <td>{isStatus ? "pending": "expirated"}</td>
-        <td className="">
+        <td className="flex items-center justify-start gap-2">
             <button 
                 onClick={handleRouteDetailUser}
-                className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
+                className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 ">
                 View
             </button>
             <button 

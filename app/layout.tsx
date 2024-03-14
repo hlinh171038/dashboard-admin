@@ -19,6 +19,7 @@ import CategoryModal from './modals/category-modal'
 
 
 
+
 const inter = Nunito({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default async function RootLayout({
 }) {
   
   const session = await getServerSession(authOptions)
+  
 
   return (
     <html lang="en">
@@ -40,6 +42,7 @@ export default async function RootLayout({
         <CategoryModal />
         <LoginModals />
         <RegisterModal />
+        
         <div className='flex justify-start items-start w-full min-h-screen h-auto bg-slate-900/90'>
           <SidebarCover >
             <Sidebar 

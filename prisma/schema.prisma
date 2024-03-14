@@ -29,6 +29,8 @@ model User {
   accounts Account[]
   products Product[]
   transaction Transaction[]
+  mail Mail[]
+  comment Comment[]
 }
 
 model Account {
@@ -114,4 +116,21 @@ model Discount {
   created_at DateTime @default(now())
   transaction Transaction[]
   product Product[]
+}
+
+model Mail {
+  id String @default(cuid()) @id
+  userId String
+  mailSend String?
+  mailRecive String?
+  created_at DateTime @default(now())
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
+}
+
+model Comment {
+  id String  @default(cuid()) @id
+  userId String
+  title String?
+  content String?
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }

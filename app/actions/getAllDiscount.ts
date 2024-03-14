@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 
 
-export async function getAllDiscount({search}: {search: string}) {
+export async function getAllDiscount({search,type,percent, countFrom, countTo, dayStart, dayEnd}: {search: string, type:string, percent:number, countFrom: number, countTo:number, dayStart:string, dayEnd:string}) {
     try {
         let query: any = {}
 
@@ -12,6 +12,33 @@ export async function getAllDiscount({search}: {search: string}) {
                 },
                 {
                     code:{contains: search}
+                }
+            ]
+        }
+        if(type) {
+            query.type = type
+        }
+        if(percent) {
+           
+            query.percent = {
+                gte:percent
+            }
+        }
+        if(countFrom || countTo) {
+          
+            query.count = {
+                gte:countFrom,
+                lte:countTo
+            }
+        }
+        if(dayStart && dayEnd) {
+           
+            query.OR =[
+                {
+                    startDate:{gte:new Date(dayStart)}
+                },
+                {
+                   endDate:{gte: new Date(dayEnd) } 
                 }
             ]
         }
