@@ -26,12 +26,14 @@ import { MdDeleteOutline } from "react-icons/md";
 
   interface DiscountSearchProps {
     discount: Discount[] | any;
+    detailId?: string[] | any;
     handleAddDiscountId: (value:string) => void;
     hadleDeleteDiscount: (id:string) =>void; 
   }
 
 const DiscountSearch:React.FC<DiscountSearchProps> = ({
     discount = [],
+    detailId = [],
     handleAddDiscountId,
     hadleDeleteDiscount
 }) =>{
@@ -96,7 +98,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         console.log(result);
         setRewards(result)
     },[discount])
-    console.log(chosen)
+   
 
     // ship
     useEffect(()=>{
@@ -106,7 +108,22 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         console.log(result);
         setShip(result)
     },[discount])
-    console.log(chosen)
+
+    useEffect(()=>{
+        const arr = [...detailId];
+        const empty:any[] = [];
+        discount && discount.forEach((item:any)=>{
+            arr && arr.forEach((it)=>{
+                if(item.id === it) {
+                    empty.push(item);
+                }
+            })
+        });
+
+        console.log(empty);
+        setChosen(empty)
+    },[detailId,discount])
+    
     return (
         <div className="w-full">
             <Popover >

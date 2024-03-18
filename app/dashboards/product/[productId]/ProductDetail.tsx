@@ -13,7 +13,7 @@ import InputPrice from "@/components/products/input-price"
 import QuestionNotified from "@/components/question-notified"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Product, User } from "@prisma/client"
+import { Discount, Product, User } from "@prisma/client"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -25,9 +25,13 @@ import { colorArr } from "../add/AddProduct"
 import { sizeArr } from "../add/AddProduct"
 import { personArr } from "../add/AddProduct"
 import { toast } from "sonner"
+import { RxCross2 } from "react-icons/rx"
+import DiscountSearch from "@/components/products/discount-search"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 type formData = {
     productId: string,
+    discountId:string[],
     title: string,
     brand: string,
     stock: number,
@@ -50,13 +54,13 @@ type formData = {
 
 interface ProductDetailProps {
     product: Product[] | undefined | any;
-   
+    discount: Discount[] | any
 }
 
 
 const ProductDetail:React.FC<ProductDetailProps> = ({
     product,
-  
+    discount,
 }) =>{
     const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
@@ -65,6 +69,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
 
   const schema: ZodType<formData> = z.object({
     productId: z.string(),
+    discountId: z.array(z.string()).nonempty(),
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       stock: z.coerce.number().lte(10000).gte(1),
@@ -95,6 +100,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
         resolver:zodResolver(schema),
         defaultValues: {
           productId: product.id ,
+          discountId: product.discountId,
           title: product.title,
           brand: product.brand,
           image: product.image,
@@ -130,8 +136,9 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       const person = watch('person')
       const stock = watch('stock')
       const userId = watch('userId')
+      const discountId = watch('discountId')
 
-      console.log(color)
+      console.log(tag)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {  
         console.log(data)
         console.log('try1')
@@ -150,13 +157,13 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
               })
       }
 
-      const setCustomerValue = (id:string, value:any) => {
+      const setCustomerValue = useCallback((id:string, value:any) => {
         setValue(id,value,{
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true
         })
-      }
+      },[setValue])
 
       const handleAdd = (item:string) =>{
         if(item === ''){
@@ -196,7 +203,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
           setCustomerValue('salePrice',price)
         }
-      },[defaultPrice,margin])
+      },[defaultPrice,margin,setCustomerValue])
 
    
       const handleCheckbox = (check:any,value:any) =>{
@@ -237,12 +244,49 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
        check.push(value)
         setCustomerValue('person',check);
        
+
       }
+      //handle addd discount id
+      const handleAddDiscountId = useCallback((value:string)=>{
+
+        const result = [...discountId,value]
+
+        setCustomerValue('discountId',result)
+      },[discountId,setCustomerValue])
+
+      //handle delete discount
+      const handleDeleteDiscount = useCallback((id:string)=>{
+        console.log(id)
+        const array = [...discountId]
+        console.log(array)
+        const result = array.filter((item) =>item !== id);
+        console.log(result)
+        setCustomerValue('discountId',result)
+      },[discountId,setCustomerValue])
+
+       // handle delete tag
+       const handleDeleteTagItem = useCallback((id:string)=>{
+        console.log(id)
+        const result = [...tag];
+        console.log(result)
+        const re = result.filter((item:any)=> item !== id)
+        console.log(re)
+        setCustomerValue('tag',re)
+      },[setCustomerValue,tag])
     return (
         
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
           <div className="grid grid-cols-3 w-full rounded-md  gap-2 ">
            <div className="col-span-1  w-full h-auto rounded-md  flex flex-col gap-2">
+                  <div className="flex items-center justify-between text-neutral-100 text-[15px] ">
+                    <div>Add new image for your product.</div>
+                      <QuestionNotified 
+                      title="image"
+                      content="1. Add product's image from your computer."
+                      content2="2. Add product's image from internet."
+                      content3="3. Add product's image from camara."
+                    />
+                  </div>
                   <UploadImage 
                       value={image}
                       onChange={(value)=>setCustomerValue("image",value)}
@@ -312,9 +356,9 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                  {/* location + description */}
                  <div className="grid grid-cols-2 w-full gap-2 ">
 
-                    <div className="col-span-1 relative">
-                      <div className="">
-                              <div className="flex flex-col items-start justify-start  relative ">
+                    <div className="col-span-1 relative h-full">
+                      <div className="h-full">
+                              <div className="flex flex-col items-start justify-start  relative h-full">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
                                   <textarea
                                       {...register("location")} 
@@ -487,8 +531,8 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
               </div>
             </div>
-            <div className="col-span-3 relative mb-2">
-               {/*  tag */}
+            {/* <div className="col-span-3 relative mb-2">
+              
             <div className="flex flex-col items-start justify-start gap-2 relative h-[55px] ">
               <div className=" group flex gap-2 items-center justify-center  ">
                 <input 
@@ -540,16 +584,91 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                 })}
               </div>
               {errors.tag && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.tag.message as string}</span>}
+            </div> */}
+            <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
+              <div className="col-span-1  ">
+                <div className="text-neutral-100 text-[15px] mt-1">Coupon & voucher</div>
+                  <DiscountSearch
+                    discount ={discount}
+                    handleAddDiscountId = {handleAddDiscountId}
+                    hadleDeleteDiscount = {handleDeleteDiscount}
+                    detailId = {discountId}
+                  />
+              </div>
+              <div className="col-span-1  py-1 relative mb-2">
+               {/*  tag */}
+            <div className="flex flex-col items-start justify-start gap-2 relative h-[55px] ">
+              <div className=" group flex gap-2 items-center justify-center  ">
+                <input 
+                  type='text' 
+                  placeholder="tag ..."
+                  value={cate}
+                  onChange={(e)=>setCate(e.target.value)}
+                  className="peer absolute  top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 "
+                />
+               
+                 <FaPlus
+                  onClick={() =>handleAdd(cate)}
+                  className="absolute right-1 top-[50%]  cursor-pointer text-slate-500/60 peer-focus:text-slate-900" />
+
+              </div>
+              <label 
+                    className="
+   
+                    absolute 
+                    top-0 
+                    left-0 
+                    text-neutral-200 
+                    text-[15px]
+                    flex
+                    items-center
+                    justify-between
+                    w-full
+                    "
+                    
+                >Tag</label>
+                <div className="absolute top-0 right-0 text-neutral-100">
+                  <QuestionNotified 
+                    title="?"
+                    content="How to tag:"
+                    content2=" 1.Typing some tag"
+                    content3=" 2.Click + to add new tag"
+                />
+                </div>
+                
             </div>
+              {tag.length >0 && (
+                  <div className="flex items-start justify-start gap-0.5 flex-wrap w-full h-auto min-h-14 bg-slate-500/80 rounded-md p-2">
+                  {tag.length >0 && tag.map((item:any)=>{
+                    return (<div 
+                              key={item}
+                              className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
+                            >
+                              <span>{item}</span>
+                              <span
+                                onClick={() =>handleDeleteTagItem(item)}
+                                className="text-[14px] text-red-600 cursor-pointer"
+                              >
+                                <RxCross2 />
+                              </span>
+                          </div>
+                    )
+                  })}
+                </div>
+              )}
+              {errors.tag && <span className="absolute top-[90%] left-2 text-[13px] text-red-600">{errors.tag.message as string}</span>}
+            </div>
+          </div>
           </div>
           <button 
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center text-neutral-200 w-full text-[15px] ",
+              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
                             isLoading ?'cursor-not-allowed': 'cursor-pointer'
               )}
             > 
-           Update Product
+              Update Product
+              {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
           </button>
         
         </div>

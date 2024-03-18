@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Product, User } from "@prisma/client"
+import { Discount, Product, User } from "@prisma/client"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -14,11 +14,13 @@ import { ZodType, z } from "zod"
 interface CreateProps {
     product: Product[] | any
     user: User[] | any
+    discount: Discount[] | any
 }
 
 type dataForm ={
     userId: string,
     productId: string[],
+    discountId: string,
     status: string,
     amount: number,
     totalPrice: number,
@@ -29,7 +31,8 @@ type dataForm ={
 
 const Create:React.FC<CreateProps> = ({
     product = [],
-    user = []
+    user = [],
+    discount = []
 }) =>{
 
     const router = useRouter()
@@ -42,9 +45,14 @@ const Create:React.FC<CreateProps> = ({
     const [amount,setAmount] = useState(0)
     const [totalPrice,setTotalPrice] = useState(0)
     const [isLoading,setIsLoading] = useState(false)
+    const [discountItem,setDiscountItem] = useState("Add Discount")
+    const [openDiscount,setOpenDiscount] = useState(false)
 
+
+  
     const schema : ZodType<dataForm>= z.object({
         userId: z.string(),
+        discountId: z.string(),
         productId: z.array(z.string()).nonempty(),
         status: z.string(),
         amount: z.number().gte(1),
@@ -65,6 +73,7 @@ console.log(product)
         resolver: zodResolver(schema),
         defaultValues: {
             userId:'',
+            discountId: '',
             productId: [],
             status: 'cancel', // cancel,pending,done
             amount: 0,
@@ -75,6 +84,7 @@ console.log(product)
         }
       })
       const userId = watch('userId')
+      const disocuntId = watch('discountId')
       const productId = watch('productId')
       const transportation = watch('transportation');
       const status = watch('status')
@@ -135,6 +145,7 @@ console.log(product)
             setCustomerValue('productId',empty)
       },[productItem,setCustomerValue])
       console.log(productItem)
+
       //handleAdduser 
       const handleAddUser = useCallback((value:any)=>{
         const obj = value.name + ' | ' + value.email
@@ -142,6 +153,16 @@ console.log(product)
         setOpenUser(false)
         setCustomerValue('userId',value.id)
       },[setCustomerValue])
+
+
+        //handle add disocunt
+    const handleAddDiscount = useCallback((value:any)=>{
+        const obj = value.title
+        setDiscountItem(obj)
+        setOpenDiscount(false)
+        setCustomerValue('discountId',value.id)
+    },[setCustomerValue])
+
       // amount
       useEffect(()=>{
         const initialValue = 0;
@@ -223,7 +244,7 @@ console.log(user)
                      >add product</div>
                     <div
                         className={cn("absolute top-14 left-0 bg-slate-600 rounded-md w-full text-neutral-300 text-[14px] h-auto max-h-44 overflow-y-auto" ,
-                                        openProduct ? 'block' : "hidden"
+                                        openProduct ? 'block z-20' : "hidden"
                                     )}
                     >
                         {product.map((item:any)=>{
@@ -237,6 +258,8 @@ console.log(user)
                         })}
                     </div>
                 </div>
+                
+
                <div className={cn("bg-slate-500/60 rounded-md w-full  overflow-hidden px-2",
                                     
                                 !openProduct && productItem.length>0 ? 'block min-h-9 h-auto px-2 py-1 mt-2' : 'h-0 hidden'
@@ -253,6 +276,32 @@ console.log(user)
                         )
                     },[])}
                </div>
+               {/* discount */}
+               <div
+               
+                    className="relative "
+                >
+
+                    <div className="text-[14px] text-neutral-100 ">Add Discount</div>
+                    <div
+                        onClick={()=>setOpenDiscount(!openDiscount)}
+                        className="px-2 py-1 rounded-md w-full bg-slate-500/60 text-neutral-200 text-[15px]"
+                     >{discountItem}</div>
+                    <div
+                        className={cn("absolute top-14 left-0 bg-slate-600 rounded-md w-full text-neutral-300 text-[14px] z-20 h-auto max-h-44 overflow-y-auto",
+                                openDiscount ? 'block' : "hidden"
+                                    )}
+                    >
+                        {discount.map((item:any)=>{
+                            return <div
+                                        key={item.id}
+                                        onClick={()=>handleAddDiscount(item)}
+                                    >
+                                        {item.title} 
+                                    </div>
+                        })}
+                    </div>
+                </div>
                {/* status */}
                <div>
                     <div className="text-[14px] text-neutral-100">Status</div>

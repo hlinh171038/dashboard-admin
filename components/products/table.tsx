@@ -2,7 +2,6 @@
 
 import { Product } from "@prisma/client"
 import ItemProduct from "./item"
-import { MdOutlineUnfoldMore } from "react-icons/md";
 import {
     Select,
     SelectContent,
@@ -13,8 +12,8 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { HiMiniMinusSmall } from "react-icons/hi2";
+import { IoBasketOutline } from "react-icons/io5";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 
 
@@ -41,8 +40,8 @@ const TableProduct:React.FC<TableProductProps> = ({
     const router = useRouter()
     const [categoryArr,setCategoryArr] = useState<any>([])
     const [brandArr,setBrandArr] = useState<any>([])
-    const [array,setArray] = useState(data)
-    console.log(data)
+    
+    console.log(data.length == 1)
 
     const fillterCategory = useCallback(() =>{
         
@@ -70,6 +69,11 @@ const TableProduct:React.FC<TableProductProps> = ({
         }
        setBrandArr(result)
     },[data])
+
+    //handle back product
+    const handleBackProduct = useCallback(()=>{
+        router.push(`/dashboards/product/?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10`)
+    },[router])
 
     // handle push category
     const handlePushCategory = (value:string) =>{
@@ -102,7 +106,8 @@ const TableProduct:React.FC<TableProductProps> = ({
     },[fillterBrand,fillterCategory])
 
     return (
-       <table className="w-full text-[15px] text-white ">
+       <div className="w-full h-full">
+        <table className="w-full text-[15px] text-white ">
             <tr className="font-bold ">
                 <td>Title</td>
                 <td className="relative">
@@ -246,7 +251,23 @@ const TableProduct:React.FC<TableProductProps> = ({
                     />
                 )
             })}
+    
+          
        </table>
+         {data && data.length === 0 &&(
+            <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
+               
+                    <IoBasketOutline  className="w-12 h-12 text-neutral-200 font-thin"/>
+                    <div className="flex flex-col gap-1 items-center justify-center">
+                        <div className="font-bold text-[16px] uppercase">No result found !!!</div>
+                        <div className="flex items-center justify-start gap-2">
+                            <span className="text-thin text-[14px] text-neutral-400 flex items-center justify-center gap-1">Click here  <span><IoReturnDownBackOutline onClick={handleBackProduct} className="text-neutral-200 w-4 h-4 cursor-pointer hover:text-white transition-all duration-300"/></span> to back to all product</span> 
+                        </div>
+                    </div>
+            </div>
+            
+        )}
+       </div>
     )
 }
 

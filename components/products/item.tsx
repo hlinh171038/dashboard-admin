@@ -87,7 +87,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
                 {brand}
             </td>
             <td>
-                {price}
+                {price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
             </td>
             <td>
                 {category}

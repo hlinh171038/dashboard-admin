@@ -23,8 +23,8 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
     
     const updateProduct = product.slice(start,end)
     return (
-        <div className="w-full h-screen px-2">
-            <div className=" bg-slate-600  rounded-md ">
+        <div className="w-full h-[85.5vh] px-2">
+            <div className="relative bg-slate-600  rounded-md h-full">
                 <div>
                     <ProductHeader
                         category ={category}
@@ -32,6 +32,7 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
                         price={price}
                         location={location}
                         stock={stock}
+                        search={query}
                         
                     />
                     <div className="px-2">

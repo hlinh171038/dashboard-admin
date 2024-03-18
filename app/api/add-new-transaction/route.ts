@@ -6,6 +6,7 @@ export async function POST(request: Request) {
         const body = await request.json()
         const {
             userId,
+            discountId,
             productId,
             status, // cancel,pending,done
             amount,
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
         const transaction = await prisma.transaction.create({
             data: {
                 userId,
-                discountId:'sss',
+                discountId,
                 productId,
                 status,
                 amount,
