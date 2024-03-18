@@ -17,7 +17,7 @@ import InputNumber from "@/components/products/Input-number";
 import { FaPlus } from "react-icons/fa6";
 import InputPrice from "@/components/products/input-price";
 import axios from "axios";
-import { User } from "@prisma/client";
+import { Discount, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Checkbox from "@/components/products/checkbox";
@@ -25,29 +25,13 @@ import { ZodType,string,z } from "zod";
 import CheckboxSize from "@/components/products/checkbox-size";
 import CheckboxPerson from "@/components/products/checkbox-person";
 import { zodResolver } from "@hookform/resolvers/zod";
+import DiscountSearch from "@/components/products/discount-search";
+import { RxCross2 } from "react-icons/rx";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','gold','silver']
 export const sizeArr = [,'S','4XL','<25','M',"25-30",'35-40','L','>50','45-50','XL','30-35','40-45','3XL',]
 export const personArr = ['men','women','party','kid','young','elder','sport','office','student','luxury']
-
-// title String?
-//   brand String?
-//   image String?
-//   category String?
-//   weight String?
-//   location String?
-//   description String?
-//   defaultPrice String?
-//   margin String?
-//   tax String?
-//   tag String[]
-//   unit String?
-//   transportation String[]
-//   salePrice Int?
-//   stock String?
-//   color String[]
-//   size String[]
-//   designFor String[]
 
 type formData = {
   userId: string,
@@ -68,16 +52,19 @@ type formData = {
   tag: string[],
   image: string,
   category: string,
-  unit: string
+  unit: string,
+  discountId: string[]
 }
 
 interface AddNewProductProps {
-    user: User | any
+    user: User | any;
+    discount: Discount[] | any
 }
 
 
 const AddNewProduct:React.FC<AddNewProductProps>= ({
-    user
+    user,
+    discount
 }) => {
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
@@ -103,7 +90,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       tag: z.array(z.string()).nonempty(),
       image: z.string(),
       category: z.string(),
-      unit: z.string()
+      unit: z.string(),
+      discountId: z.array(z.string())
   })
 
   
@@ -135,7 +123,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           salePrice: 0,
           color: [],
           size: [],
-          person:[]
+          person:[],
+          discountId: [],
         }
       })
 
@@ -153,10 +142,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const person = watch('person')
       const stock = watch('stock')
       const userId = watch('userId')
+      const discountId = watch('discountId')
 
-      console.log(userId)
-      console.log(image)
-      console.log(category)
+  console.log(discountId)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
@@ -173,13 +161,31 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
               })
       }
 
-      const setCustomerValue = (id:string, value:any) => {
+      const setCustomerValue = useCallback((id:string, value:any) => {
         setValue(id,value,{
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true
         })
-      }
+      },[setValue])
+
+      //handle addd discount id
+      const handleAddDiscountId = useCallback((value:string)=>{
+
+        const result = [...discountId,value]
+
+        setCustomerValue('discountId',result)
+      },[discountId,setCustomerValue])
+
+      //handle delete discount
+      const handleDeleteDiscount = useCallback((id:string)=>{
+        console.log(id)
+        const array = [...discountId]
+        console.log(array)
+        const result = array.filter((item) =>item !== id);
+        console.log(result)
+        setCustomerValue('discountId',result)
+      },[discountId,setCustomerValue])
 
       //handle open categories
       const handleOpenCategory = useCallback(() =>{
@@ -203,6 +209,13 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         setCustomerValue('tag',tag)
         setCate('')
       }
+
+      // handle delete tag
+      const handleDeleteTagItem = useCallback((id:string)=>{
+        const result = [...tag];
+        const re = result.filter((item:any)=> item.id !== id)
+        setCustomerValue('tag',re)
+      },[setCustomerValue,tag])
 
       //handle add transaction
       const handleAddTransaction = (transaction:any,value:string) =>{
@@ -270,13 +283,23 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
           <div className="grid grid-cols-3 w-full rounded-md  gap-2 ">
            <div className="col-span-1  w-full h-auto rounded-md  flex flex-col gap-2">
+                  <div className="flex items-center justify-between text-neutral-100 text-[15px] ">
+                    <div>Add new image for your product.</div>
+                    <QuestionNotified 
+                    title="image"
+                    content="1. Add product's image from your computer."
+                    content2="2. Add product's image from internet."
+                    content3="3. Add product's image from camara."
+                  />
+                  </div>
                   <UploadImage 
                       value={image}
                       onChange={(value)=>setCustomerValue("image",value)}
                   />
             </div>
-            <div className="col-span-2 bg-slate-600 rounded-md p-2">
-                <div className="relative">
+            <div className="col-span-2 bg-slate-600 rounded-md px-2 py-2 grid grid-flow-col grid-rows-5">
+              {/* name */}
+                <div className="row-span-1 relative">
                   <InputCustomerId 
                     id="title"
                     title="Product Name"
@@ -287,8 +310,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                   />
                   {errors.title && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.title.message as string}</span>}
                 </div>
-
-                <div className="grid grid-cols-2 w-full gap-2 ">
+                {/* brand, category */}
+                <div className="row-span-1 grid grid-cols-2 w-full gap-2 ">
                   <div className="col-span-1 relative">
                       <InputCustomerId 
                         id="brand"
@@ -309,8 +332,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                  
 
                 </div>
-                 {/* stock */}
-                 <div className="grid grid-cols-2 w-full gap-2 ">
+                 {/* stock , weight */}
+                 <div className="row-span-1 grid grid-cols-2 w-full gap-2 ">
                     <div className="col-span-1 relative">
                       <InputNumber 
                         id="stock"
@@ -337,11 +360,11 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     </div>
                  </div>
                  {/* location + description */}
-                 <div className="grid grid-cols-2 w-full gap-2 ">
+                 <div className="row-span-2 grid grid-cols-2 w-full gap-2 ">
 
-                    <div className="col-span-1 relative">
-                      <div className="">
-                              <div className="flex flex-col items-start justify-start  relative ">
+                    <div className="col-span-1 relative h-full">
+                      <div className="h-full">
+                              <div className="flex flex-col items-start justify-start  relative h-full">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
                                   <textarea
                                       {...register("location")} 
@@ -351,8 +374,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                                       border-0 
                                        
                                       focus:border-0 
-                                      h-[75px]
-                                      mb-4
+                                   
+                                      h-full
+                                      
                                       text-neutral-200
                                       focus:outline-none
                                       w-full
@@ -369,9 +393,10 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                           </div>
                           {errors.location && <span className="absolute top-[85%] left-0 text-[13px] text-red-600">{errors.location.message as string}</span>}
                     </div>
-                    <div className="col-span-1 relative">
-                    <div className="">
-                              <div className="flex flex-col items-start justify-start  relative ">
+                    {/* description */}
+                    <div className="col-span-1 relative h-full">
+                    <div className="h-full">
+                              <div className="flex flex-col items-start justify-start  relative h-full">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Description</label>
                                   <textarea
                                       {...register("description")} 
@@ -381,14 +406,14 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                                       border-0 
                                        
                                       focus:border-0 
-                                      h-[75px]
-                                      mb-4
+                                      h-full
+                                      
                                       text-neutral-200
                                       focus:outline-none
                                       w-full
                                       rounded-md
                                       px-2 
-                                      py-1
+                                      
                                       text-[14px]
                                       " 
 
@@ -511,7 +536,16 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                   {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
               </div>
             </div>
-            <div className="col-span-3 relative mb-2">
+            <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
+              <div className="col-span-1  ">
+                <div className="text-neutral-100 text-[15px] mt-1">Coupon & voucher</div>
+                  <DiscountSearch
+                    discount ={discount}
+                    handleAddDiscountId = {handleAddDiscountId}
+                    hadleDeleteDiscount = {handleDeleteDiscount}
+                  />
+              </div>
+              <div className="col-span-1  py-1 relative mb-2">
                {/*  tag */}
             <div className="flex flex-col items-start justify-start gap-2 relative h-[55px] ">
               <div className=" group flex gap-2 items-center justify-center  ">
@@ -543,37 +577,50 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     "
                     
                 >Tag</label>
-                <div className="absolute top-0 right-2">
+                <div className="absolute top-0 right-0 text-neutral-100">
                   <QuestionNotified 
                     title="?"
-                    content="How to tag. 1.typing some tag 2.click + to add new tag"
-                   
+                    content="How to tag:"
+                    content2=" 1.Typing some tag"
+                    content3=" 2.Click + to add new tag"
                 />
                 </div>
                 
             </div>
-            <div className="flex items-start justify-start gap-0.5 flex-wrap w-full h-auto min-h-20 bg-slate-500/80 rounded-md p-2">
-                {tag.length >0 && tag.map((item:any)=>{
-                  return (<div 
-                            key={item}
-                            className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center px-1 py-0.5"
-                          >
-                            {item}
-                        </div>
-                  )
-                })}
-              </div>
-              {errors.tag && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.tag.message as string}</span>}
+              {tag.length >0 && (
+                  <div className="flex items-start justify-start gap-0.5 flex-wrap w-full h-auto min-h-14 bg-slate-500/80 rounded-md p-2">
+                  {tag.length >0 && tag.map((item:any)=>{
+                    return (<div 
+                              key={item}
+                              className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
+                            >
+                              <span>{item}</span>
+                              <span
+                                onClick={() =>handleDeleteTagItem(item.id)}
+                                className="text-[14px] text-red-600 cursor-pointer"
+                              >
+                                <RxCross2 />
+                              </span>
+                          </div>
+                    )
+                  })}
+                </div>
+              )}
+              {errors.tag && <span className="absolute top-[90%] left-2 text-[13px] text-red-600">{errors.tag.message as string}</span>}
             </div>
           </div>
+
+            </div>
+            
           <button 
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center text-neutral-200 w-full text-[15px] ",
+              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
                             isLoading ?'cursor-not-allowed': 'cursor-pointer'
               )}
             > 
-            Add New Product
+            <span>Add New Product</span>
+            {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
           </button>
         </div>
     )

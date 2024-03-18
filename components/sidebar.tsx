@@ -18,7 +18,7 @@ import { TbHelpHexagonFilled } from "react-icons/tb";
 import { FaUserCircle } from "react-icons/fa";
 
 import { MdLogout } from "react-icons/md";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import clsx from "clsx";
@@ -30,6 +30,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { FaPlus } from "react-icons/fa6";
 import SidebarItem from "./sidebar/sidebar-item";
 import { MdDiscount } from "react-icons/md";
+import { Router } from "lucide-react";
 
 const menuItems = [
     {
@@ -118,6 +119,12 @@ const Sidebar:React.FC<SideProps> = ({
     email
 }) =>{
     const [isCustomerOpen,setIsCustomerOpen] = useState(false);
+    const router = useRouter()
+    
+    const handleSignOut =() =>{
+        router.replace('signIn')
+        signOut()
+    }
 
     const path = usePathname();
     const sidebar = useSidebar()
@@ -222,7 +229,7 @@ const Sidebar:React.FC<SideProps> = ({
                 
                 
             </div>
-            <div onClick={()=>signOut()} className=" px-2 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
+            <div onClick={handleSignOut} className=" px-2 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
                 <div >Log out</div>
                 <MdLogout className="w-4 h-4" />
             </div>

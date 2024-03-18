@@ -4,10 +4,12 @@ import AddNewProduct from "./AddProduct"
 import { getServerSession } from "next-auth"
 import { getuserById } from "@/app/actions/getUserById"
 import { getUserByEmail } from "@/app/actions/getUserByEmail"
+import { getAllDiscount } from "@/app/actions/getAllDiscount"
 
 const Product = async() =>{
 
   const session = await getServerSession(authOptions)
+  const discount = await getAllDiscount({})
  
 
   if(session) {
@@ -19,7 +21,9 @@ const Product = async() =>{
   
   return (
     <div>
-        <AddNewProduct user = {user}/>
+        <AddNewProduct 
+        discount = {discount}
+        user = {user}/>
     </div>
   )
 }

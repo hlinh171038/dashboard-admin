@@ -57,7 +57,7 @@ model Account {
 model Product {
   id String @default(cuid()) @id
   userId String
-  discountId String
+  discountId String[]
   title String?
   brand String?
   image String?
@@ -82,7 +82,7 @@ model Product {
   
 
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
-  discount Discount @relation(fields: [discountId],references: [id],onDelete: Cascade)
+  //discount Discount @relation(fields: [discountId],references: [id],onDelete: Cascade)
 }
 
 model Transaction {
@@ -115,7 +115,7 @@ model Discount {
   count Int?
   created_at DateTime @default(now())
   transaction Transaction[]
-  product Product[]
+  //product Product[]
 }
 
 model Mail {

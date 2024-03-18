@@ -42,8 +42,8 @@ const Item:React.FC<ItemCustomerProps> = (
     const year = new Date(created_at).getFullYear().toString()
     
     const route = useRouter()
-    const handleRouteDetailUser = useCallback(()=>{
-        route.push(`/dashboards/customers/${id}`)
+    const handleRouteDetail = useCallback(()=>{
+        route.push(`/dashboards/discount/${id}`)
     },[id,route])
 
     // delete by id
@@ -85,7 +85,7 @@ const Item:React.FC<ItemCustomerProps> = (
         <td>{isStatus ? "pending": "expirated"}</td>
         <td className="flex items-center justify-start gap-2">
             <button 
-                onClick={handleRouteDetailUser}
+                onClick={handleRouteDetail}
                 className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 ">
                 View
             </button>

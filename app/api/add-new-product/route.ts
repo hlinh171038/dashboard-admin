@@ -24,14 +24,15 @@ export async function POST(request:Request) {
         stock,
         size,
         color,
-        person
+        person,
+        discountId
     } = body
     console.log(userId)
   
     const product = await prisma.product.create({
         data:{
             userId,
-            discountId:'sss',
+            discountId,
             title,
             brand,
             image,
@@ -61,19 +62,4 @@ export async function POST(request:Request) {
 }
 
 
-  // userId String
-  // title String?
-  // brand String?
-  // image String?
-  // category String?
-  // weight String?
-  // location String?
-  // description String?
-  // defaultPrice Int?
-  // margin Int?
-  // tax Int?
-  // tag String[]
-  // unit String?
-  // transportation String[]
-  // salePrice Int?
-  // stock Int?
+  

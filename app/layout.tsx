@@ -34,12 +34,14 @@ export default async function RootLayout({
 }) {
   
   const session = await getServerSession(authOptions)
+
   
 
   return (
     <html lang="en">
       <body className={inter.className} >
-        <CategoryModal />
+      <LoginModals />
+        {/* <CategoryModal />
         <LoginModals />
         <RegisterModal />
         
@@ -62,7 +64,8 @@ export default async function RootLayout({
           </NavbarCover>
         </div>
         
-        <Footer/>
+        <Footer/> */}
+        {children}
         </body>
     </html>
   )
