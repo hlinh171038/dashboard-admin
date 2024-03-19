@@ -80,8 +80,12 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             {/* <span>{new Date(created_at).getMonth()+1 + "-"}</span>
             <span>{new Date(created_at).getFullYear().toString()}</span> */}
         </td>
-        <td>{role}</td>
-            <td className="">{action  ? "yes": "no"}</td>
+        <td>{role === 'yes' ? 'Admin': 'User'}</td>
+            <td className="">{action  ?(
+                    <span className="text-green-600 ">Active</span>
+                ) : (
+                    <span className=" ">InActive</span>
+                )}</td>
             <td className="">
                 <button 
                     onClick={handleRouteDetailUser}

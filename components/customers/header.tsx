@@ -3,10 +3,23 @@
 import axios from "axios"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import { IoSearchSharp } from "react-icons/io5"
+import { IoFilterSharp, IoSearchSharp } from "react-icons/io5"
 import {useDebounce} from 'use-debounce'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+import { IoMdAdd } from "react-icons/io"
+import Filter from "./filter"
+import { User } from "@prisma/client"
+interface HeaderProps {
+    customer: User[] | any
+}
 
-const HeaderCustomer = () =>{
+const HeaderCustomer:React.FC<HeaderProps> = ({
+    customer =[]
+}) =>{
     const [text,setText] = useState('')
  
     const [query] = useDebounce(text, 300);
@@ -38,12 +51,32 @@ const HeaderCustomer = () =>{
                             />
                             
                 </div>
-                <button 
+               <div>
+               <Popover>
+                        <PopoverTrigger  >
+                            <IoFilterSharp 
+                                
+                                className="w-4 h-4 text-neutral-200 hover:text-white transition-all duration-300" 
+                            />    
+                        </PopoverTrigger>
+                        <PopoverContent  
+                            side="left" 
+                            align="start" 
+                            sideOffset={4}
+                            className="bg-neutral-100 text-slate-600 text-[13px] px-4 py-2 rounded-md mr-2"
+                            >
+                                <Filter 
+                                    customer = {customer}
+                                />
+                        </PopoverContent>
+                    </Popover>
+               <button 
                     onClick={handleAddNew}
-                    className="bg-slate-900 hover:bg-slate-900/40  hover:text-white text-neutral-200 px-2 py-1 text-[15px] rounded-md duration-300 transition-all"
+                    className="hover:text-white text-neutral-200 px-2 py-1 text-[15px] rounded-md duration-300 transition-all"
                 >
-                    Add New 
+                     <IoMdAdd className="w-4 h-4" /> 
                 </button>
+               </div>
             </div>
         </div>
     )

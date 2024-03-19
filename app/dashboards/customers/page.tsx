@@ -6,7 +6,11 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     typeof searchParams.search === 'string' ? searchParams.search : ''
     const page = typeof searchParams.page ==='string' ? Number(searchParams.page) : 1;
     const per_page = typeof searchParams.per_page ==='string' ? Number(searchParams.per_page): 10
-    const users = await getAlluser({search})
+    const role = typeof searchParams.role === 'string' ? searchParams.role: ''
+    const action = typeof searchParams.action === 'string' ? searchParams.action: ''
+    const start = typeof searchParams.start === 'string' ? searchParams.start: ''
+    const end = typeof searchParams.end === 'string' ? searchParams.end: ''
+    const users = await getAlluser({search,role,action,start,end})
     return (
         <Customer 
             users = {users}

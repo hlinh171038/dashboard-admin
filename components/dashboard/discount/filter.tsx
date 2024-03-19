@@ -30,13 +30,6 @@ const Filter:React.FC<FilterProps> =({
 }) =>{
     
     const router = useRouter()
-    //const [cateType,setCateType] = useState<any>([])
-    // const [type,setType] = useState('')
-    // const [percent,setPercent] = useState(0)
-    // const [countFrom,setCountFrom] = useState(0)
-    // const [countTo,setCountTo] = useState(100)
-    // const [dayStart,setDayStart] = useState('')
-    // const [dayEnd,setDayEnd] = useState('')
     const [dateRange,setDateRange] = useState<any>({
         startDate: new Date(),
         endDate: new Date(),
@@ -130,18 +123,6 @@ const Filter:React.FC<FilterProps> =({
         setCustumValue('type',value)
     },[setCustumValue])
 
-      // filter type
-    //   useEffect(()=>{
-    //     const result : any[] = [];
-    //     for(let i=0;i<discount.length;i++){
-    //         if(!result.includes(discount[i].type)){
-    //             console.log(discount[i].type)
-    //             result.push(discount[i].type)
-    //             console.log(result)
-    //         }
-    //     }
-    //    setCateType(result)
-    // },[discount])
     return (
         <div>
             {/* header filter */}
