@@ -8,13 +8,16 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 import { ContactUs } from "./contact";
+import { User } from "@prisma/client";
 
 interface LeaderProps {
     currentUser: any
+    users: User[] | any
 }
 
 const Leader:React.FC<LeaderProps> = ({
-    currentUser
+    currentUser,
+    users
 }) =>{
     return (
         <div className="grid grid-cols-6 items-center justify-start gap-2 px-2">
@@ -59,6 +62,7 @@ const Leader:React.FC<LeaderProps> = ({
                                     >
                                         <ContactUs 
                                             currentUser = {currentUser}
+                                            users = {users}
                                         />
                                     </PopoverContent>
                                 </Popover>

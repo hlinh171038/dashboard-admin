@@ -130,7 +130,31 @@ model Mail {
 model Comment {
   id String  @default(cuid()) @id
   userId String
+  userImage String?
+  userName String?
   title String?
   content String?
+  createdAt DateTime @default(now())
+  relly Relly[]
+  heart Heart[]
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
+}
+model Relly {
+  id String  @default(cuid()) @id
+  commentId String
+  userImage String?
+  userName String?
+  title String?
+  content String?
+  createdAt DateTime @default(now())
+  heart String?
+  user Comment @relation(fields: [commentId], references: [id],onDelete: Cascade)
+}
+
+model Heart {
+  id String @default(cuid()) @id
+  commentId String
+  userId String
+  status String?
+  comment Comment @relation(fields: [commentId],references: [id],onDelete: Cascade)
 }

@@ -1,23 +1,42 @@
 "use client"
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
+import axios from 'axios';
+import { User } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 
 interface ContactUsProps {
     currentUser: any
+    users: User[] | any
 }
 
 export const ContactUs:React.FC<ContactUsProps> = ({
-    currentUser
+    currentUser,
+    users
 }) => {
   const form:any = useRef();
+  const router = useRouter();
+
+  const [userId,setUserId] = useState<any>([])
 
   console.log(currentUser)
+  console.log('try')
 
   const sendEmail = (e:any) => {
     e.preventDefault();
-
+    axios.post('/api/add-new-email',{
+      userId: userId[0].id,
+      mailSend:currentUser.user.email,
+      mailRecive:'hoanglinh171038@gmail.com'
+    })
+    .then((res:any)=>{
+      console.log(res.data)
+    })
+    .catch((err:any)=>{
+      console.log(err)
+    })
     emailjs
       .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {
         publicKey: 'TS-u5iOD3yffcZ1CJ',
@@ -34,6 +53,16 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       );
   };
 
+  useEffect(()=>{
+
+    if(!currentUser) {
+      toast.warning('Login to send email!!!');
+      return;
+    }
+    const result = users && users.filter((item:any)=>item.email === currentUser.user.email);
+    console.log(result)
+    setUserId(result)
+  },[currentUser,users])
   return (
     <div className='text-[15px] text-slate-700 px-2 py-4 rounded-md'>
         <div className='font-bold'>

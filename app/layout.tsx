@@ -41,7 +41,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className} >
       <LoginModals />
-        {/* <CategoryModal />
+        <CategoryModal />
         <LoginModals />
         <RegisterModal />
         
@@ -64,8 +64,8 @@ export default async function RootLayout({
           </NavbarCover>
         </div>
         
-        <Footer/> */}
-        {children}
+        <Footer/>
+       
         </body>
     </html>
   )

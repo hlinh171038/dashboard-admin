@@ -22,12 +22,12 @@ const Layout = async (
     }
 ) =>{
 
-    const session = await getServerSession(authOptions)
+    //const session = await getServerSession(authOptions)
 
     return (
         <div>
             <Toaster />
-            <CategoryModal />
+            {/* <CategoryModal />
         <LoginModals />
         <RegisterModal />
         
@@ -44,13 +44,13 @@ const Layout = async (
                 name ={session?.user?.name}
                 img = {session?.user?.image}
                 email = {session?.user?.email}
-                />
+                /> */}
               {children}
-         
+{/*          
           </NavbarCover>
         </div>
         
-        <Footer/>
+        <Footer/> */}
         </div>
     )
 }
