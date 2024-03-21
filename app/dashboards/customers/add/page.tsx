@@ -1,7 +1,6 @@
 "use client"
 
 import InputCustomerId from "@/components/customers/input"
-import SelectCustomer from "@/components/customers/select"
 import UploadImage from "@/components/customers/upload-img"
 import QuestionNotified from "@/components/question-notified"
 import { Textarea } from "@/components/ui/textarea"
@@ -30,6 +29,7 @@ import { toast } from "sonner"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import Radio from "@/components/customers/radio"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 
 
@@ -149,19 +149,7 @@ const AddNewCustomer = () =>{
                         />
                         {errors.name && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.name.message as string}</span>}
                     </div>
-                    {/* password */}
-                    {/* <div className="relative">
-                    <InputCustomerId
-                            id="password"
-                            register ={register}
-                            title ="Password"
-                            placeholder = "password"
-                            type = "password"
-                            errors ={errors}
-                            disabled = {isLoading}
-                        />
-                        {errors.password && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.password.message as string}</span>}
-                    </div> */}
+                   
                      <div className="relative">
                         <div className="  flex flex-col items-start justify-start gap-2 relative h-[70px]">
                         
@@ -310,11 +298,12 @@ const AddNewCustomer = () =>{
             <button 
                 onClick={handleSubmit(onSubmit)} 
                 disabled ={isLoading ? true: false}
-                className={cn(" text-[15px]  w-full  px-2  py-1  rounded  flex items-center justify-center  text-white  bg-slate-950  hover:text-neutral-200  hover:bg-slate-800/60 transition-all duration-300 ",
+                className={cn(" text-[15px]  w-full  px-2  py-1  rounded  flex items-center justify-center gap-1 text-white  bg-slate-950  hover:text-neutral-200  hover:bg-slate-800/60 transition-all duration-300 ",
                     isLoading ? "cursor-not-allowed" :"cursor-pointer"
                 )}
             >
                 Add New
+                {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
             </button>
             </div>
         </div>

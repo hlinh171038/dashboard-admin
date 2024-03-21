@@ -9,7 +9,7 @@ export async function POST(request:Request) {
             userId,
             userImage,
             userName,
-            heart,
+           
         } = body;
 
         const comment = await prisma.comment.create({
@@ -18,7 +18,7 @@ export async function POST(request:Request) {
                 userImage,
                 userName,
                 content: text,
-                heart,
+    
             }
         })
         return NextResponse.json(comment)

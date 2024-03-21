@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request:Request) {
     try {
         const {id,content} = await request.json()
-        const checkId = await prisma.comment.findUnique({
+        const checkId = await prisma.relly.findUnique({
             where: {
                 id
             }
@@ -13,13 +13,13 @@ export async function POST(request:Request) {
         if(!checkId) {
             return NextResponse.json({error:"Interal Server Error"},{status: 500})
         }
-        const result = await prisma.comment.update({
+        const result = await prisma.relly.update({
             where: {
                 id
             },
             data: {
                 content,
-                //heart
+                
             }
         })
 

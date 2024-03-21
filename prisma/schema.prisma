@@ -31,6 +31,7 @@ model User {
   transaction Transaction[]
   mail Mail[]
   comment Comment[]
+  relly Relly[]
 }
 
 model Account {
@@ -142,13 +143,15 @@ model Comment {
 model Relly {
   id String  @default(cuid()) @id
   commentId String
+  userId String
   userImage String?
   userName String?
   title String?
   content String?
   createdAt DateTime @default(now())
-  heart String?
-  user Comment @relation(fields: [commentId], references: [id],onDelete: Cascade)
+  heartRelly HeartReply[]
+  comment Comment @relation(fields: [commentId], references: [id],onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }
 
 model Heart {
@@ -157,4 +160,11 @@ model Heart {
   userId String
   status String?
   comment Comment @relation(fields: [commentId],references: [id],onDelete: Cascade)
+}
+model HeartReply {
+  id String @default(cuid()) @id
+  rellyId String
+  userId String
+  status String?
+  relly Relly @relation(fields: [rellyId],references: [id],onDelete: Cascade)
 }

@@ -10,39 +10,50 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-import { Heart, Relly, User } from "@prisma/client";
+import { Heart, HeartReply, Relly, User } from "@prisma/client";
 import ItemReply from "./item-reply";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useRouter } from "next/navigation";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineUpdate } from "react-icons/md";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+import { cn } from "@/lib/utils";
 
 interface CommentItemProps {
     content: string;
-    created_at: string;
+    createdAt: string;
     userId: string;
     userName: string;
     userImage: string;
     currentUser?: any;
     id: string;
-    relly?: Relly[] | any;
+    rellyComment?: Relly[] | any;
     heart: Heart[] | any;
     user: User[] | any;
+    relly: Relly[] | any;
+    heartRelly: HeartReply[] | any;
 }
 const CommentItem:React.FC<CommentItemProps> = ({
     currentUser,
     content,
-    created_at,
+    createdAt,
     id,
     userId,
     userName,
     userImage,
-    relly =[],
+    rellyComment =[],
     heart = [],
-    user = []
+    user = [],
+    relly = [],
+    heartRelly = []
 }) =>{
     const [text,setText] = useState('')
     const [isLoading,setIsLoading] = useState(false);
+    const [openReply,setOpenReply] = useState(false);
     const [isHeart,setIsHeart]  = useState(heart === 'no' ? false : true)
     const [heartObj,setHeartObj] = useState<any>(null)
     const [currentUserId,setCurrentUserId] = useState<any>(null)
@@ -57,32 +68,43 @@ const CommentItem:React.FC<CommentItemProps> = ({
             toast.warning('Login');
             return;
         }
+        setIsLoading(true)
 
         axios.post('/api/add-new-item',{
            content:'text',
+           userId:currentUserId?.id,
            userImage: currentUser.user.image,
            userName: currentUser.user.name,
            commentId:id,
-           heart:'no'
+          
         })
         .then((res:any)=>{
-            console.log(res.data)
+            toast.success('New reply.')
+            router.refresh()
         })
         .catch((error:any)=>{
-            console.log(error)
+            toast.error('Some thing went wrong !!!')
+        })
+        .finally(()=>{
+            setIsLoading(false)
         })
         
     }
     //handle delete
     const handleDelete = useCallback((id:string)=>{
+        setIsLoading(true)
         axios.post('/api/delete-comment',{id})
         .then((res:any)=>{
-            console.log(res.data)
+            toast.success("Deleted.")
+            router.refresh();
         })
         .catch((error:any)=>{
-            console.log(error)
+            toast.error("Something went wrong !!!")
         })
-    },[])
+        .finally(()=>{
+            setIsLoading(false)
+        })
+    },[router])
 
     //handle update
     const handleUpdate = useCallback((e:any)=>{
@@ -91,7 +113,6 @@ const CommentItem:React.FC<CommentItemProps> = ({
         console.log(textUpdate)
         if(e.code === 'Enter'){
             setUpdate(false)
-            console.log(textUpdate)
             
             if(content === textUpdate) {
                 toast.warning('Have no change !!!');
@@ -153,8 +174,6 @@ const CommentItem:React.FC<CommentItemProps> = ({
         })
       },[heart,id])
 
-      console.log(userId)
-      console.log(currentUser)
       // take currentUser
       useEffect(()=>{
         user && user.forEach((item:any)=>{
@@ -163,8 +182,13 @@ const CommentItem:React.FC<CommentItemProps> = ({
             }
         })
       },[currentUser.user.email,user])
+
+      useEffect(()=>{
+       console.log(createdAt)
+      },[createdAt])
+      console.log(relly)
     return (
-        <div className="flex flex-col gap-2 ">
+        <div className="flex flex-col gap-2 mt-1">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center justify-start gap-2 text-[14px] text-neutral-100">
                         <Image 
@@ -179,7 +203,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                             {userName && userName}
                         </div>
                         
-                        <div>6 phut truoc</div>
+                        <div className="text-neutral-400 text-[12px] font-thin flex items-center justify-center mt-1">{new Date(createdAt).toLocaleString()}</div>
                             
                     </div>
                     <div>
@@ -191,18 +215,24 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                         </PopoverTrigger>
                                         <PopoverContent
                                             side="bottom"
-                                            className=" rounded-md shadow-md"
+                                            className=" rounded-md shadow-md mr-10 bg-slate-600"
                                         >   
-                                           <div className="flex flex-col gap-2">
-                                            <button onClick={()=>handleDelete(id)}>delete</button> 
-                                            <button onClick={()=>setUpdate(!update)}>update</button> 
+                                           <div className="flex flex-col gap-2 px-4 py-2 ">
+                                            <button onClick={()=>handleDelete(id)} disabled={isLoading} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-slate-900 cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
+                                                Delete
+                                                {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5 flex items-center justify-center"><MdDeleteOutline className="w-4 h-4 " /></div>}
+                                            </button> 
+                                            <button onClick={()=>setUpdate(!update)} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-slate-900 cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
+                                                Update
+                                                <div className="w-5 h-5 flex items-center justify-center"><MdOutlineUpdate  className="w-4 h-4 " /></div>
+                                            </button> 
                                            </div>
                                         </PopoverContent>
                                     </Popover>
                         </span>
                     </div>
                 </div>
-                <div className="border-l border-slate-950 ml-3">
+                <div className="border-l border-slate-950 ml-3 ">
                     <div className="flex flex-col gap-1 ml-2 "> 
                             <div >
                                 {update ?
@@ -224,19 +254,22 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                 :content && content}
                             </div>
                             <div className="flex items-center justify-start gap-2 text-neutral-400">
-                                <div>
-                                    {heart.length}
-                                    {heartObj && heartObj.status === 'yes' ?(
+                                <div className="flex items-center justify-start gap-1">
+                                   
+                                    { currentUserId?.id === userId && heartObj && heartObj.status === 'yes' ?(
                                         <FaHeart  className="w-3 h-3 " onClick={()=>handleCreateHeart(id)}/>
                                     ):(
                                         <FaRegHeart className="w-3 h-3 " onClick={()=>handleCreateHeart(id)}/>
                                     )}
-                                    
+                                     <span>{heart.length}</span>
                                 </div>
-                                <div >
+                                <div className="flex items-center justify-start gap-2"  onClick={()=>setOpenReply(!openReply)}>
                                     <Popover>
                                         <PopoverTrigger>
-                                            Reply
+                                            <span className="flex items-center justify-start gap-2">
+                                               <span className="text-[13px] underline"> Reply <span>{rellyComment.length}</span></span>
+                                               
+                                            </span>
                                         </PopoverTrigger>
                                         <PopoverContent
                                             side="bottom"
@@ -251,17 +284,32 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                             <input type="submit" value="reply" onClick={handleSubmit} />
                                         </PopoverContent>
                                     </Popover>
+                                    <span>{openReply ? (
+                                            <IoIosArrowUp className="w-3 h-3 text-neutral-400 ml-2" />
+                                        ): (
+                                            <IoIosArrowDown className="w-3 h-3 text-neutral-400 ml-2" />
+                                        )}</span>
                             </div>
                         </div>
                     </div>
-                        {relly && relly.length>0 && (
-                            relly.map((item:any)=>{
-                                return <div key={item.id} className="flex flex-col gap-2 ml-1">
+                        {rellyComment && rellyComment.length>0 && (
+                            rellyComment.map((item:any)=>{
+                                return <div key={item.id} className={cn(" ",
+                                                                        openReply ? 'flex flex-col gap-2 ml-1 my-1': 'hidden'
+                                                                    )}>
                                             <ItemReply 
                                                 key={item.id}
                                                 content ={item.content}
                                                 userName = {item.userName}
                                                 userImage = {item.userImage}
+                                                createdAt = {item.createdAt}
+                                                id={item.id}
+                                                heart = {item.heartRelly}
+                                                currentUser= {currentUser}
+                                                userId = {item.userId}
+                                                user = {user}
+                                                relly = {relly}
+                                                heartRelly = {heartRelly}
                                             />
                                         </div>
                             })

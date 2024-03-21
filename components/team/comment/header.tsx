@@ -37,7 +37,7 @@ const Header:React.FC<HeaderProps> = ({
             userImage: userId[0].image,
             userName: userId[0].name,
             text,
-            heart: 'no'
+            
         })
         .then((res:any)=>{
             router.refresh()
@@ -61,9 +61,9 @@ const Header:React.FC<HeaderProps> = ({
         setUserId(result)
     },[currentUser,user])
     return (
-        <div className="">
+        <div className="z-20">
             <div className="flex items-center justify-start gap-2 w-full">
-                <div className=" rounded-md w-full border border-slate-900 bg-white px-2 py-1">
+                <div className=" rounded-md w-full  bg-slate-500/60 px-2 py-1">
                     <div className="flex items-center justify-start gap-1">
                     <Image 
                         src={currentUser?.user?.image ?currentUser?.user?.image:'/avatar.png'}
@@ -72,11 +72,11 @@ const Header:React.FC<HeaderProps> = ({
                         alt="avatar"
                         className="rounded-full aspect-square"
                         />
-                        <div className="text-slate-900 text-[14px]">{currentUser?.user?.name ?currentUser?.user?.name :"Anonymous"}</div>
+                        <div className="text-neutral-100 text-[14px]">{currentUser?.user?.name ?currentUser?.user?.name :"Anonymous"}</div>
                     </div>
                     <div className="w-full pt-1 ">
                         <textarea 
-                            className=" text-slate-900 outline-none  w-full px-2 min-h-12 h-auto text-[14px] border-b border-slate-600 "
+                            className=" text-neutral-100 outline-none bg-slate-500/10 w-full px-2 min-h-12 h-auto text-[14px] border-b border-white "
                             placeholder="comment"
                             value = {text}
                             onChange={(e)=>setText(e.target.value)}

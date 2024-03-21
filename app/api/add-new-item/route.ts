@@ -9,14 +9,14 @@ export async function POST(request:Request) {
             commentId,
             userImage,
             userName,
-            heart
+            userId,
         } = body;
 
         const reply = await prisma.relly.create({
             data: {
                 commentId,
+                userId,
                 content,
-                heart,
                 userImage,
                 userName
             }

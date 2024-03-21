@@ -4,7 +4,7 @@ import { ContactUs } from "@/components/team/contact";
 import Header from "@/components/team/header"
 import Leader from "@/components/team/leader";
 import Member from "@/components/team/member";
-import { Comment, User } from "@prisma/client";
+import { Comment, HeartReply, Relly, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { GoPlus } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -19,17 +19,21 @@ interface TeamProps {
     page: number;
     per_page: number;
     currentUser: any;
-    comments: Comment[] | any
+    comments: Comment[] | any;
+    relly: Relly[] | any;
+    heartRelly: HeartReply[] | any
 }
 
 const Team:React.FC<TeamProps> = ({
     user = [],
     userSearch =[],
     comments=[],
+    relly =[],
     search,
     page,
     per_page,
-    currentUser
+    currentUser,
+    heartRelly =[]
 }) =>{
     const [member,setMember] = useState<any>([])
     
@@ -94,6 +98,8 @@ const Team:React.FC<TeamProps> = ({
                                 currentUser = {currentUser}
                                 user = {user}
                                 comments = {comments}
+                                relly = {relly}
+                                heartRelly = {heartRelly}
                             />
                         </div>
                     </TabsContent>

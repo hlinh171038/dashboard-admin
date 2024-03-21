@@ -1,6 +1,6 @@
 "use client"
 
-import { Comment, User } from "@prisma/client"
+import { Comment, HeartReply, Relly, User } from "@prisma/client"
 import Content from "./content"
 import Header from "./header"
 
@@ -8,12 +8,16 @@ interface CommentProps {
     currentUser?: any,
     user: User[] | any,
     comments: Comment[] | any;
+    relly:Relly[] | any;
+    heartRelly :HeartReply[] | any;
 }
 
 const CommentSection:React.FC<CommentProps> = ({
     currentUser,
     user = [],
-    comments =[]
+    comments =[],
+    relly = [],
+    heartRelly = [],
 }) =>{
     return (
         <div className="w-full px-2 py-1 ">
@@ -25,6 +29,8 @@ const CommentSection:React.FC<CommentProps> = ({
                 user ={user}
                 currentUser ={currentUser}
                 comments ={comments}
+                relly = {relly}
+                heartRelly ={heartRelly}
             />
         </div>
     )

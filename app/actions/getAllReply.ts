@@ -2,12 +2,24 @@ import prisma from '@/lib/prisma'
 
 export async function getAllReply() {
     try {
-        const reply = await prisma.relly.findMany({
+        const relly = await prisma.relly.findMany({
+            include: {
+                heartRelly: true,
+            },
             orderBy: {
                 createdAt: 'desc'
             }
         })
-        return reply
+
+        const safeRelly = relly.map(
+            (relly) =>({
+                ...relly,
+                heartRelly: [
+                    ...relly.heartRelly
+                ]
+            })
+        )
+        return safeRelly
     } catch (error:any) {
         throw new Error(error)
     }
