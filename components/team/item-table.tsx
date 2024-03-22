@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { RiAdminFill } from "react-icons/ri";
 import { IoMdPersonAdd } from "react-icons/io";
 import { toast } from "sonner";
 
@@ -56,7 +57,7 @@ const ItemTable:React.FC<ItemUserProps> = ({
             .finally(()=>{
                 setIsLoading(false)
             })
-    },[id,router])
+    },[id,router,name,role])
     return (
         <tr>
             <td className="flex items-center justify-start gap-1 py-2">
@@ -90,12 +91,16 @@ const ItemTable:React.FC<ItemUserProps> = ({
                      onClick={handleAddAdmin}
                      className="flex items-center justify-start gap-2"
                 >
-                    <IoMdPersonAdd 
+
+                    {role === 'yes' ? (
+                        <RiAdminFill className="w-4 h-4" />
+                    ): (
+                        <IoMdPersonAdd 
                        
-                        className={cn("w-4 h-4",
-                            role !== 'yes' ? 'text-neutral-600': 'text-red-600'
-                        )}
+                        className={cn("w-4 h-4" )}
                     />
+                    )}
+                    
                     {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
                     
                 </button>

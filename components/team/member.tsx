@@ -28,6 +28,7 @@ interface MemberProps {
     page: number;
     per_page: number;
     max:number;
+    currentUser: any
 }
 
 const Member:React.FC<MemberProps> = ({
@@ -37,7 +38,8 @@ const Member:React.FC<MemberProps> = ({
     search,
     page,
     per_page,
-    max
+    max,
+    currentUser
 }) =>{
     
     return (
@@ -63,6 +65,8 @@ const Member:React.FC<MemberProps> = ({
                                 key={item.id}
                                 id={item.id}
                                 email = {item.email}
+                                user={user}
+                                currentUser = {currentUser}
                             />
                         )
                     })}

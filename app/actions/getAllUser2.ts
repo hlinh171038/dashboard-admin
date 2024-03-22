@@ -4,7 +4,8 @@ export async function getAllUser2() {
     try {
         const user = await prisma.user.findMany({
             include: {
-                comment: true
+                comment: true,
+                mail: true,
             },
             orderBy: {
                 createdAt: 'desc'
@@ -15,6 +16,9 @@ export async function getAllUser2() {
                 ...user,
                 comment: [
                     ...user.comment
+                ],
+                mail: [
+                    ...user.mail
                 ]
             })
         )

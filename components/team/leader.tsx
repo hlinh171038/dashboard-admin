@@ -58,7 +58,7 @@ const Leader:React.FC<LeaderProps> = ({
                                     </PopoverTrigger>
                                     <PopoverContent
                                         side="bottom"
-                                        className="mr-2 min-w-[30rem] rounded-r-md shadow-md"
+                                        className="mr-2 min-w-[30rem] rounded-md shadow-md"
                                     >
                                         <ContactUs 
                                             currentUser = {currentUser}

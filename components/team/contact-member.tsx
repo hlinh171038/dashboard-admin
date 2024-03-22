@@ -6,69 +6,56 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { FaRegSquareCheck } from 'react-icons/fa6';
 import { FaRegSquare } from 'react-icons/fa';
+import { FaRegSquareCheck } from 'react-icons/fa6';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 interface ContactUsProps {
     currentUser: any
     users: User[] | any
+    emailRecive: string
 }
 
-export const ContactUs:React.FC<ContactUsProps> = ({
+export const ContactUsMember:React.FC<ContactUsProps> = ({
     currentUser,
-    users
+    users,
+    emailRecive
 }) => {
   const form:any = useRef();
   const router = useRouter();
 
   const [userId,setUserId] = useState<any>([])
-  const [check,setCheck] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
+  const [check,setCheck] = useState(false)
 
   console.log(currentUser)
   console.log('try')
 
   const sendEmail = (e:any) => {
     if(check === false) {
-      toast.warning(`click check if you want send to team lead.`);
-      return;
-  }
-  setIsLoading(true)
-
+        toast.warning(`click check if you want send to ${emailRecive}`);
+        return;
+    }
+    setIsLoading(true)
     e.preventDefault();
     axios.post('/api/add-new-email',{
       userId: userId[0].id,
       mailSend:currentUser.user.email,
-      mailRecive:'hoanglinh171038@gmail.com'
+      mailRecive:emailRecive
     })
     .then((res:any)=>{
+        toast.success(`sended to ${emailRecive}`)
       router.refresh();
-      toast.success("Sended to team lead.")
     })
     .catch((err:any)=>{
-      toast.error("Something went wrong !!!")
-
+     toast.error('Something went wrong !!!')
     })
     .finally(()=>{
-      setIsLoading(false);
+        setIsLoading(false)
+        router.push('/analytics/team')
     })
     
-    emailjs
-      .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {
-        publicKey: 'TS-u5iOD3yffcZ1CJ',
-      })
-      .then(
-        () => {
-            toast.success('send email success')
-          console.log('SUCCESS!');
-        },
-        (error) => {
-            toast.error('some thing went wrong !!!')
-          console.log('FAILED...', error.text);
-        },
-      );
-     
+      
   };
 
   useEffect(()=>{
@@ -81,8 +68,9 @@ export const ContactUs:React.FC<ContactUsProps> = ({
     console.log(result)
     setUserId(result)
   },[currentUser,users])
-   //handle check
-   const handleCheck = useCallback(()=>{
+
+  //handle check
+  const handleCheck = useCallback(()=>{
     setCheck(!check)
  },[check])
   return (
@@ -93,7 +81,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
         <form 
         ref={form} 
         onSubmit={sendEmail}
-        className='flex  flex-col gap-2'
+        className='flex  flex-col gap-1'
         >
         <div className='flex items-center justify-start gap-2'>
             <div>Username:</div>
@@ -127,10 +115,9 @@ export const ContactUs:React.FC<ContactUsProps> = ({
                     />
             )}
             <div className='text[13px] font-thin '>
-                {`send direct to team lead`}
+                {`send direct to admin: ${emailRecive}`}
             </div>
         </div>
-        
         <button
           className='bg-slate-900 hover:bg-slate-800 duration-300 transition-all rounded-md px-2 py-1 text-neutral-100 w-full flex items-center justify-center gap-2'
           disabled = {isLoading}

@@ -44,7 +44,8 @@ const Team:React.FC<TeamProps> = ({
     const end = per_page * page;               //5,10,15
 
     const userSearchUpdate = userSearch.slice(start,end)
-    const max= Math.floor(userSearchUpdate.length);
+    const max= Math.ceil(userSearch.length / per_page);
+   
     
  
     useEffect(()=>{
@@ -54,7 +55,6 @@ const Team:React.FC<TeamProps> = ({
                 result.push(item)
             }
         });
-        console.log(result)
         setMember(result)
     },[user])
    
@@ -83,6 +83,7 @@ const Team:React.FC<TeamProps> = ({
                             <Member 
                                 member = {member}
                                 user = {user}
+                                currentUser = {currentUser}
                                 userSearch = {userSearchUpdate}
                                 search={search}
                                 page={page}
@@ -106,29 +107,6 @@ const Team:React.FC<TeamProps> = ({
                 </Tabs>
 
             </div>
-            {/* <div className="">
-                <Header />
-                <div>
-                    <hr />
-                </div>
-                <Leader
-                    currentUser = {currentUser}
-                    users = {user}
-                />
-                <div>
-                    <hr />
-                </div>
-                <Member 
-                    member = {member}
-                    user = {user}
-                    userSearch = {userSearchUpdate}
-                    search={search}
-                    page={page}
-                    per_page={per_page}
-                    max ={max}
-                />
-               
-            </div> */}
             
         </div>
     )

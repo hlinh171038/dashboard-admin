@@ -15,6 +15,8 @@ import NavbarCover from '@/components/navbar-cover'
 import Footer from '@/components/footer'
 import { Toaster } from 'react-hot-toast'
 import CategoryModal from './modals/category-modal'
+import { getAllMail } from './actions/getAllMail'
+import { getAllUser2 } from './actions/getAllUser2'
 
 
 
@@ -34,7 +36,9 @@ export default async function RootLayout({
 }) {
   
   const session = await getServerSession(authOptions)
-
+  const mail = await getAllMail()
+  const user = await getAllUser2()
+  
   
 
   return (
@@ -58,6 +62,8 @@ export default async function RootLayout({
                 name ={session?.user?.name}
                 img = {session?.user?.image}
                 email = {session?.user?.email}
+                mail = {mail}
+                user = {user}
                 />
               {children}
          

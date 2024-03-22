@@ -7,15 +7,28 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { MdDeleteForever, MdOutlineEmail } from "react-icons/md"
 import { RiMailSendLine } from "react-icons/ri"
 import { toast } from "sonner"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+import { ContactUs } from "./contact"
+import { ContactUsMember } from "./contact-member"
+import { User } from "@prisma/client"
 
 interface MemberItemProps {
     id: string;
-    email: string
+    email: string;
+    user: User[] | any;
+    currentUser: any
+
 }
 
 const MemberItem:React.FC<MemberItemProps> = ({
     email,
-    id
+    id,
+    user = [],
+    currentUser
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
@@ -52,7 +65,21 @@ const MemberItem:React.FC<MemberItemProps> = ({
                     className="group text-neutral-100 px-2 py-1 rounded-md cursor-pointer"
                     
                     >
-                        <RiMailSendLine className="w-4 h-4 text-neutral-200 group-hover:text-white transition-all duration-300"/>
+                        <Popover>
+                            <PopoverTrigger>
+                                <RiMailSendLine className="w-4 h-4 text-neutral-200 group-hover:text-white transition-all duration-300"/>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                side="bottom"
+                                className="mr-2 min-w-[30rem] rounded-md shadow-md"
+                            >
+                                <ContactUsMember
+                                    currentUser = {currentUser}
+                                    users = {user}
+                                    emailRecive ={email}
+                                />
+                            </PopoverContent>
+                        </Popover>
                 </div>
                 <button 
                     onClick={handleDeleteAdmin}

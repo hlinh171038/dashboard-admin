@@ -1,12 +1,12 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import useLoginModal from "../app/hooks/useLoginModal"
 
 import Button from "./button"
 import useRegister from "@/app/hooks/useRegisterModal"
-import { User } from "@prisma/client"
+import { Mail, User } from "@prisma/client"
 import { signOut } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -20,19 +20,28 @@ import { HiOutlineBars3 } from "react-icons/hi2";
 import clsx from "clsx"
 import useSidebar from "@/app/hooks/useSidebar"
 import { cn } from "@/lib/utils"
-
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+import MailContent from "./navbar/mail"
 
 
 interface NavProps {
     name: string |undefined | null;
     img: string | undefined | null;
     email: string | undefined | null;
-}
+    mail: Mail[] | any;
+    user: User[] | any;
+}   
 
 const Navbar:React.FC<NavProps>= ({
     name,
     img,
-    email
+    email,
+    mail =[],
+    user = []
 }) => {
 
     const loginModal = useLoginModal()
@@ -40,6 +49,7 @@ const Navbar:React.FC<NavProps>= ({
     const sidebar = useSidebar()
 
     const [hover,setHover] = useState(false)
+    const [showMail,setShowMail] = useState<any>(null)
 
 
    
@@ -55,6 +65,18 @@ const Navbar:React.FC<NavProps>= ({
        signOut()
     },[])
 
+    console.log(email === user[0].email)
+    console.log(user)
+
+    useEffect(()=>{
+        user && user.forEach((item:any)=>{
+            if(item.email === email) {
+                console.log(item)
+                setShowMail(item)
+            }
+        })
+    },[email,user])
+    console.log(showMail)
     return (
         <div className="p-2">
             <div 
@@ -77,7 +99,22 @@ const Navbar:React.FC<NavProps>= ({
                 </div>
                 
                 <div className="col-span-2 flex items-center justify-end gap-4">
-                    <MdOutlineMail className="w-5 h-5 text-white" />
+                    <div className="relative">
+                        
+                        <Popover>
+                            <PopoverTrigger>
+                                <MdOutlineMail className="w-5 h-5 text-white" />
+                                {showMail && (
+                                    <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
+                                )}
+                            </PopoverTrigger>
+                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[200px] ">
+                                <MailContent 
+                                    mail ={showMail}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                     <AiFillBell className="w-5 h-5 text-white" />
                     <MdOutlineComment className="w-5 h-5 text-white" />
                 </div>
