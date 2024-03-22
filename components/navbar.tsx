@@ -26,6 +26,7 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 import MailContent from "./navbar/mail"
+import { LuMailWarning } from "react-icons/lu";
 
 
 interface NavProps {
@@ -50,6 +51,7 @@ const Navbar:React.FC<NavProps>= ({
 
     const [hover,setHover] = useState(false)
     const [showMail,setShowMail] = useState<any>(null)
+    const [sticky,setSticky] = useState(false)
 
 
    
@@ -77,10 +79,31 @@ const Navbar:React.FC<NavProps>= ({
         })
     },[email,user])
     console.log(showMail)
+    // sticky when scroll
+    useEffect(() => {
+        const handleScroll = () => {
+          const navbar = document.getElementById('navbar');
+          const scrollTop = window.scrollY; // Use scrollY instead of pageYOffset
+          
+          if(!navbar){
+            return null;
+          }
+          console.log(scrollTop)
+          console.log(navbar.offsetHeight)
+          setSticky(scrollTop > navbar.offsetHeight);
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
     return (
-        <div className="p-2">
+        <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
+                        )} >
             <div 
-                className="bg-slate-600/80 shadow-sm  w-full h-[70px] grid grid-cols-12 gap-x-4 justify-between items-center px-4 relative rounded-md"
+                className={cn("bg-slate-600 shadow-sm  w-full h-[70px] grid grid-cols-12 gap-x-4 justify-between items-center px-4 relative rounded-md",
+                    sticky ?'bg-slate-600 shadow-md':''
+                )}
             >
                 <div className="col-span-2">
                     <HiOutlineBars3 
@@ -98,19 +121,19 @@ const Navbar:React.FC<NavProps>= ({
                     </div>
                 </div>
                 
-                <div className="col-span-2 flex items-center justify-end gap-4">
+                <div className="col-span-3 flex items-center justify-end gap-4">
                     <div className="relative">
-                        
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineMail className="w-5 h-5 text-white" />
-                                {showMail && (
+                                {showMail && showMail.mail.length >0 && (
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>
-                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[200px] ">
+                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] ">
                                 <MailContent 
                                     mail ={showMail}
+                                    
                                 />
                             </PopoverContent>
                         </Popover>
@@ -118,51 +141,7 @@ const Navbar:React.FC<NavProps>= ({
                     <AiFillBell className="w-5 h-5 text-white" />
                     <MdOutlineComment className="w-5 h-5 text-white" />
                 </div>
-                <div 
-                    className="col-span-1 group cursor-pointer  transition overflow-hidden px-2 py-1 rounded-lg duration-300 "
-                    onClick ={()=>setHover(!hover)}
-                >
-                    <div className="group-hover:flex group-hover:text-white group-hover:w-auto group-hover:pr-8 bg-slate-600 overflow-hidden  transition-all  absolute top-3 right-9 w-0  gap-0.5 h-10 justify-center items-center rounded-full  px-2 py-0.5 duration-300">
-                        <div className=" group-hover:block hidden ">{hover ? <MdKeyboardArrowUp className="w-4 h-4 text-white" />: <MdOutlineKeyboardArrowDown className="w-4 h-4" />}</div>
-                        <div className=" group-hover:block hidden  text-sm">{name}</div>
-                    </div>
-                    
-                    <div className="flex justify-end items-center gap-4" >
-                        <Avatar className="">
-                            <AvatarImage src={img as string} />
-                            <AvatarFallback>LT</AvatarFallback>
-                        </Avatar>
-                    
-                    </div>
-                    
-                    
-                </div>
                 
-                <div className={clsx(" fixed top-16 right-1 bg-white rounded-md border-1 border-slate-900 w-1/5 h-0 overflow-hidden px-2  flex flex-col gap-2 transition-all duration-300",
-                                hover && "h-[200px] py-2"
-                            )}
-                >
-                    <Button 
-                        label="login"
-                        onClick={handleLogin}
-                    
-                    />
-                    <Button 
-                            label="Register"
-                            onClick={handleRegister}
-                        
-                    />
-                    <div className=" flex items-center justify-center text-neutral-400">
-                            <div className="border-t-2 border-slate-600 w-[50%]    px-2"></div>
-                            <div className="text-slate-600 text-sm">or</div>
-                            <div className="border-t-2 border-slate-600 w-[50%]    px-2"></div>
-                    </div>
-                    <Button 
-                            label="Sign Out"
-                            onClick={handleSignOut}
-                        
-                        />
-                </div>
             </div>
         </div>
     )

@@ -123,7 +123,11 @@ model Mail {
   id String @default(cuid()) @id
   userId String
   mailSend String?
+  userName String?
+  userImage String?
+  content String?
   mailRecive String?
+  seen Boolean?
   created_at DateTime @default(now())
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }

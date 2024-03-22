@@ -65,6 +65,7 @@ export default async function RootLayout({
                 mail = {mail}
                 user = {user}
                 />
+                {/* <div className='h-[13vh] w-full'></div> */}
               {children}
          
           </NavbarCover>

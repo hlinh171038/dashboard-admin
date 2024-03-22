@@ -23,7 +23,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useSidebar from "@/app/hooks/useSidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -31,6 +31,16 @@ import { FaPlus } from "react-icons/fa6";
 import SidebarItem from "./sidebar/sidebar-item";
 import { MdDiscount } from "react-icons/md";
 import { Router } from "lucide-react";
+
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+import Button from "./button";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import useRegister from "@/app/hooks/useRegisterModal";
+  
 
 const menuItems = [
     {
@@ -120,40 +130,74 @@ const Sidebar:React.FC<SideProps> = ({
 }) =>{
     const [isCustomerOpen,setIsCustomerOpen] = useState(false);
     const router = useRouter()
-    
-    const handleSignOut =() =>{
-        router.replace('signIn')
-        signOut()
-    }
-
-    const path = usePathname();
+    const loginModal = useLoginModal()
+    const registerModal = useRegister()
     const sidebar = useSidebar()
+
+    const [hover,setHover] = useState(false)
+    const [showMail,setShowMail] = useState<any>(null)
+    const path = usePathname();
     console.log(sidebar.isOpen)
+
+
+   
+    const handleLogin = useCallback(()=>{
+        loginModal.onOpen()
+    },[loginModal])
+
+    const handleRegister = useCallback(()=>{
+        registerModal.onOpen()
+    },[registerModal])
+
+    const handleSignOut = useCallback(()=>{
+       signOut()
+    },[])
+    
+
+
+    
     return (
         <div className={cn("flex flex-col rounded-md h-full bg-slate-600  "
             )}>
             <div className="h-auto text-white  flex items-center justify-between px-2 py-4">
-                <Link href={"/dashboards"}>
-                    {/* <Image src="/logo2.png" width="96" height="96" alt="logo"/> */}
-                    <div className="flex items-center justify-start gap-2 text-[15px] ">
-                        <Avatar className="">
-                                <AvatarImage src={img as string} />
-                                <AvatarFallback>LT</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col gap-0.5">
-                            <div className="capitalize ml-4">
-                                {name}
+                <Popover>
+                    <PopoverTrigger>
+                        {/* <Image src="/logo2.png" width="96" height="96" alt="logo"/> */}
+                            <div className="flex items-center justify-start gap-2 text-[15px] ">
+                                <Avatar className="">
+                                        <AvatarImage src={img as string} />
+                                        <AvatarFallback>LT</AvatarFallback>
+                                </Avatar>
+                                <div className="flex flex-col items-start gap-0.5">
+                                    <div className="capitalize ml-4">
+                                        {name}
+                                    </div>
+                                    <div className="inline-flex justify-start items-center gap-2">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                        </span>
+                                        <div className="font-thin text-[14px]">Ready for working</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="inline-flex justify-start items-center gap-2">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                <div className="font-thin text-[14px]">Ready for working</div>
-                            </div>
-                        </div>
-                    </div>
-                </Link>
+                    </PopoverTrigger>
+                    <PopoverContent className=" bg-white rounded-md w-[300px] ml-2  px-2 py-4 flex flex-col gap-2 transition-all duration-300">
+                        
+                        <Button 
+                            label="Login"
+                            onClick={handleLogin}
+                        
+                        />
+                        <Button 
+                                label="Register"
+                                onClick={handleRegister}
+                                outline
+                        />
+
+                    </PopoverContent>
+                </Popover>
+               
                 <MdArrowBackIos 
                     className="text-white w-5 h-5 mr-4 hover:text-neutral-400 transition-all"
                     onClick={()=>sidebar.onClose()}

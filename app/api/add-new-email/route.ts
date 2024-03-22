@@ -8,6 +8,10 @@ export async function POST(request:Request) {
             userId,
             mailSend,
             mailRecive,
+            userName,
+            userImage,
+            content,
+            seen,
         } = body;
         console.log(userId);
         console.log(mailSend);
@@ -17,7 +21,11 @@ export async function POST(request:Request) {
             data: {
                 userId,
                 mailSend,
-                mailRecive
+                mailRecive,
+                userName,
+                userImage,
+                content,
+                seen,
             }
         })
 

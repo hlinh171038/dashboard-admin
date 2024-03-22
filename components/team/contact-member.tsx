@@ -27,6 +27,7 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
   const [userId,setUserId] = useState<any>([])
   const [isLoading,setIsLoading] = useState(false)
   const [check,setCheck] = useState(false)
+  const [text,setText] = useState('')
 
   console.log(currentUser)
   console.log('try')
@@ -41,7 +42,11 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
     axios.post('/api/add-new-email',{
       userId: userId[0].id,
       mailSend:currentUser.user.email,
-      mailRecive:emailRecive
+      mailRecive:emailRecive,
+      userName: currentUser.user.name,
+      userImage: currentUser.user.image,
+      content: text,
+      seen: false,
     })
     .then((res:any)=>{
         toast.success(`sended to ${emailRecive}`)
@@ -64,10 +69,10 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
       toast.warning('Login to send email!!!');
       return;
     }
-    const result = users && users.filter((item:any)=>item.email === currentUser.user.email);
+    const result = users && users.filter((item:any)=>item.email === emailRecive);
     console.log(result)
     setUserId(result)
-  },[currentUser,users])
+  },[emailRecive,users,currentUser])
 
   //handle check
   const handleCheck = useCallback(()=>{
@@ -99,6 +104,8 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
                 required
                 name="message" 
                 placeholder='message'
+                value={text}
+                onChange={(e)=>setText(e.target.value)}
                 className='rounded-md outline-none border border-slate-900  px-2 py-1 text-[14px] '
                 />
         </div>
