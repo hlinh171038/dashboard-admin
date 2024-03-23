@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request:Request) {
     try {
         
-        const {userId,commentId} = await request.json()
+        const {userId,commentId,userName,userImage} = await request.json()
         const checkUser = await prisma.heart.findFirst({
             where: {
                 userId
@@ -20,6 +20,8 @@ export async function POST(request:Request) {
                 data: {
                     userId,
                     commentId,
+                    userName,
+                    userImage,
                     status: 'yes'
                 }
             })
@@ -37,6 +39,8 @@ export async function POST(request:Request) {
                     data: {
                         userId,
                         commentId,
+                        userName,
+                        userImage,
                         status: 'yes'
                     }
                 })

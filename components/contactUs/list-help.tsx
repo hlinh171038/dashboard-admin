@@ -61,8 +61,8 @@ const ListHelp = () =>{
                             {item.icon}
                         </div>
                         <div className="col-span-2 flex flex-col gap-0.5  justify-start items-start text-start">
-                            <div className="text-md capitalize">{item.title}</div>
-                            <div className="text-[14px] text-thin text-neutral-400">{item.content}</div>
+                            <div className="text-[14px] capitalize">{item.title}</div>
+                            <div className="text-[13px] text-thin text-neutral-400">{item.content}</div>
                         </div>
                     </button>
                 )

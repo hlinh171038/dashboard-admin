@@ -27,7 +27,7 @@ export async function POST(request:Request) {
         person,
         discountId
     } = body
-    console.log(userId)
+    
   
     const product = await prisma.product.create({
         data:{

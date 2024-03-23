@@ -162,13 +162,19 @@ model Heart {
   id String @default(cuid()) @id
   commentId String
   userId String
+  userImage String?
+  userName String?
   status String?
+  createdAt DateTime @default(now())
   comment Comment @relation(fields: [commentId],references: [id],onDelete: Cascade)
 }
 model HeartReply {
   id String @default(cuid()) @id
   rellyId String
   userId String
+  userImage String?
+  userName String?
+  createdAt DateTime @default(now())
   status String?
   relly Relly @relation(fields: [rellyId],references: [id],onDelete: Cascade)
 }

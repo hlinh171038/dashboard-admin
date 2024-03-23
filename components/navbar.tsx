@@ -4,20 +4,18 @@ import { useCallback, useEffect, useState } from "react"
 
 import useLoginModal from "../app/hooks/useLoginModal"
 
-import Button from "./button"
+
 import useRegister from "@/app/hooks/useRegisterModal"
 import { Mail, User } from "@prisma/client"
 import { signOut } from "next-auth/react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { MdKeyboardArrowUp } from "react-icons/md";
+
 import { MdOutlineMail } from "react-icons/md";
 import { AiFillBell } from "react-icons/ai";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineComment } from "react-icons/md";
 
 import { HiOutlineBars3 } from "react-icons/hi2";
-import clsx from "clsx"
+
 import useSidebar from "@/app/hooks/useSidebar"
 import { cn } from "@/lib/utils"
 import {
@@ -27,6 +25,7 @@ import {
   } from "@/components/ui/popover"
 import MailContent from "./navbar/mail"
 import { LuMailWarning } from "react-icons/lu";
+import CommentContent from "./navbar/comment-content"
 
 
 interface NavProps {
@@ -35,6 +34,7 @@ interface NavProps {
     email: string | undefined | null;
     mail: Mail[] | any;
     user: User[] | any;
+    comment: Comment[] | any;
 }   
 
 const Navbar:React.FC<NavProps>= ({
@@ -42,7 +42,8 @@ const Navbar:React.FC<NavProps>= ({
     img,
     email,
     mail =[],
-    user = []
+    user = [],
+    comment = [],
 }) => {
 
     const loginModal = useLoginModal()
@@ -52,6 +53,9 @@ const Navbar:React.FC<NavProps>= ({
     const [hover,setHover] = useState(false)
     const [showMail,setShowMail] = useState<any>(null)
     const [sticky,setSticky] = useState(false)
+    const [arrComment,setArrComment] = useState<any>([])
+    const [arrHeart,setArrHeart] = useState<any>([])
+    const [arrRelly,setArrRelly] = useState<any>([])
 
 
    
@@ -78,7 +82,7 @@ const Navbar:React.FC<NavProps>= ({
             }
         })
     },[email,user])
-    console.log(showMail)
+    console.log(showMail) // curentuser id,email,name,comment
     // sticky when scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -88,8 +92,6 @@ const Navbar:React.FC<NavProps>= ({
           if(!navbar){
             return null;
           }
-          console.log(scrollTop)
-          console.log(navbar.offsetHeight)
           setSticky(scrollTop > navbar.offsetHeight);
         };
     
@@ -97,6 +99,49 @@ const Navbar:React.FC<NavProps>= ({
     
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
+
+      // take comment
+      // have showmail (curentuser id,email,name,comment)
+      useEffect(()=>{
+        const result:any[] = []
+        comment && comment.map((item:any)=>{
+            const id = showMail && showMail.id
+            if(item.userId === id){
+                result.push(item)
+            }
+        })
+        setArrComment(result)
+      },[comment,showMail])
+      console.log(arrComment); // comment correpond with current user
+
+
+      // show reply and heart
+      useEffect(()=>{
+        const result:any[] = []
+        arrComment && arrComment.forEach((item:any)=>{
+            if(item.heart.length >0) {
+                console.log('try1')
+                item.heart.forEach((it:any)=>{
+                    console.log('try2')
+                    result.push(it)
+                })
+            }
+        });
+       setArrHeart(result)
+      },[arrComment])
+      //console.log(arrHeart)
+      useEffect(()=>{
+        const result:any[] = []
+        arrComment && arrComment.forEach((item:any)=>{
+            if(item.relly.length >0){
+                item.relly.forEach((it:any)=>{
+                    result.push(it)
+                })
+            }
+        });
+        setArrRelly(result)
+      },[arrComment])
+      console.log(arrRelly)
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >
@@ -139,7 +184,23 @@ const Navbar:React.FC<NavProps>= ({
                         </Popover>
                     </div>
                     <AiFillBell className="w-5 h-5 text-white" />
-                    <MdOutlineComment className="w-5 h-5 text-white" />
+                    <div className="relative">
+                        <Popover>
+                            <PopoverTrigger>
+                                <MdOutlineComment className="w-5 h-5 text-white" />
+                                {arrHeart && arrHeart.length >0 && (
+                                    <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
+                                )}
+                            </PopoverTrigger>
+                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] ">
+                                <CommentContent
+                                    arrHeart = {arrHeart}
+                                    arrRelly = {arrRelly}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                    
                 </div>
                 
             </div>

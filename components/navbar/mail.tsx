@@ -12,6 +12,7 @@ import { LuMailWarning } from "react-icons/lu"
 
 
 
+
 interface MailContentProps {
     mail: any;
    

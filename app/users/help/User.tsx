@@ -4,13 +4,16 @@ import Contact from "@/components/contactUs/contact"
 import Footer from "@/components/contactUs/footer"
 import ListHelp from "@/components/contactUs/list-help"
 import Mail from "@/components/contactUs/mail"
+import { User } from "@prisma/client"
 
 interface UserProps {
-    currentUser: any
+    currentUser: any;
+    user: User[] | any
 }
 
 const User:React.FC<UserProps> = ({
-    currentUser
+    currentUser,
+    user =[]
 }) =>{
     return (
         <div
@@ -24,7 +27,9 @@ const User:React.FC<UserProps> = ({
                         
                     />
                     <Contact
-                    currentUser = {currentUser}/>
+                        currentUser = {currentUser}
+                        user = {user}
+                    />
                 </div>
                 <div className="col-span-2 bg-slate-600 rounded-md text-neutral-100 text-[15px] px-2 py-4">
                     <div className="text-md capitalize my-2">How Can We help?</div>

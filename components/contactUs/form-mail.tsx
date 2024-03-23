@@ -5,25 +5,36 @@ import emailjs from '@emailjs/browser';
 import { Toaster, toast } from 'sonner';
 import { FaRegSquare } from 'react-icons/fa';
 import { FaRegSquareCheck } from 'react-icons/fa6';
+import axios from 'axios';
+import { User } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 
 interface ContactUsProps {
     //currentUser: any
     email:string;
-    name:string
+    name:string;
+    user:User[] | any;
+    currentUser: any
 }
 
 export const FormMail:React.FC<ContactUsProps> = ({
     //currentUser
     email,
-    name
+    name,
+    user = [],
+    currentUser
 }) => {
   const form:any = useRef();
   const [statusName,setStatusName] = useState(false)
-  const [textName,setTextName] = useState('')
+  const [textName,setTextName] = useState(currentUser ?currentUser?.user.name : '')
   const [statusEmail,setStatusEmail] = useState(false)
-  const [textEmail,setTextEmail] = useState('')
+  const [textEmail,setTextEmail] = useState(currentUser ?currentUser?.user.email : '')
   const [check,setCheck] = useState(false)
   const [textMessage,setTextMessage] = useState('')
+  const [isLoading,setIsLoading] = useState(false)
+  const [userId,setUserId] = useState<any>(null)
+
+  const router = useRouter()
 
  // handle check
  const handleCheck = useCallback(()=>{
@@ -36,7 +47,25 @@ export const FormMail:React.FC<ContactUsProps> = ({
         toast.warning('Do you argree to send direct to lead team ?')
         return;
     }
-   
+    axios.post('/api/add-new-email',{
+      userId: userId.id,
+      mailSend:textEmail,
+      mailRecive:'hoanglinh@gmail.com',
+      userName: textName,
+      userImage: currentUser? currentUser?.user.image : null ,
+      content: textName,
+      seen: false,
+    })
+    .then((res:any)=>{
+        toast.success(`sended to team lead`)
+      router.refresh();
+    })
+    .catch((err:any)=>{
+     toast.error('Something went wrong !!!')
+    })
+    .finally(()=>{
+        setIsLoading(false)
+    })
 
     emailjs
       .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {
@@ -66,7 +95,14 @@ export const FormMail:React.FC<ContactUsProps> = ({
     setStatusEmail(result2)
   },[name,email])
 
-  console.log(textName)
+  useEffect(()=>{
+    user && user.forEach((item:any)=>{
+        if(item.email === 'hoanglinh@gmail.com') {
+          setUserId(item)
+        }
+    })
+  },[currentUser?.user.email,user])
+  console.log(userId)
   return (
     <div className='text-[15px] text-neutral-100 px-2 py-4 rounded-md'>
         

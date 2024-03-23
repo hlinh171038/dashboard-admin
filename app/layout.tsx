@@ -17,6 +17,7 @@ import { Toaster } from 'react-hot-toast'
 import CategoryModal from './modals/category-modal'
 import { getAllMail } from './actions/getAllMail'
 import { getAllUser2 } from './actions/getAllUser2'
+import { getAllComment } from './actions/getAllComment'
 
 
 
@@ -38,6 +39,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
   const mail = await getAllMail()
   const user = await getAllUser2()
+  const comment = await getAllComment()
   
   
 
@@ -64,6 +66,7 @@ export default async function RootLayout({
                 email = {session?.user?.email}
                 mail = {mail}
                 user = {user}
+                comment = {comment}
                 />
                 {/* <div className='h-[13vh] w-full'></div> */}
               {children}

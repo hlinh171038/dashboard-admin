@@ -18,9 +18,9 @@ const Footer = () =>{
                      sidebar.isOpen ? "w-[75%]": "w-full"
             )}>
                 <div>Linh Thai</div>
-                <div className="flex items-center justify-start gap-2">
+                <div className="flex items-center justify-start ">
                     <BsCCircleFill className="w-4 h-4 "/>
-                    <p>Right belong to Linh Thai</p>
+                    <p>opyright belong to Linh Thai</p>
                 </div>
             </div>
         </div>

@@ -7,13 +7,16 @@ import { FaRegSquareCheck } from "react-icons/fa6";
 import { ImCheckboxUnchecked } from "react-icons/im";
 import { FaRegSquare } from "react-icons/fa6";
 import { useCallback, useEffect, useState } from "react";
+import { User } from "@prisma/client";
 
 interface ContactProps {
-    currentUser: any
+    currentUser: any;
+    user : User[] | any
 }
 
 const Contact:React.FC<ContactProps> =({
-    currentUser
+    currentUser,
+    user =[]
 }) =>{
     const [currentCheck,setCurrentCehck] = useState(false)
     const [otherCheck,setOtherCheck] = useState(false)
@@ -103,6 +106,8 @@ const Contact:React.FC<ContactProps> =({
              <FormMail 
                 email={data.email}
                 name ={data.name}
+                currentUser ={currentUser}
+                user ={user}
              />
             </div>
         </div>

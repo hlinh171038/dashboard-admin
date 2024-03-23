@@ -136,6 +136,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         }
         
     },[id,textUpdate,router,content,isHeart])
+    console.log(currentUserId)
    
     //handle update heart
     const handleCreateHeart = useCallback((id:string)=>{
@@ -143,12 +144,14 @@ const CommentItem:React.FC<CommentItemProps> = ({
         setIsLoading(true)
             axios.post('/api/create-heart',{
                 userId:currentUserId?.id,
+                userName:currentUserId?.name,
+                userImage:currentUserId?.image,
                 commentId:id,
             })
             .then((res:any)=>{
                 console.log(res.data)
-                toast.success("success");
                 router.refresh();
+                toast.success("success");
             })
             .catch((error:any)=>{
                 toast.error('Some thing went wrong')
