@@ -6,7 +6,7 @@ import LoginModals from './modals/login-modals'
 import Navbar from '../components/navbar'
 import RegisterModal from './modals/register-modals'
 
-import { authOptions } from './api/auth/[...nextauth]/route'
+// import { authOptions } from './api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import Sidebar from '@/components/sidebar'
 import useSidebar from './hooks/useSidebar'
@@ -18,6 +18,7 @@ import CategoryModal from './modals/category-modal'
 import { getAllMail } from './actions/getAllMail'
 import { getAllUser2 } from './actions/getAllUser2'
 import { getAllComment } from './actions/getAllComment'
+import authOptions from './api/auth/[...nextauth]/options'
 
 
 

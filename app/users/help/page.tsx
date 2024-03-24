@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth"
 import User from "./User"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getAllUser2 } from "@/app/actions/getAllUser2"
+import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const page = async() =>{
 

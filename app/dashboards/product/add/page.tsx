@@ -1,10 +1,11 @@
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import AddNewProduct from "./AddProduct"
 import { getServerSession } from "next-auth"
 import { getuserById } from "@/app/actions/getUserById"
 import { getUserByEmail } from "@/app/actions/getUserByEmail"
 import { getAllDiscount } from "@/app/actions/getAllDiscount"
+import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const Product = async() =>{
 

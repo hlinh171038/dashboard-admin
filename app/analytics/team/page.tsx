@@ -2,10 +2,11 @@ import { getAllUser2 } from "@/app/actions/getAllUser2"
 import Team from "./Team"
 import { getAlluser } from "@/app/actions/getAllUser"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { getAllComment } from "@/app/actions/getAllComment"
 import { getAllReply } from "@/app/actions/getAllReply"
 import { getAllHeartRelly } from "@/app/actions/getAllHeartReply"
+import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const page = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     

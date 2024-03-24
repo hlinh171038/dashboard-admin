@@ -1,7 +1,7 @@
 import { getProductById } from "@/app/actions/getProductById"
 import ProductDetail from "./ProductDetail"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Try from "./Try"
 import { getAllDiscount2 } from "@/app/actions/getAllDiscount2"
 

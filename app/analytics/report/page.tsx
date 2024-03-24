@@ -4,7 +4,7 @@ import { getAllProduct2 } from "@/app/actions/getAllProduct2"
 
 import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const page = async() =>{
 
