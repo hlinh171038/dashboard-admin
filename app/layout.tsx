@@ -18,7 +18,7 @@ import CategoryModal from './modals/category-modal'
 import { getAllMail } from './actions/getAllMail'
 import { getAllUser2 } from './actions/getAllUser2'
 import { getAllComment } from './actions/getAllComment'
-import authOptions from './api/auth/[...nextauth]/options'
+import { authOptions } from './api/auth/[...nextauth]/options'
 
 
 

@@ -6,7 +6,8 @@ import { getServerSession } from "next-auth"
 import { getAllComment } from "@/app/actions/getAllComment"
 import { getAllReply } from "@/app/actions/getAllReply"
 import { getAllHeartRelly } from "@/app/actions/getAllHeartReply"
-import authOptions from "@/app/api/auth/[...nextauth]/options"
+import { authOptions } from "@/app/api/auth/[...nextauth]/options"
+//import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const page = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     

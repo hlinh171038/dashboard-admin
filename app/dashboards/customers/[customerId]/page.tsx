@@ -1,8 +1,9 @@
 import { getuserById } from "@/app/actions/getUserById"
 import DetailCustomer from "./CustomerDetail";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+//import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getAllUser2 } from "@/app/actions/getAllUser2";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
 interface Iparams {
     customerId: string;
