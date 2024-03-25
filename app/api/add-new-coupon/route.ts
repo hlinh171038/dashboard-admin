@@ -15,7 +15,7 @@ export async function POST(request: Request) {
             code,
             description
         } = body;
-        console.log(title)
+       
         const convert = Number(percent);
         const convertCount = Number(count);
         const coupon = await prisma.discount.create({

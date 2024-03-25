@@ -39,7 +39,7 @@ export async function POST(request:Request) {
 
 
     if(!idconfirm) {
-        return null
+        return NextResponse.json({error:"Id not found."},{status:500})
     }
     const updateUser = await prisma.user.update({
         where: {
@@ -63,5 +63,4 @@ export async function POST(request:Request) {
         return NextResponse.json({error:"internal Server Errors"},{status:500})
     }
 
-    return NextResponse.json('linh')
 }

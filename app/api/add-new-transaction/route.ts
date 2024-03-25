@@ -16,8 +16,6 @@ export async function POST(request: Request) {
             bank
         } = body;
 
-        console.log(userId)
-        console.log(status)
         const transaction = await prisma.transaction.create({
             data: {
                 userId,

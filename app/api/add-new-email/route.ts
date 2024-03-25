@@ -13,9 +13,6 @@ export async function POST(request:Request) {
             content,
             seen,
         } = body;
-        console.log(userId);
-        console.log(mailSend);
-        console.log(mailRecive);
 
         const email = await prisma.mail.create({
             data: {
