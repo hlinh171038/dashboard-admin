@@ -2,7 +2,7 @@ import GithubProvider from "next-auth/providers/github"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from '@/lib/prisma'
-import { AuthOptions } from "next-auth"
+import nextAuth, { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import bcrypt from 'bcrypt'
 
@@ -67,6 +67,6 @@ import bcrypt from 'bcrypt'
       
 })
 
-// const handler = NextAuth(authOptions)
+// const handler = nextAuth(authOptions)
 // export {handler as GET , handler as POST}
 export default authOptions;
