@@ -36,7 +36,7 @@ const Customer:React.FC<Cusromerprops> = ({
    useEffect(()=>{
     router.push(`/dashboards/customers/?search=${search}&page=1&per_page=10`)
 
-   },[])
+   },[router,search])
     return (
         <div className="w-full h-[85.5vh] px-2">
             <div className="relative bg-slate-600  rounded-md h-full ">

@@ -16,7 +16,7 @@ export async function POST(request:Request) {
         console.log(idConfirm)
 
         if(!idConfirm){
-            return null
+            return NextResponse.json({error:"Id not found"},{status: 500})
         }
 
         const userDelete = await prisma.user.delete({

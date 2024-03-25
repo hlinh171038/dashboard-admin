@@ -219,10 +219,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
 
       //handle add transaction
       const handleAddTransaction = (transaction:any,value:string) =>{
-        console.log(transaction)
-          console.log(value)
+       
           const index = transaction.find((val:string)=>val === value)
-            console.log(index)
+  
           if(index) {
             const newTra = transaction.splice(index,1)
             setCustomerValue('transaction',transaction);
@@ -239,7 +238,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
           setCustomerValue('salePrice',price)
         }
-      },[defaultPrice,margin])
+      },[defaultPrice,margin,setCustomerValue])
 
       //handle add checkbox
       const handleCheckbox = (check:any,value:any) =>{

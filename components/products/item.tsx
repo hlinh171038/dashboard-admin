@@ -76,7 +76,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
        } else {
             setResult('other')
        }
-    },[])
+    },[location])
     
     return (
        <tr>
