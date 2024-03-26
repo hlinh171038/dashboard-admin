@@ -122,7 +122,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
 
         console.log(empty);
         setChosen(empty)
-    },[detailId,discount])
+    },[discount])
     
     return (
         <div className="w-full">
