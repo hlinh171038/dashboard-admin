@@ -6,7 +6,7 @@ import useLoginModal from "../app/hooks/useLoginModal"
 
 
 import useRegister from "@/app/hooks/useRegisterModal"
-import { Mail, User } from "@prisma/client"
+import { Mail, Notify, Relly, User } from "@prisma/client"
 import { signOut } from "next-auth/react"
 
 import { MdOutlineMail } from "react-icons/md";
@@ -35,6 +35,8 @@ interface NavProps {
     mail: Mail[] | any;
     user: User[] | any;
     comment: Comment[] | any;
+    relly : Relly[] | any;
+    notify: Notify[] | any;
 }   
 
 const Navbar:React.FC<NavProps>= ({
@@ -44,6 +46,8 @@ const Navbar:React.FC<NavProps>= ({
     mail =[],
     user = [],
     comment = [],
+    relly = [],
+    notify = []
 }) => {
 
     const loginModal = useLoginModal()
@@ -56,6 +60,7 @@ const Navbar:React.FC<NavProps>= ({
     const [arrComment,setArrComment] = useState<any>([])
     const [arrHeart,setArrHeart] = useState<any>([])
     const [arrRelly,setArrRelly] = useState<any>([])
+    const [arrRellyHeart,setArrRellyHeart] = useState<any>([])
 
 
    
@@ -115,33 +120,48 @@ const Navbar:React.FC<NavProps>= ({
       console.log(arrComment); // comment correpond with current user
 
 
-      // show reply and heart
-      useEffect(()=>{
-        const result:any[] = []
-        arrComment && arrComment.forEach((item:any)=>{
-            if(item.heart.length >0) {
-                console.log('try1')
-                item.heart.forEach((it:any)=>{
-                    console.log('try2')
-                    result.push(it)
-                })
-            }
-        });
-       setArrHeart(result)
-      },[arrComment])
-      //console.log(arrHeart)
-      useEffect(()=>{
-        const result:any[] = []
-        arrComment && arrComment.forEach((item:any)=>{
-            if(item.relly.length >0){
-                item.relly.forEach((it:any)=>{
-                    result.push(it)
-                })
-            }
-        });
-        setArrRelly(result)
-      },[arrComment])
-      console.log(arrRelly)
+    //   // show  heart
+    //   useEffect(()=>{
+    //     const result:any[] = []
+    //     arrComment && arrComment.forEach((item:any)=>{
+    //         if(item.heart.length >0) {
+    //             console.log('try1')
+    //             item.heart.forEach((it:any)=>{
+    //                 let addType = {...it,type:'heart'}
+    //                 result.push(addType)
+    //             })
+    //         }
+    //     });
+    //    setArrHeart(result)
+    //   },[arrComment])
+    //   //show reply 
+    //   useEffect(()=>{
+    //     const result:any[] = []
+    //     arrComment && arrComment.forEach((item:any)=>{
+    //         if(item.relly.length >0){
+    //             item.relly.forEach((it:any)=>{
+    //                 let addType = {...it,type:'relly'}
+    //                 result.push(addType)
+    //             })
+    //         }
+    //     });
+    //     setArrRelly(result)
+    //   },[arrComment])
+    //   console.log(arrRelly)
+
+    //   // show heartReply
+    //   useEffect(()=>{
+    //     console.log(relly)
+    //     const result:any[] = []
+    //    const currentId = user.filter((item:any)=> item.email === email);
+    //     relly.forEach((item:any)=>{
+    //         if(item.userId === currentId[0].id ) {
+    //             let addType = {...item,type:'heartRelly'}
+    //             result.push(addType)
+    //         }
+    //     })
+    //     setArrRellyHeart(result)
+    //   },[arrComment,email,relly,user])
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >
@@ -167,7 +187,7 @@ const Navbar:React.FC<NavProps>= ({
                 </div>
                 
                 <div className="col-span-3 flex items-center justify-end gap-4">
-                    <div className="relative">
+                    <div className="relative mt-2">
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineMail className="w-5 h-5 text-white" />
@@ -175,7 +195,7 @@ const Navbar:React.FC<NavProps>= ({
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>
-                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] ">
+                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
                                 <MailContent 
                                     mail ={showMail}
                                     
@@ -184,18 +204,20 @@ const Navbar:React.FC<NavProps>= ({
                         </Popover>
                     </div>
                     <AiFillBell className="w-5 h-5 text-white" />
-                    <div className="relative">
+                    <div className="relative mt-2">
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineComment className="w-5 h-5 text-white" />
-                                {arrHeart && arrHeart.length >0 && (
+                                {notify && notify.length >0 && (
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>
-                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] ">
+                            <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
                                 <CommentContent
-                                    arrHeart = {arrHeart}
-                                    arrRelly = {arrRelly}
+                                    // arrHeart = {arrHeart}
+                                    // arrRelly = {arrRelly}
+                                    // arrRellyHeart = {arrRellyHeart}
+                                    notify = {notify}
                                 />
                             </PopoverContent>
                         </Popover>

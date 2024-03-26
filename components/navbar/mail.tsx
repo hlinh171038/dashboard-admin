@@ -45,7 +45,7 @@ const MailContent:React.FC<MailContentProps> = ({
     if(mail.mail.length <=0) {
         return (
             <div>
-                <div className="flex items-center justify-center gap-2 text-[14px] ">
+                <div className="flex items-center justify-center gap-2 text-[14px] py-4">
                     <LuMailWarning/>
                     <div>No Eamil</div>
                 </div>

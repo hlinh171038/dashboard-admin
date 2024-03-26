@@ -50,6 +50,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
     const [heartObj,setHeartObj] = useState<any>(null)
     const [currentUserId,setCurrentUserId] = useState<any>(null)
     const [showHeart,setShowHeart] = useState<any>(null)
+    const [numberic,setNumberic] = useState(0)
     const router = useRouter()
      //handle delete
      const handleDelete = useCallback((id:string)=>{
@@ -119,6 +120,24 @@ const ItemReply:React.FC<ItemReplyProps> = ({
                 setIsLoading(false)
             })
         
+            axios.post('/api/create-notify',{
+                userId: currentUserId?.id,
+                userName:currentUserId?.name,
+                userImage:currentUserId?.image,
+                commentId: id,
+                mark: false,
+                type:'heartRelly'
+            })
+            .then((res:any)=>{
+            
+                router.refresh();
+            })
+            .catch((error:any)=>{
+             
+            })
+            .finally(()=>{
+                setIsLoading(false)
+            })
         
     },[router,currentUserId])
 
@@ -154,8 +173,12 @@ const ItemReply:React.FC<ItemReplyProps> = ({
             }
         })
       },[id,heartRelly])
-      console.log(id)
-      console.log(showHeart)
+   
+      //reply heart
+      useEffect(()=>{
+        let result = heartRelly.filter((item:any)=>item.rellyId === id);
+        setNumberic(result.length)
+      },[heartRelly,id])
     return (
         <div className="mt-1">
             <div className="flex items-center justify-between">
@@ -228,7 +251,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
                                     ):(
                                         <FaRegHeart className="w-3 h-3 " onClick={()=>handleCreateHeart(id)}/>
                                     )}
-                                     <span>{heartRelly.length}</span>
+                                     <span>{numberic}</span>
                                 </div>
                                 <div className="text-[13px] cursor-pointer underline">
                                     Reply

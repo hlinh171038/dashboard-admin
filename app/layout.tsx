@@ -19,6 +19,8 @@ import { getAllMail } from './actions/getAllMail'
 import { getAllUser2 } from './actions/getAllUser2'
 import { getAllComment } from './actions/getAllComment'
 import { authOptions } from './api/auth/[...nextauth]/options'
+import { getAllReply } from './actions/getAllReply'
+import { getAllNotify } from './actions/getAllNotify'
 
 
 
@@ -41,6 +43,8 @@ export default async function RootLayout({
   const mail = await getAllMail()
   const user = await getAllUser2()
   const comment = await getAllComment()
+  const relly = await getAllReply()
+  const notify = await getAllNotify()
   
   
 
@@ -68,6 +72,8 @@ export default async function RootLayout({
                 mail = {mail}
                 user = {user}
                 comment = {comment}
+                relly = {relly}
+                notify ={notify}
                 />
                 {/* <div className='h-[13vh] w-full'></div> */}
               {children}

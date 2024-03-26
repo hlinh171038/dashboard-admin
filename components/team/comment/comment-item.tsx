@@ -71,7 +71,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         setIsLoading(true)
 
         axios.post('/api/add-new-item',{
-           content:'text',
+           content:text,
            userId:currentUserId?.id,
            userImage: currentUser.user.image,
            userName: currentUser.user.name,
@@ -88,6 +88,26 @@ const CommentItem:React.FC<CommentItemProps> = ({
         .finally(()=>{
             setIsLoading(false)
         })
+
+        axios.post('/api/create-notify',{
+            userId: currentUserId?.id,
+                userName:currentUserId?.name,
+                userImage:currentUserId?.image,
+                commentId: id,
+                mark: false,
+                type:'relly'
+           
+         })
+         .then((res:any)=>{
+             
+             router.refresh()
+         })
+         .catch((error:any)=>{
+           
+         })
+         .finally(()=>{
+             setIsLoading(false)
+         })
         
     }
     //handle delete
@@ -104,6 +124,8 @@ const CommentItem:React.FC<CommentItemProps> = ({
         .finally(()=>{
             setIsLoading(false)
         })
+
+       
     },[router])
 
     //handle update
@@ -159,7 +181,25 @@ const CommentItem:React.FC<CommentItemProps> = ({
             .finally(()=>{
                 setIsLoading(false)
             })
-        
+            
+            axios.post('/api/create-notify',{
+                userId: currentUserId?.id,
+                userName:currentUserId?.name,
+                userImage:currentUserId?.image,
+                commentId: id,
+                mark: false,
+                type:'heart'
+            }).then((res:any)=>{
+                console.log(res.data)
+                router.refresh();
+                
+            })
+            .catch((error:any)=>{
+               
+            })
+            .finally(()=>{
+                setIsLoading(false)
+            })
         
     },[router,currentUserId])
 
@@ -275,16 +315,19 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                             </span>
                                         </PopoverTrigger>
                                         <PopoverContent
-                                            side="bottom"
-                                            className="mr-2 min-w-[30rem] rounded-r-md shadow-md"
+                                            side="right"
+                                            className=" min-w-[30rem] w-full rounded-md shadow-md px-2 py-2 text-[14px] mt-4"
                                         >
-                                            <input 
-                                                type="text" 
-                                                className="w-full px-2 py-1 rounded-md  "
-                                                value = {text}
-                                                onChange={(e)=>setText(e.target.value)}
-                                            />
-                                            <input type="submit" value="reply" onClick={handleSubmit} />
+                                            <label htmlFor="">
+                                                <span>Reply</span>
+                                                <input 
+                                                    type="text" 
+                                                    className="w-full px-2 py-1 rounded-md border border-slate-500 "
+                                                    value = {text}
+                                                    onChange={(e)=>setText(e.target.value)}
+                                                />
+                                            </label>
+                                            <input type="submit" value="Reply" onClick={handleSubmit} className="bg-slate-900 px-2 py-2 flex items-center justify-center w-full text-neutral-100 rounded-md mt-2" />
                                         </PopoverContent>
                                     </Popover>
                                     <span>{openReply ? (

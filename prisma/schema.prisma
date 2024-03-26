@@ -178,3 +178,15 @@ model HeartReply {
   status String?
   relly Relly @relation(fields: [rellyId],references: [id],onDelete: Cascade)
 }
+
+model Notify {
+  id String @default(cuid()) @id
+  userId String
+  commentId String
+  userName String?
+  userImage String?
+  date String?
+  createdAt DateTime @default(now())
+  mark Boolean?
+  type String?
+}
