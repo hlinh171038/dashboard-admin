@@ -44,7 +44,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
     const [rewards,setRewards] = useState<any>([])
     const [ship,setShip] = useState<any>([])
     const [chosen,setChosen] = useState<any>([])
-    console.log(discount)
+    
 
     //handle delete
     const handleDeleteItem = useCallback((id:string)=>{
@@ -55,7 +55,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
 
     //handle command
     const handleCommand =(item:any)=>{
-        console.log(item)
+        
         setTitle(item.title)
         // let array = chosen
        const check = chosen.find((it:any)=>it.id === item.id)
@@ -65,7 +65,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
        }
         const array = [...chosen,item];
       
-        console.log(array)
+       
        
      setChosen(array)
      handleAddDiscountId(item.id)
@@ -77,7 +77,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         const result = discount && discount.filter((item:any)=>{
             return item.type === 'coupon'
         });
-        console.log(result);
+       
         setCoupon(result)
     },[discount])
 
@@ -86,7 +86,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         const result = discount && discount.filter((item:any)=>{
             return item.type === 'voucher'
         });
-        console.log(result);
+      
         setVoucher(result)
     },[discount])
 
@@ -95,7 +95,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         const result = discount && discount.filter((item:any)=>{
             return item.type === 'rewards'
         });
-        console.log(result);
+       
         setRewards(result)
     },[discount])
    
@@ -105,7 +105,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
         const result = discount && discount.filter((item:any)=>{
             return item.type === 'ship'
         });
-        console.log(result);
+      
         setShip(result)
     },[discount])
 
@@ -120,7 +120,6 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
             })
         });
 
-        console.log(empty);
         setChosen(empty)
     },[discount])
     

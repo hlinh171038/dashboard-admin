@@ -144,7 +144,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const userId = watch('userId')
       const discountId = watch('discountId')
 
-  console.log(discountId)
+
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
@@ -179,17 +179,17 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
 
       //handle delete discount
       const handleDeleteDiscount = useCallback((id:string)=>{
-        console.log(id)
+      
         const array = [...discountId]
-        console.log(array)
+       
         const result = array.filter((item) =>item !== id);
-        console.log(result)
+        
         setCustomerValue('discountId',result)
       },[discountId,setCustomerValue])
 
       //handle open categories
       const handleOpenCategory = useCallback(() =>{
-        console.log(modal.isOpen)
+        //console.log(modal.isOpen)
         modal.onOpen()
       },[modal])
 
@@ -205,7 +205,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           return
         }
         tag.push(item)
-        console.log(tag)
+        //console.log(tag)
         setCustomerValue('tag',tag)
         setCate('')
       }
@@ -244,8 +244,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const handleCheckbox = (check:any,value:any) =>{
         
        
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+        //console.log(index)
+        if(index!== -1){
           const deleteColor = check.splice(index,1);
          setCustomerValue('color',check);
          return;
@@ -256,8 +257,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       }
       //handleCheckSize
       const handleCheckSize = (check:any,value:any)=>{
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+        if(index!== -1){
            check.splice(index,1);
          setCustomerValue('size',check);
          return;
@@ -268,8 +269,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       }
       //handle check person
       const handleCheckPerson = (check:any,value:any)=>{
-        const index = check.find((val:string)=>val === value)
-        if(index){
+        const index = check.findIndex((val:string)=>val === value)
+        if(index!== -1){
            check.splice(index,1);
          setCustomerValue('person',check);
          return;
