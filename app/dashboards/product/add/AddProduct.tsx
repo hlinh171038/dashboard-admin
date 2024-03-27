@@ -42,7 +42,6 @@ type formData = {
   location: string,
   description: string,
   defaultPrice: number,
-  margin: number,
   tax: number,
   transaction: string[],
   salePrice: number,
@@ -80,7 +79,6 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
-      margin: z.coerce.number().lte(100).gte(1),
       tax: z.coerce.number().lte(100).gte(1),
       transaction: z.array(z.string()).nonempty(),
       salePrice: z.coerce.number().lte(100000000).gte(1),
@@ -495,47 +493,50 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                   />
                    {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
                 </div>
-            {/* tax */}
-                <div className="relative">
-                  <InputNumber
-                    id= "tax"
-                    title="Tax"
-                    placeholder="tax"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    unit="%"
-                  />
-                  {errors.tax && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
-                </div>
-            {/* discount */}
-              <div className="relative">
-                <InputNumber 
-                    id= "margin"
-                    title="Discount"
-                    placeholder="discount"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    unit='%'
-                  />
-                  {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
-              </div>
-              {/* price sale */}
-              <div className="relative">
-                <InputNumber 
-                    id= "salePrice"
-                    title="Sale's Price"
-                    placeholder="sale of price"
-                    type="number"
-                    value={salePrice}
-                    register={register}
-                    errors={errors}
-                    unit={unit ? unit:'vnd'}
-                  />
-                  {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
-              </div>
+                
             </div>
+            <div className="col-span-3 grid grid-cols-2 gap-2">
+                    {/* tax */}
+                  <div className="relative col-span-1">
+                    <InputNumber
+                      id= "tax"
+                      title="Tax"
+                      placeholder="tax"
+                      type="number"
+                      register={register}
+                      errors={errors}
+                      unit="%"
+                    />
+                    {errors.tax && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
+                  </div>
+              {/* discount */}
+                {/* <div className="relative">
+                  <InputNumber 
+                      id= "margin"
+                      title="Discount"
+                      placeholder="discount"
+                      type="number"
+                      register={register}
+                      errors={errors}
+                      unit='%'
+                    />
+                    {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
+                </div> */}
+                {/* price sale */}
+                <div className="relative col-span-1">
+                  <InputNumber 
+                      id= "salePrice"
+                      title="Sale's Price"
+                      placeholder="sale of price"
+                      type="number"
+                      //value={salePrice}
+                      register={register}
+                      errors={errors}
+                      unit={unit ? unit:'vnd'}
+                    />
+                    {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
+                </div>
+                </div>
             <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
               <div className="col-span-1  ">
                 <div className="text-neutral-100 text-[15px] mt-1">Coupon & voucher</div>

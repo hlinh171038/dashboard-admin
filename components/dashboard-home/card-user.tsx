@@ -57,7 +57,7 @@ const CardUser:React.FC<CardUserProps> = ({
                                     <span className="text-[13px]">{percent * -1 + '%'}</span>
                                 </div>
                             ):(
-                                <div className="flex items-center justify-start gap-0.5">
+                                <div className="flex items-center justify-start gap-0.5 ">
                                     <PiArrowFatLinesUpFill className="w-3 h-4 text-green-600" />
                                     <span className="text-[13px]">{percent + '%'}</span>
                                 </div>

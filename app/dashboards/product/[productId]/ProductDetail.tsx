@@ -39,7 +39,7 @@ type formData = {
     location: string,
     description: string,
     defaultPrice: number,
-    margin: number,
+    //margin: number,
     tax: number,
     transaction: string[],
     salePrice: number,
@@ -77,7 +77,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
-      margin: z.coerce.number().lte(100).gte(1),
+      //margin: z.coerce.number().lte(100).gte(1),
       tax: z.coerce.number().lte(100).gte(1),
       transaction: z.array(z.string()).nonempty(),
       salePrice: z.coerce.number().lte(100000000).gte(1),
@@ -113,7 +113,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           unit: product.unit,
           transaction: product.transportation,
           defaultPrice: product.defaultPrice,
-          margin: product.margin,
+          //margin: product.margin,
           tax: product.tax,
           salePrice: product.salePrice,
           color: product.color,
@@ -138,7 +138,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       const userId = watch('userId')
       const discountId = watch('discountId')
 
-      console.log(tag)
+      console.log(salePrice)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {  
         console.log(data)
         console.log('try1')
@@ -197,13 +197,13 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       }
       // auto updated price
     
-      useEffect(()=>{
+      // useEffect(()=>{
         
-        if(defaultPrice !== 0 && margin !==0){
-          const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
-          setCustomerValue('salePrice',price)
-        }
-      },[defaultPrice,margin,setCustomerValue])
+      //   if(defaultPrice !== 0 && margin !==0){
+      //     const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
+      //     setCustomerValue('salePrice',price)
+      //   }
+      // },[defaultPrice,margin,setCustomerValue])
 
    
       const handleCheckbox = (check:any,value:any) =>{
@@ -490,8 +490,11 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   />
                    {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
                 </div>
-            {/* tax */}
-                <div className="relative">
+            
+            </div>
+            <div className="col-span-3 grid-cols-2 gap-2 ">
+                {/* tax */}
+                <div className="relative col-span-1">
                   <InputNumber
                     id= "tax"
                     title="Tax"
@@ -503,27 +506,15 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   />
                   {errors.tax && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
                 </div>
-            {/* discount */}
-              <div className="relative">
-                <InputNumber 
-                    id= "margin"
-                    title="Discount"
-                    placeholder="discount"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    unit='%'
-                  />
-                  {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
-              </div>
+      
               {/* price sale */}
-              <div className="relative">
+              <div className="relative col-span-1">
                 <InputNumber
                     id= "salePrice"
                     title="Sale's Price"
                     placeholder="sale of price"
                     type="number"
-                    value={salePrice}
+                    //value={salePrice}
                     register={register}
                     errors={errors}
                     unit={unit ? unit:'vnd'}
@@ -531,60 +522,6 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
               </div>
             </div>
-            {/* <div className="col-span-3 relative mb-2">
-              
-            <div className="flex flex-col items-start justify-start gap-2 relative h-[55px] ">
-              <div className=" group flex gap-2 items-center justify-center  ">
-                <input 
-                  type='text' 
-                  placeholder="tag ..."
-                  value={cate}
-                  onChange={(e)=>setCate(e.target.value)}
-                  className="peer absolute  top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 "
-                />
-               
-                 <FaPlus
-                  onClick={() =>handleAdd(cate)}
-                  className="absolute right-1 top-[50%]  cursor-pointer text-slate-500/60 peer-focus:text-slate-900" />
-
-              </div>
-              <label 
-                    className="
-   
-                    absolute 
-                    top-0 
-                    left-0 
-                    text-neutral-200 
-                    text-[15px]
-                    flex
-                    items-center
-                    justify-between
-                    w-full
-                    "
-                    
-                >Tag</label>
-                <div className="absolute top-0 right-2">
-                  <QuestionNotified
-                    title="?"
-                    content="How to tag. 1.typing some tag 2.click + to add new tag"
-                   
-                />
-                </div>
-                
-            </div>
-            <div className="flex items-start justify-start gap-0.5 flex-wrap w-full h-auto min-h-20 bg-slate-500/80 rounded-md p-2">
-                {tag.length >0 && tag.map((item:any)=>{
-                  return (<div 
-                            key={item}
-                            className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center px-1 py-0.5"
-                          >
-                            {item}
-                        </div>
-                  )
-                })}
-              </div>
-              {errors.tag && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.tag.message as string}</span>}
-            </div> */}
             <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
               <div className="col-span-1  ">
                 <div className="text-neutral-100 text-[15px] mt-1">Coupon & voucher</div>

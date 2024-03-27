@@ -6,13 +6,14 @@ import { getuserById } from "@/app/actions/getUserById"
 import { getUserByEmail } from "@/app/actions/getUserByEmail"
 import { getAllDiscount } from "@/app/actions/getAllDiscount"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
+import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
 //import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const Product = async() =>{
 
   const session = await getServerSession(authOptions)
   const discount = await getAllDiscount({})
- 
+  
 
   if(session) {
     console.log(session.user?.email)

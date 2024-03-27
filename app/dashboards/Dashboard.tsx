@@ -9,16 +9,23 @@ import { FaPencilAlt } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FcCloseUpMode } from "react-icons/fc";
 import { Toaster } from "react-hot-toast" 
-import { User } from "@prisma/client"
+import { Product, User } from "@prisma/client"
 import { useEffect, useState } from "react"
 import CardUser from "@/components/dashboard-home/card-user"
+import CardTransaction from "@/components/dashboard-home/card-transaction"
+import CardRevenue from "@/components/dashboard-home/card-revenue"
+import LastTransaction from "@/components/dashboard-home/last-transactiion"
 
 interface DashbaordProps {
     users: User[] | any;
+    transaction: any;
+    product :Product[] | any;
 }
 
 const Dashboard:React.FC<DashbaordProps> = ({
-    users  = []
+    users  = [],
+    transaction = [],
+    product = []
 }) =>{
     const [thisWeek,setThisWeek] = useState<Date[]>([])
     const [lastWeek,setLastWeek] = useState<Date[]>([])
@@ -51,7 +58,7 @@ const Dashboard:React.FC<DashbaordProps> = ({
         }
         setLastWeek(lastWeek)
     },[thisWeek])
-
+    console.log(thisWeek)
     // user in week and take 10 lastest user image
     useEffect(()=>{
         const array = [...thisWeek];
@@ -96,12 +103,23 @@ const Dashboard:React.FC<DashbaordProps> = ({
                         totalUserLastWeek = {totalUserLastWeek}
                         users = {users}
                     />
-                    <Card />
-                    <Card />
+                    <CardTransaction
+                        thisWeek = {thisWeek}
+                        lastWeek = {lastWeek}
+                        transaction = {transaction}
+                    />
+                    <CardRevenue
+                         thisWeek = {thisWeek}
+                         lastWeek = {lastWeek}
+                         transaction = {transaction}
+                         product = {product}
+                    />
                 </div>
                 {/* transaction */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2">
-                    <Transaction />
+                    <LastTransaction 
+                    transaction = {transaction}
+                    />
                 </div>
                 {/* chart */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 py-6">
