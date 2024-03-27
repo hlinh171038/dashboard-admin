@@ -20,9 +20,9 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
         (accumulator:number, currentValue:any) => accumulator + currentValue.count,
         initialValue,
         );
-        console.log(total)
+        //console.log(total)
       const result =  Math.round(( amount*100) /Number(total));
-      console.log(result)
+      //console.log(result)
       setPercent(result)
     },[categories,amount])
     return (
