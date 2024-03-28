@@ -43,7 +43,8 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
                 }
         });
         console.log(result);
-        setTransactionThisWeek(result)
+        const done = result && result.filter((item:any)=>item.status === 'done')
+        setTransactionThisWeek(done)
     },[thisWeek,transaction])
 
     // income last week
@@ -57,7 +58,9 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
                 }
         });
         console.log(result);
-        setTransactionLastWeek(result);
+        // income done ststus
+       const done = result && result.filter((item:any)=>item.status === 'done')
+        setTransactionLastWeek(done);
     },[lastWeek,transaction])
 
     //total income this week

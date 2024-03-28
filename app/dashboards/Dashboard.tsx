@@ -15,6 +15,7 @@ import CardUser from "@/components/dashboard-home/card-user"
 import CardTransaction from "@/components/dashboard-home/card-transaction"
 import CardRevenue from "@/components/dashboard-home/card-revenue"
 import LastTransaction from "@/components/dashboard-home/last-transactiion"
+import TopCategory from "@/components/dashboard-home/top-category"
 
 interface DashbaordProps {
     users: User[] | any;
@@ -126,21 +127,31 @@ const Dashboard:React.FC<DashbaordProps> = ({
                     <div className="text-white">
                         Weekly Statictical
                     </div>
-                   <Chart />
+                   <Chart 
+                         thisWeek = {thisWeek}
+                         lastWeek = {lastWeek}
+                         transaction = {transaction}
+                   />
                 </div>
            </div>
            {/* right */}
            <div className="col-span-1  flex flex-col gap-2 cursor-pointer">
+                <TopCategory 
+                    thisWeek = {thisWeek}
+                    lastWeek = {lastWeek}
+                    product = {product}
+                    transaction = {transaction}
+                />
                  
-                    <NewVersion 
-                        title = "Availble Now"
-                        iconTitle= {FcLinux}
-                        question="How to  use the version of the admin dashboard?"
-                        content1="Takes 4 minutes to learn"
-                        content2="New version of dashboard is 4.13.1 update on 29/1/2024"
-                        buttonIcon = {FaCirclePlay}
-                        buttonTitle = "Watch"
-                    />
+                <NewVersion 
+                    title = "Availble Now"
+                    iconTitle= {FcLinux}
+                    question="How to  use the version of the admin dashboard?"
+                    content1="Takes 4 minutes to learn"
+                    content2="New version of dashboard is 4.13.1 update on 29/1/2024"
+                    buttonIcon = {FaCirclePlay}
+                    buttonTitle = "Watch"
+                />
                  <NewVersion 
                         title = "Coming Soon"
                         iconTitle= {FcCloseUpMode}

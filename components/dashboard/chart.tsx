@@ -1,62 +1,163 @@
-import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Transaction } from '@prisma/client';
+import React, { PureComponent, useCallback, useEffect, useState } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+interface ChartProps {
+  thisWeek: any;
+  lastWeek: any;
+  transaction: Transaction[] | any;
+}
+const Chart:React.FC<ChartProps> = ({
+  thisWeek,
+  lastWeek,
+  transaction =[]
+})=>  {
+  const [totalTransactionThisWeek,setTotalTransactionThisWeek] = useState<any>([])
+  const [totalTransactionLastWeek,setTotalTransactionLastWeek] = useState<any>([])
+  const [chartThisWeek,setChartThisWeek] = useState<any>([])
+  const [chartLastWeek,setChartLastWeek] = useState<any>([])
 
-export default class Example extends PureComponent {
+  // total transaction this week
+  useEffect(()=>{
+    const array = [...thisWeek]
+    const result:any[] = [];
+    transaction && transaction.forEach((item:any)=>{
+      let day = new Date(item.date)
+      if(day >=  array[0] && day<= array[array.length -1]) {
+        result.push(item)
+      }
+    });
+    console.log(result)
+    setTotalTransactionThisWeek(result)
+  },[thisWeek,transaction])
+
+  //total transaction last week
+  useEffect(()=>{
+    const array = [...lastWeek]
+    const result:any[] = [];
+    transaction && transaction.forEach((item:any)=>{
+      let day = new Date(item.date)
+      if(day >=  array[0] && day<= array[array.length -1]) {
+        result.push(item)
+      }
+    });
+    console.log(result)
+    setTotalTransactionLastWeek(result)
+  },[lastWeek,transaction])
  
+  //handle chart this week
+  useEffect(()=>{
+    const array = [
+        {
+            id: 1,
+            name: 'mon',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 2,
+            name: 'tue',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 3,
+            name: 'web',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 4,
+            name: 'thur',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 5,
+            name: 'fri',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 6,
+            name: 'sat',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+        {
+            id: 0,
+            name: 'sun',
+            Done: 0,
+            LastWeek:0,
+            Pending:0,
+            Cancel:0
+        },
+    ]
+    console.log(totalTransactionThisWeek);
 
-  render() {
+    //done status
+    for(let i=0;i<totalTransactionThisWeek.length;i++ ) {
+        const day =new Date( totalTransactionThisWeek[i].date).getDay()
+        for(let j =0 ;j<array.length;j++) {
+            if(day === array[j].id && totalTransactionThisWeek[i].status === 'done') {
+                array[j].Done += totalTransactionThisWeek[i].totalPrice;
+            }
+        }
+    }
+    //pending
+    for(let i=0;i<totalTransactionThisWeek.length;i++ ) {
+      const day =new Date( totalTransactionThisWeek[i].date).getDay()
+      for(let j =0 ;j<array.length;j++) {
+          if(day === array[j].id && totalTransactionThisWeek[i].status === 'pending') {
+              array[j].Pending += totalTransactionThisWeek[i].totalPrice;
+          }
+      }
+  }
+
+  //cancel
+      for(let i=0;i<totalTransactionThisWeek.length;i++ ) {
+        const day =new Date( totalTransactionThisWeek[i].date).getDay()
+        for(let j =0 ;j<array.length;j++) {
+            if(day === array[j].id && totalTransactionThisWeek[i].status === 'cancel') {
+                array[j].Cancel += totalTransactionThisWeek[i].totalPrice;
+            }
+        }
+    }
+    for(let i=0;i<totalTransactionLastWeek.length;i++ ) {
+            const day =new Date( totalTransactionLastWeek[i].date).getDay()
+            for(let j =0 ;j<array.length;j++) {
+                if(day === array[j].id) {
+                    array[j].LastWeek += totalTransactionLastWeek[i].totalPrice;
+                }
+            }
+        }
+
+    
+    setChartThisWeek(array)
+},[totalTransactionThisWeek,totalTransactionLastWeek])
+console.log(chartThisWeek);
+
+ console.log(chartThisWeek);
     return (
-      <div className="w-full h-[350px] ">
+      <div className="w-full h-[350px] text-[14px] text-neutral-100">
         <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-        
-          data={data}
+        <BarChart
+          width={500}
+          height={300}
+          data={chartThisWeek}
           margin={{
             top: 5,
             right: 30,
@@ -64,16 +165,20 @@ export default class Example extends PureComponent {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
+          <Bar dataKey="Done" stackId="a" fill="#1E01F7"  />
+          <Bar dataKey="Pending" stackId="a" fill="#E26F25" />
+          <Bar dataKey="Cancel" stackId="a" fill="#DF2C2B" />
+          <Bar dataKey="LastWeek" fill="#82ca9d"  />
+        </BarChart>
       </ResponsiveContainer>
       </div>
     );
-  }
+  
 }
+
+export default Chart

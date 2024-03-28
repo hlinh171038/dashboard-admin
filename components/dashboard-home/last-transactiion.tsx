@@ -26,7 +26,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
         <div className="flex flex-col gap-4 text-white ">
             <div className="flex items-center justify-between">
                 <div className="text-[16px]">Lastest Transactions</div>
-                <div onClick={handleNavigate} className="text-[14px] text-neutral-400 underline cursor-pointer">See All</div>
+                <div onClick={handleNavigate} className="text-[14px] text-neutral-400 underline cursor-pointer">View All</div>
             </div>
             <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
                 <tr >

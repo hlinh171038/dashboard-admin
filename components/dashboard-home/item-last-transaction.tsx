@@ -51,7 +51,9 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                 </div>
             </td>
             <td className="px-2">{new Date(date).toLocaleDateString()}</td>
-            <td  className="px-2">{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td>
+            <td  className={cn("px-2",
+                        status === 'cancel' && 'text-red-600'
+                    )}>{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td>
         </tr>
     )
 }

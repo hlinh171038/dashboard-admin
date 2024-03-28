@@ -52,7 +52,10 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                 }
         });
         console.log(result);
-        setTransactionThisWeek(result)
+         // income done ststus
+       const done = result && result.filter((item:any)=>item.status === 'done')
+       console.log(done)
+        setTransactionThisWeek(done)
     },[thisWeek,transaction])
 
     // income last week
@@ -66,7 +69,10 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                 }
         });
         console.log(result);
-        setTransactionLastWeek(result);
+        console.log(result);
+        // income done ststus
+       const done = result && result.filter((item:any)=>item.status === 'done')
+        setTransactionLastWeek(done);
     },[lastWeek,transaction])
 
     //total income this week
@@ -87,17 +93,22 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
      useEffect(()=>{
         const result:any[] = []
         transactionThisWeek && transactionThisWeek.forEach((item:any)=>{
-            if(item.productId.length >0) {
+            if(item.productId.length >0 && item.status === 'done') {
                 item.productId.forEach((ele:any)=>{
                     product.forEach((it:any)=>{
-                        if(ele === it.id) {
+                        if(ele === it.id ) {
                             result.push(it)
                         }
                     })
                 })
             }
         })
+         // income done status
+    //    const done = result && result.filter((item:any)=>item.status === 'done')
+    //    console.log(done)
+    console.log(result)
        let total = result && result.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
+       console.log(total)
        setTotalThisWeek(total)
      },[product,transactionThisWeek])
 
@@ -115,7 +126,9 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                 })
             }
         })
-       let total = result && result.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
+         // income done ststus
+       const done = result && result.filter((item:any)=>item.status === 'done')
+       let total = done && done.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
        setTotalLastWeek(total)
 
      },[product,transactionLastWeek])
