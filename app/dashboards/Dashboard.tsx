@@ -9,30 +9,35 @@ import { FaPencilAlt } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FcCloseUpMode } from "react-icons/fc";
 import { Toaster } from "react-hot-toast" 
-import { Product, User } from "@prisma/client"
+import { Discount, Product, User } from "@prisma/client"
 import { useEffect, useState } from "react"
 import CardUser from "@/components/dashboard-home/card-user"
 import CardTransaction from "@/components/dashboard-home/card-transaction"
 import CardRevenue from "@/components/dashboard-home/card-revenue"
 import LastTransaction from "@/components/dashboard-home/last-transactiion"
 import TopCategory from "@/components/dashboard-home/top-category"
+import PaymentTrend from "@/components/dashboard-home/payment-trend"
+import DiscountTrend from "@/components/dashboard-home/discount-trend"
+import { MdOutlineCallMade } from "react-icons/md";
 
 interface DashbaordProps {
     users: User[] | any;
     transaction: any;
     product :Product[] | any;
+    discount: Discount[] | any;
 }
 
 const Dashboard:React.FC<DashbaordProps> = ({
     users  = [],
     transaction = [],
-    product = []
+    product = [],
+    discount = []
 }) =>{
     const [thisWeek,setThisWeek] = useState<Date[]>([])
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalUserThisWeek,setTotalUserThisWeek] = useState<any[]>([])
     const [totalUserLastWeek,setTotalUserLastWeek] = useState<any[]>([])
-    console.log(users)
+   
 
     // find out this week
     useEffect(()=>{
@@ -123,9 +128,21 @@ const Dashboard:React.FC<DashbaordProps> = ({
                     />
                 </div>
                 {/* chart */}
-                <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 py-6">
-                    <div className="text-white">
-                        Weekly Statictical
+                <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 text-[14px] text-neutral-100">
+                    <div className="text-white text-[16px] font-bold flex items-center justify-between">
+                       <div> Weekly Statictical</div>
+                        <div className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
+                    </div>
+                    <div className="text-neutral-400 font-normal text-[14px] mb-2">
+                        Total income in this week compared with last week.
+                    </div>
+                    <div className="flex items-center justify-end">
+                        <div className="flex items-center justify-start pr-6">
+                            <div>Date:</div>
+                            <div>{new Date(thisWeek[0]).toLocaleDateString()}</div>
+                            <div> - </div>
+                            <div>{new Date(thisWeek[thisWeek.length -1]).toLocaleDateString()}</div>
+                        </div>
                     </div>
                    <Chart 
                          thisWeek = {thisWeek}
@@ -142,7 +159,14 @@ const Dashboard:React.FC<DashbaordProps> = ({
                     product = {product}
                     transaction = {transaction}
                 />
-                 
+                 <PaymentTrend
+                    thisWeek = {thisWeek}
+                    lastWeek = {lastWeek}
+                    transaction = {transaction}
+                 />
+                 <DiscountTrend
+                    discount = {discount}
+                 />
                 <NewVersion 
                     title = "Availble Now"
                     iconTitle= {FcLinux}

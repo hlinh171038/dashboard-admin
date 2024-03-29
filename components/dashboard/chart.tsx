@@ -170,10 +170,10 @@ console.log(chartThisWeek);
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="Done" stackId="a" fill="#1E01F7"  />
-          <Bar dataKey="Pending" stackId="a" fill="#E26F25" />
-          <Bar dataKey="Cancel" stackId="a" fill="#DF2C2B" />
-          <Bar dataKey="LastWeek" fill="#82ca9d"  />
+          <Bar dataKey="Done" stackId="a" fill="#64D03E"  />
+          <Bar dataKey="Pending" stackId="a" fill="#EC8D4B" />
+          <Bar dataKey="Cancel" stackId="a" fill="#CB26E9" />
+          <Bar dataKey="LastWeek" fill="#CCEB24"  />
         </BarChart>
       </ResponsiveContainer>
       </div>

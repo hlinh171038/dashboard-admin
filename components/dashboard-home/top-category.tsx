@@ -84,7 +84,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
        setTotal(result);
     },[data])
     return (
-        <div className="bg-slate-600 rounded w-full p-2 hover:bg-slate-500/60 transition-all duration-300 relative">
+        <div className="bg-slate-600 rounded w-full p-2 hover:bg-slate-500/40 transition-all duration-300 relative">
             <div className="text-[15px] text-neutral-100 ">Popular Category</div>
            <div className="flex justify-between flex-wrap">
             <ChartCategory 
