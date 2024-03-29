@@ -7,6 +7,7 @@ import ItemLastTransaction from "./item-last-transaction"
 import '@/app/globals.css'
 import { useCallback } from "react"
 import { useRouter } from "next/navigation"
+import { MdOutlineCallMade } from "react-icons/md"
 
 
 interface LastTransactionProps {
@@ -24,9 +25,14 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
     },[router])
     return (
         <div className="flex flex-col gap-4 text-white ">
-            <div className="flex items-center justify-between">
-                <div className="text-[16px]">Lastest Transactions</div>
-                <div onClick={handleNavigate} className="text-[14px] text-neutral-400 underline cursor-pointer">View All</div>
+            <div >
+                <div className="text-white text-[16px] font-bold flex items-center justify-between">
+                    <div> Lastest  Transactiion</div>
+                    <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5 cursor-pointer">View<MdOutlineCallMade className="w-4 h-4 "/></div>
+                </div>
+                <div className="text-neutral-400 font-normal text-[14px] ">
+                    The list of lastest transaction in this week.
+                </div>
             </div>
             <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
                 <tr >

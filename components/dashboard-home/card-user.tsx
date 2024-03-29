@@ -98,10 +98,7 @@ const CardUser:React.FC<CardUserProps> = ({
                   
                                      
                 </div>
-                {/* <div className="flex justify-start items-center gap-1 text-[12px] text-muted ">
-                        <div className="text-green-600 ">{percent}</div>
-                        <div>more than previous week.</div>
-                    </div> */}
+             
         </div>
     )
 }

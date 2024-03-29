@@ -41,9 +41,9 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                 
             >
                 <div
-                    className={cn("px-2 py-0.5 inline-block rounded-md text-[12px] capitalize",
+                    className={cn("px-2 py-0.5 inline-block rounded-md text-[14px] capitalize",
                     status === "pending" && "text-yellow-600",
-                    status === "done" && "text-blue-600",
+                    status === "done" && "text-green-600",
                     status === "cancel" && "text-red-600",
                 )}
                 >
@@ -53,7 +53,7 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
             <td className="px-2">{new Date(date).toLocaleDateString()}</td>
             <td  className={cn("px-2",
                         status === 'cancel' && 'text-red-600'
-                    )}>{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td>
+                    )}>{status === "cancel" ? '-'+ price.toLocaleString('vi', {style : 'currency', currency : 'VND'}):price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td>
         </tr>
     )
 }

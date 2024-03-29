@@ -6,6 +6,7 @@ export async function getAllUser2() {
             include: {
                 comment: true,
                 mail: true,
+                transaction: true
             },
             orderBy: {
                 createdAt: 'desc'
@@ -19,6 +20,9 @@ export async function getAllUser2() {
                 ],
                 mail: [
                     ...user.mail
+                ],
+                transaction: [
+                    ...user.transaction
                 ]
             })
         )

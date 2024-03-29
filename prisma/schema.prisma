@@ -19,6 +19,7 @@ model User {
   role           String?
   action         Boolean?
   address        String?
+  position       String?
   emailVerified  String?
   phone          String?
   image          String?

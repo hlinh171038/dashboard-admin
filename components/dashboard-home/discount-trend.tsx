@@ -6,6 +6,7 @@ import ItemDiscount from "./item-discount";
 import { toast } from "sonner";
 import { any } from "zod";
 import { MdOutlineCallMade } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 interface DiscountTrendProps {
     discount: Discount[] | any;
@@ -15,6 +16,7 @@ const DiscountTrend:React.FC<DiscountTrendProps> = ({
     discount = []
 }) =>{
     const [data,setData] = useState<any>([])
+    const router = useRouter()
     console.log(discount)
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=> item.endDate >= new Date())
@@ -27,17 +29,22 @@ const DiscountTrend:React.FC<DiscountTrendProps> = ({
         setData(re)
     },[discount])
 
+
+    //handle navigate
+    const handleNavigate = useCallback(()=>{
+        router.push('/dashboards/discount')
+    },[router])
     
     return (
         <div className="bg-slate-600 hover:bg-slate-500/40 text-[14px] text-neutral-100 rounded-md p-2">
              <div className="mb-2">
                 <div className="text-white text-[16px] font-bold flex items-center justify-between ">
                     <div> Hot Coupon</div>
-                    <div className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
+                    <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                 </div>
              </div>
             <div className="flex flex-col gap-2">
-                {data && data.map((item:any)=>{
+                {data && data.slice(0,5).map((item:any)=>{
                     return (
                         <ItemDiscount
                             title = {item.title}

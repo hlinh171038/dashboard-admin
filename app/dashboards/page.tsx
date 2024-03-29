@@ -11,6 +11,7 @@ const page = async() =>{
     const transaction = await getAllTransaction2()
     const product = await getAllProduct2()
     const discount = await getAllDiscount2()
+    
     return <div>
        <Dashboard 
             users = {users}
