@@ -47,7 +47,7 @@ const data = [
   },
 ];
 
-export const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9','#59B6AD'];
+export const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9','#59B6AD','#A21D48'];
 
 interface TeamLeadCahrtProps {
     users: User[] | any
@@ -72,7 +72,7 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
  
             },
             {
-              name: 'maketing',
+              name: 'marketing',
               uv: 0,
       
             },
@@ -87,10 +87,16 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
         
             },
             {
+              name: 'designer',
+              uv: 0,
+
+            },
+            {
               name: 'employee',
               uv: 0,
 
-            }
+            },
+            
            
           ];
 

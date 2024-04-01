@@ -38,8 +38,9 @@ const CardUser:React.FC<CardUserProps> = ({
             setPercent(0);
             return;
         }
-        let result = Math.round((totalUserThisWeek.length *100)/(totalUserLastWeek.length + totalUserThisWeek.length))
+        let result = Math.round(((totalUserThisWeek.length - totalUserLastWeek.length)*100)/totalUserLastWeek.length);
         console.log(result)
+       
         setPercent(Number(result))
     },[totalUserLastWeek,totalUserThisWeek])
    

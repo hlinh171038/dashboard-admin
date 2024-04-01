@@ -64,7 +64,7 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
         let result:any[] = [];
         transaction && transaction.forEach((ele:any) => {
                 let day = new Date(ele.date);
-                if(day >=array[0] && day<=array[array.length -1]) {
+                if(day <=array[0] && day>=array[array.length -1]) {
                     result.push(ele)
                 }
         });
@@ -163,7 +163,7 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
             setPercent(100);
             return;
         } 
-        const result = (profitThisWeek *100)/profitLastWeek;
+        const result = Math.round(((profitThisWeek - profitLastWeek)*100)/profitLastWeek);
         setPercent(result)
 
      },[profitThisWeek,profitLastWeek])

@@ -27,13 +27,17 @@ const TopCustomer:React.FC<TopCustomerProps> = ({
             if(item.transaction.length >0) {
                const result = item.transaction.reduce((calculator:number,currentValue: any)=>calculator + currentValue.totalPrice,0);
                 item.total = result;
+            }else {
+                item.total = 0;
             }
         });
+        console.log(array)
         array.sort((a:any,b:any)=>{
             if(a.total >b.total) return -1;
             if(a.total < b.total) return 1;
             return 0
         })
+        console.log(array)
         setGuestData(array)
     },[users])
     console.log(guestData)

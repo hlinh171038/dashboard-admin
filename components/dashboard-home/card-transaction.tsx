@@ -53,7 +53,7 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
         let result:any[] = [];
         transaction && transaction.forEach((ele:any) => {
                 let day = new Date(ele.date);
-                if(day >=array[0] && day<=array[array.length -1]) {
+                if(day <=array[0] && day>=array[array.length -1]) {
                     result.push(ele)
                 }
         });
@@ -79,6 +79,8 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
 
      //percent
      useEffect(()=>{
+        console.log(transactionThisWeek.length)
+        console.log(transactionLastWeek.length)
         if(transactionThisWeek.length === 0){
             setPercent(0);
             return;
@@ -87,10 +89,11 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
             setPercent(100);
             return;
         } 
-        const result = (transactionLastWeek.length *100)/transactionLastWeek;
+        const result = Math.round(((transactionThisWeek.length - transactionLastWeek.length)*100)/transactionLastWeek.length);
         setPercent(result)
 
      },[transactionLastWeek,transactionThisWeek])
+     console.log(percent)
     return (
         <div className="relative  group bg-slate-600 hover:bg-slate-500/40 px-2 py-1 rounded-md cursor-pointer flex flex-col justify-between ">
             <div className="flex justify-start items-start gap-4 mt-1">

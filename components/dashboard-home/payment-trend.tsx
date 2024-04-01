@@ -68,7 +68,10 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                 <div>Card</div>
                 <div className="w-full h-5 bg-neutral-200 rounded-md ">
                     <div className={` h-5 rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px] `} style={{width:`${cardPercent}%`,backgroundColor:"#64D03E",color:"#CCEB24"}}>
-                        <span className="mt-1">{cardPercent}%</span>
+                        {cardPercent !== 0 &&(
+                            <span className="mt-1">{cardPercent}%</span>
+                        )}
+                        
                     </div>
                 </div>
             </div>
@@ -77,7 +80,10 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
             <div>Cash</div>
                 <div className="w-full h-5 bg-neutral-200 rounded-md ">
                     <div className={` h-5  rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px]`} style={{width:`${cashPercent}%`,backgroundColor:'#CCEB24',color:"#64D03E"}}>
-                        <span className="mt-1">{cashPercent}%</span>
+                        {cashPercent!== 0 &&(
+                                <span className="mt-1">{cashPercent}%</span>
+                            )}
+                        
                     </div>
                 </div>
             </div>
