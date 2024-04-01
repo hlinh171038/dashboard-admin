@@ -32,7 +32,7 @@ const Footer = () =>{
             )}>
                 {/* component */}
                 <div
-                    className="grid grid-cols-4 "
+                    className="grid grid-cols-4 py-4"
                 >
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-start gap-1 mt-8">
@@ -108,8 +108,8 @@ const Footer = () =>{
                     </div>
                 </div>
                 {/* copy right */}
-                <div>
-                    <div>Linh Thai</div>
+                <div className="flex items-center justify-end px-2 py-2 border-t border-neutral-400">
+                   
                     <div className="flex items-center justify-start ">
                         <BsCCircleFill className="w-4 h-4 "/>
                         <p>opyright belong to Linh Thai</p>
