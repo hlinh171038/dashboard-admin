@@ -28,21 +28,23 @@ const Chart:React.FC<ChartProps> = ({
         result.push(item)
       }
     });
-    console.log(result)
+
     setTotalTransactionThisWeek(result)
   },[thisWeek,transaction])
 
   //total transaction last week
   useEffect(()=>{
     const array = [...lastWeek]
+
     const result:any[] = [];
     transaction && transaction.forEach((item:any)=>{
       let day = new Date(item.date)
-      if(day >=  array[0] && day<= array[array.length -1]) {
+ 
+      if(day <=  array[0] && day>= array[array.length -1]) {
         result.push(item)
       }
     });
-    console.log(result)
+
     setTotalTransactionLastWeek(result)
   },[lastWeek,transaction])
  
@@ -148,9 +150,7 @@ const Chart:React.FC<ChartProps> = ({
     
     setChartThisWeek(array)
 },[totalTransactionThisWeek,totalTransactionLastWeek])
-console.log(chartThisWeek);
 
- console.log(chartThisWeek);
     return (
       <div className="w-full h-[350px] text-[14px] text-neutral-100">
         <ResponsiveContainer width="100%" height="100%">

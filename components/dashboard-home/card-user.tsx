@@ -66,15 +66,53 @@ const CardUser:React.FC<CardUserProps> = ({
                     
                 </div>
             </div>
-            <div className="w-full ">
-                        <LineChartUser 
-                            totalUserThisWeek = {totalUserThisWeek}
-                        />
+            {totalUserThisWeek.length >0 ?(
+                <div className="w-full ">
+                    <LineChartUser 
+                        totalUserThisWeek = {totalUserThisWeek}
+                    />
+                </div>
+            ):(
+                <div className="w-full ">
+                    <div className="text-neutral-400 text-thin text-[14px] ">No Users create in this week !</div>
+                </div>
+            )}
+            
+            {totalUserThisWeek.length>0 ?(
+                <div className=" w-full flex items-end justify-start ">
+               
+                {
+                    //map user this week
+                    totalUserThisWeek && totalUserThisWeek.slice(0,6).map((item:any,index:any)=>{
+                        return (
+                                <div key={item.id} className={`w-7 h-7 ml-[-8px]`}>
+                                    <Image 
+                                        key={item.id}
+                                        src={item.image}
+                                        width={40}
+                                        height={40}
+                                        alt="avatar"
+                                        objectFit="cover"
+                                        className={`rounded-full aspect-square border-2 border-slate-600 `}
+                                    />
+                                </div>
+                        )
+                    })
+                }
+                {
+                  totalUserThisWeek.length >6 && (
+                    <span className="flex items-end justify-end gap-0.5 text-neutral-400 text-[13px]"> {`...+${(totalUserThisWeek.length - 6) <10 ? `0${totalUserThisWeek.length - 6}` : totalUserThisWeek.length - 6}`}</span>
+                  )  
+                }
+              
+                                 
             </div>
-            <div className=" w-full flex items-end justify-start ">
+            ):(
+                <div className=" w-full flex items-end justify-start ">
+               
                     {
                         //map user this week
-                        totalUserThisWeek && totalUserThisWeek.slice(0,6).map((item:any,index:any)=>{
+                        users && users.slice(0,6).map((item:any,index:any)=>{
                             return (
                                     <div key={item.id} className={`w-7 h-7 ml-[-8px]`}>
                                         <Image 
@@ -91,13 +129,15 @@ const CardUser:React.FC<CardUserProps> = ({
                         })
                     }
                     {
-                      totalUserThisWeek.length >6 && (
-                        <span className="flex items-end justify-end gap-0.5 text-neutral-400 text-[13px]"> {`...+${(totalUserThisWeek.length - 6) <10 ? `0${totalUserThisWeek.length - 6}` : totalUserThisWeek.length - 6}`}</span>
+                      users.length >6 && (
+                        <span className="flex items-end justify-end gap-0.5 text-neutral-400 text-[13px]"> {`...+${(users.length - 6) <10 ? `0${users.length - 6}` : users.length - 6}`} all the tine</span>
                       )  
                     }
                   
                                      
                 </div>
+            )}
+            
              
         </div>
     )

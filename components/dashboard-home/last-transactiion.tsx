@@ -5,21 +5,37 @@ import { Transaction } from "@prisma/client"
 import Image from "next/image"
 import ItemLastTransaction from "./item-last-transaction"
 import '@/app/globals.css'
-import { useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { MdOutlineCallMade } from "react-icons/md"
+import NoItem from "./no-item"
 
 
 interface LastTransactionProps {
     transaction: Transaction[] | any;
+    thisWeek: any;
+    lastWeek:any;
 }
 
 const LastTransaction:React.FC<LastTransactionProps> = ({
-    transaction = []
+    transaction = [],
+    thisWeek = [],
+    lastWeek = []
+
 }) =>{
     const router = useRouter();
+    const [transactionThisWeek,setTransactionThisWeek] = useState<any>([])
+
+    // transaction this week
+    useEffect(()=>{
+        const array = [...transaction]
+       const result =  array && array.filter((item:any)=>item.date >thisWeek[0] && item.date <thisWeek[thisWeek.length -1]);
+        console.log(result)
+        setTransactionThisWeek(result);
+    },[thisWeek,transaction])
 
 
+    console.log(transactionThisWeek.length)
     const handleNavigate = useCallback(()=>{
         router.push('/dashboards/transaction')
     },[router])
@@ -34,29 +50,34 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
                     The list of lastest transaction in this week.
                 </div>
             </div>
-            <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
-                <tr >
-                    <td className="text-neutral-100 px-2">Name</td>
-                    <td className="text-neutral-100 px-2">Status</td>
-                    <td className="text-neutral-100 px-2">Date</td>
-                    <td className="text-neutral-100 px-2">Price</td>
-                </tr>
-                
-                {transaction.slice(0,6).map((item:any) =>{
-                    return (
-                       <ItemLastTransaction
-                        key={item.id}
-                        id={item.id}
-                        name={item.user.name}
-                        image ={item.user.image}
-                        status={item.status}
-                        date ={item.date}
-                        price ={item.totalPrice}
-                       />
-                    )
-                })}
-                
-            </table>
+            {transactionThisWeek.length >0 ?(
+                <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
+                    <tr >
+                        <td className="text-neutral-100 px-2">Name</td>
+                        <td className="text-neutral-100 px-2">Status</td>
+                        <td className="text-neutral-100 px-2">Date</td>
+                        <td className="text-neutral-100 px-2">Price</td>
+                    </tr>
+                    
+                    {transaction.slice(0,6).map((item:any) =>{
+                        return (
+                        <ItemLastTransaction
+                            key={item.id}
+                            id={item.id}
+                            name={item.user.name}
+                            image ={item.user.image}
+                            status={item.status}
+                            date ={item.date}
+                            price ={item.totalPrice}
+                        />
+                        )
+                    })}
+                    
+                </table>
+            ):(
+                <NoItem />
+            )}
+            
         </div>
     )
 }

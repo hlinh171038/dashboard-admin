@@ -43,20 +43,27 @@ const DiscountTrend:React.FC<DiscountTrendProps> = ({
                     <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                 </div>
              </div>
-            <div className="flex flex-col gap-2">
-                {data && data.slice(0,5).map((item:any)=>{
-                    return (
-                        <ItemDiscount
-                            title = {item.title}
-                            key={item.id}
-                            startDate ={item.startDate}
-                            endDate ={item.endDate}
-                            percent = {item.percent}
-                            code = {item.code}
-                        />
-                    )
-                })}
-            </div>
+             {data && data.length >0?(
+                <div className="flex flex-col gap-2">
+                    {data && data.slice(0,5).map((item:any)=>{
+                        return (
+                            <ItemDiscount
+                                title = {item.title}
+                                key={item.id}
+                                startDate ={item.startDate}
+                                endDate ={item.endDate}
+                                percent = {item.percent}
+                                code = {item.code}
+                            />
+                        )
+                    })}
+                </div>
+             ):(
+                <div className="w-full text-start text-sm flex items-center justify-center">
+                    <div className="text-[14px] text-neutral-400"> All Coupon are expired !</div>
+                </div>
+             )}
+            
         </div>
     )
 }

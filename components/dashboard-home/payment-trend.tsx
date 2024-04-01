@@ -3,6 +3,7 @@
 import { Transaction } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MdOutlineCallMade } from "react-icons/md";
+import NoItem from "./no-item";
 
 interface PaymentTrendProps {
     thisWeek:any;
@@ -60,7 +61,8 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                        <div> Payment Method</div>
                         <div className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                     </div>
-         <div className="w-full  text-[15px] text-neutral-100 flex  flex-col gap-1">
+         {transactionThisWeek && transactionThisWeek.length > 0 ?(
+            <div className="w-full  text-[15px] text-neutral-100 flex  flex-col gap-1">
             {/* card */}
             <div>
                 <div>Card</div>
@@ -80,6 +82,9 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                 </div>
             </div>
         </div>
+         ):(
+            <NoItem />
+         )}
        </div>
     )
 }

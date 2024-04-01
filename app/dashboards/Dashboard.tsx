@@ -51,7 +51,7 @@ const Dashboard:React.FC<DashbaordProps> = ({
          console.log(today.getDay()) // thu ba
          console.log(today.getDay() -1)
         const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
-        //console.log(monday);
+        console.log(monday);
         for(let i =1;i<=7;i++) {
            let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
             thisWeek.push(date)
@@ -100,6 +100,9 @@ const Dashboard:React.FC<DashbaordProps> = ({
             }
         })
     },[lastWeek,users])
+
+    console.log(thisWeek);
+    console.log(lastWeek);
     
     //handle navigate
     const handleNavigate = useCallback(()=>{
@@ -132,7 +135,9 @@ const Dashboard:React.FC<DashbaordProps> = ({
                 {/* transaction */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2">
                     <LastTransaction 
-                    transaction = {transaction}
+                        transaction = {transaction}
+                        thisWeek = {thisWeek}
+                        lastWeek = {lastWeek}
                     />
                 </div>
                 {/* chart */}
