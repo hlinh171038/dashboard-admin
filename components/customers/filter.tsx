@@ -32,13 +32,15 @@ const Filter:React.FC<FilterProps> = ({
       } = useForm<FieldValues>({
         defaultValues: {
             role: '',
-            action: false,
-            start: new Date(),
-            end: new Date(),
+            action: null,
+            start: '',
+            end: '',
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        router.push(`/dashboards/customers?search=&role=${data.role}&action=${data.action}&start=${data.start}&end=${data.end}&page=1&per_page=10`)
+        const start = data.start !=='' ? new Date(new Date(data.start).getTime() ).toISOString() : ''
+        const end = data.end !=='' ? new Date(new Date(data.end).getTime() + 86400000).toISOString() : ''
+        router.push(`/dashboards/customers?search=&role=${data.role}&action=${data.action}&start=${start}&end=${end}&page=1&per_page=10`)
       }
     
       const role = watch('role');
@@ -48,7 +50,7 @@ const Filter:React.FC<FilterProps> = ({
 
       console.log(role)
       console.log(action)
-      console.log(start)
+      console.log(start === '')
       console.log(end)
      //handle customeValue
      const setCustomeValue = useCallback((id:string,value:any)=>{
@@ -69,13 +71,22 @@ const Filter:React.FC<FilterProps> = ({
             setCustomeValue('end',end)
       },[dateRange,setCustomeValue])
 
-    const handleReset = useCallback((
+    //   role: '',
+    //   action: null,
+    //   start: '',
+    //   end: '',
 
-    )=>{},[])
+    const handleReset = useCallback(()=>{
+        setCustomeValue('role','');
+        setCustomeValue('action',null);
+        setCustomeValue('start','');
+        setCustomeValue('end','');
+        router.push(`/dashboards/customers?search=&role=${role}&action=${action}&start=${start}&end=${end}&page=1&per_page=10`);
+    },[action,end,role,router,setCustomeValue,start])
     return (
         <div className="w-full">
              {/* header filter */}
-             <div className="flex items-center justify-between px-2 py-1 text-[15px] ">
+             <div className="flex items-center justify-between pr-2 py-1 text-[15px] ">
                
                <div >
                    <span>Filter </span>
@@ -84,13 +95,13 @@ const Filter:React.FC<FilterProps> = ({
                <div className="flex items-center justify-start gap-2">
                    <button 
                        onClick={handleSubmit(onSubmit)}
-                       className="flex items-center justify-center px-2 py-1 border border-slate-900 bg-slate-900 hover:bg-slate-800 cursor-pointer text-neutral-200 test-[15px] w-full rounded-md"
+                       className="flex items-center justify-center px-2 py-1 border border-[#4FA29E] bg-[#4FA29E] hover:opacity-[0.7] cursor-pointer text-neutral-200 test-[15px] w-full rounded-md"
                    >
                        {`show`}
                    </button>
                    <button
                        onClick={handleReset}
-                       className="flex items-center justify-center px-2 py-1 bg-neutral-100 border border-slate-900  cursor-pointer test-[15px] w-full rounded-md"
+                       className="flex items-center justify-center px-2 py-1 bg-neutral-100 border border-[#4FA29E]  cursor-pointer test-[15px] w-full rounded-md"
                    >
                        Reset
                    </button>
@@ -126,7 +137,17 @@ const Filter:React.FC<FilterProps> = ({
             </div>
         </div>
         {/* date */}
+
         <div className="py-2">
+            <div className="flex items-center justify-end ">
+                <div>
+                    { start==='' ? (
+                        <span className="text-orange-600">Choose the range date</span>
+                    ):(
+                        <span className="text-green-600">You have chosen</span> 
+                    )}
+                </div>
+            </div>
             <DateRangePicker
                 ranges={[dateRange]}
                 onChange={handleSelected}

@@ -24,6 +24,7 @@ import { Value } from "@radix-ui/react-select"
 import { MdAddPhotoAlternate } from "react-icons/md";
 import QuestionNotified from "@/components/question-notified"
 import { GoDotFill } from "react-icons/go";
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 
 
@@ -130,7 +131,7 @@ useEffect(()=>{
       
         console.log(item.email ===currentUser.user.email)
         //console.log(currentUser.email)
-        if(item.email == currentUser.user.email){
+        if(item.email == currentUser.user.email ){
 
             if(item.role ==='yes'){
                 console.log('try')
@@ -247,15 +248,25 @@ console.log(check)
                         disabled={check}
                     />
                   
-                   <input 
+                   {/* <input 
                         type="submit"
                         value="Update User"
                         onClick={handleSubmit(onSubmit)}
                         disabled = {isLoading || check}
-                        className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-white bg-slate-950 hover:text-neutral-200 hover:bg-slate-800/60 transition-all duration-300 cursor-pointer",
+                        className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-[15px] text-white bg-[#4FA29E] hover:text-neutral-200 hover:opacity[0.7] transition-all duration-300 cursor-pointer",
                                     isLoading && 'cursor-not-allowed', check && 'cursor-not-allowed'
                                 )}
-                   />
+                   /> */}
+                    <button 
+                        onClick={handleSubmit(onSubmit)}
+                        disabled = {isLoading || check}
+                        className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-[15px] text-white bg-[#4FA29E] hover:text-neutral-200 hover:opacity[0.7] transition-all duration-300 cursor-pointer",
+                                    isLoading && 'cursor-not-allowed', check && 'cursor-not-allowed'
+                                )}
+                        > 
+                        Update Product
+                        {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
+                    </button>
                 </form>
            </div>
         </div>

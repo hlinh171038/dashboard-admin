@@ -86,19 +86,21 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                 ) : (
                     <span className=" ">InActive</span>
                 )}</td>
-            <td className="">
-                <button 
-                    onClick={handleRouteDetailUser}
-                    className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 mr-2">
-                    View
-                </button>
-                <button 
-                    disabled = {isLoading}
-                    onClick={()=>handleDeleteUser(id)}
-                    className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300"
-                >
-                    Delete
-                </button>
+            <td >
+                    <div className="flex justify-end items-start">
+                        <button 
+                            onClick={handleRouteDetailUser}
+                            className="inline-block rounded-md text-neutral-200   items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2" style={{backgroundColor:'#5EC0B5'}}>
+                            View
+                        </button>
+                        <button 
+                            disabled = {isLoading}
+                            onClick={()=>handleDeleteUser(id)}
+                            className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:opacity-[0.7] hover:text-white transition-all duration-300"
+                        >
+                            Delete
+                        </button>
+                    </div>
             </td>
        </tr>
     )

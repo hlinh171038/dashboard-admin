@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { IoFilterSharp, IoSearchSharp } from "react-icons/io5"
 import {useDebounce} from 'use-debounce'
 import {
@@ -10,19 +10,27 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
+  import { LuClipboardCopy } from "react-icons/lu";
 import { IoMdAdd } from "react-icons/io"
 import Filter from "./filter"
 import { User } from "@prisma/client"
+import CopyLink from "./copylink"
+import ExportFile from "./export-file"
+import { toast } from "sonner"
 interface HeaderProps {
-    customer: User[] | any
+    customer: User[] | any;
+    currentUser: any;
 }
 
 const HeaderCustomer:React.FC<HeaderProps> = ({
-    customer =[]
+    customer =[],
+    currentUser
 }) =>{
     const [text,setText] = useState('')
+    const [current,setCurrent] = useState<any>([])
  
     const [query] = useDebounce(text, 300);
+    const inputRef = useRef<any>(null)
     const searchparams = useSearchParams()
     const pathname = usePathname()
     const {replace} = useRouter()
@@ -31,32 +39,84 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
     const router = useRouter()
 
     const handleAddNew = () =>{
+        if(current.role === 'no'){
+            toast.warning("Use admin role to create new users")
+        }
         router.push('/dashboards/customers/add')
     }
 
     useEffect(()=>{
         router.push(`/dashboards/customers/?search=${query}&page=1&per_page=10`)
     },[router,query])
+    useEffect(()=>{
+        const handleKeyDown = (event:any) =>{
+            if(event.ctrlKey && event.key === 'm'){
+                inputRef.current && inputRef.current.focus()
+            }
+        };
+        document.addEventListener('keydown',handleKeyDown);
 
+        return () =>{
+            document.removeEventListener('keydown',handleKeyDown)
+        }
+    },[])
+
+    useEffect(()=>{
+        const result = customer && customer.find((item:any)=>item.email === currentUser.user.email);
+        console.log(result);
+        setCurrent(result)
+     },[currentUser,customer])
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">
             <div className="relative">
                         <div className="absolute top-2 left-2 "><IoSearchSharp className="w-3 h-3 text-white"/></div>
+                        <div className="absolute top-1.5 right-2 text-[11px] text-neutral-400 flex items-center justify-start gap-1">
+                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
+                    
+                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">M</div>
+                        </div>
                         <input 
-                            className="px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-sm focus:outline-none" 
+                            ref={inputRef}
+                            className="px-2 py-1 pl-8 pr-16 rounded-md text-neutral-100 bg-slate-500/60 text-sm focus:outline-none" 
                             placeholder="Search ... "
                             onChange={(e)=> setText(e.target.value)}
                             value={text}
                             />
                             
                 </div>
-               <div>
+               <div className="flex items-center justify-end gap-2">
+                {/* export to SCV file */}
+                <ExportFile
+                    data = {customer}
+                    filename='customer'
+                />
+                {/* coppy link */}
+                    <Popover>
+                        <PopoverTrigger  >
+                            <LuClipboardCopy  
+                                
+                                className="w-4 h-4 text-neutral-400 hover:text-white transition-all duration-300" 
+                            />    
+                        </PopoverTrigger>
+                        <PopoverContent  
+                            side="bottom" 
+                            align="start" 
+                            sideOffset={4}
+                            className="bg-neutral-100 text-slate-600 text-[13px] px-4 py-2 rounded-md mr-2"
+                            >
+                                <CopyLink
+                                    currentUser ={currentUser}
+                                    customer = {customer}
+                                />
+                        </PopoverContent>
+                    </Popover>
+                {/* filter */}
                <Popover>
                         <PopoverTrigger  >
                             <IoFilterSharp 
                                 
-                                className="w-4 h-4 text-neutral-200 hover:text-white transition-all duration-300" 
+                                className="w-4 h-4 text-neutral-400 hover:text-white transition-all duration-300" 
                             />    
                         </PopoverTrigger>
                         <PopoverContent  

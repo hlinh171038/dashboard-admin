@@ -28,7 +28,7 @@ const Pagination:React.FC<PaginationParams> = ({
     }
     return (
         <div
-                className="flex items-center justify-between px-2 py-2 text-[15px] absolute left-0 bottom-1"
+                className="inline-flex items-center justify-between px-2 py-2 text-[15px] "
                 >
                     <button 
                         disabled = {Number(pageQuery) <=1}
@@ -51,8 +51,9 @@ const Pagination:React.FC<PaginationParams> = ({
                                             router.push(`/dashboards/customers/?search=${search}&page=${item +1}&per_page=${per_page}`)
                                          }}
                                          key={item} 
-                                         className={cn(" w-6 h-6 pt-0.5 border border-slate-900  rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer",
-                                                        item + 1 == Number(page) && "bg-slate-900 p-2 w-6 h-6"                                                    
+                                         style={{border:'1px solid #5EC0B5'}}
+                                         className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,
+                                                        item + 1 == Number(page) && "bg-[#5EC0B5] p-2 w-6 h-6"                                                    
                                                     )}
                                     >
                                         {item + 1}

@@ -298,7 +298,7 @@ const AddNewCustomer = () =>{
             <button 
                 onClick={handleSubmit(onSubmit)} 
                 disabled ={isLoading ? true: false}
-                className={cn(" text-[15px]  w-full  px-2  py-1  rounded  flex items-center justify-center gap-1 text-white  bg-slate-950  hover:text-neutral-200  hover:bg-slate-800/60 transition-all duration-300 ",
+                className={cn(" text-[15px]  w-full  px-2  py-1  rounded  flex items-center justify-center gap-1 text-white  bg-[#4FA29E]  hover:text-neutral-200  hover:opacity-[0.7] transition-all duration-300 ",
                     isLoading ? "cursor-not-allowed" :"cursor-pointer"
                 )}
             >
