@@ -2,6 +2,7 @@ import { getAlluser } from "@/app/actions/getAllUser";
 import Customer from "./Customer"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { getAllUser2 } from "@/app/actions/getAllUser2";
 
 const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     const search =
@@ -13,10 +14,12 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     const start = typeof searchParams.start === 'string' ? searchParams.start: ''
     const end = typeof searchParams.end === 'string' ? searchParams.end: ''
     const users = await getAlluser({search,role,action,start,end})
+    const users2 = await getAllUser2()
     const currentUser = await getServerSession(authOptions);
     return (
         <Customer 
             users = {users}
+            user2 ={users2}
             page={page}
             per_page ={per_page}
             search ={search}

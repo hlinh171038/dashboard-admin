@@ -17,13 +17,16 @@ import { User } from "@prisma/client"
 import CopyLink from "./copylink"
 import ExportFile from "./export-file"
 import { toast } from "sonner"
+import { RxCross2 } from "react-icons/rx"
 interface HeaderProps {
     customer: User[] | any;
+    user2: User[] | any;
     currentUser: any;
 }
 
 const HeaderCustomer:React.FC<HeaderProps> = ({
     customer =[],
+    user2 = [],
     currentUser
 }) =>{
     const [text,setText] = useState('')
@@ -37,6 +40,11 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
     
 
     const router = useRouter()
+
+     //handle reset
+     const handleReset = useCallback(()=>{
+        router.push(`/dashboards/customers?search=&role=&action=&start=&end=&page=1&per_page=10`);
+    },[router])
 
     const handleAddNew = () =>{
         if(current.role === 'no'){
@@ -76,6 +84,29 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
                     
                             <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">M</div>
                         </div>
+                        {customer.length < user2.length && (
+                            <div className="absolute bottom-[-20px] left-0 text-[13px] text-green">
+                                {customer.length === 0 ? (
+                                    <span className="text-red-600 flex items-center justify-start gap-8" >
+                                        <span>No item matching</span>
+                                        <span >
+                                            <RxCross2 
+                                                onClick={handleReset}
+                                                className="w-3 h-3 text-red-600 cursor-pointer"/>
+                                        </span>
+                                    </span>
+                                ) : (
+                                    <span className="text-green-600 flex items-center justify-start gap-8">
+                                        <span>{customer.length } item is finded</span>
+                                        <span >
+                                            <RxCross2 
+                                                onClick={handleReset}
+                                                className="w-3 h-3 text-red-600 cursor-pointer"/>
+                                        </span>
+                                    </span>
+                                )}
+                            </div>
+                        )}
                         <input 
                             ref={inputRef}
                             className="px-2 py-1 pl-8 pr-16 rounded-md text-neutral-100 bg-slate-500/60 text-sm focus:outline-none" 

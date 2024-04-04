@@ -46,7 +46,7 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
                 <div>
                     active
                 </div>
-                
+                <div>2</div>
             </div>
             <div className="flex items-center justify-start gap-2">
                 <div>
@@ -55,7 +55,7 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
                 <div>
                     Inactive
                 </div>
-                
+                <div>{total && total.length -2}</div>
             </div>
         </div>
        

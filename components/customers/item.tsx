@@ -67,7 +67,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                     alt="avatar"
                     className="rounded-full aspect-square object-cover  "
                 />
-                <div>{name}</div>
+                <div className="capitalize">{name}</div>
         </td>
         <td>
             {email}
@@ -81,11 +81,15 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             <span>{new Date(created_at).getFullYear().toString()}</span> */}
         </td>
         <td>{role === 'yes' ? 'Admin': 'User'}</td>
-            <td className="">{action  ?(
+        <td className="">
+            <div className="flex items-center justify-center">
+            {action  ?(
                     <span className="text-green-600 ">Active</span>
                 ) : (
                     <span className=" ">InActive</span>
-                )}</td>
+                )}
+            </div>
+        </td>
             <td >
                     <div className="flex justify-end items-start">
                         <button 

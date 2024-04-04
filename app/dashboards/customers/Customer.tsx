@@ -13,6 +13,7 @@ import { useEffect, useState } from "react"
 
 interface Cusromerprops {
     users  : User[];
+    user2 : User[] |any;
     page: number;
     per_page: number;
     search: string;
@@ -20,6 +21,7 @@ interface Cusromerprops {
 }
 const Customer:React.FC<Cusromerprops> = ({
     users = [],
+    user2 = [],
     page,
     per_page,
     search,
@@ -73,7 +75,7 @@ const Customer:React.FC<Cusromerprops> = ({
 
     // customer create this week
     useEffect(()=>{
-        const array = [...users]
+        const array = [...user2]
         const result:any = []
         array && array.forEach((item:any) =>{
             const day = new Date(item.createdAt);
@@ -82,10 +84,10 @@ const Customer:React.FC<Cusromerprops> = ({
             }
         });
         setTotalUserThisWeek(result)
-    },[thisWeek,users])
+    },[thisWeek,user2])
     // customer create last week
     useEffect(()=>{
-        const array = [...users]
+        const array = [...user2]
         const result:any = []
         array && array.forEach((item:any) =>{
             const day = new Date(item.createdAt);
@@ -94,7 +96,7 @@ const Customer:React.FC<Cusromerprops> = ({
             }
         });
         setTotalUserLastWeek(result)
-    },[lastWeek,users])
+    },[lastWeek,user2])
   
    useEffect(()=>{
     router.push(`/dashboards/customers/?search=${search}&page=1&per_page=10`)
@@ -109,12 +111,12 @@ const Customer:React.FC<Cusromerprops> = ({
             <div className="grid grid-cols-3 gap-2 mb-2">
                 <div className="col-span-1 flex flex-col gap-2 ">
                     <TotalUserCard 
-                        users ={users}
+                        users ={user2}
                         totalUserThisWeek ={totalUserThisWeek}
                         totalUserLastWeek = {totalUserLastWeek}
                     />
                     <TotalAdminCard
-                        users ={users}
+                        users ={user2}
                         totalUserThisWeek ={totalUserThisWeek}
                         totalUserLastWeek = {totalUserLastWeek}
                     />
@@ -135,6 +137,7 @@ const Customer:React.FC<Cusromerprops> = ({
                 <div>
                     <HeaderCustomer
                         customer ={users}
+                        user2 = {user2}
                         currentUser = {currentUser}
                     />
                     <div className="px-2 w-full">
