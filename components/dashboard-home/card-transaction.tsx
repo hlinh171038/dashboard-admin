@@ -79,20 +79,21 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
 
      //percent
      useEffect(()=>{
-        console.log(transactionThisWeek.length)
-        console.log(transactionLastWeek.length)
-        if(transactionThisWeek.length === 0){
+      
+        if(totalThisWeek=== 0){
             setPercent(0);
             return;
         } 
-        if(transactionLastWeek.length === 0){
+        if(totalLastWeek === 0){
             setPercent(100);
             return;
         } 
-        const result = Math.round(((transactionThisWeek.length - transactionLastWeek.length)*100)/transactionLastWeek.length);
+        const result = Math.round(((totalThisWeek - totalLastWeek)*100)/totalLastWeek);
+        console.log(result)
+     
         setPercent(result)
 
-     },[transactionLastWeek,transactionThisWeek])
+     },[totalLastWeek,totalThisWeek])
      console.log(percent)
     return (
         <div className="relative  group bg-slate-600 hover:bg-slate-500/40 px-2 py-1 rounded-md cursor-pointer flex flex-col justify-between ">

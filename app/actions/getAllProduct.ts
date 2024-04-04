@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 import { contains } from 'validator'
 
 
-export async function getAllProduct({query,category,brand,price,location,stock}: {query?:string, category?:string,brand?:string,price?:string,location?:string,stock?:string}) {
+export async function getAllProduct({query,category,brand,price,location,stock,start,end}: {query?:string, category?:string,brand?:string,price?:string,location?:string,stock?:string,start?:string,end?:string}) {
     try {
        let product:any[] = []
         const data:any= {}
@@ -53,6 +53,22 @@ export async function getAllProduct({query,category,brand,price,location,stock}:
                 }
             }
         }
+        if(start && end) {
+            console.log(start)
+            console.log(end)
+            
+               data.AND =[
+                   {
+                       created_at:{gte:start}
+                   },
+                   {
+                       created_at: {lte:end}
+                   }
+               ]
+               
+              
+               
+           }
             product = await prisma.product.findMany({
                 where: data,
                 orderBy:{

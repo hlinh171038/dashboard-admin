@@ -3,10 +3,17 @@ import { getAllProduct } from "@/app/actions/getAllProduct"
 import ProductHeader from "@/components/products/header"
 import Pagination from "@/components/products/pagination";
 import TableProduct from "@/components/products/table"
+import TotalProduct from "@/components/products/total-product";
+import Product from "./Product";
+import { getAllTransaction2 } from "@/app/actions/getAllTransaction2";
+import { getAllProduct2 } from "@/app/actions/getAllProduct2";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { getAllUser2 } from "@/app/actions/getAllUser2";
 
 
 
-const Product = async({searchParams}:{searchParams:{[key:string]: string | string[] | undefined}}) =>{
+const page = async({searchParams}:{searchParams:{[key:string]: string | string[] | undefined}}) =>{
     const query = typeof searchParams.query === 'string' ? searchParams.query : '';
     const category = typeof searchParams.category === 'string' ? searchParams.category : ''
     const brand = typeof searchParams.brand ==='string' ? searchParams.brand : ''
@@ -15,55 +22,38 @@ const Product = async({searchParams}:{searchParams:{[key:string]: string | strin
     const stock = typeof searchParams.stock === 'string' ? searchParams.stock : ''
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
     const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10
-    const product = await getAllProduct({query,category,brand,price,location,stock})
+    const start = typeof searchParams.start === 'string' ? searchParams.start : ''
+    const end = typeof searchParams.end === 'string' ? searchParams.end : ''
+    const product = await getAllProduct({query,category,brand,price,location,stock,start,end})
+    const product2 = await getAllProduct2()
+    const currentUser = await getServerSession(authOptions);
+    const customer = await getAllUser2()
+    const transaction = await getAllTransaction2()
 
-    const start = (page - 1) * per_page; // 0,5,10
-    const end = start + per_page;//5,10,15
-    const max = Math.ceil(product.length / per_page);
+    // const start = (page - 1) * per_page; // 0,5,10
+    // const end = start + per_page;//5,10,15
+    // const max = Math.ceil(product.length / per_page);
     
-    const updateProduct = product.slice(start,end)
+    // const updateProduct = product.slice(start,end)
     return (
-        <div className="w-full h-[85.5vh] px-2">
-            <div className="relative bg-slate-600  rounded-md h-full">
-                <div>
-                    <ProductHeader
-                        category ={category}
-                        brand={brand}
-                        price={price}
-                        location={location}
-                        stock={stock}
-                        search={query}
-                        
-                    />
-                    <div className="px-2">
-                        <TableProduct
-                            data = {updateProduct}
-                            query = {query}
-                            category ={category}
-                            brand = {brand}
-                            price = {price}
-                            location = {location}
-                            stock = {stock}
-                        />
-                    </div>
-                </div>
-                {/* check condition if page =1 / page = last page */}
-                <Pagination 
-                    page = {page}
-                    per_page={per_page}
-                    max ={max}
-                    query ={query}
-                    category ={category}
-                    brand ={brand}
-                    location ={location}
-                    stock = {stock}
-                    price ={price}
-                />
-               
-            </div>
-           
+        <div>
+            <Product 
+                product ={product}
+                query = {query}
+                category = {category}
+                brand = {brand}
+                price = {price}
+                location = {location}
+                stock = {stock}
+                page = {page}
+                per_page = {per_page}
+                transaction = {transaction}
+                product2 = {product2}
+                currentUser = {currentUser}
+                customer = {customer}
+             />
         </div>
     )
 }
 
-export default Product
+export default page

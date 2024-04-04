@@ -579,7 +579,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   {tag.length >0 && tag.map((item:any)=>{
                     return (<div 
                               key={item}
-                              className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
+                              className="bg-[#5EC0B5] text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
                             >
                               <span>{item}</span>
                               <span
@@ -600,7 +600,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           <button 
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
+              className={cn("px-2 py-1 rounded-md bg-[#5EC0B5] hover:opacity-[0.7] flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
                             isLoading ?'cursor-not-allowed': 'cursor-pointer'
               )}
             > 

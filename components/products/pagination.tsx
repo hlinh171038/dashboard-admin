@@ -39,7 +39,7 @@ const Pagination:React.FC<PaginationParams> = ({
     }
     return (
         <div
-                className="flex items-center justify-between px-2 py-2 text-[15px] absolute left-0 bottom-1"
+                className="flex items-center justify-end px-2 py-2 text-[15px] "
                 >
                     <button 
                         disabled = {Number(page) <=1}
@@ -62,8 +62,8 @@ const Pagination:React.FC<PaginationParams> = ({
                                             router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${price}&stock=${stock}&page=${item+1}&per_page=10`)
                                          }}
                                          key={item} 
-                                         className={cn(" w-6 h-6 pt-0.5 border border-slate-900  rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer",
-                                                      item + 1 == Number(page) && "bg-slate-900 p-2 w-6 h-6"                                                    
+                                         className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,
+                                                        item + 1 == Number(page) && "bg-[#5EC0B5] p-2 w-6 h-6"                                                    
                                                     )}
                                     >
                                         {item + 1}

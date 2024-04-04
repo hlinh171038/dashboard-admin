@@ -106,9 +106,9 @@ const TableProduct:React.FC<TableProductProps> = ({
     },[fillterBrand,fillterCategory])
 
     return (
-       <div className="w-full h-full">
-        <table className="w-full text-[15px] text-white ">
-            <tr className="font-bold ">
+       <div className="w-full h-full mt-2">
+        <table className="w-full text-[15px] text-neutral-400 ">
+            <tr className="font-bold text-neutral-100">
                 <td>Title</td>
                 <td className="relative">
                     <Select
@@ -219,6 +219,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                 </td>
                 <td>Created At</td>
                 <td>
+                    <div className="flex items-center justify-center">
                     <Select
                         onValueChange={(e)=>handlePushStock(e)}
                     >
@@ -231,8 +232,9 @@ const TableProduct:React.FC<TableProductProps> = ({
                             <SelectItem value="out-of-stock" defaultChecked={true}>Out of stock</SelectItem>
                         </SelectContent>
                     </Select>
+                    </div>
                 </td>
-                <td>Action</td>
+                <td></td>
             </tr>
             {data.map((item)=>{
                 return (
@@ -257,9 +259,12 @@ const TableProduct:React.FC<TableProductProps> = ({
          {data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
-                    <IoBasketOutline  className="w-12 h-12 text-neutral-200 font-thin"/>
+                   
                     <div className="flex flex-col gap-1 items-center justify-center">
-                        <div className="font-bold text-[16px] uppercase">No result found !!!</div>
+                        <div className="flex items-center justify-start gap-2">
+                        <IoBasketOutline  className="w-6 h-6 text-neutral-100 font-thin"/>
+                        <div className=" text-[14px] uppercase">No result found !!!</div>
+                        </div>
                         <div className="flex items-center justify-start gap-2">
                             <span className="text-thin text-[14px] text-neutral-400 flex items-center justify-center gap-1">Click here  <span><IoReturnDownBackOutline onClick={handleBackProduct} className="text-neutral-200 w-4 h-4 cursor-pointer hover:text-white transition-all duration-300"/></span> to back to all product</span> 
                         </div>

@@ -7,6 +7,8 @@ import { IoMdLink } from "react-icons/io";
 import { toast } from "sonner";
 import { useLocation } from 'react-router-dom';
 import { usePathname } from "next/navigation";
+import { FaArrowRightToBracket } from "react-icons/fa6";
+
 interface CopyLinkProps {
     currentUser: any;
     customer: User[] | any;
@@ -58,6 +60,7 @@ const CopyLink:React.FC<CopyLinkProps> = ({
                     className="inline-flex items-center text-neutral-100 justify-between bg-[#4FA29E] px-2 py-1 rounded-md hover:opacity-[0.7]">
                     <IoMdLink className="w-4 h-4 "/>
                     <div className="capitalize">copy link</div>
+                    <FaArrowRightToBracket className="w-4 h-4 "/>
                 </div>
             </div>
         </div>

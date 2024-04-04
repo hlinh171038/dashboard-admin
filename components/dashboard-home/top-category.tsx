@@ -12,6 +12,7 @@ interface TopCategoryProps {
     lastWeek:any;
     product: Product[] | any;
     transaction: Transaction[] | any;
+    productCondition?: boolean;
 }
 
 const TopCategory:React.FC<TopCategoryProps> = ({
@@ -19,6 +20,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
     lastWeek,
     product =[],
     transaction =[],
+    productCondition
 }) =>{
     const [trendCategory,setTrendCategory] = useState<any>([])
     const [total,setTotal] = useState(0)
@@ -28,17 +30,13 @@ const TopCategory:React.FC<TopCategoryProps> = ({
         let result:any[] = []
         transaction && transaction.forEach((item:any)=>{
             if(item.productId.length >0) {
-                console.log('try1')
                 item.productId.forEach((pro:any)=>{
                     product && product.forEach((it:any)=>{
                         if(pro === it.id) {
-                            console.log(it.category)
 
                             // check brand
                             const index = result.findIndex((item:any)=>item.category === it.category)
-                            console.log(index)
                             if(index ===-1){
-                                console.log('try')
                                 const obj = {category:it.category,count:1}
                                 result.push(obj)
                             } else {
@@ -84,13 +82,20 @@ const TopCategory:React.FC<TopCategoryProps> = ({
        setTotal(result);
     },[data])
     return (
-        <div className="bg-slate-600 rounded w-full p-2 hover:bg-slate-500/40 transition-all duration-300 relative">
-            <div className="text-[15px] text-neutral-100 ">Popular Category</div>
-           <div className="flex justify-between flex-wrap">
+        <div className={cn("bg-slate-600 rounded w-full p-2  transition-all duration-300 relative",
+                            productCondition && productCondition ? 'hover:opacity-[1]':'hover:bg-slate-500/40'
+                        )}>
+            <div className="text-[15px] text-neutral-100 font-bold ">Popular Category</div>
+            <div className="text-[14px] text-neutral-400">List of hotest category sort by quanity of transaction.</div>
+           <div className={cn("flex justify-between ",
+                            productCondition && productCondition ?'flex-row-reverse':'flex-wrap'
+                        )}>
             <ChartCategory 
                 data = {data}
             />
-            <div className=" w-full ">
+            <div className={cn("  ",
+                                productCondition && productCondition ? 'mt-6 flex flex-col gap-1.5 w-full':"w-full"
+                            )}>
                 {data && data.map((item:any,index:any)=>{
                     return (
                         <div

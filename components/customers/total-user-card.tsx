@@ -17,7 +17,8 @@ interface TotalUserCardProps {
  }) =>{
     const [percent,setPercent] = useState(0)
     useEffect(()=>{
-        const result = Math.round(((totalUserThisWeek.length - totalUserLastWeek.length) *100)/totalUserLastWeek.length)
+        const result = Math.round(((totalUserThisWeek.length - totalUserLastWeek.length) *100)/totalUserLastWeek.length);
+       
         setPercent(result)
     },[totalUserLastWeek,totalUserThisWeek])
 
