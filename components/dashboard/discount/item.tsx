@@ -1,5 +1,6 @@
 "use client"
 
+import { cn } from "@/lib/utils";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -71,10 +72,13 @@ const Item:React.FC<ItemCustomerProps> = (
         }
     },[endDate,today])
     return (
-       <tr>
-        <td>{title}</td>
-        <td>{type}</td>
-        <td>{percent}</td>
+       <tr className={cn('',
+                            new Date(endDate) < new Date() ?'text-red-500': 'text-neutral-400'
+                        )} 
+       >
+        <td className="capitalize">{title}</td>
+        <td className="capitalize">{type}</td>
+        <td>{percent} %</td>
         <td>{count}</td>
         <td>
             <span>{triggerDay + "/" + 
@@ -82,20 +86,22 @@ const Item:React.FC<ItemCustomerProps> = (
                    year} 
             </span>
         </td>
-        <td>{isStatus ? "pending": "expirated"}</td>
-        <td className="flex items-center justify-start gap-2">
-            <button 
-                onClick={handleRouteDetail}
-                className="inline-block rounded-md text-neutral-200 bg-cyan-900  items-center justify-center px-2 py-0.5  hover:bg-cyan-800/40 hover:text-white transition-all duration-300 ">
-                View
-            </button>
-            <button 
-                disabled = {isLoading}
-                onClick={()=>handleDeleteUser(id)}
-                className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300"
-            >
-                Delete
-            </button>
+        <td>{isStatus ? "Pending": "Expirated"}</td>
+        <td >
+            <div className="flex items-center justify-end gap-2">
+                <button 
+                    onClick={handleRouteDetail}
+                    className="inline-block rounded-md text-neutral-200 bg-[#5EC0B5] items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 ">
+                    View
+                </button>
+                <button 
+                    disabled = {isLoading}
+                    onClick={()=>handleDeleteUser(id)}
+                    className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300"
+                >
+                    Delete
+                </button>
+            </div>
         </td>
        </tr>
     )

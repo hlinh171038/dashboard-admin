@@ -54,7 +54,7 @@ const Filter:React.FC<FilterProps> =({
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        router.push(`/dashboards/discount?search=${search}&type=${data.type}&percent=${data.percent}&dayStart=${data.dayStart}&dayEnd=${data.dayEnd}&countFrom=${data.countFrom}&countTo=${data.countTo}`)
+        router.push(`/dashboards/discount?search=${search}&type=${data.type}&percent=${data.percent}&dayStart=${data.dayStart}&dayEnd=${data.dayEnd}&countFrom=${data.countFrom}&countTo=${data.countTo}&page=1&per_page=10`)
       }
     
      
