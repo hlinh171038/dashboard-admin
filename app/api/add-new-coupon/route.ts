@@ -13,6 +13,7 @@ export async function POST(request: Request) {
             type,
             count,
             code,
+            condition,
             description
         } = body;
        
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
                 type,
                 count:convertCount,
                 code,
+                condition,
                 description,
                 
             }

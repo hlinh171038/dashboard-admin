@@ -18,6 +18,7 @@ type dataForm = {
      percent: number,
      startDate: Date,
      endDate: Date,
+     condition: string,
      description: string,
      type: string,
      count: number,
@@ -40,6 +41,9 @@ const AddDiscount = () =>{
          description: z.string().min(3,{
              message:"At least 3 character"
          }),
+         condition: z.string().min(3,{
+            message:"At least 3 character"
+        }),
          type: z.string(),
          count: z.coerce.number().gte(1).lte(10000),
         code: z.string()
@@ -59,6 +63,7 @@ const AddDiscount = () =>{
             percent: 0,
             startDate: '',
             endDate: '',
+            condition:'',
             description: '',
             type: '',
             count: 0,
@@ -74,7 +79,8 @@ const AddDiscount = () =>{
       const type = watch('type')
       const count = watch('count')
       const ma = watch('code')
-      console.log(ma)
+      const condition = watch('condition')
+      console.log(condition)
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data)
         setIsLoading(true)
@@ -211,6 +217,18 @@ const AddDiscount = () =>{
                             </div>
                         </div>
                     </div>
+                     {/* condition */}
+                     <div className="relative">
+                        <div >
+                            <div className="text-[15px] text-neutral-100 ">Condition</div>
+                            <textarea 
+                                {...register("condition",{ required: true })}
+                                className="w-full rounded-md text-neutral-100 min-h-10 h-auto bg-slate-500/60 outline-none border-0 placeholder:text-[14px] px-2 py-4 text-[14px]" 
+                                placeholder="Description"
+                            />
+                        </div> 
+                        {errors.condition && <span className="absolute left-0 bottom-[-10px]  text-[13px] text-red-600">{errors.condition.message as string}</span>}
+                    </div>
                     {/* description */}
                     <div className="relative">
                         <div >
@@ -226,7 +244,7 @@ const AddDiscount = () =>{
                     {/* submit */}
                     <button
                         disabled={isLoading}
-                        className=" bg-slate-900/80 text-[15px] text-neutral-100 flex items-center justify-center gap-2 w-full rounded-md px-2 py-1"
+                        className=" bg-[#4FA29E] hover:opacity-[0.7] text-[15px] text-neutral-100 flex items-center justify-center gap-2 w-full rounded-md px-2 py-1"
                         onClick={handleSubmit(onSubmit)}
                     >
                        <span> Add New Coupon</span>
