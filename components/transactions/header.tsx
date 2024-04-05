@@ -18,6 +18,8 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 import { BsFillQuestionOctagonFill } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
+import ExportFile from "./export-file"
 
 interface HeaderProps {
     search: string;
@@ -27,7 +29,8 @@ interface HeaderProps {
     endDate: string;
     page: number;
     per_page: number;
-    transaction: Transaction[] | any
+    transaction: Transaction[] | any;
+    transaction2: Transaction[] | any;
 }
 const Header:React.FC<HeaderProps> = ({
     search,
@@ -37,7 +40,8 @@ const Header:React.FC<HeaderProps> = ({
     endDate,
     page,
     per_page,
-    transaction = []
+    transaction = [],
+    transaction2 = [],
 }) => {
 
     const router = useRouter()
@@ -82,14 +86,22 @@ const Header:React.FC<HeaderProps> = ({
       setEarlyDate(earliesDate)
       setStart(earliesDate && earliesDate.toDateString())
     },[transaction])
+
+    //handle reset
+    const handleReset = useCallback(()=>{
+        router.push(`/dashboards/transaction?search=&payment=&status=&startDate=&endDate=&page=1&per_page=10`)
+    },[router])
     return (
-        <div className="flex items-center justify-between gap-2 w-full ">
+        <div className="relative flex items-center justify-start gap-2 w-full ">
+            {/* export to SCV file */}
+            <ExportFile
+                    data = {transaction}
+                    filename='transaction'
+                />
             <Popover>
             <PopoverTrigger  >
                 <div className="flex items-center justify-end gap-4">
-                    <div className="h-6 w-6 rounded-full  flex items-center justify-center text-neutral-200 border border-neutral-100 px-2 py-1 cursor-pointer ">
-                        <AiOutlineDownload className="w-4 h-4"/>
-                    </div>
+                   
                     <div className="flex items-center justify-start gap-2 text-neutral-200 border boder-neutral-100 rounded-md px-2 py-1 cursor-pointer text-[14px] text-thin">
                         <MdDateRange />
                         <div>{start + ' - ' + end}</div>
@@ -112,7 +124,31 @@ const Header:React.FC<HeaderProps> = ({
                     />
             </PopoverContent>
         </Popover>
-           
+      
+            {transaction.length < transaction2.length && (
+            <div className="absolute bottom-[-20px] left-8 text-[13px] text-green">
+                {transaction.length === 0 ? (
+                    <span className="text-red-600 flex items-center justify-start gap-8" >
+                        <span>No item matching</span>
+                        <span >
+                            <RxCross2 
+                                onClick={handleReset}
+                                className="w-3 h-3 text-red-600 cursor-pointer"/>
+                        </span>
+                    </span>
+                ) : (
+                    <span className="text-green-600 flex items-center justify-start gap-8">
+                        <span>{transaction.length } item is finded</span>
+                        <span >
+                            <RxCross2 
+                                onClick={handleReset}
+                                className="w-3 h-3 text-red-600 cursor-pointer"/>
+                        </span>
+                    </span>
+                )}
+            </div>
+            )}
+       
         </div>
     )
 }

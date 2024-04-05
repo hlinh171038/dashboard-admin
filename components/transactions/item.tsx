@@ -63,7 +63,7 @@ const Item:React.FC<ItemProps> = ({
                     alt="avatar"
                     className="rounded-full aspect-square object-cover  "
                 />
-                <div>{userName}</div>
+                <div className="capitalize">{userName}</div>
             </td>
             <td>{payment}</td>
             <td> 
@@ -75,7 +75,7 @@ const Item:React.FC<ItemProps> = ({
             <td>{r}</td>
             
             <td >
-                <div className={`${statusColor} rounded-md  py-1 flex items-center justify-center capitalize hover:opacity-75 hover:text-white cursor-pointer transition-all duration-300`}>
+                <div className={`${statusColor} rounded-md  py-1 flex items-center justify-center capitalize hover:opacity-75 hover:text-white text-neutral-100 cursor-pointer transition-all duration-300`}>
                 {status}
                 </div>
             </td>
@@ -84,8 +84,8 @@ const Item:React.FC<ItemProps> = ({
                 <div className="w-full flex justify-end items-center px-2">
                     <button 
                         onClick={()=>router.push(`/dashboards/transaction/${productId}`)}
-                        className="bg-slate-900 rounded-md text-neutral-200 text-[15px] flex items-center justify-center capitalize px-2 py-1 hover:opacity-35 transition-all duration-300">
-                        view 
+                        className="bg-[#4FA29E] rounded-md text-neutral-100 text-[15px] flex items-center justify-center capitalize px-2 py-1 hover:opacity-[0.7] transition-all duration-300">
+                        View 
                     </button>
                 </div>
             </td>

@@ -4,10 +4,13 @@ import CircleChart from "@/components/transactions/circle-chart"
 import Header from "@/components/transactions/header"
 import Pagination from "@/components/transactions/pagination"
 import Table from "@/components/transactions/table"
+import TotalTransactioinCard from "@/components/transactions/total-transaction"
+import { cn } from "@/lib/utils"
 import { Product, Transaction, User } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { MdCandlestickChart } from "react-icons/md";
 import { MdCircle } from "react-icons/md";
+import RightChart from "../../../components/transactions/right-chart"
 
 
 
@@ -45,6 +48,7 @@ const chartColor =[
 
 interface TransactionProps {
     transaction : Transaction[] | any;
+    transaction2 : Transaction[] | any;
     search: string;
     status: string;
     payment: string;
@@ -56,6 +60,7 @@ interface TransactionProps {
 
 const Transaction:React.FC<TransactionProps> = ({
     transaction = [],
+    transaction2 = [],
     search,
     status,
     payment,
@@ -65,12 +70,13 @@ const Transaction:React.FC<TransactionProps> = ({
     per_page
 }) => {
     console.log(transaction)
-    const [all,setAll] = useState(0)
-    const [totalIncrease,setTotalIncrease] = useState(0)
-    const [next7Day,setNext7Day] = useState<any>([])
-    const [chart,setChart] = useState<any>([])
-    const [updateTransaction,setUpdateTransaction] = useState([])
-    //const [lengthTransaction,setLengthTransaction] = useState(0)
+
+    const [thisWeek,setThisWeek] = useState<Date[]>([])
+    const [lastWeek,setLastWeek] = useState<Date[]>([])
+    const [totalTransactionThisWeek,setTotalTransactionThisWeek] = useState<any>([]);
+    const [totalTransactionLastWeek,setTotalTransactionLastWeek] = useState<any>([]);
+    const [chart,setChart] = useState('thisWeek');
+    const [chartRight,setChartRight] = useState('thisWeek');
 
     console.log(page)//0
     console.log(per_page)//10
@@ -82,141 +88,210 @@ const Transaction:React.FC<TransactionProps> = ({
     const end = start + per_page;//5,10,15
     
     //update transaction
-    
-
-    useEffect(()=>{
-        const updateTransaction = transaction.slice(start,end)
-        console.log(updateTransaction)
-        setUpdateTransaction(updateTransaction)
-    },[end,start,transaction])
-  
-console.log(updateTransaction)
-    useEffect(()=>{
-        setAll(transaction.length)
-    },[transaction.length])
+    const updateTransaction = transaction.slice(start,end)
 
 
-    // count 7 day
+
+    //this week
     useEffect(()=>{
-        // Lấy ngày hiện tại
+        const thisWeek = [];
         const today = new Date();
-        console.log(today)
-
-        // back to cn
-        const backday = new Date(today.getFullYear(), today.getMonth(), today.getDay()- today.getDay())
-        console.log(backday)
-
-        // Tạo mảng để lưu trữ 7 ngày tiếp theo
-        const next7Days = [];
-        const result =[
-            {day:'cn',
-            value:0
-           },
-            {day:'hai',
-            value:0
-           },
-           {day:'ba',
-           value:0
-           },
-            {day:'tu',
-            value:0
-            },
-            {day:'nam',
-            value:0
-            },
-            {day:'sau',
-            value:0
-           },
-           {day:'bay',
-           value:0
-           },
-
-        ]
-        // Duyệt qua 7 ngày tiếp theo
-        for (let i = 1; i <= 7; i++) {
-        // Tạo ngày mới
-        const newDate = new Date(backday.getFullYear(), backday.getMonth(), backday.getDay() + i);
-
-        // Thêm ngày mới vào mảng
-         next7Days.push(newDate);
-         // reduce in this day
-         for(let j= 0;j<transaction.length;j++){
-            const day1 = new Date(transaction[j].date).getDay();
-            const day2 = new Date(newDate).getDay()
-        
-            if(day1 === day2) {
-            
-                const check = new Date(newDate).getDay()
-                result[check].value += transaction[j].totalPrice;
-               }
-            }
-       
+         console.log(today.getDay()) // thu ba
+         console.log(today.getDay() -1)
+        const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
+        console.log(monday);
+        for(let i =1;i<=7;i++) {
+           let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
+            thisWeek.push(date)
         }
-        
-        setNext7Day(next7Days)
-        setChart(result)
-    },[transaction])
+         console.log(thisWeek)
+        setThisWeek(thisWeek)
+    },[])
 
+    // last week
     useEffect(()=>{
-        const initialValue = 0;
-        const result = chart.reduce(
-          (accumulator:number, currentValue:any) => accumulator + currentValue.value,
-          initialValue,
-        );
-     
-        setTotalIncrease(result)
-    },[chart])
+        const lastWeek:any[] = [];
+        for(let i = 0;i<thisWeek.length;i++){
+            let current = new Date(thisWeek[0]);
+            const result = new Date(current.getFullYear(),current.getMonth(),current.getDate() - (i+1));
+            lastWeek.push(result)
+        }
+        setLastWeek(lastWeek)
+    },[thisWeek])
+    console.log(thisWeek)
+    console.log(lastWeek)
+
+    // transaction this week
+    useEffect(()=>{
+        const array = [...transaction2]
+        const result:any[] = []
+        array && array.forEach((item:any)=>{
+            const day = new Date(item.date);
+            if(day >=thisWeek[0] && day <= thisWeek[thisWeek.length -1]) {
+                result.push(item)
+            }
+        });
+        console.log(result);
+        setTotalTransactionThisWeek(result);
+    },[transaction2,thisWeek])
+    // transaction last week
+    useEffect(()=>{
+        const array = [...transaction2]
+        const result:any[] = []
+        array && array.forEach((item:any)=>{
+            const day = new Date(item.date);
+            if(day <=lastWeek[0] && day >= lastWeek[lastWeek.length -1]) {
+                result.push(item)
+            }
+        });
+        console.log(result);
+        setTotalTransactionLastWeek(result)
+    },[transaction2,lastWeek])
+    // total last week
+
+
+   
     return (
         <div className="flex flex-col items-start justify-start gap-2 w-full px-2 ">
             {/* header */}
             <div
-                className="grid grid-cols-2 items-center justify-between gap-2 w-full "
+                className="grid grid-cols-3 items-start justify-between gap-2 w-full "
             >
-               <div className="flex items-start justify-start gap-4 bg-slate-600 rounded-md">
-                    <CircleChart
-                        next7Day = {next7Day}
-                        chart ={chart}
+                {/* col-1 */}
+                <div className="col-span-1  flex flex-col gap-2 ">
+                    {/* total */}
+                    <TotalTransactioinCard
+                        totalTransactionThisWeek = {totalTransactionThisWeek}
+                        totalTransactionLastWeek = {totalTransactionLastWeek}
+                        transaction = {transaction2}
                     />
-                    <div
-                        className="mt-6"
-                    >
-                       {chartColor.map((item:any)=>{
-                        return (
-                            <div
-                                key={item}
-                                className="flex gap-2 items-start justify-start"
+                    {/* weekly statatitical */}
+                    <div className="bg-slate-600 rounded-md">
+                    <div className="px-2 py-2">
+                        <div className="text-[15px] text-neutral-100 font-bold ">Weekly Statictical</div>
+                        <div className="text-[14px] text-neutral-400">Amount of transaction each day</div>
+                    </div>
+                    <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 px-2 py-1">
+                        <div 
+                            onClick={()=>setChart('all')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chart ==='all' && 'bg-[#4FA29E]'
+                                   )}  
+                        >
+                            all
+                        </div>
+                        <div 
+                            onClick={()=>setChart('thisWeek')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chart ==='thisWeek' && 'bg-[#4FA29E]'
+                                   )} 
+                        >
+                            current
+                        </div>
+                        <div 
+                            onClick={()=>setChart('lastWeek')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chart ==='lastWeek' && 'bg-[#4FA29E]'
+                                   )} 
                             >
-                                <div>
-                                    <MdCircle className="w-4 h-4 " style={{color: `${item.color}`}} />
+                                last week
+                        </div>
+                    </div>
+                   <div className=" flex items-center justify-between  text-[14px] text-neutral-100 px-2">
+                        
+                                <div
+                                    className="mt-2"
+                                >
+                                {chartColor.map((item:any)=>{
+                                    return (
+                                        <div
+                                            key={item}
+                                            className="flex gap-2 items-start justify-start"
+                                        >
+                                            <div>
+                                                <MdCircle className="w-4 h-4 " style={{color: `${item.color}`}} />
+                                            </div>
+                                            <div className="text-[14px] text-neutral-200">{item.title}</div>
+                                        </div>
+                                    )
+                                })}
                                 </div>
-                                <div className="text-[14px] text-neutral-200">{item.title}</div>
-                            </div>
-                        )
-                       })}
+                                <CircleChart
+                                totalTransactionThisWeek = {totalTransactionThisWeek}
+                                totalTransactionLastWeek = {totalTransactionLastWeek}
+                                transaction =  {transaction2}
+                                type={chart}
+                            />
+                            
+                        </div>
+                        <div className="text-neutral-100 text-[14px] w-full text-end mb-2 px-2">Total: {chart === 'thisWeek' ? totalTransactionThisWeek &&totalTransactionThisWeek.length:(chart === 'lastWeek'? totalTransactionLastWeek && totalTransactionLastWeek.length: transaction2 && transaction2.length)}</div>
                     </div>
-                   
-               </div>
+                </div>
+                {/* col-2 */}
                <div
-                className="bg-slate-600 rounded-md min-h-[200px] px-2 py-4 flex flex-col justify-between"
+                className="col-span-2 bg-slate-600 rounded-md min-h-[200px] px-2  flex flex-col justify-between"
                >
-                     <div>
-                        <div className="text-neutral-100 capitalize">Transaction</div>
-                        <div className="text-neutral-400 text-[13px] text-thin">Total transaction from this week.</div>
+                <div className="pl-2 py-2 flex items-center justify-between">
+                    <div>
+                        <div className="text-[15px] text-neutral-100 font-bold ">Weekly Statictical</div>
+                        <div className="text-[14px] text-neutral-400 ">Total income  {chartRight === 'thisWeek' ?'in this week':(chartRight === 'lastWeek'? 'in last week': 'all the time')}</div>
                     </div>
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-neutral-100 text-[40px]">{all}</div>
-                        <div className="text-[15px] text-neutral-100 capitalize">total: {totalIncrease.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </div>
+                    <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 px-2">
+                        <div 
+                            onClick={()=>setChartRight('all')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chartRight ==='all' && 'bg-[#4FA29E]'
+                                   )}  
+                        >
+                            all
+                        </div>
+                        <div 
+                            onClick={()=>setChartRight('thisWeek')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chartRight ==='thisWeek' && 'bg-[#4FA29E]'
+                                   )} 
+                        >
+                            current
+                        </div>
+                        <div 
+                            onClick={()=>setChartRight('lastWeek')}
+                            className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                                    chartRight ==='lastWeek' && 'bg-[#4FA29E]'
+                                   )} 
+                            >
+                                last week
+                        </div>
                     </div>
-               </div>
-                
+                </div>
+                <div className="w-full flex items-center justify-end text-[13px] text-neutral-400">Date:{chartRight === 'thisWeek' ?(
+                    <span className="flex items-center justify-start gap-0.5 ">
+                        <span>{new Date(thisWeek[0]).toDateString()}</span>
+                        <span>-</span>
+                        <span>{new Date(thisWeek[thisWeek.length -1]).toDateString()}</span>
+                    </span>
+                ):(chartRight === 'lastWeek'? (
+                    <span className="flex items-center justify-start gap-0.5 ">
+                        <span>{new Date(lastWeek[0]).toDateString()}</span>
+                        <span>-</span>
+                        <span>{new Date(lastWeek[lastWeek.length -1]).toDateString()}</span>
+                    </span>
+                ): 'all the time')}</div>
+                <RightChart
+                    thisWeek ={thisWeek}
+                    lastWeek ={lastWeek}
+                    transaction = {transaction2}
+                    type={chartRight}
+                />
+                </div>
             </div>
             {/* table */}
-            <div className="w-full rounded-md bg-slate-600 p-2 flex flex-col gap-2">
+            <div className="w-full rounded-md bg-slate-600 p-2  flex flex-col gap-2">
                 <Header 
                  search = {search}
                  status = {status}
                  payment = {payment}
                  transaction = {transaction}
+                 transaction2 = {transaction2}
                  startDate ={startDate}
                  endDate = {endDate}
                  page={page}

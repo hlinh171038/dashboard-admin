@@ -1,4 +1,5 @@
-import  { PureComponent, useEffect, useState } from 'react';
+import { Transaction } from '@prisma/client';
+import  { PureComponent, useCallback, useEffect, useInsertionEffect, useState } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
 // const data = [
@@ -36,26 +37,59 @@ const renderCustomizedLabel:React.FC<Iprams> = ({ cx, cy, midAngle, innerRadius,
   );
 };
 interface CirclechartParams {
-    next7Day : any;
-    chart: any
+    totalTransactionThisWeek: Transaction[] | any;
+    totalTransactionLastWeek: Transaction[] | any;
+    transaction: Transaction[] | any;
+    type: string
 }
 
 const CircleChart:React.FC<CirclechartParams> = ({
-    next7Day =[],
-    chart = []
+    totalTransactionLastWeek = [],
+    totalTransactionThisWeek =[],
+    transaction = [],
+    type
+
 }) =>{
- const [data,setData] =useState([])
- console.log(next7Day)
- console.log(data)
- useEffect(()=>{
-    setData(chart)
- },[chart])
+  const [chartThisWeek,setChartThisWeek] = useState<any>([])
+    const handleChart = useCallback((data:any)=>{
+      const array = [
+        {id:1,day:'hai',value:0 },
+        {id:2,day:'ba',value:0},
+        {id:3,day:'tu',value:0 },
+        {id:4,day:'nam',value:0},
+        {id:5,day:'sau',value:0 },
+        {id:6,day:'bay',value:0},
+        {id:0,day:'cn',value:0 },
+      ];
+      console.log(data);
+        for(let i=0;i<data.length;i++ ) {
+            const day =new Date( data[i].date).getDay()
+            for(let j =0 ;j<array.length;j++) {
+                if(day === array[j].id) {
+                    console.log('try')
+                    array[j].value += 1;
+                }
+            }
+        }
+        setChartThisWeek(array)
+    },[])
+    console.log(chartThisWeek)
+
+    useEffect(()=>{
+      if(type==='thisWeek') {
+        handleChart(totalTransactionThisWeek);
+      } else if(type ==='lastWeek'){
+        handleChart(totalTransactionLastWeek)
+      } else {
+        handleChart(transaction)
+      }
+    },[handleChart,totalTransactionThisWeek,type,totalTransactionLastWeek,transaction])
     return (
       <div className='w-[200px] h-[200px] text-[14px]'>
         <ResponsiveContainer width="100%" height="100%">
             <PieChart width={400} height={400}>
             <Pie
-                data={data}
+                data={chartThisWeek}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -64,7 +98,7 @@ const CircleChart:React.FC<CirclechartParams> = ({
                 fill="#8884d8"
                 dataKey="value"
             >
-                {data.map((entry:any, index:any) => (
+                {chartThisWeek.map((entry:any, index:any) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
             </Pie>

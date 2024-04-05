@@ -46,8 +46,8 @@ const Table:React.FC<TableProps> = ({
         router.push(`/dashboards/transaction?search=${search}&payment=${payment}&status=${value === 'all' ?'':value}&&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
     },[router,payment,search,startDate,endDate])
     return (
-        <table className="text-neutral-200 w-full text-[15px]">
-            <tr>
+        <table className="text-neutral-400 w-full text-[14px] mt-4 pb-2">
+            <tr className="text-[15px] text-neutral-100 font-bold">
                 <td>
                     User
                 </td>
