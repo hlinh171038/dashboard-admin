@@ -58,7 +58,7 @@ interface TransactionProps {
     per_page:number;
 }
 
-const Transaction:React.FC<TransactionProps> = ({
+const TransactionPage:React.FC<TransactionProps> = ({
     transaction = [],
     transaction2 = [],
     search,
@@ -75,8 +75,8 @@ const Transaction:React.FC<TransactionProps> = ({
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalTransactionThisWeek,setTotalTransactionThisWeek] = useState<any>([]);
     const [totalTransactionLastWeek,setTotalTransactionLastWeek] = useState<any>([]);
-    const [chart,setChart] = useState('thisWeek');
-    const [chartRight,setChartRight] = useState('thisWeek');
+    const [chart,setChart] = useState('all');
+    const [chartRight,setChartRight] = useState('all');
 
     console.log(page)//0
     console.log(per_page)//10
@@ -322,4 +322,4 @@ const Transaction:React.FC<TransactionProps> = ({
     )
 }
 
-export default Transaction
+export default TransactionPage

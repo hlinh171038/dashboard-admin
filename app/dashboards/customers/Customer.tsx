@@ -56,6 +56,7 @@ const Customer:React.FC<Cusromerprops> = ({
         console.log(monday);
         for(let i =1;i<=7;i++) {
            let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
+           console.log(date)
             thisWeek.push(date)
         }
          console.log(thisWeek)
@@ -71,7 +72,7 @@ const Customer:React.FC<Cusromerprops> = ({
         }
         setLastWeek(lastWeek)
     },[thisWeek])
-    console.log(thisWeek)
+    console.log(lastWeek)
 
     // customer create this week
     useEffect(()=>{

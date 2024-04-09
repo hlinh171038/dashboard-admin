@@ -33,6 +33,7 @@ model User {
   mail Mail[]
   comment Comment[]
   relly Relly[]
+  tempMail TempMail[]
 }
 
 model Account {
@@ -129,8 +130,23 @@ model Mail {
   userImage String?
   content String?
   mailRecive String?
+  role String?
+  supportBy String?
+  status String?
   seen Boolean?
   created_at DateTime @default(now())
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
+}
+
+model TempMail {
+  id String @default(cuid()) @id
+  userId String
+  mailSend String?
+  userName String?
+  userImage String?
+  content String?
+  mailRecive String?
+   created_at DateTime @default(now())
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }
 

@@ -1,12 +1,13 @@
 import { getAllTransaction } from "@/app/actions/getAllTransaction"
-import Transaction from "./Transaction"
+
 import { getAllUser2 } from "@/app/actions/getAllUser2"
 import { getAllProduct2 } from "@/app/actions/getAllProduct2"
 import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
+import TransactionPage from "./Transaction"
 
 
 
-const TransactionPage = async({searchParams}: {searchParams:{[key:string] : string[] | string | undefined}}) => {
+const page = async({searchParams}: {searchParams:{[key:string] : string[] | string | undefined}}) => {
 
     const search = typeof searchParams.search === 'string' ? searchParams.search : ''
     const status = typeof searchParams.status === 'string' ? searchParams.status : ''
@@ -19,7 +20,7 @@ const TransactionPage = async({searchParams}: {searchParams:{[key:string] : stri
     const transaction2 = await getAllTransaction2()
 
     return (
-        <Transaction 
+        <TransactionPage
             transaction = {transaction}
             transaction2 = {transaction2}
             search = {search}
@@ -33,4 +34,4 @@ const TransactionPage = async({searchParams}: {searchParams:{[key:string] : stri
     )
 }
 
-export default TransactionPage
+export default page

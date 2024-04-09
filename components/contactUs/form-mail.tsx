@@ -55,6 +55,7 @@ export const FormMail:React.FC<ContactUsProps> = ({
       userImage: currentUser? currentUser?.user.image : null ,
       content: textName,
       seen: false,
+      role:userId.role
     })
     .then((res:any)=>{
         toast.success(`sended to team lead`)

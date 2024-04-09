@@ -1,6 +1,6 @@
-import { Transaction } from '@prisma/client';
+import { Mail, Transaction } from '@prisma/client';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import {
     Select,
     SelectContent,
@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { cn } from '@/lib/utils';
 
 const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9', '#DB2B78','#E62E2D'];
 
@@ -64,185 +65,221 @@ const TriangleBar = (props:any) => {
 };
 
 interface ChartOcupancyProps {
-    guestThisWeek: Transaction[] | any;
-    guestLastWeek: Transaction[] | any;
+   thisWeek:any;
+   lastWeek:any;
+   mail: Mail[] | any;
 }
 
 const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
-    guestThisWeek,
-    guestLastWeek
+    thisWeek,
+    lastWeek,
+    mail = []
 }) => {
     
-    // rate in this week
-    const [chartThisWeek,setChartThisWeek] = useState<any>([])
-    const [chartLastWeek,setChartLastWeek] = useState<any>([])
+   const [totalMailThisWeek,setTotalMailThisWeek] = useState<any>([])
+   const [totalMailLastWeek,setTotalMailLastWeek] = useState<any>([])
+
+    const [chart,setChart] = useState<any>([])
+    const [chartRight,setChartRight] = useState('all');
+
+
+    // transaction this week
+    useEffect(()=>{
+        const array = [...mail]
+        const result:any[] = []
+        array && array.forEach((item:any)=>{
+            const day = new Date(item.created_at);
+            if(day >=thisWeek[0] && day <= thisWeek[thisWeek.length -1]) {
+                result.push(item)
+            }
+        });
+        console.log(result);
+        setTotalMailThisWeek(result);
+    },[mail,thisWeek])
+    //comment last week
+    useEffect(()=>{
+        const array = [...mail]
+        const result:any[] = []
+        array && array.forEach((item:any)=>{
+            const day = new Date(item.created_at);
+            if(day <=lastWeek[0] && day >= lastWeek[lastWeek.length -1]) {
+                result.push(item)
+            }
+        });
+        console.log(result);
+        setTotalMailLastWeek(result);
+    },[mail,lastWeek])
+
 
      
 
     //handle chart this week
-    const handleChartThisWeek = useCallback(()=>{
+    const handleChart = useCallback((data:any)=>{
         const array = [
             {
                 id: 1,
                 name: 'mon',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 2,
                 name: 'tue',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 3,
                 name: 'web',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 4,
                 name: 'thur',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 5,
                 name: 'fri',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 6,
                 name: 'sat',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
             {
                 id: 0,
                 name: 'sun',
-                uv: 0
+                proceed: 0,
+                pending:0,
+                help:0
             },
         ]
-        console.log(guestThisWeek);
-        for(let i=0;i<guestThisWeek.length;i++ ) {
-            const day =new Date( guestThisWeek[i].date).getDay()
+       
+        console.log(data);
+        for(let i=0;i<data.length;i++ ) {
+            const day =new Date( data[i].created_at).getDay()
+
             for(let j =0 ;j<array.length;j++) {
-                if(day === array[j].id) {
-                    array[j].uv += guestThisWeek[i].amount;
+    
+                if(day === array[j].id && data[i].status === 'done') {
+ 
+                    array[j].proceed += 1;
+                }
+                if(day === array[j].id && data[i].status === 'pending') {
+    
+                    array[j].pending += 1;
+                }
+                if(day === array[j].id && (data[i].status === 'help' || data[i].supportBy === null)) {
+  
+                    array[j].help += 1;
                 }
             }
         }
-        setChartThisWeek(array)
-    },[guestThisWeek])
 
-    // rate in last week
-    // rate in this week
-    
-    //handle chart last week
-  const handleChartLastWeek= useCallback(()=>{
-    const array = [
-        {
-            id: 1,
-            name: 'mon',
-            uv: 0
-        },
-        {
-            id: 2,
-            name: 'tue',
-            uv: 0
-        },
-        {
-            id: 3,
-            name: 'web',
-            uv: 0
-        },
-        {
-            id: 4,
-            name: 'thur',
-            uv: 0
-        },
-        {
-            id: 5,
-            name: 'fri',
-            uv: 0
-        },
-        {
-            id: 6,
-            name: 'sat',
-            uv: 0
-        },
-        {
-            id: 0,
-            name: 'sun',
-            uv: 0
-        },
-    ]
-    console.log(guestLastWeek);
-    for(let i=0;i<guestLastWeek.length;i++ ) {
-        const day =new Date( guestLastWeek[i].date).getDay()
-        for(let j =0 ;j<array.length;j++) {
-            if(day === array[j].id) {
-                array[j].uv += guestLastWeek[i].amount;
-            }
-        }
-    }
-    setChartThisWeek(array)
-},[guestLastWeek])
+        setChart(array)
+    },[])
 
-    // handle push date
-    const handlePushDate = useCallback((value:string)=>{
-        console.log(value)
-        if(value === 'thisweek') {
-            console.log('try');
-           handleChartThisWeek()
-        }else {
-            handleChartLastWeek()
-        }
-    },[handleChartLastWeek,handleChartThisWeek])
+   
 
     useEffect(()=>{
-        handleChartThisWeek()
-    },[handleChartThisWeek])
+        if (chartRight ==='all') {
+            handleChart(mail)
+        } else if (chartRight === 'thisWeek') {
+            handleChart(totalMailThisWeek)
+        } else {
+            handleChart(totalMailLastWeek)
+        }
+    },[handleChart,chartRight,totalMailLastWeek,totalMailThisWeek,mail])
+
+    console.log(chart)
+    console.log(totalMailThisWeek);
+    console.log(totalMailLastWeek);
   return (
     <div>
         <div 
-            className="flex items-center justify-between px-2 py-2"
+            className="flex items-center justify-between px-2 py-2 text-neutral-400 text-[14px]"
         >
-            <div>Product Bought in Week </div>
-            <div>
-            <Select
-                onValueChange={(e) =>handlePushDate(e)}
-            >
-                <SelectTrigger className=" ">
-                    Date in Week
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="thisweek">Rate In Week</SelectItem>
-                    <SelectItem value="lastweek">Rate Last Week</SelectItem>
-                
-                </SelectContent>
-            </Select>
+            <div className='flex flex-col '>
+                <div className='text-[15px] text-neutral-100 capitalize'>transaction failed</div>
+                <div className=''>The transaction was canceled by the customer</div>
+            </div>
+            <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 ">
+                <div 
+                    onClick={()=>setChartRight('all')}
+                    className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                            chartRight ==='all' && 'bg-[#4FA29E]'
+                            )}  
+                >
+                    all
+                </div>
+                <div 
+                    onClick={()=>setChartRight('thisWeek')}
+                    className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                            chartRight ==='thisWeek' && 'bg-[#4FA29E]'
+                            )} 
+                >
+                    current
+                </div>
+                <div 
+                    onClick={()=>setChartRight('lastWeek')}
+                    className={cn('border border-[#4FA29E] bg-none cursor-pointer rounded-md px-1 py-0.5 capitalize',
+                            chartRight ==='lastWeek' && 'bg-[#4FA29E]'
+                            )} 
+                    >
+                        last week
+                </div>
             </div>
         </div>
-       
-           
+            <div className="w-full flex items-center justify-end text-[13px] px-2 mb-[-5px] text-neutral-400">Date:{chartRight === 'thisWeek' ?(
+                    <span className="flex items-center justify-start gap-0.5 ">
+                        <span>{new Date(thisWeek[0]).toDateString()}</span>
+                        <span>-</span>
+                        <span>{new Date(thisWeek[thisWeek.length -1]).toDateString()}</span>
+                    </span>
+                ):(chartRight === 'lastWeek'? (
+                    <span className="flex items-center justify-start gap-0.5 ">
+                        <span>{new Date(lastWeek[0]).toDateString()}</span>
+                        <span>-</span>
+                        <span>{new Date(lastWeek[lastWeek.length -1]).toDateString()}</span>
+                    </span>
+                ): 'all the time')}
+            </div>
+       <div className="w-full h-[250px] text-[14px] text-neutral-100">
+       <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    width={700}
-                    height={270}
-                    data={chartThisWeek}
+                     width={500}
+                     height={300}
+                    data={chart}
                     margin={{
                         top: 20,
-                        right: 30,
-                        left: 20,
+                        right:10,
+                        left: 5,
                         bottom: 5,
                     }}
                     >
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="1 1" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Bar dataKey="uv" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'top' }}>
-                        {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-                        ))}
-                    </Bar>
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="proceed" fill="#E96F28"  barSize={20}/>
+                    <Bar dataKey="pending" fill="#64D03E"  barSize={20}/>
+                    <Bar dataKey="help" fill="#B42A2C"  barSize={20}/>
                 </BarChart>
-    
-            
+            </ResponsiveContainer>
+       </div>
         </div>
         
    

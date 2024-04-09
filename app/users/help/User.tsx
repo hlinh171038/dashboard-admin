@@ -4,11 +4,12 @@ import Contact from "@/components/contactUs/contact"
 import Footer from "@/components/contactUs/footer"
 import ListHelp from "@/components/contactUs/list-help"
 import Mail from "@/components/contactUs/mail"
-import { User } from "@prisma/client"
+
+
 
 interface UserProps {
     currentUser: any;
-    user: User[] | any
+    user:  any
 }
 
 const User:React.FC<UserProps> = ({

@@ -16,6 +16,7 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     const users = await getAlluser({search,role,action,start,end})
     const users2 = await getAllUser2()
     const currentUser = await getServerSession(authOptions);
+    
     return (
         <Customer 
             users = {users}

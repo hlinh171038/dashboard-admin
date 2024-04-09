@@ -1,23 +1,47 @@
 "use client"
 
 import ChartOcupancy from "@/components/report/chart-ocupancy";
+import CustomerProblem from "@/components/report/customer-problem";
 import OverView from "@/components/report/overview";
+import Pagination from "@/components/report/pagination";
 import PaymentMethod from "@/components/report/payment-method";
 import TrendingSale from "@/components/report/trend-sale";
-import { Product, Transaction, User } from "@prisma/client";
+import { Comment, Mail, Product, Transaction, User } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
 
 interface ReportProps {
     user: User[] | any;
     product: Product[] | any;
-    transaction: Transaction[] | any
+    transaction: Transaction[] | any;
+    comment: Comment[] | any;
+    mail: Mail[] | any;
+    mail2: Mail[] | any;
+    currentUser: any;
+    search: string;
+    page: number;
+    per_page: number;
+    status: string;
+    role: string;
+    start:string;
+    end:string;
 }
 
 const Report:React.FC<ReportProps> = ({
     user = [],
     product =[],
-    transaction = []
+    transaction = [],
+    comment = [],
+    mail = [],
+    mail2 =[],
+    currentUser,
+    search,
+    page,
+    per_page,
+    status,
+    role,
+    start,
+    end
 }) =>{
     const [thisWeek,setThisWeek] = useState<Date[]>([])
     const [lastWeek,setLastWeek] = useState<Date[]>([])
@@ -28,7 +52,18 @@ const Report:React.FC<ReportProps> = ({
     const [newUser,setNewuser] = useState<any>([])
     const [newUserLastWeek,setNewuserLastWeek] = useState<any>([])
 
-  
+
+  //pagination
+    //begin
+    const begin = (page -1)*per_page;  // 0,10,20
+    //finish
+    const finish = page * per_page // 10,20,30
+    //pagin array
+    
+    //max
+    const max = Math.ceil(mail.length / per_page);
+    //update mail
+    const updateMail = mail && mail.slice(begin,finish)
 
     // find out this week
     useEffect(()=>{
@@ -152,28 +187,52 @@ const Report:React.FC<ReportProps> = ({
             <div className="grid grid-cols-6 gap-2">
                 <div className="col-span-2 rounded-md bg-slate-500/60">
                     <OverView 
-                        revenue = {totalPriceThisWeek}
-                        guestThis = {guestThisWeek}
-                        guestLast = {guestLastWeek}
                         thisWeek = {thisWeek}
                         lastWeek = {lastWeek}
-                        newUser = {newUser}
-                        newUserLastWeek = {newUserLastWeek}
-                        revenueLastWeek = {totalPriceLastWeek}
+                        transaction = {transaction}
+                        comment = {comment}
+                        mail = {mail}
                     />
                 </div>
                 <div className="col-span-4 rounded-md bg-slate-500/60">
                     <div>
                         
                         <ChartOcupancy 
-                            guestThisWeek = {guestThisWeek}
-                            guestLastWeek = {guestLastWeek}
+                             thisWeek = {thisWeek}
+                             lastWeek = {lastWeek}
+                             mail ={mail}
                         />
                     </div>
 
                 </div>
             </div>
-           
+           <div>
+            {/* customer report to admin */}
+            <div className="col-span-2 rounded-md bg-slate-500/60 px-2 py-2">
+                <CustomerProblem 
+                    mail ={mail}
+                    updateMail ={updateMail}
+                    mail2 ={mail2}
+                    thisWeek = {thisWeek}
+                    lastWeek = {lastWeek}
+                    currentUser = {currentUser}
+                    user = {user}
+                    search ={search}
+                    page ={page}
+                    per_page = {per_page}
+                />
+                <Pagination
+                    page ={page}
+                    per_page ={per_page}
+                    search ={search}
+                    max ={max}
+                    status = {status}
+                    role={role}
+                    start ={start}
+                    end ={end}
+                />
+            </div>
+           </div>
             <div 
                 className="grid grid-cols-6 gap-2 text-neutral-100 "
 

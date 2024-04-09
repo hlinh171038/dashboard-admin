@@ -12,7 +12,10 @@ export async function POST(request:Request) {
             userImage,
             content,
             seen,
+            role
         } = body;
+
+        const roleFix = role === 'yes' ?'admin': 'user'
 
         const email = await prisma.mail.create({
             data: {
@@ -23,6 +26,7 @@ export async function POST(request:Request) {
                 userImage,
                 content,
                 seen,
+                role: roleFix
             }
         })
 
