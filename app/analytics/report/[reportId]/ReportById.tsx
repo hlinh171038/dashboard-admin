@@ -15,7 +15,7 @@ interface ReportByIdProps {
 const ReportById:React.FC<ReportByIdProps> = ({
     mailById: mail
 }) =>{
-    console.log(mail);
+   // console.log(mail);
     const router = useRouter()
 
     //handle coppy id

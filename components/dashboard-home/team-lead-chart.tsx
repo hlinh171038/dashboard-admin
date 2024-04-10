@@ -1,5 +1,6 @@
+import { cn } from '@/lib/utils';
 import { User } from '@prisma/client';
-import React, { PureComponent, useEffect, useState } from 'react';
+import React, { PureComponent, useCallback, useEffect, useState } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
@@ -50,13 +51,26 @@ const data = [
 export const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9','#59B6AD','#A21D48'];
 
 interface TeamLeadCahrtProps {
-    users: User[] | any
+    users: User[] | any;
+    totalUserThisWeek: any;
+    totalUserLastWeek: any;
+   
+    teamCondition?: boolean;
+    chart?: string
 }
 
 const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
-    users = []
+    users = [],
+    totalUserThisWeek,
+    totalUserLastWeek,
+    teamCondition,
+    chart
 }) => {
     const [teamData,setTeamData] = useState<any>([])
+    const [chartArr,setChartArr] = useState<any>([])
+
+
+
 
 
     useEffect(()=>{
@@ -64,37 +78,38 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
             {
               name: 'lead',
               uv: 0,
+              shortname:'Lead'
               
             },
             {
               name: 'developer',
               uv: 0,
- 
+              shortname:'Developer'
             },
             {
               name: 'marketing',
               uv: 0,
-      
+              shortname:'Marketing'
             },
             {
               name: 'customer-service',
               uv: 0,
-        
+              shortname:'CS'
             },
             {
-              name: 'sale',
+              name: 'Sale',
               uv: 0,
-        
+              shortname:'sale'
             },
             {
               name: 'designer',
               uv: 0,
-
+              shortname:'Design'
             },
             {
               name: 'employee',
               uv: 0,
-
+              shortname:'Staff'
             },
             
            
@@ -108,25 +123,110 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
                  }
             })
         });
-        console.log(data)
+      
         setTeamData(data)
     },[users])
+
+    const handleChart = useCallback((data:any)=>{
+      const array = [
+        {
+          id:0,
+          name: 'lead',
+          uv: 0,
+          shortname:'Lead'
+          
+        },
+        {
+          name: 'developer',
+          uv: 0,
+          shortname:'Developer'
+        },
+        {
+          name: 'marketing',
+          uv: 0,
+          shortname:'Marketing'
+        },
+        {
+          name: 'customer-service',
+          uv: 0,
+          shortname:'CS'
+        },
+        {
+          name: 'Sale',
+          uv: 0,
+          shortname:'sale'
+        },
+        {
+          name: 'designer',
+          uv: 0,
+          shortname:'Design'
+        },
+        {
+          name: 'employee',
+          uv: 0,
+          shortname:'Staff'
+        },
+      ];
+
+  
+        data && data.forEach((item:any)=>{
+          array.forEach((ele:any)=>{
+            if(item.position === ele.name) {
+              ele.uv +=1;
+            }
+          })
+        })
+        setChartArr(array)
+    },[])
+    
+    //chart condition
+    useEffect(()=>{
+      if(chart==='thisWeek') {
+        handleChart(totalUserThisWeek);
+      } else if(chart ==='lastWeek'){
+        handleChart(totalUserLastWeek)
+      } else {
+        handleChart(users)
+      }
+    },[handleChart,totalUserThisWeek,chart,totalUserLastWeek,users])
     return (
         <div>
-            <div className="w-full h-[150px]">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className={cn("w-full ",
+                                teamCondition ?'h-[270px]' :'h-[150px]'
+                          )}>
+            {teamCondition ? (
+               <ResponsiveContainer width="100%" height="100%">
             
-                    <BarChart width={150} height={40} data={teamData}>
-                
-                    <Bar dataKey="uv" fill="#8884d8"  label={{ position: 'top' }}>
-                        {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-                        ))}
-                    </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
+               <BarChart width={150} height={40} data={chartArr}>
+            
+                  <CartesianGrid strokeDasharray="1 1" />
+                  <XAxis  dataKey="shortname"  />
+                  <YAxis />
+              
+               <Bar dataKey="uv" fill="#8884d8" barSize={20}  label={{ position: 'top' }}>
+                   {data.map((entry, index) => (
+                   <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                   ))}
+               </Bar>
+               </BarChart>
+           </ResponsiveContainer>
+            ):(
+              <ResponsiveContainer width="100%" height="100%">
+            
+              <BarChart width={150} height={40} data={teamData}>
+             
+              <Bar dataKey="uv" fill="#8884d8" barSize={20}  label={{ position: 'top' }}>
+                  {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                  ))}
+              </Bar>
+              </BarChart>
+          </ResponsiveContainer>
+            )}
+               
                 
             </div>
+            {!teamCondition && (
             <div className=" w-full grid grid-cols-2 px-2 py-4">
                     {teamData && teamData.map((item:any,index:any)=>{
                         return (
@@ -142,6 +242,7 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
                         )
                     })}
                 </div>
+            )}
         </div>
     );
   

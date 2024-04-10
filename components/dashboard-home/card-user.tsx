@@ -22,13 +22,12 @@ const CardUser:React.FC<CardUserProps> = ({
 }) =>{
     const [percent,setPercent] = useState<number>()
 
-    console.log('try')
-    console.log(totalUserLastWeek)
+
 
     useEffect(()=>{
         //Phần trăm tăng trưởng = ((Giá trị hiện tại - Giá trị tuần trước) / Giá trị tuần trước) x 100
-        console.log(totalUserLastWeek.length)//4
-        console.log(totalUserThisWeek.length)//7
+        ///console.log(totalUserLastWeek.length)//4
+        //console.log(totalUserThisWeek.length)//7
 
         if(totalUserLastWeek.length === 0){
             setPercent(100);

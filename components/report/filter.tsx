@@ -48,10 +48,6 @@ const Filter:React.FC<FilterProps> = ({
       const start = watch('start');
       const end = watch('end');
 
-      console.log(role)
-      console.log(status)
-      console.log(start === '')
-      console.log(end)
      //handle customeValue
      const setCustomeValue = useCallback((id:string,value:any)=>{
             setValue(id,value,{
@@ -63,13 +59,13 @@ const Filter:React.FC<FilterProps> = ({
 
       //handle selection
       const handleSelected = useCallback((ranges:any)=>{
-            console.log(dateRange.startDate)
+            //console.log(dateRange.startDate)
             setDateRange(ranges.selection);
             const start = ranges.selection.startDate;
             const end = ranges.selection.endDate;
             setCustomeValue('start',start);
             setCustomeValue('end',end)
-      },[dateRange,setCustomeValue])
+      },[setCustomeValue])
 
     //   role: '',
     //   action: null,

@@ -2,6 +2,7 @@
 import { MdOutlineEmail } from "react-icons/md";
 import QuestionNotified from "../question-notified";
 import { RiMailSendLine } from "react-icons/ri";
+import { MdLockPerson } from "react-icons/md";
 import {
     Popover,
     PopoverContent,
@@ -20,12 +21,13 @@ const Leader:React.FC<LeaderProps> = ({
     users
 }) =>{
     return (
-        <div className="grid grid-cols-6 items-center justify-start gap-2 px-2">
-            <div className="col-span-3 flex flex-col items-start justify-start gap-1 text-neutral-100 text-[15px]">
-                <div className="flex items-center justify-between ">
-                    <div className="text-lg">Team Leader</div>
+        <div className="grid grid-cols-6 items-center justify-start gap-2 px-2 text-[14px] text-neutral-400">
+            <div className="col-span-3 flex flex-col items-start justify-start gap-1 ">
+                <div className="flex items-center justify-between gap-2 mt-2">
+                    <MdLockPerson className="w-4 h-4 text-neutral-100"/>
+                    <div className="text-[15px] text-neutral-100 mb-[-3px]">Team Leader</div>
                 </div>
-                <div className="text-neutral-400 text-justify">
+                <div className="text-justify ">
                     You can add new member as admin under your role, ensuring clear direction and effective leadership within your teams.
                 </div>
             </div>

@@ -13,10 +13,14 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     
     const search = typeof searchParams.search === 'string' ? searchParams.search : ''
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
-    const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 5
-   
+    const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 5;
+    const admin = typeof searchParams.admin === 'string' ? searchParams.admin: ''; 
+    const search_admin = typeof searchParams.search_admin === 'string' ? searchParams.search_admin: ''
+    const page_admin = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
+    const per_page_admin = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10;  
     const userSearch = await getAlluser({search})
     const user = await getAllUser2()
+    const user2 = await getAllUser2()
     const currentUser = await getServerSession(authOptions)
     const comments = await getAllComment()
     const relly = await getAllReply()
@@ -30,8 +34,12 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
                 user = {user}
                 userSearch={userSearch}
                 search = {search}
+                search_admin = {search_admin}
+                admin ={admin}
                 page= {page}
                 per_page ={per_page}
+                page_admin ={page_admin}
+                per_page_admin ={per_page_admin}
                 currentUser = {currentUser}
                 comments ={comments}
                 relly ={relly}

@@ -44,7 +44,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setTotalMailThisWeek(result);
     },[mail,thisWeek])
     //mail last week
@@ -57,7 +57,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setTotalMailLastWeek(result);
     },[mail,lastWeek])
 
@@ -65,8 +65,8 @@ const OverView:React.FC<OverViewProps> = ({
      //percent
      useEffect(()=>{
         //Phần trăm tăng trưởng = ((Giá trị hiện tại - Giá trị tuần trước) / Giá trị tuần trước) x 100
-        console.log(totalMailLastWeek.length)//4
-        console.log(totalMailThisWeek.length)//7
+        //console.log(totalMailLastWeek.length)//4
+        //console.log(totalMailThisWeek.length)//7
 
         if(totalMailLastWeek.length === 0){
             setMailPercent(100);
@@ -92,7 +92,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setProccedThisWeek(result);
     },[mail,thisWeek])
     //procced last week
@@ -101,13 +101,13 @@ const OverView:React.FC<OverViewProps> = ({
         const result:any[] = []
         array && array.forEach((item:any)=>{
             const day = new Date(item.created_at);
-            console.log(item.status)
+            //console.log(item.status)
             if(day <=lastWeek[0] && day >= lastWeek[lastWeek.length -1]  && item.status ==='done') {
-                console.log('try')
+               // console.log('try')
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setProccedLastWeek(result);
     },[mail,lastWeek])
     //percent
@@ -138,7 +138,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setPendingThisWeek(result);
     },[mail,thisWeek])
     //procced last week
@@ -151,7 +151,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setPendingLastWeek(result);
     },[mail,lastWeek])
     //percent
@@ -182,7 +182,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setHelpThisWeek(result);
     },[mail,thisWeek])
     //procced last week
@@ -195,7 +195,7 @@ const OverView:React.FC<OverViewProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setHelpLastWeek(result);
     },[mail,lastWeek])
     //percent

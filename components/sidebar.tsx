@@ -137,7 +137,7 @@ const Sidebar:React.FC<SideProps> = ({
     const [hover,setHover] = useState(false)
     const [showMail,setShowMail] = useState<any>(null)
     const path = usePathname();
-    console.log(sidebar.isOpen)
+
 
 
    

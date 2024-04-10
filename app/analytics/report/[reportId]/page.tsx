@@ -7,7 +7,7 @@ interface IParams {
 
 const page = async({params}:{params:IParams}) =>{
 
-    console.log(params.reportId)
+    //console.log(params.reportId)
 
     const mailById = await getMailById(params.reportId)
     return (

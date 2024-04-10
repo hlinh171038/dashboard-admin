@@ -30,7 +30,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
     const [categoriesLastweek,setCategoriesLastWeek] = useState<any>([])
    
 
-    console.log(guestThisWeek)
+
   
      
       // transaction category this week
@@ -41,8 +41,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
       for(let i =0 ;i<array.length;i++) {
          emptyArr.push(array[i].productId)
       }
-      console.log(emptyArr)
-      console.log(array)
+     
       // array contain all id have been split
       let splitId:any[] = [];
       for(let ele of emptyArr) {
@@ -51,12 +50,12 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
       let result:any[] = []
       
       for(let i =0 ;i<product.length;i++) {
-        console.log('step 1')
-        console.log(product[i].id)
+       
+        //console.log(product[i].id)
         for(let j= 0;j<splitId.length;j++) {
         
             if(product[i].id === splitId[j]) {
-                console.log('step 1')
+          
                 const obj ={
                     id:product[i].id,
                     title: product[i].category,
@@ -64,7 +63,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
                 const exist = result.findIndex((item)=>item.id === obj.id)
 
                 if(exist === -1) {
-                    console.log('step 2')
+                 
                     result = [...result,{...obj,count:1}]
                 } else {
                     result[exist].count ++;
@@ -87,7 +86,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
             category[index].count += obj.count;
         }
      }
-     //console.log(category)
+    
      setCategories(category)
     },[guestLastWeek,product])
 
@@ -99,8 +98,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
       for(let i =0 ;i<array.length;i++) {
          emptyArr.push(array[i].productId)
       }
-      console.log(emptyArr)
-      console.log(array)
+
       // array contain all id have been split
       let splitId:any[] = [];
       for(let ele of emptyArr) {
@@ -109,12 +107,11 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
       let result:any[] = []
       
       for(let i =0 ;i<product.length;i++) {
-        console.log('step 1')
-        console.log(product[i].id)
+  
         for(let j= 0;j<splitId.length;j++) {
         
             if(product[i].id === splitId[j]) {
-                console.log('step 1')
+               
                 const obj ={
                     id:product[i].id,
                     title: product[i].category,
@@ -122,7 +119,7 @@ const TrendingSale:React.FC<TrendingSaleProps> =({
                 const exist = result.findIndex((item)=>item.id === obj.id)
 
                 if(exist === -1) {
-                    console.log('step 2')
+                  
                     result = [...result,{...obj,count:1}]
                 } else {
                     result[exist].count ++;

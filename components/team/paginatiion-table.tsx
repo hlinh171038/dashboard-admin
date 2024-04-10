@@ -12,7 +12,7 @@ interface PaginationParams {
     max: number
 }
 
-const Pagination:React.FC<PaginationParams> = ({
+const PaginationTable:React.FC<PaginationParams> = ({
     page,
     per_page,
     search,
@@ -33,11 +33,11 @@ const Pagination:React.FC<PaginationParams> = ({
                     <button 
                         disabled = {Number(pageQuery) <=1}
                         onClick={()=>{
-                            router.push(`/analytics/team?search=${search}&page=${page -1}&per_page=${per_page}`)
+                            router.push(`/analytics/team?search_admin${search}&page_admin=${page -1}&per_page_admin=${per_page}`)
                         }}
-                        className={cn("  rounded-md flex items-center justify-center gap-1 ",
-                                    Number(pageQuery) <= 1 ?"":"hover:bg-white"
-                                )}
+                        className={cn("  rounded-md flex items-center justify-center gap-1 text-neutral-200",
+                        Number(page) <= 1 ?"":"hover:bg-white"
+                    )}
                     >
                         <GrFormPrevious className="w-4 h-4"/>
                         <span>Previous</span>
@@ -48,12 +48,12 @@ const Pagination:React.FC<PaginationParams> = ({
                                 return (
                                     <div 
                                          onClick={()=>{
-                                            router.push(`/analytics/team?search=${search}&page=${item +1}&per_page=${per_page}`)
+                                            router.push(`/analytics/team?search_admin=${search}&page-admin=${item +1}&per_page_admin=${per_page}`)
                                          }}
                                          key={item} 
-                                         className={cn(" w-6 h-6 pt-0.5 border border-slate-900  rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer",
-                                                    item + 1 == Number(pageQuery) && "bg-slate-900 p-2 w-6 h-6"                                                    
-                                                )}
+                                         className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,
+                                         item + 1 == Number(page) && "bg-[#5EC0B5] p-2 w-6 h-6"                                                    
+                                     )}
                                     >
                                         {item + 1}
                                     </div>
@@ -64,11 +64,11 @@ const Pagination:React.FC<PaginationParams> = ({
                     <button 
                         disabled = {Number(pageQuery) >= max}
                         onClick={()=>{
-                            router.push(`/analytics/team?search=${search}&page=${page + 1}&per_page=${per_page}`)
+                            router.push(`/analytics/team?search_admin=${search}&page_admin=${page + 1}&per_page_admin=${per_page}`)
                         }}
-                        className={cn(" rounded-md flex items-center justify-center ",
-                                       Number(pageQuery) >=max ?"":"hover:bg-white"
-                                 )}>
+                        className={cn(" rounded-md flex items-center justify-center text-neutral-200",
+                        Number(page) >=max ?"":"hover:bg-white"
+                                )}>
                                      <span>Next</span>
                                     <GrFormNext className="w-4 h-4"/>
                     </button>
@@ -76,4 +76,4 @@ const Pagination:React.FC<PaginationParams> = ({
     )
 }
 
-export default Pagination
+export default PaginationTable

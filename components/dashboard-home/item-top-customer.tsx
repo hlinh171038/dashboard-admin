@@ -23,10 +23,10 @@ export const ItemTopCustomer:React.FC<ItemTopCustomerProps> = ({
 const [convertTotal,setConvertTotal] = useState(0)
     useEffect(()=>{
         let result:any =total;
-        console.log(result)
+     
         if(result >1000 && result<1000000){
             result = `${total/1000} K`;
-            console.log(result)
+  
             setConvertTotal(result);
             return;
         }
@@ -44,7 +44,7 @@ const [convertTotal,setConvertTotal] = useState(0)
         }
         
     },[total])
-    console.log(index)
+
     return (
         <div className="flex justify-between items-center gap-1 cursor-pointer">
             <div className=" relative flex items-center justify-start gap-2">

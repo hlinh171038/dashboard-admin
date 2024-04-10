@@ -1,62 +1,61 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import axios from "axios"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { IoMdAdd } from "react-icons/io"
 import { IoFilterSharp, IoSearchSharp } from "react-icons/io5"
-import { useDebounce } from "use-debounce"
+import {useDebounce} from 'use-debounce'
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-import ExportFile from "../customers/export-file"
-import { LuClipboardCopy } from "react-icons/lu"
+  import { LuClipboardCopy } from "react-icons/lu";
+import { IoMdAdd } from "react-icons/io"
 
-import { Mail, Product, User } from "@prisma/client"
+import { User } from "@prisma/client"
 import CopyLink from "../customers/copylink"
-import { RxCross2 } from "react-icons/rx";
-import Filter from "./filter"
-
-interface ProducHeaderProps {
-   mail: Mail[] | any;
-   mail2: Mail[] | any;
-   search: string;
-   page: number;
-   per_page: number;
-   currentUser: any;
-   user: User[] | any;
+import ExportFile from "../customers/export-file"
+import { toast } from "sonner"
+import { RxCross2 } from "react-icons/rx"
+interface HeaderProps {
+    customer: User[] | any;
+    user2: User[] | any;
+    currentUser: any;
 }
 
-const ReportHeader:React.FC<ProducHeaderProps> = ({
-    mail = [],
-    mail2 =[],
-    user = [],
-    currentUser,
-    search,
-    page,
-    per_page
+const HeaderTable:React.FC<HeaderProps> = ({
+    customer =[],
+    user2 = [],
+    currentUser
 }) =>{
     const [text,setText] = useState('')
+    const [current,setCurrent] = useState<any>([])
+ 
     const [query] = useDebounce(text, 300);
-    
-    const router = useRouter()
     const inputRef = useRef<any>(null)
+    const searchparams = useSearchParams()
+    const pathname = usePathname()
+    const {replace} = useRouter()
+    
 
-    const handleAddNew = useCallback(()=>{
-        router.push('/dashboards/product/add')
+    const router = useRouter()
+
+     //handle reset
+     const handleReset = useCallback(()=>{
+        router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10`);
     },[router])
 
-    //handle reset
-    const handleReset = useCallback(()=>{
-        router.push(`/analytics/report?search=&status=&role=&start=&end=&page=1&per_page=10`);
-    },[router])
+    // const handleAddNew = () =>{
+    //     if(current.role === 'no'){
+    //         toast.warning("Use admin role to create new users")
+    //     }
+    //     router.push('/dashboards/customers/add')
+    // }
 
     useEffect(()=>{
-        router.push(`/analytics/report?search=${query}&page=1&per_page=10`)
-       
-    },[query,router])
-
+        router.push(`/analytics/team?search_admin=${query}&page_admin=1&per_page_admin=10`)
+    },[router,query])
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{
             if(event.ctrlKey && event.key === 'm'){
@@ -70,19 +69,24 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
         }
     },[])
 
+    useEffect(()=>{
+        const result = customer && customer.find((item:any)=>item.email === currentUser.user.email);
+        
+        setCurrent(result)
+     },[currentUser,customer])
     return (
-        <div className="mb-4">
+        <div>
             <div className="flex justify-between items-center ">
-                <div className="relative">
+            <div className="relative">
                         <div className="absolute top-2 left-2 "><IoSearchSharp className="w-3 h-3 text-white"/></div>
                         <div className="absolute top-1.5 right-2 text-[11px] text-neutral-400 flex items-center justify-start gap-1">
                             <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
                     
                             <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">M</div>
                         </div>
-                        {mail.length < mail2.length && (
+                        {customer.length < user2.length && (
                             <div className="absolute bottom-[-20px] left-0 text-[13px] text-green">
-                                {mail.length === 0 ? (
+                                {customer.length === 0 ? (
                                     <span className="text-red-600 flex items-center justify-start gap-8" >
                                         <span>No item matching</span>
                                         <span >
@@ -93,7 +97,7 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                                     </span>
                                 ) : (
                                     <span className="text-green-600 flex items-center justify-start gap-8">
-                                        <span>{mail.length } item is finded</span>
+                                        <span>{customer.length } item is finded</span>
                                         <span >
                                             <RxCross2 
                                                 onClick={handleReset}
@@ -103,26 +107,25 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                                 )}
                             </div>
                         )}
-                        
                         <input 
                             ref={inputRef}
-                            className="px-2 py-1 pl-8 pr-16 rounded-md bg-slate-500/60 text-sm text-neutral-200 focus:outline-none" 
+                            className="px-2 py-1 pl-8 pr-16 rounded-md text-neutral-100 bg-slate-500/60 text-[14px] focus:outline-none" 
                             placeholder="Search ... "
+                            onChange={(e)=> setText(e.target.value)}
                             value={text}
-                            onChange={(e)=>setText(e.target.value)}
-                        />
+                            />
+                            
                 </div>
-                
-                <div className="flex items-center justify-end gap-2">
+               <div className="flex items-center justify-end gap-2 ml-2">
                 {/* export to SCV file */}
                 <ExportFile
-                    data = {mail}
-                    filename='Mail'
+                    data = {customer}
+                    filename='administrator'
                 />
                 {/* coppy link */}
                     <Popover>
                         <PopoverTrigger  >
-                            <LuClipboardCopy 
+                            <LuClipboardCopy  
                                 
                                 className="w-4 h-4 text-neutral-400 hover:text-white transition-all duration-300" 
                             />    
@@ -135,34 +138,23 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                             >
                                 <CopyLink
                                     currentUser ={currentUser}
-                                    customer = {user}
-                                /> 
+                                    customer = {customer}
+                                />
                         </PopoverContent>
                     </Popover>
                 {/* filter */}
-               <Popover>
-                        <PopoverTrigger  >
-                            <IoFilterSharp 
-                                
-                                className="w-4 h-4 text-neutral-400 hover:text-white transition-all duration-300" 
-                            />    
-                        </PopoverTrigger>
-                        <PopoverContent  
-                            side="left" 
-                            align="start" 
-                            sideOffset={4}
-                            className="bg-neutral-100 text-slate-600 text-[13px] px-4 py-2 rounded-md mr-2"
-                            >
-                               <Filter 
-                                mail = {mail}
-                               />
-                        </PopoverContent>
-                    </Popover>
-              
+               
+               {/* <button 
+                    onClick={handleAddNew}
+                    className="hover:text-white text-neutral-200 px-2 py-1 text-[15px] rounded-md duration-300 transition-all"
+                >
+                     <IoMdAdd className="w-4 h-4" /> 
+                </button> */}
+                
                </div>
             </div>
         </div>
     )
 }
 
-export default ReportHeader
+export default HeaderTable

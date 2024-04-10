@@ -30,12 +30,12 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
     useEffect(()=>{
         const array = [...transaction]
        const result =  array && array.filter((item:any)=>item.date >thisWeek[0] && item.date <thisWeek[thisWeek.length -1]);
-        console.log(result)
+     
         setTransactionThisWeek(result);
     },[thisWeek,transaction])
 
 
-    console.log(transactionThisWeek.length)
+
     const handleNavigate = useCallback(()=>{
         router.push('/dashboards/transaction')
     },[router])

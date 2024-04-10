@@ -44,7 +44,7 @@ const ChartCategory:React.FC<CirclechartParams> = ({
    data =[]
 }) =>{
 
- console.log(data)
+
     return (
       <div className='w-full h-[200px] text-[13px] text-neutral-100 '>
         <ResponsiveContainer width="100%" height="100%">

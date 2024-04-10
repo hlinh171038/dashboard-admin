@@ -76,18 +76,17 @@ const Navbar:React.FC<NavProps>= ({
        signOut()
     },[])
 
-    console.log(email === user[0].email)
-    console.log(user)
+  
 
     useEffect(()=>{
         user && user.forEach((item:any)=>{
             if(item.email === email) {
-                console.log(item)
+         
                 setShowMail(item)
             }
         })
     },[email,user])
-    console.log(showMail) // curentuser id,email,name,comment
+    //console.log(showMail) // curentuser id,email,name,comment
     // sticky when scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -117,51 +116,10 @@ const Navbar:React.FC<NavProps>= ({
         })
         setArrComment(result)
       },[comment,showMail])
-      console.log(arrComment); // comment correpond with current user
+      //console.log(arrComment); // comment correpond with current user
 
 
-    //   // show  heart
-    //   useEffect(()=>{
-    //     const result:any[] = []
-    //     arrComment && arrComment.forEach((item:any)=>{
-    //         if(item.heart.length >0) {
-    //             console.log('try1')
-    //             item.heart.forEach((it:any)=>{
-    //                 let addType = {...it,type:'heart'}
-    //                 result.push(addType)
-    //             })
-    //         }
-    //     });
-    //    setArrHeart(result)
-    //   },[arrComment])
-    //   //show reply 
-    //   useEffect(()=>{
-    //     const result:any[] = []
-    //     arrComment && arrComment.forEach((item:any)=>{
-    //         if(item.relly.length >0){
-    //             item.relly.forEach((it:any)=>{
-    //                 let addType = {...it,type:'relly'}
-    //                 result.push(addType)
-    //             })
-    //         }
-    //     });
-    //     setArrRelly(result)
-    //   },[arrComment])
-    //   console.log(arrRelly)
-
-    //   // show heartReply
-    //   useEffect(()=>{
-    //     console.log(relly)
-    //     const result:any[] = []
-    //    const currentId = user.filter((item:any)=> item.email === email);
-    //     relly.forEach((item:any)=>{
-    //         if(item.userId === currentId[0].id ) {
-    //             let addType = {...item,type:'heartRelly'}
-    //             result.push(addType)
-    //         }
-    //     })
-    //     setArrRellyHeart(result)
-    //   },[arrComment,email,relly,user])
+    
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >

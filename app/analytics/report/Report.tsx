@@ -100,7 +100,7 @@ const Report:React.FC<ReportProps> = ({
             for(let j= 0;j<array.length;j++) {
                 const day2 = new Date(array[j])
                 if(day1.getDate() === day2.getDate()){
-                   console.log('try');
+                   //console.log('try');
                    guest.push(transaction[i])
                 }
             }
@@ -112,14 +112,14 @@ const Report:React.FC<ReportProps> = ({
     useEffect(()=>{
         const array = [...lastWeek];
         const guest = []
-        console.log(transaction)
-        console.log(array)
+        //console.log(transaction)
+       // console.log(array)
         for(let i=0;i<transaction.length;i++) {
             const day1 = new Date(transaction[i].date)
             for(let j= 0;j<array.length;j++) {
                 const day2 = new Date(array[j])
                 if(day1.getDate() === day2.getDate()){
-                   console.log('try');
+                   //console.log('try');
                    guest.push(transaction[i])
                 }
             }
@@ -161,11 +161,11 @@ const Report:React.FC<ReportProps> = ({
     // transactioin in week is guest this week
     // revenue in week
     useEffect(()=>{
-        console.log(guestThisWeek)
+        //console.log(guestThisWeek)
         const result = guestThisWeek.reduce((accumulator:number, currentValue:any)=>
             accumulator + currentValue.totalPrice,
         0)
-        console.log(result)
+        //console.log(result)
         setTotalPriceThisWeek(result)
     },[guestThisWeek])
     // rrevenue last week
@@ -174,7 +174,7 @@ const Report:React.FC<ReportProps> = ({
         const result = guestLastWeek.reduce((accumulator:number, currentValue:any)=>
             accumulator + currentValue.totalPrice,
         0)
-        console.log(result)
+        //console.log(result)
         setTotalPriceLastWeek(result)
     },[guestLastWeek])
 

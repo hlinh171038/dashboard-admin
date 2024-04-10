@@ -12,11 +12,11 @@ const TeamLead:React.FC<TeamLeadProps> = ({
     users =[]
 }) =>{
     const [member,setMember] = useState<any>([])
-    console.log(users)
+  
 
     useEffect(()=>{
        const result = users && users.filter((item:any)=>item.role === 'yes' && item.position !==  null);
-       console.log(result);
+    
        setMember(result)
     },[users])
     return (

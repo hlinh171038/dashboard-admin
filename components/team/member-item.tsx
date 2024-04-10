@@ -20,7 +20,10 @@ interface MemberItemProps {
     id: string;
     email: string;
     user: User[] | any;
-    currentUser: any
+    currentUser: any;
+    position: string;
+    isLeader: boolean;
+    permission: string;
 
 }
 
@@ -28,20 +31,21 @@ const MemberItem:React.FC<MemberItemProps> = ({
     email,
     id,
     user = [],
-    currentUser
+    currentUser,
+    position,
+    isLeader,
+    permission
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
     const handleDeleteAdmin = useCallback(()=>{
         setIsLoading(true)
         axios.post(`/api/delete-admin`,{id})
-            .then((res)=>{
-                console.log(res.data)
+            .then((res)=>{ 
                 router.refresh()
                 toast.success("deleted")
             })
             .catch((err:any)=>{
-                console.log(err)
                 toast.error('some thing went wrong')
             })
             .finally(()=>{
@@ -49,8 +53,8 @@ const MemberItem:React.FC<MemberItemProps> = ({
             })
     },[router,id])
     return (
-        <div className="flex items-center justify-between" >
-            <div
+        <tr  >
+            <td
                 onClick={()=>router.push(`/dashboards/customers/${id}`)} 
                 className="cursor-pointer inline-flex  items-center justify-start gap-2 text-neutral-100 text-[14px] bg-slate-500/30 rounded-md px-2 py-1 ">
                 <div>
@@ -59,8 +63,17 @@ const MemberItem:React.FC<MemberItemProps> = ({
                 <div>
                     {email}
                 </div>
-            </div>
-            <div className="flex items-center justify-end gap-2">
+            </td>
+            <td>
+                {position}
+            </td>
+            <td>
+                {isLeader ? 'leader': 'member'}
+            </td>
+            <td>
+                {permission}
+            </td>
+            <td className="flex items-center justify-end gap-2">
                 <div 
                     className="group text-neutral-100 px-2 py-1 rounded-md cursor-pointer"
                     
@@ -87,8 +100,8 @@ const MemberItem:React.FC<MemberItemProps> = ({
                         <MdDeleteForever className="w-4 h-4 text-neutral-200 group-hover:text-red-600 transition-all duration-300"/>
                         {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
                 </button>
-            </div>
-        </div>
+            </td>
+        </tr>
     )
 }
 

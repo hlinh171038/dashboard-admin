@@ -20,7 +20,7 @@ const DiscountTrend:React.FC<DiscountTrendProps> = ({
 }) =>{
     const [data,setData] = useState<any>([])
     const router = useRouter()
-    console.log(discount)
+  
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=> item.endDate >= new Date())
         const re = result && result.sort((a:any,b:any)=>{

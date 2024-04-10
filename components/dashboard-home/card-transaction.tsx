@@ -42,7 +42,7 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
                     result.push(ele)
                 }
         });
-        console.log(result);
+  
         const done = result && result.filter((item:any)=>item.status === 'done')
         setTransactionThisWeek(done)
     },[thisWeek,transaction])
@@ -57,7 +57,7 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
                     result.push(ele)
                 }
         });
-        console.log(result);
+     
         // income done ststus
        const done = result && result.filter((item:any)=>item.status === 'done')
         setTransactionLastWeek(done);
@@ -66,14 +66,14 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
     //total income this week
     useEffect(()=>{
        const result = transactionThisWeek && transactionThisWeek.reduce((accumulator:any, currentValue:any)=> accumulator + currentValue.totalPrice,0);
-       console.log(result)
+   
        setTotalThisWeek(result)
     },[transactionThisWeek])
 
     //total income last week
     useEffect(()=>{
         const result = transactionLastWeek && transactionLastWeek.reduce((accumulator:any, currentValue:any)=> accumulator + currentValue.totalPrice,0);
-        console.log(result);
+
         setTotalLastWeek(result)
      },[transactionLastWeek])
 
@@ -89,12 +89,12 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
             return;
         } 
         const result = Math.round(((totalThisWeek - totalLastWeek)*100)/totalLastWeek);
-        console.log(result)
+ 
      
         setPercent(result)
 
      },[totalLastWeek,totalThisWeek])
-     console.log(percent)
+
     return (
         <div className="relative  group bg-slate-600 hover:bg-slate-500/40 px-2 py-1 rounded-md cursor-pointer flex flex-col justify-between ">
             <div className="flex justify-start items-start gap-4 mt-1">

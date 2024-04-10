@@ -38,8 +38,7 @@ const PaymentMethod:React.FC<PaymentMethodProps> = ({
                 cash += item.totalPrice
             }
         })
-        console.log(card)
-        console.log(cash)
+   
         setCard(card)
         setCash(cash)
         const total = card + cash;
@@ -61,8 +60,7 @@ const PaymentMethod:React.FC<PaymentMethodProps> = ({
                 cash += item.totalPrice
             }
         })
-        console.log(card)
-        console.log(cash)
+       
         setCard(card)
         setCash(cash)
         const total = card + cash;
@@ -80,7 +78,7 @@ const PaymentMethod:React.FC<PaymentMethodProps> = ({
             handleLastWeek()
         }
     },[handleLastWeek,handleThisWeek])
-    console.log(cardPercent)
+  
 
     useEffect(()=>{
         handleThisWeek()

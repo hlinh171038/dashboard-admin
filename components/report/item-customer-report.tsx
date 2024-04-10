@@ -45,11 +45,9 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
     },[router,id])
 
     const handleCallApi = useCallback(()=>{
-        console.log(status);
-        console.log(support)
+       
         axios.post('/api/update-mail-2',{id,support,status})
         .then((res:any)=>{
-            console.log(res.data);
             toast.success("updated !")
             router.refresh()
         })
@@ -66,22 +64,20 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
             toast.warning('You are not loggin or not admin');
             return ;
         } 
-        console.log(value)
+       
         setStatus(value);
         setSupport(current.email)
-        console.log(status);
-        console.log(support);
+      
         setApi(true)
          //handleCallApi(id,status,support)
 
-    },[current,status,support])
+    },[current])
 
-   console.log(status);
-   console.log(support);
+
 
     useEffect(()=>{
         const result = user && user.find((item:any)=>item.email === currentUser.user.email && item.role === 'yes');
-        console.log(result);
+        //console.log(result);
         setCurrent(result)
      },[currentUser,user])
      useEffect(()=>{

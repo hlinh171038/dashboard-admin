@@ -61,22 +61,22 @@ const TopCategory:React.FC<TopCategoryProps> = ({
           if(a.count <b.count) return 1;
           return 0;
         })
-        console.log(array);
+     
         if(array.length >5){
           const sub = array.slice(5);
-          console.log(sub);
+     
           const total = sub.reduce((calculator:number, currentValue:any)=> calculator + currentValue.count,0);
-          console.log(total);
+       
           obj.category = 'orther'
           obj.count= total;
         }
-        console.log(obj);
+     
         const first = array.slice(0,5);
-        console.log(first)
+     
          first.push(obj);
         setData(first)
        },[trendCategory])
-    console.log(trendCategory)
+   
     useEffect(()=>{
        const result = data && data.reduce((calculator:number,currentValue:any)=> calculator + currentValue.count,0);
        setTotal(result);

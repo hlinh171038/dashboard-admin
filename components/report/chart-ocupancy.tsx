@@ -93,7 +93,7 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setTotalMailThisWeek(result);
     },[mail,thisWeek])
     //comment last week
@@ -106,7 +106,7 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+        //console.log(result);
         setTotalMailLastWeek(result);
     },[mail,lastWeek])
 
@@ -167,7 +167,7 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
             },
         ]
        
-        console.log(data);
+        //console.log(data);
         for(let i=0;i<data.length;i++ ) {
             const day =new Date( data[i].created_at).getDay()
 
@@ -203,9 +203,7 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
         }
     },[handleChart,chartRight,totalMailLastWeek,totalMailThisWeek,mail])
 
-    console.log(chart)
-    console.log(totalMailThisWeek);
-    console.log(totalMailLastWeek);
+ 
   return (
     <div>
         <div 

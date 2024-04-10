@@ -33,7 +33,7 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                     result.push(ele)
                 }
         });
-        console.log(result);
+       
         const done = result && result.filter((item:any)=>item.status === 'done')
         setTransactionThisWeek(done)
     },[thisWeek,transaction])
@@ -49,10 +49,10 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
     //percent
     useEffect(()=>{
         const cardPercent = Math.round((cardAmount *100) /(cardAmount +cashAmount));
-        console.log(cardPercent);
+    
         setCardPercent(cardPercent);
         const cashPercent = Math.round((cashAmount *100) /(cardAmount +cashAmount));
-        console.log(cashPercent);
+      
         setCashPercent(cashPercent);
     },[cashAmount,cardAmount])
     return (

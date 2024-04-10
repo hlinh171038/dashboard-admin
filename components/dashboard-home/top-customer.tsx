@@ -23,7 +23,7 @@ const TopCustomer:React.FC<TopCustomerProps> = ({
     useEffect(()=>{
         const array:any[] = [...users]
         array && array.forEach((item:any)=>{
-            console.log(item)
+      
             if(item.transaction.length >0) {
                const result = item.transaction.reduce((calculator:number,currentValue: any)=>calculator + currentValue.totalPrice,0);
                 item.total = result;
@@ -31,16 +31,16 @@ const TopCustomer:React.FC<TopCustomerProps> = ({
                 item.total = 0;
             }
         });
-        console.log(array)
+    
         array.sort((a:any,b:any)=>{
             if(a.total >b.total) return -1;
             if(a.total < b.total) return 1;
             return 0
         })
-        console.log(array)
+
         setGuestData(array)
     },[users])
-    console.log(guestData)
+
     return (
         <div className="text-[14px] text-neutral-100 ">
              <div className="text-white text-[16px] font-bold flex items-center justify-between">

@@ -20,6 +20,8 @@ model User {
   action         Boolean?
   address        String?
   position       String?
+  isLeader       Boolean?
+  permission     String?
   emailVerified  String?
   phone          String?
   image          String?

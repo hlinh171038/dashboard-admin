@@ -37,6 +37,7 @@ const ItemTable:React.FC<ItemUserProps> = ({
     const month = new Date(createdAt).getMonth() + 1;
     const triggerMonth = month <10 ? "0"+ month: month
     const year = new Date(createdAt).getFullYear().toString()
+  
 
 
     //handle add admin
@@ -45,19 +46,20 @@ const ItemTable:React.FC<ItemUserProps> = ({
             toast.warning(`${name} is an admin.`);
             return;
         }
-        setIsLoading(true)
-        axios.post('/api/update-admin',{id})
-            .then((res)=>{
-                toast.success("success")
-                router.refresh();
-            })
-            .catch((err:any)=>{
-               toast.error('Some thing went wrong')
-            })
-            .finally(()=>{
-                setIsLoading(false)
-            })
-    },[id,router,name,role])
+        router.push(`/analytics/team?admin=${id}&search=&page=1&per_page=5`)
+        // setIsLoading(true)
+        // axios.post('/api/update-admin',{id})
+        //     .then((res)=>{
+        //         toast.success("success")
+        //         router.refresh();
+        //     })
+        //     .catch((err:any)=>{
+        //        toast.error('Some thing went wrong')
+        //     })
+        //     .finally(()=>{
+        //         setIsLoading(false)
+        //     })
+    },[router,role,name,id])
     return (
         <tr>
             <td className="flex items-center justify-start gap-1 py-2">

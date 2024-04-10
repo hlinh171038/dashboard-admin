@@ -15,8 +15,6 @@ const Employee:React.FC<EmployeeProps> =({
 }) =>{
     const router = useRouter()
 
-    console.log(member)
-
     // handle navigate
     const handleNavigate = useCallback(()=>{
         router.push('/analytics/team')
