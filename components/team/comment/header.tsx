@@ -50,6 +50,7 @@ const Header:React.FC<HeaderProps> = ({
             setIsLoading(false)
             setText('')
         })
+        
     },[text,userId,router])
 
     useEffect(()=>{

@@ -52,7 +52,7 @@ const Contact:React.FC<ContactProps> =({
         setData(currentUser.user)
     },[currentUser])
     return (
-        <div className="grid grid-cols-3 items-start justify-start gap-2">
+        <div className="grid grid-cols-3 items-start justify-start gap-2 bg-slate-600 rounded-md p-2">
             <div className="h-full ">
                 <div className="col-span-1 flex items-center justify-start">
                     <RiMailSendLine className="w-6 h-6 " />

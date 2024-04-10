@@ -25,6 +25,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
   const [userId,setUserId] = useState<any>([])
   const [check,setCheck] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
+  const [content,setContent] = useState('')
 
 
 
@@ -40,6 +41,26 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       userId: userId[0].id,
       mailSend:currentUser.user.email,
       mailRecive:'hoanglinh171038@gmail.com'
+    })
+    .then((res:any)=>{
+      router.refresh();
+      toast.success("Sended to team lead.")
+    })
+    .catch((err:any)=>{
+      toast.error("Something went wrong !!!")
+
+    })
+    .finally(()=>{
+      setIsLoading(false);
+    })
+
+    axios.post('/api/add-new-tempEmail',{
+      userId: userId[0].id,
+      mailSend:currentUser.user.email,
+      mailRecive:'hoanglinh171038@gmail.com',
+      userName:userId[0].name,
+      userImage:userId[0].image,
+      content: content
     })
     .then((res:any)=>{
       router.refresh();
@@ -111,6 +132,8 @@ export const ContactUs:React.FC<ContactUsProps> = ({
                 name="message" 
                 placeholder='message'
                 className='rounded-md outline-none border border-slate-900  px-2 py-1 text-[14px] '
+                value = {content}
+                onChange={(e:any)=>setContent(e.target.value)}
                 />
         </div>
         <div className="flex items-center justify-start gap-2">

@@ -20,9 +20,10 @@ const User:React.FC<UserProps> = ({
         <div
             className=" flex flex-col gap-2"
         >
+            
             <div  className="px-2 grid grid-cols-6 gap-2">
                 <div
-                    className="col-span-4 bg-slate-600 rounded-md px-2 py-2 text-white text-[15px]"
+                    className="col-span-4  text-neutral-400 text-[14px]"
                 >
                     <Mail
                         

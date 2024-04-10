@@ -105,7 +105,7 @@ export const FormMail:React.FC<ContactUsProps> = ({
   },[currentUser?.user.email,user])
 
   return (
-    <div className='text-[15px] text-neutral-100 px-2 py-4 rounded-md'>
+    <div className='text-[15px] text-neutral-100  pb-4 rounded-md'>
         
         <form 
         ref={form} 
