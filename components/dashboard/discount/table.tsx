@@ -27,10 +27,10 @@ const Table:React.FC<TableProps> = ({
 
     const [cateType,setCateType] = useState<any>([])
     const router = useRouter()
-    console.log(discount)
+ 
 
     const handlePushType = useCallback((value:string)=>{
-        console.log(value)
+
     },[])
 
 
@@ -39,9 +39,9 @@ const Table:React.FC<TableProps> = ({
         const result : any[] = [];
         for(let i=0;i<discount.length;i++){
             if(!result.includes(discount[i].type)){
-                console.log(discount[i].type)
+             
                 result.push(discount[i].type)
-                console.log(result)
+            
             }
         }
        setCateType(result)

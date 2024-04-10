@@ -32,7 +32,7 @@ const Content:React.FC<ContentProps> = ({
 }) =>{
 
     const [commentArr,setCommentArr] = useState<any>(comments &&comments)
-    console.log(comments)
+
 
     const handleSelected = (item:any)=>{
         let result:any[] = []
@@ -42,8 +42,7 @@ const Content:React.FC<ContentProps> = ({
                 if(a.heart.length < b.heart.length) return 1;
                 return 0
             })
-            console.log(comments)
-            console.log(result)
+        
         }
          else {
             result = comments.sort((a:any,b:any)=>{
@@ -56,7 +55,7 @@ const Content:React.FC<ContentProps> = ({
         }
         setCommentArr([...result])
     }
-    console.log(commentArr)
+  
     return (
         <div  >
             {comments.length === 0 ?(

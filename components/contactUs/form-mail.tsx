@@ -76,11 +76,11 @@ export const FormMail:React.FC<ContactUsProps> = ({
         () => {
             toast.success('send email success')
             setTextMessage('');
-          console.log('SUCCESS!');
+        
         },
         (error) => {
             toast.error('some thing went wrong !!!')
-          console.log('FAILED...', error.text);
+       
         },
       );
   };
@@ -103,7 +103,7 @@ export const FormMail:React.FC<ContactUsProps> = ({
         }
     })
   },[currentUser?.user.email,user])
-  console.log(userId)
+
   return (
     <div className='text-[15px] text-neutral-100 px-2 py-4 rounded-md'>
         

@@ -42,7 +42,7 @@ const Customer:React.FC<Cusromerprops> = ({
   
     const lengthuser = Math.ceil(users.length / per_page);
 
-    console.log(lengthuser)
+
 
     const updateUser = users.slice(start,end)
 
@@ -50,16 +50,14 @@ const Customer:React.FC<Cusromerprops> = ({
     useEffect(()=>{
         const thisWeek = [];
         const today = new Date();
-         console.log(today.getDay()) // thu ba
-         console.log(today.getDay() -1)
         const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
-        console.log(monday);
+  
         for(let i =1;i<=7;i++) {
            let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
-           console.log(date)
+          // console.log(date)
             thisWeek.push(date)
         }
-         console.log(thisWeek)
+        // console.log(thisWeek)
         setThisWeek(thisWeek)
     },[])
     // find out last week
@@ -72,7 +70,7 @@ const Customer:React.FC<Cusromerprops> = ({
         }
         setLastWeek(lastWeek)
     },[thisWeek])
-    console.log(lastWeek)
+    //console.log(lastWeek)
 
     // customer create this week
     useEffect(()=>{

@@ -43,7 +43,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     const [isLoading,setisLoading] = useState(false)
     const[check,setCheck] = useState(true)
 
-    console.log(currentUser)
+  
    const {
     register,
     handleSubmit,
@@ -77,7 +77,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
   const active = watch('active');
   const imgUrl = watch('imgUrl');
   const address = watch('address')
-  console.log(id)
+
   
   const onSubmit: SubmitHandler<FieldValues> = () => {
     setisLoading(true)

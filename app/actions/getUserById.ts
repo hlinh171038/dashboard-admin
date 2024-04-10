@@ -15,6 +15,6 @@ export async function getuserById(params:Iparams){
         })
         return userById
     } catch (error) {
-        console.log(error)
+        //console.log(error)
     }
 }

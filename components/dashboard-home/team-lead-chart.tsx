@@ -97,9 +97,9 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
               shortname:'CS'
             },
             {
-              name: 'Sale',
+              name: 'sale',
               uv: 0,
-              shortname:'sale'
+              shortname:'Sale'
             },
             {
               name: 'designer',

@@ -67,14 +67,14 @@ const Member:React.FC<MemberProps> = ({
      const updateFilterArr = filterArr && filterArr.slice(start,end);
      // max
      const maxTable = Math.ceil(member && member.length / per_page_admin);
-     console.log(maxTable)
+  
 
     useEffect(()=>{
        const result =  member && member.filter((item:any)=>item.email.includes(search_admin));
-       console.log(result);
+       
        setFillterArr(result)
     },[member,search_admin])
-    console.log(filterArr)
+  
     return (
         <div className=" px-2 w-full text-[14px] text-neutral-400">
             

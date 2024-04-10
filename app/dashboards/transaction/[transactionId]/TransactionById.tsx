@@ -41,7 +41,7 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
             }
         }
     }
-    console.log(result)
+ 
     setProductInfo(result)
   },[product,transaction])
     return (

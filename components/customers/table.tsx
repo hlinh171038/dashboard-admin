@@ -14,7 +14,6 @@ interface TableCustomerProps {
 const TableCustomer:React.FC<TableCustomerProps> = ({
     users =[]
 }) =>{
-    console.log(users)
     const router = useRouter()
     //handle back product
     const handleBackProduct = useCallback(()=>{

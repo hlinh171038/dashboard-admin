@@ -43,17 +43,7 @@ const CommentContent:React.FC<CommentContentProps> = ({
             setIsLoading(false)
         })
     },[router])
-    // useEffect(()=>{
-    //     const result  = [...arrHeart,...arrRelly,...arrRellyHeart];
-    //     result.sort((a:any,b:any)=>{
-    //         if(a.createdAt >b.createdAt) return -1;
-    //         if(a.createdAt <b.createdAt) return 1;
-    //         return 0;
-    //     })
-    //     console.log(result)
-    //     setAllArr(result)
-    // },[arrHeart,arrRelly,arrRellyHeart])
-    // console.log(allArr)
+
     if(notify.length <=0) {
         return (
             <div>

@@ -9,6 +9,6 @@ export async function getUserByEmail(email:any) {
         })
         return user
     } catch (error) {
-        console.log(error)
+        //console.log(error)
     }
 }

@@ -24,7 +24,7 @@ const Checkbox:React.FC<CheckboxProps> = ({
     const [data,setData] = useState(array)
     const [check,setCheck] = useState(colorValue || [])
 
-    console.log(check)
+
     
     return (
         <div>

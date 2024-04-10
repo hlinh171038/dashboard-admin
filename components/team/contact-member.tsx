@@ -29,8 +29,7 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
   const [check,setCheck] = useState(false)
   const [text,setText] = useState('')
 
-  console.log(currentUser)
-  console.log('try')
+
 
   const sendEmail = (e:any) => {
     if(check === false) {
@@ -70,7 +69,7 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
       return;
     }
     const result = users && users.filter((item:any)=>item.email === emailRecive);
-    console.log(result)
+
     setUserId(result)
   },[emailRecive,users,currentUser])
 

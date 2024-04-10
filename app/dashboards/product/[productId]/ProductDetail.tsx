@@ -138,10 +138,9 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       const userId = watch('userId')
       const discountId = watch('discountId')
 
-      console.log(salePrice)
+   
       const onSubmit: SubmitHandler<FieldValues> = (data) => {  
-        console.log(data)
-        console.log('try1')
+  
         setIsLoading(true)
         axios.post('/api/update-product',data)
               .then((res)=>{
@@ -176,17 +175,16 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           return
         }
         tag.push(item)
-        console.log(tag)
+      
         setCustomerValue('tag',tag)
         setCate('')
       }
 
       //handle add transaction
       const handleAddTransaction = (transaction:any,value:string) =>{
-        console.log(transaction)
-          console.log(value)
+    
           const index = transaction.find((val:string)=>val === value)
-            console.log(index)
+ 
           if(index) {
             const newTra = transaction.splice(index,1)
             setCustomerValue('transaction',transaction);
@@ -195,23 +193,14 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           transaction.push(value)
           setCustomerValue('transaction',transaction)
       }
-      // auto updated price
-    
-      // useEffect(()=>{
-        
-      //   if(defaultPrice !== 0 && margin !==0){
-      //     const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
-      //     setCustomerValue('salePrice',price)
-      //   }
-      // },[defaultPrice,margin,setCustomerValue])
+
 
    
       const handleCheckbox = (check:any,value:any) =>{
-        console.log(check)
+       
        
         const index = check.findIndex((val:string)=>val === value)
 
-        console.log(index)
         if(index!== -1){
           const deleteColor = check.splice(index,1);
          setCustomerValue('color',check);
@@ -256,21 +245,21 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
 
       //handle delete discount
       const handleDeleteDiscount = useCallback((id:string)=>{
-        console.log(id)
+     
         const array = [...discountId]
-        console.log(array)
+    
         const result = array.filter((item) =>item !== id);
-        console.log(result)
+   
         setCustomerValue('discountId',result)
       },[discountId,setCustomerValue])
 
        // handle delete tag
        const handleDeleteTagItem = useCallback((id:string)=>{
-        console.log(id)
+     
         const result = [...tag];
-        console.log(result)
+   
         const re = result.filter((item:any)=> item !== id)
-        console.log(re)
+  
         setCustomerValue('tag',re)
       },[setCustomerValue,tag])
     return (

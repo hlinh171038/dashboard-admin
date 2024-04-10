@@ -35,8 +35,6 @@ const SelectCustomer:React.FC<SelectCustomerProps> = ({
     const [inputValue,setInputValue] = useState(title)
     const refSelected = useRef()
 
-    console.log(title)
-
     const handleSelected = useCallback((item: string)=>{
         if(item === "Yes") {
             setSelected("Yes");

@@ -50,8 +50,7 @@ const Filter:React.FC<FilterProps> = ({
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
-      
+    
 
         const start = data.start !=='' ? new Date(new Date(data.start).getTime() ).toISOString() : ''
         const end = data.end !=='' ? new Date(new Date(data.end).getTime() + 86400000).toISOString() : ''
@@ -66,12 +65,7 @@ const Filter:React.FC<FilterProps> = ({
       const stock = watch('stock')
       const price = watch('price')
 
-      console.log(brand)
-      console.log(category)
-      console.log(location)
-      console.log(start);
-      console.log(end)
-      console.log(stock)
+    
      //handle customeValue
      const setCustomeValue = useCallback((id:string,value:any)=>{
             setValue(id,value,{
@@ -83,13 +77,13 @@ const Filter:React.FC<FilterProps> = ({
 
       //handle selection
       const handleSelected = useCallback((ranges:any)=>{
-            console.log(dateRange.startDate)
+         
             setDateRange(ranges.selection);
             const start = ranges.selection.startDate;
             const end = ranges.selection.endDate;
             setCustomeValue('start',start);
             setCustomeValue('end',end)
-      },[dateRange,setCustomeValue])
+      },[setCustomeValue])
 
 
       const handleReset = useCallback(()=>{
@@ -106,7 +100,7 @@ const Filter:React.FC<FilterProps> = ({
 
      //handle slider
      const handleSlider = (value:any) =>{
-        console.log(value)
+       
         setCustomeValue('price',value[0])
     }
 
@@ -117,9 +111,9 @@ const Filter:React.FC<FilterProps> = ({
         const result : any[] = [];
         for(let i=0;i<array.length;i++){
             if(!result.includes(array[i].brand)){
-                console.log(array[i].brand)
+        
                 result.push(array[i].brand)
-                console.log(result)
+            
             }
         }
        setBrandArr(result)
@@ -131,14 +125,13 @@ const Filter:React.FC<FilterProps> = ({
         const result : any[] = [];
         for(let i=0;i<array.length;i++){
             if(!result.includes(array[i].category)){
-                console.log(array[i].category)
+            
                 result.push(array[i].category)
             }
         }
        setCategoryArr(result)
     },[product2])
-    console.log(brandArr);
-    console.log(categoryArr);
+
     //find largest and smalleset price
     useEffect(()=>{
         const result = product2 && product2.sort((a:any,b:any)=> {
@@ -146,15 +139,14 @@ const Filter:React.FC<FilterProps> = ({
             if(a.salePrice <b.salePrice) return 1;
             return 0;
         });
-        console.log(result);
+ 
         if(result !==undefined) {
             setSmallPrice(result && result[result.length -1].salePrice)
             setBigPrice(result && result[0].salePrice)
         }
         
     },[product2])
-    console.log(smallPrice)
-    console.log(bigPrice)
+ 
     return (
         <div className="w-full">
              {/* header filter */}

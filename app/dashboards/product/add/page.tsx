@@ -16,9 +16,9 @@ const Product = async() =>{
   
 
   if(session) {
-    console.log(session.user?.email)
+    //console.log(session.user?.email)
   } else {
-    console.log('not loggin')
+    //console.log('not loggin')
   }
   const user = await getUserByEmail(session?.user?.email)
   

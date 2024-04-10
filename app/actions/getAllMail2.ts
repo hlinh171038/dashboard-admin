@@ -40,7 +40,7 @@ export async function getAllMail2({search,role,status,start,end}:{search?:string
 
         return mail
     } catch (error:any) {
-        console.log(error)
+        //console.log(error)
         throw new Error(error)
     }
 }

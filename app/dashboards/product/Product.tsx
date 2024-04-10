@@ -7,11 +7,11 @@ import HotestProduct from "@/components/products/hotest-product";
 import Pagination from "@/components/products/pagination";
 import TableProduct from "@/components/products/table"
 import TotalProduct from "@/components/products/total-product";
-import { Product, Transaction, User } from "@prisma/client";
+import {  Transaction, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 interface ProductProps {
-    product: Product[] |any;
+    product: any;
     query: string;
     page: number;
     per_page: number;
@@ -21,7 +21,7 @@ interface ProductProps {
     price: string;
     stock: string;
     transaction: Transaction[] | any;
-    product2: Product[] | any;
+    product2:  any;
     currentUser: any;
     customer: User[] | any;
 }
@@ -56,15 +56,14 @@ const Product:React.FC<ProductProps> = ({
     useEffect(()=>{
         const thisWeek = [];
         const today = new Date();
-         console.log(today.getDay()) // thu ba
-         console.log(today.getDay() -1)
+        
         const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
-        console.log(monday);
+    
         for(let i =1;i<=7;i++) {
            let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
             thisWeek.push(date)
         }
-         console.log(thisWeek)
+      
         setThisWeek(thisWeek)
     },[])
     // find out last week
@@ -77,8 +76,7 @@ const Product:React.FC<ProductProps> = ({
         }
         setLastWeek(lastWeek)
     },[thisWeek])
-    console.log(thisWeek)
-    console.log(lastWeek)
+
 
     // product this week
     useEffect(()=>{
@@ -90,7 +88,7 @@ const Product:React.FC<ProductProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+    
         setTotalProductThisWeek(result);
     },[product,thisWeek])
     // product last week
@@ -103,7 +101,7 @@ const Product:React.FC<ProductProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+
         setTotalProductLastWeek(result)
     },[product,lastWeek])
     return (

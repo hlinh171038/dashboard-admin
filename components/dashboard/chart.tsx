@@ -108,7 +108,7 @@ const Chart:React.FC<ChartProps> = ({
             Cancel:0
         },
     ]
-    console.log(totalTransactionThisWeek);
+
 
     //done status
     for(let i=0;i<totalTransactionThisWeek.length;i++ ) {

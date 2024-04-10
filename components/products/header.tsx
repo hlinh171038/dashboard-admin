@@ -44,7 +44,7 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
 }) =>{
     const [text,setText] = useState('')
     const [query] = useDebounce(text, 300);
-    console.log(text)
+  
     const router = useRouter()
     const inputRef = useRef<any>(null)
 

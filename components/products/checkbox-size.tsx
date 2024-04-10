@@ -24,7 +24,7 @@ const CheckboxSize:React.FC<CheckboxSizeProps> = ({
     const [data,setData] = useState(array)
     const [check,setCheck] = useState <any>(sizeValue || [])
 
-    console.log(sizeValue)
+  
     
     return (
         <div>

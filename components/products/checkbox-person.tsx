@@ -24,7 +24,7 @@ const CheckboxPerson:React.FC<CheckboxPersonProps> = ({
     const [data,setData] = useState(array)
     const [check,setCheck] = useState(personValue || [])
 
-    console.log(check)
+
     
     return (
         <div>

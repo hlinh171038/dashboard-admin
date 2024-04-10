@@ -22,7 +22,7 @@ export async function getAllTransaction({search,status,payment,startDate,endDate
             }
             
         }
-        console.log(typeof startDate)
+   
         if(startDate && endDate) {
             query.date = {
                 gte: startDate, // Greater than or equal to start date

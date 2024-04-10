@@ -14,7 +14,7 @@ export async function getAllMail() {
 
         return mail
     } catch (error:any) {
-        console.log(error)
+        //console.log(error)
         throw new Error(error)
     }
 }

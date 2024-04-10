@@ -21,6 +21,6 @@ export async function getuserById2(id:string| null){
             trasaction: userById?.transaction
         }
     } catch (error) {
-        console.log(error)
+        //console.log(error)
     }
 }

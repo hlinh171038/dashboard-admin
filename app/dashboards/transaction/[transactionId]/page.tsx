@@ -9,11 +9,11 @@ interface IParams {
 }
 
 const page = async({params}: {params:IParams}) =>{
-    console.log(params.transactionId)
+   
     const transaction = await getTransactionById(params.transactionId)
     const product = await getAllProduct2()
     const user = await getuserById2(transaction && transaction.userId as string)
-    console.log(user)
+   
     return (
         <div>
             <TransactionById 

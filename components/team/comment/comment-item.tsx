@@ -132,7 +132,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
     const handleUpdate = useCallback((e:any)=>{
         
         setIsLoading(true)
-        console.log(textUpdate)
+     
         if(e.code === 'Enter'){
             setUpdate(false)
             
@@ -158,11 +158,11 @@ const CommentItem:React.FC<CommentItemProps> = ({
         }
         
     },[id,textUpdate,router,content,isHeart])
-    console.log(currentUserId)
+ 
    
     //handle update heart
     const handleCreateHeart = useCallback((id:string)=>{
-        console.log(currentUserId)
+     
         setIsLoading(true)
             axios.post('/api/create-heart',{
                 userId:currentUserId?.id,
@@ -171,7 +171,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 commentId:id,
             })
             .then((res:any)=>{
-                console.log(res.data)
+            
                 router.refresh();
                 toast.success("success");
             })
@@ -190,7 +190,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 mark: false,
                 type:'heart'
             }).then((res:any)=>{
-                console.log(res.data)
+            
                 router.refresh();
                 
             })
@@ -227,9 +227,9 @@ const CommentItem:React.FC<CommentItemProps> = ({
       },[currentUser.user.email,user])
 
       useEffect(()=>{
-       console.log(createdAt)
+   
       },[createdAt])
-      console.log(relly)
+
     return (
         <div className="flex flex-col gap-2 mt-1">
                 <div className="flex items-center justify-between">

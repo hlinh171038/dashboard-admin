@@ -21,7 +21,7 @@ const MailContent:React.FC<MailContentProps> = ({
     mail,
    
 }) =>{
-    console.log(mail)
+
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
 

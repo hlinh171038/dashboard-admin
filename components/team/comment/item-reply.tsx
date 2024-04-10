@@ -73,7 +73,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
     const handleUpdate = useCallback((e:any)=>{
         
         setIsLoading(true)
-        console.log(textUpdate)
+      
         if(e.code === 'Enter'){
             setUpdate(false)
             
@@ -102,14 +102,14 @@ const ItemReply:React.FC<ItemReplyProps> = ({
 
     //handle update heart
     const handleCreateHeart = useCallback((id:string)=>{
-        console.log(currentUserId)
+      
         setIsLoading(true)
             axios.post('/api/create-heart-reply',{
                 userId:currentUserId?.id,
                 rellyId:id,
             })
             .then((res:any)=>{
-                console.log(res.data)
+        
                 toast.success("success");
                 router.refresh();
             })
@@ -154,7 +154,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
             }
         })
       },[heart,id])
-      console.log(heart)
+
 
       // take currentUser
       useEffect(()=>{

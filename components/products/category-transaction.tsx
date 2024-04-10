@@ -23,13 +23,13 @@ const Transaction:React.FC<TransactionProps> = ({
     const [open,setOpen] = useState(false)
 
     const handleadd =(value:string) =>{
-        console.log(value)
+
     }
     return (
         <div className="relative">
             <div className="text-neutral-200 text-[15px]">Transportation</div>
             <Select>
-            <SelectTrigger className="w-full bg-slate-500/60 rounded-md text-neutral-100 px-2 py-1 text-[15px] text-neutral-400">
+            <SelectTrigger className="w-full bg-slate-500/60 rounded-md px-2 py-1 text-[15px] text-neutral-400">
             {transaction.length >0 ?(
                     transaction.map((item:any)=>{
                         return <div 

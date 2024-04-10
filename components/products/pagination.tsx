@@ -29,9 +29,7 @@ const Pagination:React.FC<PaginationParams> = ({
     stock
 }) =>{
     const router = useRouter()
-    // const searchParams = useSearchParams();
-    // const pageQuery = searchParams.get('page');
-    // console.log(pageQuery)
+
     const pagin=[]
    
     for(let i= 0;i<max;i++){

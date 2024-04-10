@@ -24,7 +24,7 @@ const Header:React.FC<HeaderProps> = ({
     const [userId,setUserId] =useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
-    console.log(text)
+  
     //handle submit
     const handleSubmit = useCallback(() =>{
         if(text === ''){

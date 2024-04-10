@@ -88,13 +88,13 @@ const Filter:React.FC<FilterProps> =({
 
     //handle slider
     const handleSlider = (value:any) =>{
-        console.log(value)
+
         setCustumValue('percent',value[0])
     }
 
     //handle change date
     const handleChangeDate = useCallback((range:any) =>{
-        console.log(range)
+
         setDateRange(range.selection)
         const start = range.selection.startDate;
         const end = range.selection.endDate;
@@ -106,7 +106,7 @@ const Filter:React.FC<FilterProps> =({
     const percent = watch('percent')
     const dayStart = watch('dayStart')
     
-    console.log( typeof dayStart)
+
     //handle count form
     const handleCountFrom = useCallback((value:string) =>{
     

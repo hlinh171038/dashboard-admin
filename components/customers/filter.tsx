@@ -48,10 +48,7 @@ const Filter:React.FC<FilterProps> = ({
       const start = watch('start');
       const end = watch('end');
 
-      console.log(role)
-      console.log(action)
-      console.log(start === '')
-      console.log(end)
+
      //handle customeValue
      const setCustomeValue = useCallback((id:string,value:any)=>{
             setValue(id,value,{

@@ -54,8 +54,6 @@ export async function getAllProduct({query,category,brand,price,location,stock,s
             }
         }
         if(start && end) {
-            console.log(start)
-            console.log(end)
             
                data.AND =[
                    {

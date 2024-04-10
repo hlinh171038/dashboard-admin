@@ -6,13 +6,13 @@ import Header from "@/components/dashboard/discount/header"
 import Pagination from "@/components/dashboard/discount/pagination";
 import Table from "@/components/dashboard/discount/table"
 import TotalDiscount from "@/components/dashboard/discount/total-discount";
-import { Discount, User } from "@prisma/client"
+import {  User } from "@prisma/client"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface DiscountProps {
-    discount: Discount[] | any;
-    discount2: Discount[] | any;
+    discount:  any;
+    discount2:  any;
     search: string;
     page: number,
     per_page:number,
@@ -29,7 +29,7 @@ const Discount:React.FC<DiscountProps> =({
     page,
     per_page
 }) =>{
-    console.log(discount)
+ 
     const router = useRouter()
     const [thisWeek,setThisWeek] = useState<any>([])
     const [lastWeek,setLastWeek] = useState<any>([])
@@ -46,15 +46,14 @@ const Discount:React.FC<DiscountProps> =({
      useEffect(()=>{
           const thisWeek = [];
           const today = new Date();
-          console.log(today.getDay()) // thu ba
-          console.log(today.getDay() -1)
+        
           const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
-          console.log(monday);
+    
           for(let i =1;i<=7;i++) {
             let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
               thisWeek.push(date)
           }
-          console.log(thisWeek)
+     
           setThisWeek(thisWeek)
       },[])
 

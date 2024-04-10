@@ -44,8 +44,7 @@ const Contact:React.FC<ContactProps> =({
         }
         setData(obj)
     },[otherCheck])
-    console.log(currentUser)
-    console.log(data)
+  
 
     useEffect(()=>{
         setOtherCheck(false)

@@ -69,7 +69,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
     page,
     per_page
 }) => {
-    console.log(transaction)
+    
 
     const [thisWeek,setThisWeek] = useState<Date[]>([])
     const [lastWeek,setLastWeek] = useState<Date[]>([])
@@ -78,8 +78,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
     const [chart,setChart] = useState('all');
     const [chartRight,setChartRight] = useState('all');
 
-    console.log(page)//0
-    console.log(per_page)//10
+ 
     const lengthStransaction = Math.ceil(transaction.length / Number(per_page));
         
   
@@ -96,15 +95,14 @@ const TransactionPage:React.FC<TransactionProps> = ({
     useEffect(()=>{
         const thisWeek = [];
         const today = new Date();
-         console.log(today.getDay()) // thu ba
-         console.log(today.getDay() -1)
+      
         const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate()-today.getDay())
-        console.log(monday);
+       
         for(let i =1;i<=7;i++) {
            let date =  new Date(monday.getFullYear(), monday.getMonth(), monday.getDate()+i)
             thisWeek.push(date)
         }
-         console.log(thisWeek)
+   
         setThisWeek(thisWeek)
     },[])
 
@@ -118,8 +116,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
         }
         setLastWeek(lastWeek)
     },[thisWeek])
-    console.log(thisWeek)
-    console.log(lastWeek)
+ 
 
     // transaction this week
     useEffect(()=>{
@@ -131,7 +128,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+    
         setTotalTransactionThisWeek(result);
     },[transaction2,thisWeek])
     // transaction last week
@@ -144,7 +141,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+    
         setTotalTransactionLastWeek(result)
     },[transaction2,lastWeek])
     // total last week

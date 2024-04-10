@@ -170,6 +170,8 @@ const Dashboard:React.FC<DashbaordProps> = ({
                         />
                         <TeamLeadCahrt
                             users = {users}
+                            totalUserLastWeek={totalUserLastWeek}
+                            totalUserThisWeek={totalUserThisWeek}
                         />
                         
                     </div>

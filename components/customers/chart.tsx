@@ -16,7 +16,6 @@ const ChartCustomer:React.FC<ChartCustomerProps> = ({
 }) => {
   const [data,setData] = useState<any>([])
 
-  console.log(totalUserLastWeek)
   useEffect(()=>{
     const data = [
         {

@@ -70,7 +70,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                 result.push(item)
             }
         });
-        console.log(result);
+   
         setTotalTransactionThisWeek(result);
    },[transaction,thisWeek])
    // totalTransaction last week
@@ -83,11 +83,11 @@ const HotestProduct:React.FC<HotestProductProps> = ({
             result.push(item)
         }
     });
-    console.log(result);
+  
     setTotalTransactionLastWeek(result)
 },[transaction,lastWeek])
 
-    console.log(totalTransactionLastWeek)
+   
     useEffect(()=>{
         const result:any[] =[]
         if(openAll === true && openBrand === true) {
@@ -98,7 +98,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.brand === it.brand)
-                            console.log(index)
+                           
                             if(index ===-1){
                                 const obj = {brand:it.brand,count:1}
                                 result.push(obj)
@@ -121,7 +121,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.brand === it.brand)
-                            console.log(index)
+                      
                             if(index ===-1){
                                 const obj = {brand:it.brand,count:1}
                                 result.push(obj)
@@ -144,7 +144,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.brand === it.brand)
-                            console.log(index)
+                     
                             if(index ===-1){
                                 const obj = {brand:it.brand,count:1}
                                 result.push(obj)
@@ -167,7 +167,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.id === it.id)
-                            console.log(index)
+                     
                             if(index ===-1){
                                 const obj = {id:it.id,name:it.title,image:it.image,brand2:it.brand,category:it.category,count:1}
                                 result.push(obj)
@@ -190,7 +190,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.id === it.id)
-                            console.log(index)
+                  
                             if(index ===-1){
                                 const obj = {id:it.id,name:it.title,image:it.image,brand2:it.brand,category:it.category,count:1}
                                 result.push(obj)
@@ -214,7 +214,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                             if(ele === it.id) {
                                  // check brand
                             const index = result.findIndex((item:any)=>item.id === it.id)
-                            console.log(index)
+                         
                             if(index ===-1){
                                 const obj = {id:it.id,name:it.title,image:it.image,brand2:it.brand,category:it.category,count:1}
                                 result.push(obj)
@@ -228,7 +228,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                 }
             })
         }
-        console.log(result);
+
         //const resultSort = handleSort(result,'count')
        const resultSort =  result && result.sort((a:any,b:any)=>{
             if(a.count >b.count) return -1;
@@ -237,7 +237,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
         })
         setArray(resultSort);
     },[openBrand,openHot,openAll,product,transaction,totalTransactionLastWeek,openLastWeek,openCurrent,totalTransactionThisWeek])
-    console.log(array)
+ 
     return (
         <div>
             <div className="w-full pb-2 flex items-center justify-between text-neutral-100 text-[14px]">

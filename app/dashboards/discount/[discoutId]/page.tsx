@@ -5,7 +5,7 @@ interface IParams {
     discoutId: string
 }
 const page = async ({params}:{params:IParams}) =>{
-    console.log(params.discoutId)
+    //console.log(params.discoutId)
 
     const discount = await getAllDiscount2()
     return (

@@ -41,16 +41,16 @@ const TableProduct:React.FC<TableProductProps> = ({
     const [categoryArr,setCategoryArr] = useState<any>([])
     const [brandArr,setBrandArr] = useState<any>([])
     
-    console.log(data.length == 1)
+
 
     const fillterCategory = useCallback(() =>{
         
         const result : any[] = [];
         for(let i=0;i<data.length;i++){
             if(!result.includes(data[i].category)){
-                console.log(data[i].category)
+          
                 result.push(data[i].category)
-                console.log(result)
+             
             }
         }
        setCategoryArr(result)
@@ -62,9 +62,9 @@ const TableProduct:React.FC<TableProductProps> = ({
         const result : any[] = [];
         for(let i=0;i<data.length;i++){
             if(!result.includes(data[i].brand)){
-                console.log(data[i].brand)
+               
                 result.push(data[i].brand)
-                console.log(result)
+            
             }
         }
        setBrandArr(result)

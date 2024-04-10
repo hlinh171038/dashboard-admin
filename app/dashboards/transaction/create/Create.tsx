@@ -62,7 +62,7 @@ const Create:React.FC<CreateProps> = ({
         bank: z.string()
     })
    
-console.log(product)
+
     const {
         register,
         handleSubmit,
@@ -92,9 +92,9 @@ console.log(product)
       const type = watch('type');
       const bank = watch('bank')
 
-      console.log(productId)
+ 
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
+
         setIsLoading(true)
         axios.post('/api/add-new-transaction', data)
                 .then((res)=>{
@@ -135,16 +135,16 @@ console.log(product)
                 setProductItem(array)
                 setOpenProduct(false)
             }
-            console.log(array)
+       
             const arrayId = [...array];
-            console.log(arrayId)
+   
             const empty: string[]= [];
             arrayId.forEach((item)=>{
                 empty.push(item.id)
             })
             setCustomerValue('productId',empty)
       },[productItem,setCustomerValue])
-      console.log(productItem)
+   
 
       //handleAdduser 
       const handleAddUser = useCallback((value:any)=>{
@@ -194,7 +194,7 @@ console.log(product)
 
         }
     },[transportation,setCustomerValue])
-console.log(user)
+
     return (
         <div className="bg-slate-600 rounded-md px-2 py-4">
             <form  

@@ -7,7 +7,6 @@ import { getAllDiscount2 } from "@/app/actions/getAllDiscount2"
 
 const page = async ({searchParams}:{searchParams:{[key: string]: string[] | string | undefined}}) =>{
 
-    console.log(searchParams.search)
     const search = typeof(searchParams.search) === 'string' ?searchParams.search : '' 
     const type = typeof(searchParams.type) === 'string' ? searchParams.type: ''
     const percent = typeof(searchParams.percent) === 'string' ? Number(searchParams.percent) : 0

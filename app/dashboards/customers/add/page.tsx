@@ -55,9 +55,7 @@ const AddNewCustomer = () =>{
         path: ["confirmPassword"], // path of error
       });
     
-    //console.log(schema.parse({ password: "asdf4", confirmPassword: "asdf4" }))
-
-    // connect zod with react hook form
+ 
     const {
         register,
         handleSubmit,
@@ -87,10 +85,10 @@ const AddNewCustomer = () =>{
       const passwordConfirm = watch('confirmPassword')
       const active = watch('active')
 
-      console.log(active)
+    
       
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
+   
         setIsLoading(true)
         axios.post('/api/add-new-user', data)
                 .then(()=>{

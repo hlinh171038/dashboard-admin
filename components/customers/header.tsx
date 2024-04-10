@@ -71,7 +71,6 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
 
     useEffect(()=>{
         const result = customer && customer.find((item:any)=>item.email === currentUser.user.email);
-        console.log(result);
         setCurrent(result)
      },[currentUser,customer])
     return (

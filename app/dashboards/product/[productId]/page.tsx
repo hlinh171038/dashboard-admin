@@ -9,11 +9,10 @@ interface IParams {
     productId: string
 }
 const ProductId = async({params}:{params:IParams}) =>{
-    console.log(params.productId)
     const product = await getProductById(params.productId)
     const discount = await getAllDiscount2()
     //const session = await getServerSession(authOptions)
-    console.log(product)
+ 
     return (
         <ProductDetail
             product ={product}

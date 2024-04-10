@@ -26,8 +26,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
   const [check,setCheck] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
 
-  console.log(currentUser)
-  console.log('try')
+
 
   const sendEmail = (e:any) => {
     if(check === false) {
@@ -61,11 +60,11 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       .then(
         () => {
             toast.success('send email success')
-          console.log('SUCCESS!');
+         
         },
         (error) => {
             toast.error('some thing went wrong !!!')
-          console.log('FAILED...', error.text);
+          
         },
       );
      
@@ -78,7 +77,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       return;
     }
     const result = users && users.filter((item:any)=>item.email === currentUser.user.email);
-    console.log(result)
+   
     setUserId(result)
   },[currentUser,users])
    //handle check

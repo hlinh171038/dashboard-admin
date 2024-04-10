@@ -28,18 +28,6 @@ export async function getAlluser({search,role,action,start,end}:{search?: string
             } 
         }
         if(start && end) {
-         console.log(start)
-         console.log(end)
-            // if(start === end) {
-            //     query.createdAt = {
-            //         gte: new Date(start),
-            //         lte: new Date(convert),
-            //     }
-            // } else {
-            //     console.log(start)
-            // console.log(end)
-            // console.log(new Date(start))
-            // console.log(new Date(end))
             query.AND =[
                 {
                     createdAt:{gte:start}

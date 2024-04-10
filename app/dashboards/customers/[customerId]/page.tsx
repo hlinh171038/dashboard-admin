@@ -12,7 +12,7 @@ const CustomerId = async({params}:{params:Iparams}) => {
     const currentUser = await getServerSession(authOptions)
     const customerById = await getuserById(params)
     const user = await getAllUser2()
-    console.log(customerById)
+  
     return (
         <div>
             <DetailCustomer 

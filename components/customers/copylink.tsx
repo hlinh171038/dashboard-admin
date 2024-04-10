@@ -18,10 +18,10 @@ const CopyLink:React.FC<CopyLinkProps> = ({
     currentUser,
     customer =[]
 }) =>{
-    console.log(customer)
+
     const [current,setCurrent] = useState<any>([])
     const pathName = usePathname();
-    console.log(pathName)
+
 
     const handleCopy =() =>{
         if(current && current.role === 'no') {
@@ -34,7 +34,7 @@ const CopyLink:React.FC<CopyLinkProps> = ({
 
     useEffect(()=>{
        const result = customer && customer.find((item:any)=>item.email === currentUser.user.email);
-       console.log(result);
+      
        setCurrent(result)
     },[currentUser,customer])
     return (

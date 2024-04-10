@@ -60,19 +60,19 @@ interface LineChartUserProps {
                 LastWeek: 0,
             },
         ]
-        console.log(totalProductThisWeek);
+      
         for(let i=0;i<totalProductThisWeek.length;i++ ) {
             const day =new Date( totalProductThisWeek[i].createdAt).getDay()
             for(let j =0 ;j<array.length;j++) {
                 if(day === array[j].id) {
-                    console.log('try')
+                
                     array[j].ThisWeek += 1;
                 }
             }
         }
         setChartThisWeek(array)
     },[totalProductThisWeek])
-    console.log(chartThisWeek)
+ 
     return (
         <div className='w-full h-[100px] text-[14px] text-neutral-400'>
             <ResponsiveContainer width="100%" height="100%">

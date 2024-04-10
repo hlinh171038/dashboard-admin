@@ -61,19 +61,19 @@ const CircleChart:React.FC<CirclechartParams> = ({
         {id:6,day:'bay',value:0},
         {id:0,day:'cn',value:0 },
       ];
-      console.log(data);
+     
         for(let i=0;i<data.length;i++ ) {
             const day =new Date( data[i].date).getDay()
             for(let j =0 ;j<array.length;j++) {
                 if(day === array[j].id) {
-                    console.log('try')
+              
                     array[j].value += 1;
                 }
             }
         }
         setChartThisWeek(array)
     },[])
-    console.log(chartThisWeek)
+ 
 
     useEffect(()=>{
       if(type==='thisWeek') {

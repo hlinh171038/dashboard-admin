@@ -61,8 +61,7 @@ const Header:React.FC<HeaderProps> = ({
         //const start = new Date(new Date(ranges.selected.startDate).getTime()+24 * 60 * 60 * 1000)
         const start = ranges.selected.startDate
         const end = new Date(new Date(ranges.selected.endDate).getTime()+ 24*60*60*1000)
-        console.log(start)
-        console.log(start.toISOString())
+      
         const startConvert = start.toISOString()
         const endConvert = end.toISOString()
          setDateRange(ranges.selected)
@@ -73,7 +72,7 @@ const Header:React.FC<HeaderProps> = ({
         router.push(`/dashboards/transaction?search=${query}&payment=${payment}&status=${status}&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
     },[query,router,payment,status,startDate,endDate])
 
-    console.log(earlyDate)
+   
     // find the laster date
     useEffect(()=>{
       let  earliesDate = transaction.length> 0 && transaction[0].date;
@@ -82,7 +81,7 @@ const Header:React.FC<HeaderProps> = ({
             earliesDate = transaction[i].date
         }
       }
-      console.log(earliesDate)
+    
       setEarlyDate(earliesDate)
       setStart(earliesDate && earliesDate.toDateString())
     },[transaction])

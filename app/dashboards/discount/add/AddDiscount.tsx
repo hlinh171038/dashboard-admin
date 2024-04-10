@@ -80,9 +80,9 @@ const AddDiscount = () =>{
       const count = watch('count')
       const ma = watch('code')
       const condition = watch('condition')
-      console.log(condition)
+   
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
+   
         setIsLoading(true)
         axios.post('/api/add-new-coupon',data)
                 .then((res)=>{
