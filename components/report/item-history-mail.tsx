@@ -20,7 +20,7 @@ const ItemHistoryMail:React.FC<ItemHistoryMailProps> = ({
 }) =>{
     return (
         <tr className="text-neutral-400 text-[14px]">
-            <td>
+            <td className="px-2">
                 <div className="flex items-center justify-start gap-0.5">
                     <Image 
                         src={image ? image : '/avatar.webp'}
@@ -29,12 +29,12 @@ const ItemHistoryMail:React.FC<ItemHistoryMailProps> = ({
                         alt="avatar"
                         className="rounded-full aspect-square"
                     />
-                    <span>{name && name}</span>
+                    <span  className="px-2">{name && name}</span>
                 </div>
             </td>
-            <td>{email && email}</td>
-            <td>{new Date(date && date).toDateString()}</td>
-            <td>{seen && seen ? 'Seen': 'Not Seen'}</td>
+            <td  className="px-2">{email && email}</td>
+            <td  className="px-2">{new Date(date && date).toDateString()}</td>
+            <td  className="px-2">{seen && seen ? 'Seen': 'Not Seen'}</td>
         
         </tr>
     )

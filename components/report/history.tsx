@@ -44,10 +44,10 @@ const HistoryMail:React.FC<TempMailProps> = ({
                     className="w-full"
                     >
                     <tr className="text-neutral-200 text-[15px]">
-                        <td>Information</td>
-                        <td>Email</td>
-                        <td>Date</td>
-                        <td>Status</td>
+                        <td className="px-2">Information</td>
+                        <td  className="px-2">Email</td>
+                        <td  className="px-2">Date</td>
+                        <td  className="px-2">Status</td>
                     </tr>
                     {data && data.map((item:any)=>{
                         return <ItemHistoryMail

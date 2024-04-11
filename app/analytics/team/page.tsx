@@ -16,8 +16,8 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10;
     const admin = typeof searchParams.admin === 'string' ? searchParams.admin: ''; 
     const search_admin = typeof searchParams.search_admin === 'string' ? searchParams.search_admin: ''
-    const page_admin = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
-    const per_page_admin = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10;  
+    const page_admin = typeof searchParams.page_admin === 'string' ? Number(searchParams.page_admin) : 1
+    const per_page_admin = typeof searchParams.per_page_admin === 'string' ? Number(searchParams.per_page_admin) : 10;  
     const userSearch = await getAlluser({search})
     const user = await getAllUser2()
     const user2 = await getAllUser2()
