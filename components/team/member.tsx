@@ -60,13 +60,10 @@ const Member:React.FC<MemberProps> = ({
     //pagination
      // start
 
-     console.log(per_page_admin);
-     console.log(page_admin)
+     
      const start =(per_page_admin * page_admin) -per_page_admin;  //0,5,10,15,...
     const end = per_page_admin * page_admin;               //5,10,15
 
-    console.log(start)
-    console.log(end)
      // updateFilterArr
      const updateFilterArr = filterArr && filterArr.slice(start,end);
      // max

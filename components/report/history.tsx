@@ -5,6 +5,7 @@ import ItemHistoryMail from "./item-history-mail";
 import { useCallback, useEffect, useState } from "react";
 import { MdOutlineCallMade } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { LuMailWarning } from "react-icons/lu";
 
 interface TempMailProps {
     tempMail: TempMail[] | any;
@@ -20,7 +21,7 @@ const HistoryMail:React.FC<TempMailProps> = ({
 
     //handle navigate
     const handleNavigate = useCallback(()=>{
-        router.push('/')
+        router.push('/analytics/report/history')
     },[router])
 
     useEffect(()=>{
@@ -28,6 +29,17 @@ const HistoryMail:React.FC<TempMailProps> = ({
         console.log(result)
         setData(result)
     },[currentUser,tempMail])
+
+    if(data && data.length ===0) {
+        return (
+            <div>
+                <div className="flex items-center justify-center gap-2 text-[14px] py-4">
+                    <LuMailWarning/>
+                    <div>No Eamil History</div>
+                </div>
+            </div>
+        )
+    }
     return (
         <div className="p-2">
             <div  className="pb-4">
@@ -49,7 +61,7 @@ const HistoryMail:React.FC<TempMailProps> = ({
                         <td  className="px-2">Date</td>
                         <td  className="px-2">Status</td>
                     </tr>
-                    {data && data.map((item:any)=>{
+                    {data && data.slice(0,7).map((item:any)=>{
                         return <ItemHistoryMail
                                     key={item.id}
                                     name = {item.userName}
