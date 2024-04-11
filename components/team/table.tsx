@@ -28,7 +28,7 @@ const Table:React.FC<TableProps> = ({
     },[])
 
     useEffect(()=>{
-        router.push(`/analytics/team?search=${query}&page=1&per_page=5`)
+        router.push(`/analytics/team?search=${query}&page=1&per_page=10`)
     },[query,router])
     return (
         <div className="w-[100%] min-w-[71.2vw]">

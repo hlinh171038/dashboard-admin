@@ -6,27 +6,21 @@ export async function POST(request: Request) {
         const body = await request.json()
         const {
             userId,
-            discountId,
-            productId,
-            status, // cancel,pending,done
-            amount,
-            totalPrice,
-            transportation,
-            type,
-            bank
+                mailSend,
+                mailRecive,
+                userName,
+                userImage,
+                content,
         } = body;
 
-        const transaction = await prisma.transaction.create({
+        const transaction = await prisma.tempMail.create({
             data: {
                 userId,
-                discountId,
-                productId,
-                status,
-                amount,
-                totalPrice,
-                transportation,
-                type,
-                bank
+                mailSend,
+                mailRecive,
+                userName,
+                userImage,
+                content,
             }
         })
 

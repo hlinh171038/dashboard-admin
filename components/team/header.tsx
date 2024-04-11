@@ -29,9 +29,9 @@ const Header = () =>{
             <div className="">
                 <span
                     onClick={handleAddItem}
-                    className=" cursor-pointer rounded-md py-1 px-2 flex items-center justify-start gap-1 bg-slate-900 hover:bg-slate-800 hover:text-white">
+                    className=" cursor-pointer rounded-md py-1 text-white px-2 flex items-center justify-start gap-1 bg-[#4FA29E] hover:opacity-[0.7] hover:text-white">
                     <div>
-                        <GoPlus className="w-4 h-4 text-neutral-100"/>
+                        <GoPlus className="w-4 h-4 text-white"/>
                     </div>
                     <div>
                         Add team

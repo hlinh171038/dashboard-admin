@@ -40,11 +40,15 @@ export const ContactUs:React.FC<ContactUsProps> = ({
     axios.post('/api/add-new-email',{
       userId: userId[0].id,
       mailSend:currentUser.user.email,
-      mailRecive:'hoanglinh171038@gmail.com'
+      mailRecive:'hoanglinh171038@gmail.com',
+      userName:userId[0].name,
+      userImage:userId[0].image,
+      content: content,
+      seen:false
     })
     .then((res:any)=>{
       router.refresh();
-      toast.success("Sended to team lead.")
+      //toast.success("Sended to team lead.")
     })
     .catch((err:any)=>{
       toast.error("Something went wrong !!!")
@@ -60,11 +64,13 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       mailRecive:'hoanglinh171038@gmail.com',
       userName:userId[0].name,
       userImage:userId[0].image,
-      content: content
+      content: content,
+      seen:false,
+      history: false
     })
     .then((res:any)=>{
       router.refresh();
-      toast.success("Sended to team lead.")
+      //toast.success("Sended to team lead.")
     })
     .catch((err:any)=>{
       toast.error("Something went wrong !!!")
@@ -81,7 +87,6 @@ export const ContactUs:React.FC<ContactUsProps> = ({
       .then(
         () => {
             toast.success('send email success')
-         
         },
         (error) => {
             toast.error('some thing went wrong !!!')
@@ -131,7 +136,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
                 required
                 name="message" 
                 placeholder='message'
-                className='rounded-md outline-none border border-slate-900  px-2 py-1 text-[14px] '
+                className='rounded-md outline-none border border-[#4FA29E]  px-2 py-1 text-[14px] '
                 value = {content}
                 onChange={(e:any)=>setContent(e.target.value)}
                 />
@@ -154,7 +159,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
         </div>
         
         <button
-          className='bg-slate-900 hover:bg-slate-800 duration-300 transition-all rounded-md px-2 py-1 text-neutral-100 w-full flex items-center justify-center gap-2'
+          className='bg-[#4FA29E] hover:opacity-[0.7] duration-300 transition-all rounded-md px-2 py-1 text-neutral-100 w-full flex items-center justify-center gap-2'
           disabled = {isLoading}
         >
           <input 

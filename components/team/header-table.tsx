@@ -74,6 +74,7 @@ const HeaderTable:React.FC<HeaderProps> = ({
         
         setCurrent(result)
      },[currentUser,customer])
+    
     return (
         <div>
             <div className="flex justify-between items-center ">

@@ -148,6 +148,8 @@ model TempMail {
   userImage String?
   content String?
   mailRecive String?
+  history Boolean?
+  seen Boolean?
    created_at DateTime @default(now())
   user User @relation(fields: [userId], references: [id],onDelete: Cascade)
 }

@@ -39,7 +39,7 @@ const MailItem:React.FC<MailItemProps> = ({
     //handle delete
     const handleDelete = useCallback((id:string)=>{
         setIsLoading(true);
-        axios.post('/api/delete-mail',{mailId})
+        axios.post('/api/delete-tempMail',{mailId})
         .then((res)=>{
             
             toast.success('Deleted');
@@ -54,7 +54,7 @@ const MailItem:React.FC<MailItemProps> = ({
     },[mailId,router])
     //handle go to mail
     const handleGoToEmail = useCallback((id:string)=>{
-        axios.post('/api/update-mail',{mailId})
+        axios.post('/api/update-tempMail',{mailId})
             .then((res)=>{
                 toast.success('check your mail');
                 router.refresh();

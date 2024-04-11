@@ -1,3 +1,5 @@
+
+
 import prisma from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 
@@ -6,21 +8,27 @@ export async function POST(request: Request) {
         const body = await request.json()
         const {
             userId,
-                mailSend,
-                mailRecive,
-                userName,
-                userImage,
-                content,
+            discountId,
+            productId,
+            status, // cancel,pending,done
+            amount,
+            totalPrice,
+            transportation,
+            type,
+            bank
         } = body;
 
-        const transaction = await prisma.tempMail.create({
+        const transaction = await prisma.transaction.create({
             data: {
                 userId,
-                mailSend,
-                mailRecive,
-                userName,
-                userImage,
-                content,
+                discountId,
+                productId,
+                status,
+                amount,
+                totalPrice,
+                transportation,
+                type,
+                bank
             }
         })
 

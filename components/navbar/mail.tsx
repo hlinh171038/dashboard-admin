@@ -28,7 +28,7 @@ const MailContent:React.FC<MailContentProps> = ({
     //handle delete
     const handleDeleteAll = useCallback((id:string)=>{
         setIsLoading(true);
-        axios.post('/api/delete-all-mail',{id})
+        axios.post('/api/delete-all-tempMail',{id})
         .then((res)=>{
             
             toast.success('Deleted');
@@ -42,7 +42,7 @@ const MailContent:React.FC<MailContentProps> = ({
         })
     },[router])
 
-    if(mail.mail.length <=0) {
+    if((mail && mail.filter((item:any)=>item.history !== true).length)===0) {
         return (
             <div>
                 <div className="flex items-center justify-center gap-2 text-[14px] py-4">
@@ -56,7 +56,7 @@ const MailContent:React.FC<MailContentProps> = ({
     return (
         <div className="text-[14px] flex flex-col gap-2 px-2 py-2 rounded-md">
             <div className="flex items-center justify-between">
-                <div className="text-[16px] font-bold">Total email <span className="font-normal">{`(${mail && mail.mail.length}) `}</span></div>
+                <div className="text-[16px] font-bold">Total email <span className="font-normal">{`(${mail && mail.filter((item:any)=>item.history !== true).length}) `}</span></div>
                 <div onClick={()=>handleDeleteAll(mail.id)} className="underline text-[14px] text-neutral-400">Delete All</div>
             </div>
             <div className="text-[14px] ">
@@ -68,7 +68,7 @@ const MailContent:React.FC<MailContentProps> = ({
                 </TabsList>
                 <TabsContent value="all">
                 <div>
-                    {mail && mail.mail.length>0 && mail.mail.map((item:any)=>{
+                    {mail && mail.length>0 && mail.filter((item:any)=>item.history !== true).map((item:any)=>{
                         return <MailItem 
                                     key={item.id}
                                     mailSend = {item.mailSend}
@@ -82,7 +82,7 @@ const MailContent:React.FC<MailContentProps> = ({
                 </TabsContent>
                 <TabsContent value="unread">
                 <div>
-                    {mail && mail.mail.length>0 && mail.mail.filter((item:any)=>item.seen === true).map((item:any)=>{
+                    {mail && mail.length>0 && mail.filter((item:any)=>item.seen === true && item.history !== true) .map((item:any)=>{
                         return <MailItem 
                                     key={item.id}
                                     mailSend = {item.mailSend}

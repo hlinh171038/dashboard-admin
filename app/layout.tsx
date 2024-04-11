@@ -21,6 +21,7 @@ import { getAllComment } from './actions/getAllComment'
 import { authOptions } from './api/auth/[...nextauth]/options'
 import { getAllReply } from './actions/getAllReply'
 import { getAllNotify } from './actions/getAllNotify'
+import { getAllTempMail } from './actions/getAllTempMail'
 
 
 
@@ -45,6 +46,7 @@ export default async function RootLayout({
   const comment = await getAllComment()
   const relly = await getAllReply()
   const notify = await getAllNotify()
+  const tempMail = await getAllTempMail()
   
   
 
@@ -74,6 +76,7 @@ export default async function RootLayout({
                 comment = {comment}
                 relly = {relly}
                 notify ={notify}
+                tempMail = {tempMail}
                 />
                 {/* <div className='h-[13vh] w-full'></div> */}
               {children}

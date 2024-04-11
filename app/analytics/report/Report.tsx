@@ -2,11 +2,12 @@
 
 import ChartOcupancy from "@/components/report/chart-ocupancy";
 import CustomerProblem from "@/components/report/customer-problem";
+import HistoryMail from "@/components/report/history";
 import OverView from "@/components/report/overview";
 import Pagination from "@/components/report/pagination";
 import PaymentMethod from "@/components/report/payment-method";
 import TrendingSale from "@/components/report/trend-sale";
-import { Comment, Mail, Product, Transaction, User } from "@prisma/client";
+import { Comment, Mail, Product, TempMail, Transaction, User } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 
 
@@ -25,6 +26,7 @@ interface ReportProps {
     role: string;
     start:string;
     end:string;
+    tempMail: TempMail[] | any;
 }
 
 const Report:React.FC<ReportProps> = ({
@@ -34,6 +36,7 @@ const Report:React.FC<ReportProps> = ({
     comment = [],
     mail = [],
     mail2 =[],
+    tempMail =[],
     currentUser,
     search,
     page,
@@ -239,11 +242,15 @@ const Report:React.FC<ReportProps> = ({
             >   
                 {/* left */}
                 <div className="col-span-4 bg-slate-600 rounded-md">
-                    <TrendingSale 
+                    {/* <TrendingSale 
                      transaction = {transaction}
                      product = {product}
                      guestThisWeek = {guestThisWeek}
                      guestLastWeek = {guestLastWeek}
+                    /> */}
+                    <HistoryMail 
+                        tempMail = {tempMail}
+                        currentUser = {currentUser}
                     />
                 </div>
                 {/* right */}

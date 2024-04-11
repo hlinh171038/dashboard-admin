@@ -51,9 +51,8 @@ const Pagination:React.FC<PaginationParams> = ({
                                             router.push(`/analytics/team?search=${search}&page=${item +1}&per_page=${per_page}`)
                                          }}
                                          key={item} 
-                                         className={cn(" w-6 h-6 pt-0.5 border border-slate-900  rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer",
-                                                    item + 1 == Number(pageQuery) && "bg-slate-900 p-2 w-6 h-6"                                                    
-                                                )}
+                                         className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,
+                                         item + 1 == Number(page) && "bg-[#5EC0B5] p-2 w-6 h-6" )}
                                     >
                                         {item + 1}
                                     </div>

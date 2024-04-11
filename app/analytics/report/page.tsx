@@ -8,6 +8,7 @@ import { getAllComment } from "@/app/actions/getAllComment"
 import { getAllMail } from "@/app/actions/getAllMail"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
 import { getAllMail2 } from "@/app/actions/getAllMail2"
+import { getAllTempMail } from "@/app/actions/getAllTempMail"
 //import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const page = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
@@ -31,6 +32,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
 
     const mail = await getAllMail2({search,role,status,start,end})
     const mail2 = await getAllMail()
+    const tempMail = await getAllTempMail()
     
     return (
         <div>
@@ -49,6 +51,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
                 mail = {mail}
                 mail2 ={mail2}
                 currentUser = {currentUser}
+                tempMail ={tempMail}
            />
         </div>
     )

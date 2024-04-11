@@ -58,7 +58,7 @@ export const FormMail:React.FC<ContactUsProps> = ({
       role:userId.role
     })
     .then((res:any)=>{
-        toast.success(`sended to team lead`)
+       // toast.success(`sended to team lead`)
       router.refresh();
     })
     .catch((err:any)=>{
@@ -68,6 +68,27 @@ export const FormMail:React.FC<ContactUsProps> = ({
         setIsLoading(false)
     })
 
+    axios.post('/api/add-new-tempEmail',{
+      userId: userId.id,
+      mailSend:textEmail,
+      mailRecive:'hoanglinh@gmail.com',
+      userName: textName,
+      userImage: currentUser? currentUser?.user.image : null ,
+      content: textName,
+      seen: false,
+      history:false
+    })
+    .then((res:any)=>{
+      router.refresh();
+      //toast.success("Sended to team lead.")
+    })
+    .catch((err:any)=>{
+      toast.error("Something went wrong !!!")
+
+    })
+    .finally(()=>{
+      setIsLoading(false);
+    })
     emailjs
       .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {
         publicKey: 'TS-u5iOD3yffcZ1CJ',

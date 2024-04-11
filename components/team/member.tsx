@@ -75,6 +75,7 @@ const Member:React.FC<MemberProps> = ({
        setFillterArr(result)
     },[member,search_admin])
   
+
     return (
         <div className=" px-2 w-full text-[14px] text-neutral-400">
             
@@ -130,7 +131,7 @@ const Member:React.FC<MemberProps> = ({
                         <tr className="text-[15px] text-neutral-100">
                             <td>Email</td>
                             <td>Department</td>
-                            <td>Role</td>
+                            <td>Is Group Leader</td>
                             <td>Permission</td>
                         </tr>
                         {updateFilterArr && updateFilterArr.map((item:any)=>{

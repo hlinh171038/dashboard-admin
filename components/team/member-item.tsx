@@ -64,14 +64,14 @@ const MemberItem:React.FC<MemberItemProps> = ({
                     {email}
                 </div>
             </td>
-            <td>
+            <td className="capitalize">
                 {position}
             </td>
-            <td>
-                {isLeader ? 'leader': 'member'}
+            <td className="capitalize">
+                {isLeader ? (<span className="text-yellow-600">{`< Leader >`}</span>): 'member'}
             </td>
-            <td>
-                {permission}
+            <td >
+                {permission === 'read' ? 'read only':(permission === 'all'?'all permission': permission)}
             </td>
             <td className="flex items-center justify-end gap-2">
                 <div 
@@ -96,7 +96,7 @@ const MemberItem:React.FC<MemberItemProps> = ({
                 </div>
                 <button 
                     onClick={handleDeleteAdmin}
-                    className="group text-neutral-100 px-2 py-1 rounded-md cursor-pointer flex items-center justify-start gap-2">
+                    className="group text-neutral-100 px-2 mt-[-6px] rounded-md cursor-pointer flex items-center justify-start gap-2">
                         <MdDeleteForever className="w-4 h-4 text-neutral-200 group-hover:text-red-600 transition-all duration-300"/>
                         {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
                 </button>

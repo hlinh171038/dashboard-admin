@@ -46,7 +46,7 @@ const ItemTable:React.FC<ItemUserProps> = ({
             toast.warning(`${name} is an admin.`);
             return;
         }
-        router.push(`/analytics/team?admin=${id}&search=&page=1&per_page=5`)
+        router.push(`/analytics/team?admin=${id}&search=&page=1&per_page=10`)
         // setIsLoading(true)
         // axios.post('/api/update-admin',{id})
         //     .then((res)=>{

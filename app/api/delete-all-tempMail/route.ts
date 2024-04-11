@@ -5,9 +5,9 @@ export async function POST(request:Request) {
     try {
         const {id} = await request.json();
 
-        const check = await prisma.mail.deleteMany({
-            where:{
-                userId:id
+        const check = await prisma.tempMail.updateMany({
+            data: {
+                history: true
             }
         })
         if(!check) {

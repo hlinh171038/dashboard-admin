@@ -6,7 +6,7 @@ import useLoginModal from "../app/hooks/useLoginModal"
 
 
 import useRegister from "@/app/hooks/useRegisterModal"
-import { Mail, Notify, Relly, User } from "@prisma/client"
+import { Mail, Notify, Relly, TempMail, User } from "@prisma/client"
 import { signOut } from "next-auth/react"
 
 import { MdOutlineMail } from "react-icons/md";
@@ -37,6 +37,7 @@ interface NavProps {
     comment: Comment[] | any;
     relly : Relly[] | any;
     notify: Notify[] | any;
+    tempMail: TempMail[] | any;
 }   
 
 const Navbar:React.FC<NavProps>= ({
@@ -47,7 +48,8 @@ const Navbar:React.FC<NavProps>= ({
     user = [],
     comment = [],
     relly = [],
-    notify = []
+    notify = [],
+    tempMail = []
 }) => {
 
     const loginModal = useLoginModal()
@@ -64,29 +66,31 @@ const Navbar:React.FC<NavProps>= ({
 
 
    
-    const handleLogin = useCallback(()=>{
-        loginModal.onOpen()
-    },[loginModal])
+    // const handleLogin = useCallback(()=>{
+    //     loginModal.onOpen()
+    // },[loginModal])
 
-    const handleRegister = useCallback(()=>{
-        registerModal.onOpen()
-    },[registerModal])
+    // const handleRegister = useCallback(()=>{
+    //     registerModal.onOpen()
+    // },[registerModal])
 
-    const handleSignOut = useCallback(()=>{
-       signOut()
-    },[])
+    // const handleSignOut = useCallback(()=>{
+    //    signOut()
+    // },[])
 
   
 
     useEffect(()=>{
-        user && user.forEach((item:any)=>{
-            if(item.email === email) {
+        const array:any[] = []
+        tempMail && tempMail.forEach((item:any)=>{
+            if(item.mailRecive === email) {
          
-                setShowMail(item)
+               array.push(item)
             }
         })
-    },[email,user])
-    //console.log(showMail) // curentuser id,email,name,comment
+        setShowMail(array)
+    },[email,tempMail])
+    console.log(showMail) // curentuser id,email,name,comment
     // sticky when scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -149,7 +153,7 @@ const Navbar:React.FC<NavProps>= ({
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineMail className="w-5 h-5 text-white" />
-                                {showMail && showMail.mail.length >0 && (
+                                {showMail && showMail.filter((item:any)=>item.history !== true).length >0 && (
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>
