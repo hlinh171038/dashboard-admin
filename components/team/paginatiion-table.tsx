@@ -48,7 +48,7 @@ const PaginationTable:React.FC<PaginationParams> = ({
                                 return (
                                     <div 
                                          onClick={()=>{
-                                            router.push(`/analytics/team?search_admin=${search}&page-admin=${item +1}&per_page_admin=${per_page}`)
+                                            router.push(`/analytics/team?search_admin=${search}&page_admin=${item +1}&per_page_admin=${per_page}`)
                                          }}
                                          key={item} 
                                          className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,

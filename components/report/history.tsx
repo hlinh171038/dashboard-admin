@@ -36,7 +36,7 @@ const HistoryMail:React.FC<TempMailProps> = ({
                     <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5 cursor-pointer">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                 </div>
                 <div className="text-neutral-400 font-normal text-[14px] ">
-                    The list of lastest transaction in this week.
+                    The list of 10 lastest email removed 
                 </div>
             </div>
                 <table 
@@ -47,7 +47,7 @@ const HistoryMail:React.FC<TempMailProps> = ({
                         <td>Information</td>
                         <td>Email</td>
                         <td>Date</td>
-                        <td>Seen</td>
+                        <td>Status</td>
                     </tr>
                     {data && data.map((item:any)=>{
                         return <ItemHistoryMail
