@@ -254,7 +254,7 @@ const DiscountDetail:React.FC<DiscountDetailProps> = ({
                         {discountDetail.title}
                     </div>
                     <Image 
-                            src={'/star.png'}
+                            src={'/star.webp'}
                             width={100}
                             height={100}
                             alt="discount"

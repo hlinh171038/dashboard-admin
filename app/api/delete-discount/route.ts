@@ -9,12 +9,12 @@ export async function POST(request:Request) {
         } = body
 
         
-        const product = await prisma.product.deleteMany({
+        const discount = await prisma.discount.deleteMany({
             where : {
                 id:{in:checkId}
             }
         })
-        return NextResponse.json(product)
+        return NextResponse.json(discount)
     } catch (error) {
         console.log(error)
         return NextResponse.json({error:"Internal Server Errors"},{status: 500})

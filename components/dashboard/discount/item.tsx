@@ -5,6 +5,8 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { FaRegSquare } from "react-icons/fa";
+import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 
 interface ItemCustomerProps {
@@ -16,6 +18,9 @@ interface ItemCustomerProps {
    created_at: string,
    startDate: string,
    endDate: string;
+   check: boolean;
+   handleOtherCheck: (id:string) =>void;
+
 }
 
 const Item:React.FC<ItemCustomerProps> = (
@@ -27,7 +32,9 @@ const Item:React.FC<ItemCustomerProps> = (
     count,
     created_at,
     startDate,
-    endDate
+    endDate,
+    check,
+    handleOtherCheck
 }
 
 ) =>{
@@ -48,20 +55,20 @@ const Item:React.FC<ItemCustomerProps> = (
     },[id,route])
 
     // delete by id
-    const handleDeleteUser = (id:string)=>{
-        setIsLoading(true)
-        axios.post(`/api/delete-user/`,{id})
-            .then((res)=>{
-                toast.success('deleted')
-                route.refresh()
-            })
-            .catch((err:any)=>{
-                toast.error('Some thing went wrong!!!')
-            })
-            .finally(()=>{
-                setIsLoading(false)
-            })
-    }
+    // const handleDeleteUser = (id:string)=>{
+    //     setIsLoading(true)
+    //     axios.post(`/api/delete-user/`,{id})
+    //         .then((res)=>{
+    //             toast.success('deleted')
+    //             route.refresh()
+    //         })
+    //         .catch((err:any)=>{
+    //             toast.error('Some thing went wrong!!!')
+    //         })
+    //         .finally(()=>{
+    //             setIsLoading(false)
+    //         })
+    // }
 
     useEffect(()=>{
         const end = new Date(endDate).getTime()
@@ -76,6 +83,23 @@ const Item:React.FC<ItemCustomerProps> = (
                             new Date(endDate) < new Date() ?'text-red-500': 'text-neutral-400'
                         )} 
        >
+        <td className="w-6">
+           
+            <div className="flex items-start justify-start mt-[-5px] ">
+                {!check ?(
+                    <FaRegSquare
+                        className="w-4 h-4 text-neutral-100 font-thin"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                ):(
+                    <FaRegSquareCheck 
+                        className="w-4 h-4 text-neutral-100"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                )}
+
+            </div>
+        </td>
         <td className="capitalize">{title}</td>
         <td className="capitalize">{type}</td>
         <td>{percent} %</td>
@@ -94,13 +118,13 @@ const Item:React.FC<ItemCustomerProps> = (
                     className="inline-block rounded-md text-neutral-200 bg-[#5EC0B5] items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 ">
                     View
                 </button>
-                <button 
+                {/* <button 
                     disabled = {isLoading}
                     onClick={()=>handleDeleteUser(id)}
                     className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300"
                 >
                     Delete
-                </button>
+                </button> */}
             </div>
         </td>
        </tr>

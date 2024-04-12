@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useCallback, useEffect, useState } from "react";
+import { FaRegSquare } from "react-icons/fa";
+import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 
 interface ItemProductProps {
@@ -19,6 +21,8 @@ interface ItemProductProps {
     created_at: any,
     stock: number,
     id: string,
+    check: boolean;
+    handleOtherCheck: (id:string) =>void;
 }
 
 const ItemProduct:React.FC<ItemProductProps> = (
@@ -32,7 +36,9 @@ const ItemProduct:React.FC<ItemProductProps> = (
     location,
     created_at,
     stock,
-    id
+    id,
+    check,
+    handleOtherCheck
 }
 ) =>{
 
@@ -80,6 +86,22 @@ const ItemProduct:React.FC<ItemProductProps> = (
     
     return (
        <tr>
+            <td className="w-6">
+            <div className="flex items-center justify-start mt-[-5px]">
+                {!check ?(
+                    <FaRegSquare
+                        className="w-4 h-4 text-neutral-100 font-thin"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                ):(
+                    <FaRegSquareCheck
+                        className="w-4 h-4 text-neutral-100"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                )}
+                
+            </div>
+            </td>
             <td className="flex items-center justify-start gap-1 py-2">
                 <div>{title}</div>
             </td>
@@ -110,14 +132,14 @@ const ItemProduct:React.FC<ItemProductProps> = (
                         className="inline-block rounded-md text-neutral-200 bg-[#4FA29E]  items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2">
                         View
                     </button>
-                    <button 
+                    {/* <button 
                         disabled = {isLoading}
                         onClick={handleDelete}
                         className={cn(" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300",
                                         isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
                                     )}>
                         Delete
-                    </button>
+                    </button> */}
                 </div>
             </td>
        </tr>

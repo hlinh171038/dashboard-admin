@@ -5,23 +5,13 @@ import { NextResponse } from 'next/server'
 export async function POST(request:Request) {
     try {
         const body = await request.json()
-        const {id} = body;
+        const {checkId} = body;
 
-        // check id exist
-        const idConfirm = await prisma.user.findUnique({
+      
+
+        const userDelete = await prisma.user.deleteMany({
             where: {
-                id
-            }
-        });
-        console.log(idConfirm)
-
-        if(!idConfirm){
-            return NextResponse.json({error:"Id not found"},{status: 500})
-        }
-
-        const userDelete = await prisma.user.delete({
-            where: {
-                id
+                id: {in:checkId}
             }
         })
 

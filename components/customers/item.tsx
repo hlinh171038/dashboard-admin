@@ -4,6 +4,8 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { FaRegSquare } from "react-icons/fa";
+import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 
 interface ItemCustomerProps {
@@ -14,7 +16,8 @@ interface ItemCustomerProps {
     created_at: string;
     role: string;
     action: boolean;
-
+    check: boolean;
+    handleOtherCheck: (id:string) =>void;
 }
 
 const ItemCustomer:React.FC<ItemCustomerProps> = (
@@ -25,7 +28,9 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     email,
     created_at,
     role,
-    action
+    action,
+    check,
+    handleOtherCheck
 }
 
 ) =>{
@@ -59,6 +64,22 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
 
     return (
        <tr>
+        <td >
+        <div className="flex items-center justify-start ">
+            {!check ?(
+                <FaRegSquare
+                    className="w-4 h-4 text-neutral-100 font-thin"
+                    onClick={()=>handleOtherCheck(id)}
+                    />
+            ):(
+                <FaRegSquareCheck 
+                    className="w-4 h-4 text-neutral-100"
+                    onClick={()=>handleOtherCheck(id)}
+                    />
+            )}
+            
+        </div>
+        </td>
         <td className="flex items-center justify-start gap-1 py-2">
                 <Image 
                     src={img ? img :"/avatar.png"}
@@ -80,6 +101,9 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             {/* <span>{new Date(created_at).getMonth()+1 + "-"}</span>
             <span>{new Date(created_at).getFullYear().toString()}</span> */}
         </td>
+        <td>
+            {new Date(created_at).toLocaleTimeString('en-US')}
+        </td>
         <td>{role === 'yes' ? 'Admin': 'User'}</td>
         <td className="">
             <div className="flex items-center justify-center">
@@ -97,13 +121,13 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                             className="inline-block rounded-md text-neutral-200   items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2" style={{backgroundColor:'#5EC0B5'}}>
                             View
                         </button>
-                        <button 
+                        {/* <button 
                             disabled = {isLoading}
                             onClick={()=>handleDeleteUser(id)}
                             className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:opacity-[0.7] hover:text-white transition-all duration-300"
                         >
                             Delete
-                        </button>
+                        </button> */}
                     </div>
             </td>
        </tr>

@@ -150,7 +150,14 @@ const Header:React.FC<HeaderProps> = ({
             </div>
             )}
         </div>
-        <div>history</div>
+        <div className="flex items-center justify-start gap-1">
+            <div>History:</div> 
+            <div className=" text-[11px] text-neutral-400 flex items-center justify-start gap-1">
+                <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
+        
+                <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Z</div>
+            </div>
+        </div>
        </div>
     )
 }

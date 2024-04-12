@@ -12,6 +12,10 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { toast } from "sonner"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { MdAutoDelete } from "react-icons/md"
 
 
 
@@ -26,13 +30,43 @@ const Table:React.FC<TableProps> = ({
 }) =>{
 
     const [cateType,setCateType] = useState<any>([])
+    const [checkId,setCheckId] = useState<any>([])
+    const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
  
 
-    const handlePushType = useCallback((value:string)=>{
+    //handle orther check
+    const handleOtherCheck = useCallback((id:string)=>{
+        const tempArr = [...checkId];
+        const index = tempArr.includes(id);
+        console.log(index);
+       if(!index) {
+        tempArr.push(id)
+       } else {
+        const position = tempArr.indexOf(id)
+        tempArr.splice(position,1)
+       }
+        console.log(tempArr);
+        setCheckId(tempArr)
+    },[checkId])
 
-    },[])
-
+    //handle delete
+    const handleDelete = useCallback((array:any[])=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/delete-discount',{checkId:array})
+            .then((res)=>{
+                console.log(res.data)
+                toast.success('removed ');
+                router.refresh()
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+            })
+    },[router])
 
     // filter type
     useEffect(()=>{
@@ -53,8 +87,19 @@ const Table:React.FC<TableProps> = ({
     },[router])
     return (
        <div>
+         {checkId.length >0 && (
+                <button
+                    disabled ={isLoading}
+                    onClick={()=>handleDelete(checkId)}
+                    className="absolute top-2 left-[30%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                    Delete
+                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
+                </button>
+                
+            )}
             <table className="w-full text-[15px] text-neutral-400 ">
                 <tr className="font-bold text-neutral-100">
+                    <td></td>
                     <td>Title</td>
                     <td>
                         Type
@@ -76,6 +121,8 @@ const Table:React.FC<TableProps> = ({
                             created_at={item.created_at}
                             startDate = {item.startDate}
                             endDate = {item.endDate}
+                            check={checkId && checkId.includes(item.id)}
+                            handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                         />
                     )
                 })}

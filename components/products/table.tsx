@@ -11,9 +11,12 @@ import {
   } from "@/components/ui/select"
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import { MdAutoDelete, MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { IoBasketOutline } from "react-icons/io5";
 import { IoReturnDownBackOutline } from "react-icons/io5";
+import axios from "axios";
+import { toast } from "sonner";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 
@@ -40,7 +43,41 @@ const TableProduct:React.FC<TableProductProps> = ({
     const router = useRouter()
     const [categoryArr,setCategoryArr] = useState<any>([])
     const [brandArr,setBrandArr] = useState<any>([])
-    
+    const [checkId,setCheckId] = useState<any>([])
+    const [isLoading,setIsLoading] = useState(false)
+
+    //handle orther check
+    const handleOtherCheck = useCallback((id:string)=>{
+        const tempArr = [...checkId];
+        const index = tempArr.includes(id);
+        console.log(index);
+       if(!index) {
+        tempArr.push(id)
+       } else {
+        const position = tempArr.indexOf(id)
+        tempArr.splice(position,1)
+       }
+        console.log(tempArr);
+        setCheckId(tempArr)
+    },[checkId])
+
+    //handle delete
+    const handleDelete = useCallback((array:any[])=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/delete-product',{checkId:array})
+            .then((res)=>{
+                console.log(res.data)
+                toast.success('removed ');
+                router.refresh()
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+            })
+    },[router])
 
 
     const fillterCategory = useCallback(() =>{
@@ -107,8 +144,19 @@ const TableProduct:React.FC<TableProductProps> = ({
 
     return (
        <div className="w-full h-full mt-2">
+        {checkId.length >0 && (
+                <button
+                    disabled ={isLoading}
+                    onClick={()=>handleDelete(checkId)}
+                    className="absolute top-2 left-[30%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                    Delete
+                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
+                </button>
+                
+            )}
         <table className="w-full text-[15px] text-neutral-400 ">
             <tr className="font-bold text-neutral-100">
+                <td></td>
                 <td>Title</td>
                 <td className="relative">
                     <Select
@@ -250,6 +298,8 @@ const TableProduct:React.FC<TableProductProps> = ({
                         created_at={item.created_at }
                         stock={item.stock as number}
                         id = {item.id}
+                        check={checkId && checkId.includes(item.id)}
+                        handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                     />
                 )
             })}
