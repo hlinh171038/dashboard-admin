@@ -105,6 +105,19 @@ const Customer:React.FC<Cusromerprops> = ({
     const result = users && users.filter((item:any)=>item.role === 'yes');
     setTotalAdmin(result.length)
    },[users])
+
+   //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="w-full  px-2">
             <div className="grid grid-cols-3 gap-2 mb-2">

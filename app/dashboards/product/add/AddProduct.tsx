@@ -277,6 +277,19 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         setCustomerValue('person',check);
        
       }
+
+      //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
           <div className="grid grid-cols-3 w-full rounded-md  gap-2 ">

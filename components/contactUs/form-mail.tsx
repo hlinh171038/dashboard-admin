@@ -42,6 +42,11 @@ export const FormMail:React.FC<ContactUsProps> = ({
  },[check])
 
   const sendEmail = (e:any) => {
+    if(!currentUser){
+      toast.warning('Loggin !!');
+
+      return 
+    }
     e.preventDefault();
     if(check === false){
         toast.warning('Do you argree to send direct to lead team ?')
@@ -88,6 +93,25 @@ export const FormMail:React.FC<ContactUsProps> = ({
     })
     .finally(()=>{
       setIsLoading(false);
+    })
+
+    // create history
+    axios.post('/api/create-new-history',{
+      userId:userId.id,
+      title:textEmail,
+      type: 'reported to team lead',
+      
+    })
+    .then((res)=>{
+        
+       // toast.success('check your mail');
+        router.refresh();
+    })
+    .catch((err:any)=>{
+        toast.error("Something went wrong !!!")
+    }).
+    finally(()=>{
+        setIsLoading(false)
     })
     emailjs
       .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {

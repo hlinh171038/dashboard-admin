@@ -8,6 +8,7 @@ import TransactionCategory from "@/components/transactions/transaction-category"
 import TransactionDate from "@/components/transactions/transaction-date"
 import TransactionDetail from "@/components/transactions/transaction-detail"
 import { Product, Transaction, User } from "@prisma/client"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { MdCopyAll } from "react-icons/md";
 import { toast } from "sonner"
@@ -24,7 +25,7 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
     user = []
 }) =>{
     const [productInfo,setProductInfo] = useState<any>([])
-  
+    const router = useRouter()
 
     //handle coppy id
 
@@ -44,6 +45,18 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
  
     setProductInfo(result)
   },[product,transaction])
+  //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="grid grid-cols-3 gap-2 px-2 ">
             <div className="col-span-2 bg-slate-600 rounded-md flex flex-col gap-4 py-4">

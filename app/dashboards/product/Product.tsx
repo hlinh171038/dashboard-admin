@@ -8,6 +8,7 @@ import Pagination from "@/components/products/pagination";
 import TableProduct from "@/components/products/table"
 import TotalProduct from "@/components/products/total-product";
 import {  Transaction, User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface ProductProps {
@@ -45,6 +46,7 @@ const Product:React.FC<ProductProps> = ({
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalProductThisWeek,setTotalProductThisWeek] = useState<any>([]);
     const [totalProductLastWeek,setTotalProductLastWeek] = useState<any>([]);
+    const router = useRouter()
     //  pagination
     const start = (page - 1) * per_page; // 0,5,10
     const end = start + per_page;//5,10,15
@@ -104,6 +106,19 @@ const Product:React.FC<ProductProps> = ({
 
         setTotalProductLastWeek(result)
     },[product,lastWeek])
+
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="w-full  px-2 flex flex-col gap-2">
             <div className="">

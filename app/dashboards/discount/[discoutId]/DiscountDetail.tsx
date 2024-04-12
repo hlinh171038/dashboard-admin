@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Discount } from "@prisma/client"
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaRegSquare } from "react-icons/fa";
 import { FaRegSquareCheck } from "react-icons/fa6";
@@ -25,6 +26,7 @@ const DiscountDetail:React.FC<DiscountDetailProps> = ({
    const [type,setType] = useState('')
    const [day,setDay] = useState<number>(0);
    const [hours,setHours] = useState<number>(0);
+   const router = useRouter()
 
     useEffect(()=>{
        const result = discount && discount.filter((item:any)=>item.id === id);
@@ -56,6 +58,19 @@ const DiscountDetail:React.FC<DiscountDetailProps> = ({
         setType(discountDetail && discountDetail.type)
     },[discountDetail])
    const left = discountDetail.transaction && discountDetail.transaction.length
+
+   //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="bg-none rounded-md px-2 w-full grid grid-cols-5 gap-2">
             <div className="col-span-3 flex flex-col gap-2 bg-slate-600 rounded-md text-[14px] text-neutral-400 p-2">

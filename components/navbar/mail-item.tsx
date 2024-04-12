@@ -20,10 +20,12 @@ import { toast } from "sonner";
 
 interface MailItemProps {
     mailSend: string
+    mailRecive: string
     created_at:string
     userName: string
     userImage : string
     mailId: string
+    userId:string
 }
 
 const MailItem:React.FC<MailItemProps> = ({
@@ -31,15 +33,38 @@ const MailItem:React.FC<MailItemProps> = ({
     created_at,
     userImage,
     userName,
-    mailId
+    mailId,
+    userId,
+    mailRecive
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
 
-    //handle delete
+    //handle delete and create history
     const handleDelete = useCallback((id:string)=>{
+        if(userId === '') {
+            toast.warning('Loggin ');
+            return;
+        }
         setIsLoading(true);
         axios.post('/api/delete-tempMail',{mailId})
+        .then((res)=>{
+            
+           // toast.success('Deleted');
+            router.refresh();
+        })
+        .catch((err:any)=>{
+            toast.error("Something went wrong !!!")
+        }).
+        finally(()=>{
+            //setIsLoading(false)
+        })
+
+        axios.post('/api/create-new-history',{
+            userId,
+            title:mailSend,
+            type: 'removed email'
+        })
         .then((res)=>{
             
             toast.success('Deleted');
@@ -51,24 +76,44 @@ const MailItem:React.FC<MailItemProps> = ({
         finally(()=>{
             setIsLoading(false)
         })
-    },[mailId,router])
+    },[mailId,router,userId,mailSend])
     //handle go to mail
     const handleGoToEmail = useCallback((id:string)=>{
+        if(userId === '') {
+            toast.warning('Loggin ');
+            return;
+        }
         axios.post('/api/update-tempMail',{mailId})
             .then((res)=>{
-                toast.success('check your mail');
+               // toast.success('check your mail');
                 router.refresh();
             })
             .catch((err:any)=>{
                 toast.error("Something went wrong !!!")
             })
-            
-    },[mailId,router])
+            // create history
+            axios.post('/api/create-new-history',{
+                userId,
+                title:`go to ${mailRecive && mailRecive}`,
+                type: 'check email'
+            })
+            .then((res)=>{
+                
+                toast.success('check your mail');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
+    },[mailId,router,mailRecive,userId])
 
     //handle spam
     const handleSpam = useCallback((id:string)=>{
-
-    },[])
+        router.push('/users/help')
+    },[router])
     return(
         <div className="flex items-start justify-between ">
                 <div className="flex items-center justify-start gap-2">

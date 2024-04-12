@@ -2,7 +2,7 @@
 
 import HeaderHistory from "@/components/history/header";
 import ItemHistory from "@/components/history/item-history";
-import { TempMail, User } from "@prisma/client"
+import {  User } from "@prisma/client"
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -11,31 +11,33 @@ import { MdHistory } from "react-icons/md";
 import { toast } from "sonner";
 
 interface HistoryProps {
-    tempMail:TempMail[] | any;
+    history:| any;
     currentUser: any;
     query:string;
     user: User[] | any;
 }
 
 const History:React.FC<HistoryProps> = ({
-    tempMail =[],
-    user =[],
+    history = [],
+    user = [],
     currentUser,
     query
 }) =>{
     const [data,setData] = useState<any>([])
+    const [dataSearch,setDataSearch] = useState<any>([])
+    const [rootData,setRootData] = useState<any>([])
     const [tempMailSearch,setTempMailSearch] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
     const [autoId,setAutoId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
-    console.log(currentUser.user?.email)
+    //console.log(currentUser.user?.email)
 
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
         setIsLoading(true)
        // console.log(array)
-        axios.post('/api/remove-history-tempMail',{checkId:array})
+        axios.post('/api/remove-history',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
                 toast.success('removed history');
@@ -66,9 +68,13 @@ const History:React.FC<HistoryProps> = ({
     },[checkId])
 
     useEffect(()=>{
-        const result = tempMail && tempMail.filter((item:any)=>item.history === true && item.mailRecive === currentUser.user?.email);
-        setData(result)
-    },[currentUser,tempMail])
+        const result = user && user.find((item:any)=>item.email === currentUser?.user.email);
+        const result2 = history && history.filter((item:any)=>item.userId === result.id);
+        console.log(result2)
+        setData(result2)
+        setRootData(result2)
+    },[currentUser,user,history])
+    console.log(data)
 
     useEffect(()=>{
         if(data && data.length >20) {
@@ -87,11 +93,11 @@ const History:React.FC<HistoryProps> = ({
     // search by quey fron url
     useEffect(()=>{
         if(query !== '') {
-          const result =  tempMail && tempMail.filter((item:any)=>item.mailSend.includes(query))
+          const result =  data && data.filter((item:any)=>item.title.includes(query) || item.type.includes(query))
           console.log(result)
           setData(result)
         }
-    },[query,tempMail])
+    },[query])
 
     //handle back product
     const handleBackProduct = useCallback(()=>{
@@ -112,7 +118,7 @@ const History:React.FC<HistoryProps> = ({
             <HeaderHistory
                 currentUser ={ currentUser}
                 customer={data}
-                user2 ={tempMail}
+                user2 ={rootData}
                 user = {user}
             />
             {checkId.length >0 && (
@@ -129,7 +135,8 @@ const History:React.FC<HistoryProps> = ({
                             key={item.id}
                             date ={item.created_at}
                             id={item.id}
-                            email = {item.mailSend}
+                            title = {item.title}
+                            type = {item.type}
                             check={checkId && checkId.includes(item.id)}
                             handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
 

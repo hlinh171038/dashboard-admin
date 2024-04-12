@@ -5,10 +5,8 @@ export async function POST(request:Request) {
     try {
         const {id} = await request.json();
 
-        const check = await prisma.tempMail.updateMany({
-            data: {
-                history: true
-            }
+        const check = await prisma.tempMail.deleteMany({
+            
         })
         if(!check) {
             return NextResponse.json({error:"Id not exist"},{status:500})

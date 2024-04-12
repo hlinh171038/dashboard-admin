@@ -98,7 +98,7 @@ const Create:React.FC<CreateProps> = ({
         setIsLoading(true)
         axios.post('/api/add-new-transaction', data)
                 .then((res)=>{
-                    toast.success('Add New Transaction.')
+                   // toast.success('Add New Transaction.')
                     router.refresh()
                 })
                 .catch((err:any)=>{
@@ -107,6 +107,23 @@ const Create:React.FC<CreateProps> = ({
                 .finally(()=>{
                     setIsLoading(false)
                 })
+         // create history
+         axios.post('/api/create-new-history',{
+            userId,
+            title:``,
+            type: 'transaction',
+        })
+        .then((res)=>{
+            
+            toast.success('add new');
+            router.refresh();
+        })
+        .catch((err:any)=>{
+            toast.error("Something went wrong !!!")
+        }).
+        finally(()=>{
+            setIsLoading(false)
+        })
       }
 
       const setCustomerValue = useCallback((id:string, value:any) => {

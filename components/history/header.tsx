@@ -45,13 +45,13 @@ const HeaderHistory:React.FC<HeaderProps> = ({
 
      //handle reset
      const handleReset = useCallback(()=>{
-        router.push(`/analytics/report/history?query=`);
+        router.push(`/history?query=`);
     },[router])
 
     
 
     useEffect(()=>{
-        router.push(`/analytics/report/history?query=${query}`)
+        router.push(`/history?query=${query}`)
     },[router,query])
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{
@@ -118,7 +118,7 @@ const HeaderHistory:React.FC<HeaderProps> = ({
                 {/* export to SCV file */}
                 <ExportFile
                     data = {customer}
-                    filename='history-emailjs'
+                    filename='history'
                 />
                 {/* coppy link */}
                     <Popover>

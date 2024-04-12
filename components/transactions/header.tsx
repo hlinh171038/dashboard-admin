@@ -86,12 +86,14 @@ const Header:React.FC<HeaderProps> = ({
       setStart(earliesDate && earliesDate.toDateString())
     },[transaction])
 
+   
     //handle reset
     const handleReset = useCallback(()=>{
         router.push(`/dashboards/transaction?search=&payment=&status=&startDate=&endDate=&page=1&per_page=10`)
     },[router])
     return (
-        <div className="relative flex items-center justify-start gap-2 w-full ">
+       <div className="flex items-center justify-between pr-2 text-[14px] text-neutral-100">
+         <div className="relative flex items-center justify-start gap-2 w-full ">
             {/* export to SCV file */}
             <ExportFile
                     data = {transaction}
@@ -147,8 +149,9 @@ const Header:React.FC<HeaderProps> = ({
                 )}
             </div>
             )}
-       
         </div>
+        <div>history</div>
+       </div>
     )
 }
 

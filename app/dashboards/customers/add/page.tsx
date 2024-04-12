@@ -5,7 +5,7 @@ import UploadImage from "@/components/customers/upload-img"
 import QuestionNotified from "@/components/question-notified"
 import { Textarea } from "@/components/ui/textarea"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {ZodType, z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import validator from 'validator';
@@ -113,7 +113,18 @@ const AddNewCustomer = () =>{
         })
     }
    
+//handle ctr + z
+useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
 
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="px-2 ">
             <Toaster/>

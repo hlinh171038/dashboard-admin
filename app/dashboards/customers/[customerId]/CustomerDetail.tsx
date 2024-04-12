@@ -9,7 +9,7 @@ import '@/app/globals.css'
 
 import InputCustomerId from "@/components/customers/input"
 import SelectCustomer from "@/components/customers/select"
-import { useParams, usePathname } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { getuserById } from "@/app/actions/getUserById"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { User } from "@prisma/client"
@@ -42,6 +42,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
 }) =>{
     const [isLoading,setisLoading] = useState(false)
     const[check,setCheck] = useState(true)
+    const router = useRouter()
 
   
    const {
@@ -142,6 +143,18 @@ useEffect(()=>{
     
 },[currentUser.user.email, userById,user])
 console.log(check)
+//handle ctr + z
+useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
             

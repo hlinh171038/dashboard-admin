@@ -12,16 +12,14 @@ export async function POST(request:Request) {
         if(!check){
             return NextResponse.json({error:"Id not exist"},{status:500}) 
         }
-        const mail = await prisma.tempMail.update({
+        const temp = await prisma.tempMail.delete({
             where: {
                 id:mailId
-            },
-            data:{
-                history: true
             }
+           
 
         })
-        return NextResponse.json(mail)
+        return NextResponse.json(temp)
     } catch (error:any) {
         console.log(error)
         return NextResponse.json({error:"Internal Server Error"},{status:500}) 

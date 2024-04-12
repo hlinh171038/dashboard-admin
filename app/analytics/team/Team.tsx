@@ -14,6 +14,7 @@ import TotalTeamCard from "@/components/team/total-team-card";
 import TeamLeadCahrt from "@/components/dashboard-home/team-lead-chart";
 import { cn } from "@/lib/utils";
 import TableQuantity from "@/components/team/table-quantity";
+import { useRouter } from "next/navigation";
 
 
 interface TeamProps {
@@ -53,7 +54,7 @@ const Team:React.FC<TeamProps> = ({
     const [totalUserThisWeek,setTotalUserThisWeek] = useState<any[]>([])
     const [totalUserLastWeek,setTotalUserLastWeek] = useState<any[]>([])
     const [chartRight,setChartRight] = useState('all');
-
+    const router = useRouter()
  
     //pagination
     const start =(per_page * page) -per_page;  //0,5,10,15,...
@@ -125,7 +126,18 @@ const Team:React.FC<TeamProps> = ({
         setMember(result)
     },[user])
    
-  
+  //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="px-2 w-full flex flex-col gap-2">
             <div className="grid grid-cols-6 gap-2">

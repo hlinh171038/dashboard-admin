@@ -7,7 +7,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface ItemHistoryProps {
     date: string;
-    email: string;
+    title: string;
+    type:string;
     id:string;
     check: boolean,
     handleOtherCheck: (id:string) =>void;
@@ -15,7 +16,8 @@ interface ItemHistoryProps {
 
 const ItemHistory:React.FC<ItemHistoryProps> = ({
     date,
-    email,
+    title,
+    type,
     id,
     check,
     handleOtherCheck
@@ -46,7 +48,7 @@ const ItemHistory:React.FC<ItemHistoryProps> = ({
                     </div>
                 </div>
                 <div className="flex items-start justify-start mt-[-10px]">
-                    {email}
+                    {title} - {type}
                 </div>
             </div>
             <div>

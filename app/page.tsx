@@ -19,6 +19,8 @@ export default async function Home() {
   const session = await  getServerSession(authOptions)
 
   if(session) redirect('/dashboards')
+   
+
 
   return (
     <div  >

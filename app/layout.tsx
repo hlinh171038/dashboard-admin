@@ -48,7 +48,7 @@ export default async function RootLayout({
   const notify = await getAllNotify()
   const tempMail = await getAllTempMail()
   
-  
+    
 
   return (
     <html lang="en">

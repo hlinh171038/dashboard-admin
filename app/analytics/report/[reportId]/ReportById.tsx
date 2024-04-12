@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Mail } from "@prisma/client"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { GoDotFill } from "react-icons/go";
 import { MdCopyAll } from "react-icons/md";
 import { toast } from "sonner";
@@ -24,6 +25,18 @@ const ReportById:React.FC<ReportByIdProps> = ({
     navigator.clipboard.writeText(id)
     toast.success("coppied to clipboard")
   }
+  //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="  w-full px-2">
            <div className=" w-full text-[14px] text-neutral-400 flex flex-col gap-2">

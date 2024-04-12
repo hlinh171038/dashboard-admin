@@ -95,6 +95,19 @@ const Discount:React.FC<DiscountProps> =({
     useEffect(()=>{
       router.push(`/dashboards/discount?search=${search}&page=1&per_page=10`)
     },[router,search])
+
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="px-2 w-full">
             <div className="grid grid-cols-7 gap-2 mb-2">

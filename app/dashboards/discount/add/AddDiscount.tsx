@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { User } from "@prisma/client"
 
 type dataForm = {
      title: string,
@@ -24,11 +25,19 @@ type dataForm = {
      count: number,
     code: string
 }
- 
 
-const AddDiscount = () =>{
+interface AddDiscountProps {
+    currentUser:any;
+    user: User[] | any;
+}
+
+const AddDiscount:React.FC<AddDiscountProps> = ({
+    currentUser,
+    user =[]
+}) =>{
 
     const [isLoading,setIsLoading] = useState(false)
+    const [userId,setUserId] = useState<any>(null)
     const router = useRouter()
 
     const schema: ZodType<dataForm> = z.object({
@@ -87,14 +96,31 @@ const AddDiscount = () =>{
         axios.post('/api/add-new-coupon',data)
                 .then((res)=>{
                     router.refresh()
-                    toast.success("Add new coupon")
+                    //toast.success("Add new coupon")
                 })
                 .catch((err:any)=>{
                     toast.error("something went wrong")
                 })
                 .finally(()=>{
-                    setIsLoading(false)
+                   
                 })
+        // create history
+            axios.post('/api/create-new-history',{
+                userId:userId?.id,
+                title:`Coupon`,
+                type: 'add new'
+            })
+            .then((res)=>{
+                
+                toast.success('add new');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
       }
 
       const setCustomValue =useCallback((id:string, value:any) => {
@@ -124,6 +150,26 @@ const AddDiscount = () =>{
 
         }
     },[setCustomValue,type])
+
+    // take userID from current user
+    useEffect(()=>{
+        const result = user && user.find((item:any)=>item.email === currentUser?.user.email);
+        setUserId(result)
+    },[user,currentUser])
+    console.log(userId)
+
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return(
         <div className="px-2">
             <div className="bg-slate-600 rounded-md px-2 py-4 grid grid-cols-2">

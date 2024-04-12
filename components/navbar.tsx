@@ -63,22 +63,7 @@ const Navbar:React.FC<NavProps>= ({
     const [arrHeart,setArrHeart] = useState<any>([])
     const [arrRelly,setArrRelly] = useState<any>([])
     const [arrRellyHeart,setArrRellyHeart] = useState<any>([])
-
-
-   
-    // const handleLogin = useCallback(()=>{
-    //     loginModal.onOpen()
-    // },[loginModal])
-
-    // const handleRegister = useCallback(()=>{
-    //     registerModal.onOpen()
-    // },[registerModal])
-
-    // const handleSignOut = useCallback(()=>{
-    //    signOut()
-    // },[])
-
-  
+    const [userId,setUserId] = useState('')
 
     useEffect(()=>{
         const array:any[] = []
@@ -122,7 +107,14 @@ const Navbar:React.FC<NavProps>= ({
       },[comment,showMail])
       //console.log(arrComment); // comment correpond with current user
 
+      // user id correpond with current user
+      useEffect(()=>{
+       const result =  user && user.find((item:any) =>item.email === email);
+       console.log(result)
+       setUserId(result.id)
+      },[email,user])
 
+      console.log(userId)
     
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
@@ -153,14 +145,14 @@ const Navbar:React.FC<NavProps>= ({
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineMail className="w-5 h-5 text-white" />
-                                {showMail && showMail.filter((item:any)=>item.history !== true).length >0 && (
+                                {showMail && showMail.length >0 && (
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>
                             <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
                                 <MailContent 
                                     mail ={showMail}
-                                    
+                                   userId = {userId && userId}
                                 />
                             </PopoverContent>
                         </Popover>

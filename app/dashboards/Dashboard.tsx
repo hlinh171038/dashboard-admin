@@ -108,6 +108,19 @@ const Dashboard:React.FC<DashbaordProps> = ({
     const handleNavigate = useCallback(()=>{
         router.push('/dashboards/transaction')
     },[router])
+
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div className="grid grid-cols-4 px-2 gap-2 ">
            

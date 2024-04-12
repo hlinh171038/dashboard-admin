@@ -15,7 +15,7 @@ export async function POST(request:Request) {
       // user not exist -->add comment Id,userId
       
         if(!checkUser) {
-            console.log('try')
+          
             const result = await prisma.heartReply.create({
                 data: {
                     userId,

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react"
 import { MdCandlestickChart } from "react-icons/md";
 import { MdCircle } from "react-icons/md";
 import RightChart from "../../../components/transactions/right-chart"
+import { useRouter } from "next/navigation"
 
 
 
@@ -77,6 +78,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
     const [totalTransactionLastWeek,setTotalTransactionLastWeek] = useState<any>([]);
     const [chart,setChart] = useState('all');
     const [chartRight,setChartRight] = useState('all');
+    const router = useRouter()
 
  
     const lengthStransaction = Math.ceil(transaction.length / Number(per_page));
@@ -146,7 +148,18 @@ const TransactionPage:React.FC<TransactionProps> = ({
     },[transaction2,lastWeek])
     // total last week
 
+//handle ctr + z
+useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
 
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
    
     return (
         <div className="flex flex-col items-start justify-start gap-2 w-full px-2 ">

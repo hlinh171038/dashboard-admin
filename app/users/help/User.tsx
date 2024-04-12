@@ -4,6 +4,8 @@ import Contact from "@/components/contactUs/contact"
 import Footer from "@/components/contactUs/footer"
 import ListHelp from "@/components/contactUs/list-help"
 import Mail from "@/components/contactUs/mail"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 
 
@@ -16,6 +18,19 @@ const User:React.FC<UserProps> = ({
     currentUser,
     user =[]
 }) =>{
+    const router = useRouter()
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
     return (
         <div
             className=" flex flex-col gap-2"

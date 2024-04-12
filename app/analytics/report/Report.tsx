@@ -8,6 +8,7 @@ import Pagination from "@/components/report/pagination";
 import PaymentMethod from "@/components/report/payment-method";
 import TrendingSale from "@/components/report/trend-sale";
 import { Comment, Mail, Product, TempMail, Transaction, User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 
@@ -54,7 +55,7 @@ const Report:React.FC<ReportProps> = ({
     const [totalPriceLastWeek,setTotalPriceLastWeek] = useState(0)
     const [newUser,setNewuser] = useState<any>([])
     const [newUserLastWeek,setNewuserLastWeek] = useState<any>([])
-
+    const router = useRouter()
 
   //pagination
     //begin
@@ -184,6 +185,18 @@ const Report:React.FC<ReportProps> = ({
 
     // revenue of cash
     // revenue of card
+    //handle ctr + z
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey === true && event.key === 'z') {
+        router.push('/history')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [router]);
    
     return (
         <div className="flex flex-col gap-2 text-white px-2">
@@ -248,10 +261,10 @@ const Report:React.FC<ReportProps> = ({
                      guestThisWeek = {guestThisWeek}
                      guestLastWeek = {guestLastWeek}
                     /> */}
-                    <HistoryMail 
+                    {/* <HistoryMail 
                         tempMail = {tempMail}
                         currentUser = {currentUser}
-                    />
+                    /> */}
                 </div>
                 {/* right */}
                 <div
