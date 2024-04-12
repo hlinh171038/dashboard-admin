@@ -46,6 +46,7 @@ const HeaderHistory:React.FC<HeaderProps> = ({
      //handle reset
      const handleReset = useCallback(()=>{
         router.push(`/history?query=`);
+        setText('')
     },[router])
 
     
@@ -140,14 +141,6 @@ const HeaderHistory:React.FC<HeaderProps> = ({
                                 />
                         </PopoverContent>
                     </Popover>
-                {/* filter */}
-               
-               {/* <button 
-                    onClick={handleAddNew}
-                    className="hover:text-white text-neutral-200 px-2 py-1 text-[15px] rounded-md duration-300 transition-all"
-                >
-                     <IoMdAdd className="w-4 h-4" /> 
-                </button> */}
                 
                </div>
             </div>

@@ -249,34 +249,7 @@ const Report:React.FC<ReportProps> = ({
                 />
             </div>
            </div>
-            <div 
-                className="grid grid-cols-6 gap-2 text-neutral-100 "
-
-            >   
-                {/* left */}
-                <div className="col-span-4 bg-slate-600 rounded-md">
-                    {/* <TrendingSale 
-                     transaction = {transaction}
-                     product = {product}
-                     guestThisWeek = {guestThisWeek}
-                     guestLastWeek = {guestLastWeek}
-                    /> */}
-                    {/* <HistoryMail 
-                        tempMail = {tempMail}
-                        currentUser = {currentUser}
-                    /> */}
-                </div>
-                {/* right */}
-                <div
-                    className="col-span-2 bg-slate-600 rounded-md"
-                >
-                    <PaymentMethod
-                        guestThisWeek = {guestThisWeek}
-                        guestLastWeek = {guestLastWeek}
-                        transaction = {transaction}
-                    />
-                </div>
-            </div>
+            
         </div>
     )
 }

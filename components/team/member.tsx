@@ -1,6 +1,6 @@
 "use client"
 
-import { MdOutlineEmail } from "react-icons/md"
+import { MdAutoDelete, MdOutlineEmail } from "react-icons/md"
 import QuestionNotified from "../question-notified"
 import { GoPlus } from "react-icons/go";
 import { User } from "@prisma/client";
@@ -52,9 +52,45 @@ const Member:React.FC<MemberProps> = ({
     currentUser,
     search_admin
 }) =>{
-    console.log(search_admin)
+    //console.log(search_admin)
 
     const [filterArr,setFillterArr] = useState<any>([])
+    const router = useRouter()
+    const [checkId,setCheckId] = useState<any>([])
+    const [isLoading,setIsLoading] = useState(false)
+    
+    //handle orther check
+    const handleOtherCheck = useCallback((id:string)=>{
+        const tempArr = [...checkId];
+        const index = tempArr.includes(id);
+        console.log(index);
+       if(!index) {
+        tempArr.push(id)
+       } else {
+        const position = tempArr.indexOf(id)
+        tempArr.splice(position,1)
+       }
+        console.log(tempArr);
+        setCheckId(tempArr)
+    },[checkId])
+
+    //handle delete
+    const handleDelete = useCallback((array:any[])=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/delete-admin',{checkId:array})
+            .then((res)=>{
+                console.log(res.data)
+                toast.success('removed ');
+                router.refresh()
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+            })
+    },[router])
 
 
     //pagination
@@ -78,7 +114,7 @@ const Member:React.FC<MemberProps> = ({
   
 
     return (
-        <div className=" px-2 w-full text-[14px] text-neutral-400">
+        <div className="relative px-2 w-full text-[14px] text-neutral-400">
             
             <div className="col-span-3 w-auto py-2">
             <div className="flex items-center justify-between ">
@@ -126,10 +162,20 @@ const Member:React.FC<MemberProps> = ({
                 </Popover>
                 
                 </div>
-                <div className="flex flex-col gap-2 my-2">
-                    
+                <div className=" flex flex-col gap-2 my-2">
+                    {checkId.length >0 && (
+                    <button
+                            disabled ={isLoading}
+                            onClick={()=>handleDelete(checkId)}
+                            className="absolute top-3 left-[35%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                            Delete
+                            {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
+                        </button>
+                        
+                    )}
                     <table>
                         <tr className="text-[15px] text-neutral-100">
+                            <td></td>
                             <td>Email</td>
                             <td>Department</td>
                             <td>Is Group Leader</td>
@@ -146,6 +192,8 @@ const Member:React.FC<MemberProps> = ({
                                 permission = {item.permission}
                                 user={user}
                                 currentUser = {currentUser}
+                                check={checkId && checkId.includes(item.id)}
+                                handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                             />
                         )
                     })}

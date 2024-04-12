@@ -215,9 +215,10 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
             
               <BarChart width={150} height={40} data={teamData}>
              
-              <Bar dataKey="uv" fill="#8884d8" barSize={20}  label={{ position: 'top' }}>
+              <Bar dataKey="uv" fill="#8884d8" barSize={20}  label={{ position: 'top' }} >
                   {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                  
                   ))}
               </Bar>
               </BarChart>

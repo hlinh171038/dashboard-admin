@@ -15,6 +15,8 @@ import {
 import { ContactUs } from "./contact"
 import { ContactUsMember } from "./contact-member"
 import { User } from "@prisma/client"
+import { FaRegSquare } from "react-icons/fa"
+import { FaRegSquareCheck } from "react-icons/fa6"
 
 interface MemberItemProps {
     id: string;
@@ -24,7 +26,8 @@ interface MemberItemProps {
     position: string;
     isLeader: boolean;
     permission: string;
-
+    check: boolean;
+    handleOtherCheck: (id:string) =>void;
 }
 
 const MemberItem:React.FC<MemberItemProps> = ({
@@ -34,7 +37,9 @@ const MemberItem:React.FC<MemberItemProps> = ({
     currentUser,
     position,
     isLeader,
-    permission
+    permission,
+    check,
+    handleOtherCheck
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
@@ -54,6 +59,22 @@ const MemberItem:React.FC<MemberItemProps> = ({
     },[router,id])
     return (
         <tr  >
+            <td >
+            <div className="flex items-center justify-start ">
+                {!check ?(
+                    <FaRegSquare
+                        className="w-4 h-4 text-neutral-100 font-thin"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                ):(
+                    <FaRegSquareCheck 
+                        className="w-4 h-4 text-neutral-100"
+                        onClick={()=>handleOtherCheck(id)}
+                        />
+                )}
+                
+            </div>
+            </td>
             <td
                 onClick={()=>router.push(`/dashboards/customers/${id}`)} 
                 className="cursor-pointer inline-flex  items-center justify-start gap-2 text-neutral-100 text-[14px] bg-slate-500/30 rounded-md px-2 py-1 ">
@@ -94,12 +115,12 @@ const MemberItem:React.FC<MemberItemProps> = ({
                             </PopoverContent>
                         </Popover>
                 </div>
-                <button 
+                {/* <button 
                     onClick={handleDeleteAdmin}
                     className="group text-neutral-100 px-2 mt-[-6px] rounded-md cursor-pointer flex items-center justify-start gap-2">
                         <MdDeleteForever className="w-4 h-4 text-neutral-200 group-hover:text-red-600 transition-all duration-300"/>
                         {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
-                </button>
+                </button> */}
             </td>
         </tr>
     )

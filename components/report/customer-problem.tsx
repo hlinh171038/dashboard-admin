@@ -5,7 +5,11 @@ import ItemCustomerReport from "./item-customer-report";
 import ReportHeader from "./header";
 import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdAutoDelete } from "react-icons/md";
 
 interface CustomerProblemProps {
     mail: Mail[] | any;
@@ -32,8 +36,43 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
     page,
     per_page
 }) =>{
-    //console.log(currentUser)
+    const [checkId,setCheckId] = useState<any>([])
+    const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
+
+     //handle orther check
+     const handleOtherCheck = useCallback((id:string)=>{
+        const tempArr = [...checkId];
+        const index = tempArr.includes(id);
+        console.log(index);
+       if(!index) {
+        tempArr.push(id)
+       } else {
+        const position = tempArr.indexOf(id)
+        tempArr.splice(position,1)
+       }
+        console.log(tempArr);
+        setCheckId(tempArr)
+    },[checkId])
+
+    //handle delete
+    const handleDelete = useCallback((array:any[])=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/delete-report',{checkId:array})
+            .then((res)=>{
+                console.log(res.data)
+                toast.success('removed ');
+                router.refresh()
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+            })
+    },[router])
+
     //handle back product
     const handleBack = useCallback(()=>{
         router.push(`/analytics/report?search=&status=}&role=}&start=&end=&page=1&per_page=10`);
@@ -49,8 +88,19 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                 currentUser ={currentUser}
                 user = {user}
             />
+            {checkId.length >0 && (
+                <button
+                    disabled ={isLoading}
+                    onClick={()=>handleDelete(checkId)}
+                    className="absolute top-2 left-[30%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                    Delete
+                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
+                </button>
+                
+            )}
             <table className="w-full">
                 <tr className="text-[15px] text-neutral-100">
+                    <td></td>
                     <td>Email</td>
                     <td>Role</td>
                     <td>Date</td>
@@ -69,6 +119,8 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                                 currentUser ={currentUser}
                                 user = {user}
                                 status = {item.status}
+                                check={checkId && checkId.includes(item.id)}
+                                handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                             />
                 })}
             </table>

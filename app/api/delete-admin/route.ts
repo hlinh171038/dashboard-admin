@@ -4,22 +4,17 @@ import { NextResponse } from 'next/server'
 export async function POST(request:Request) {
     try {
         const body = await request.json()
-        const {id} = body;
+        const {checkId} = body;
         // check id
-        const checkId = await prisma.user.findUnique({
+       
+        const update = await prisma.user.updateMany({
             where: {
-                id
-            }
-        })
-        if(!checkId){
-            return NextResponse.json({message:'Internal Server Error'},{status:500})
-        }
-        const update = await prisma.user.update({
-            where: {
-                id
+                id:{in: checkId}
             },
             data: {
-                role:'no'
+                role:'no',
+                position: null,
+                isLeader:null,
             }
         })
         return NextResponse.json(update)

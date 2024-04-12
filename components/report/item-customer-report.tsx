@@ -11,6 +11,8 @@ import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { FaRegSquare } from "react-icons/fa";
+import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 
 interface ItemCustomerReportProps {
@@ -21,7 +23,9 @@ interface ItemCustomerReportProps {
     currentUser: any;
     user : User[] | any;
     supportBy: string;
-    status: string
+    status: string;
+    check: boolean;
+    handleOtherCheck: (id:string) =>void;
 }
 
 const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
@@ -32,7 +36,9 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
     currentUser,
     supportBy,
     user =[],
-    status:dataStatus
+    status:dataStatus,
+    check,
+    handleOtherCheck
 }) =>{
     const [status,setStatus] = useState('status');
     const [api,setApi] = useState(false);
@@ -93,6 +99,22 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
         <tr className={cn('',
             status === 'help' ? 'text-red-600':'text-neutral-400'
         )}>
+            <td className="w-6">
+                <div className="flex items-center justify-start mt-[-5px]">
+                    {!check ?(
+                        <FaRegSquare
+                            className="w-4 h-4 text-neutral-100 font-thin"
+                            onClick={()=>handleOtherCheck(id)}
+                            />
+                    ):(
+                        <FaRegSquareCheck 
+                            className="w-4 h-4 text-neutral-100"
+                            onClick={()=>handleOtherCheck(id)}
+                            />
+                    )}
+                    
+                </div>
+            </td>
             <td>{email}</td>
             <td>{role}</td>
             <td>{new Date(date).toDateString()}</td>

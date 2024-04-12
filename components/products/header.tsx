@@ -55,6 +55,7 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
     //handle reset
     const handleReset = useCallback(()=>{
         router.push(`/dashboards/product/?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10`)
+        setText('')
     },[router])
 
     useEffect(()=>{
@@ -81,9 +82,9 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
                 <div className="relative">
                         <div className="absolute top-2 left-2 "><IoSearchSharp className="w-3 h-3 text-white"/></div>
                         <div className="absolute top-1.5 right-2 text-[11px] text-neutral-400 flex items-center justify-start gap-1">
-                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
+                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md flex items-center justify-center">Ctrl</div>
                     
-                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">M</div>
+                            <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md flex items-center justify-center">M</div>
                         </div>
                         {product.length < product2.length && (
                             <div className="absolute bottom-[-20px] left-0 text-[13px] text-green">

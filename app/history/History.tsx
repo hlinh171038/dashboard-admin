@@ -107,12 +107,18 @@ const History:React.FC<HistoryProps> = ({
     return (
         <div className="px-2">
             <div className=" relative bg-slate-600 rounded-md p-2  text-[14px] text-neutral-400 flex flex-col gap-2">
-            <div className="text-[15px] text-neutral-100 ">
+            <div className="text-[15px] text-neutral-100 flex items-center justify-between">
                 <div className="flex items-center justify-start gap-1">
                     <MdHistory className="w-4 h-4"/>
                     <span>History</span>
                 </div>
-              
+                <div className="flex items-center justify-start gap-1">
+                <div className=" text-[11px] text-neutral-400 flex items-center justify-start gap-1">
+                    <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
+            
+                    <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Z</div>
+                </div>
+            </div>
             </div>
             
             <HeaderHistory

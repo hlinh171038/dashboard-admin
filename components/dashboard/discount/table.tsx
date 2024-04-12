@@ -86,7 +86,7 @@ const Table:React.FC<TableProps> = ({
         router.push(`/dashboards/discount?search=&type=&percent=&dayStart=&dayEnd=&countFrom=&countTo=&page=1&per_page=10`)
     },[router])
     return (
-       <div>
+       <div className="mt-2">
          {checkId.length >0 && (
                 <button
                     disabled ={isLoading}
