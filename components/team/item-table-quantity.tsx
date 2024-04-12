@@ -15,7 +15,7 @@ const ItemTableQuantity:React.FC<ItemTableQuantityProps> = ({
 }) =>{
     return (
         <tr>
-            <td className="capitalize">{position}</td>
+            <td className="capitalize px-2">{position}</td>
             <td>
                 <div className="flex items-center justify-center">
                 {count}

@@ -194,7 +194,7 @@ const Team:React.FC<TeamProps> = ({
                             </div>
                         </div>
                    </div>
-                   <div className="w-full flex items-center justify-end text-[13px] text-neutral-400 mb-[-10px] px-2">Date:{chartRight === 'thisWeek' ?(
+                   <div className="w-full flex items-center justify-end text-[13px] text-neutral-400 mb-[-10px] px-2">Date: {chartRight === 'thisWeek' ?(
                         <span className="flex items-center justify-start gap-0.5 ">
                                 <span>{new Date(thisWeek[0]).toDateString()}</span>
                                 <span>-</span>

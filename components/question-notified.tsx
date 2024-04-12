@@ -35,7 +35,7 @@ const QuestionNotified:React.FC<QuestionNotifiedProps> = ({
                 side="bottom" 
                 align="start" 
                 sideOffset={4}
-                className="bg-[#4FA29E] text-neutral-400 text-[13px] px-4 py-2 rounded-md mr-2"
+                className="bg-neutral-100 text-slate-900 text-[13px] px-4 py-2 rounded-md mr-2"
                 >
                     <div>{content}</div>
                     <div>{content2 && content2}</div>

@@ -59,8 +59,8 @@ const MemberItem:React.FC<MemberItemProps> = ({
     },[router,id])
     return (
         <tr  >
-            <td >
-            <div className="flex items-center justify-start ">
+            <td className="w-6" >
+            <div className="flex items-center justify-start mt-2">
                 {!check ?(
                     <FaRegSquare
                         className="w-4 h-4 text-neutral-100 font-thin"
@@ -89,7 +89,7 @@ const MemberItem:React.FC<MemberItemProps> = ({
                 {position}
             </td>
             <td className="capitalize">
-                {isLeader ? (<span className="text-yellow-600">{`< Leader >`}</span>): 'member'}
+                {isLeader ? (<span className="text-yellow-600">{`Leader`}</span>): 'member'}
             </td>
             <td >
                 {permission === 'read' ? 'read only':(permission === 'all'?'all permission': permission)}
@@ -115,12 +115,7 @@ const MemberItem:React.FC<MemberItemProps> = ({
                             </PopoverContent>
                         </Popover>
                 </div>
-                {/* <button 
-                    onClick={handleDeleteAdmin}
-                    className="group text-neutral-100 px-2 mt-[-6px] rounded-md cursor-pointer flex items-center justify-start gap-2">
-                        <MdDeleteForever className="w-4 h-4 text-neutral-200 group-hover:text-red-600 transition-all duration-300"/>
-                        {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
-                </button> */}
+               
             </td>
         </tr>
     )

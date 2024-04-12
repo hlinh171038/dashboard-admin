@@ -37,15 +37,15 @@ const TableQuantity:React.FC<TableQuantityProps> = ({
                 className="w-full flex flex-col gap-2"
             >
                 <div >
-                 <div className="text-[15px] text-neutral-100 mb-[-5px]">Memebers</div>
+                 <div className="text-[15px] text-neutral-100 ">Memebers</div>
                  <div>A mount of member each Department</div>
                 </div>
                 <table 
                     id="trend-sale-table"
-                    className="w-full"
+                    className="w-full my-1"
                     >
-                    <tr className="text-neutral-200 text-[15px]">
-                        <td>Department</td>
+                    <tr className="text-neutral-200 text-[15px] ">
+                        <td className="px-2 py-1">Department</td>
                         <td>
                             <div className="flex items-center justify-center">
                                 Quantity
