@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { revalidatePath } from 'next/cache';
 export async function getAllComment() {
     try {
       const comment = await prisma.comment.findMany({
@@ -16,7 +17,7 @@ export async function getAllComment() {
         heart: [...comment.heart],
         relly: [...comment.relly],
       }));
-  
+      
       return safeComment;
     } catch (error:any) {
       throw new Error(error); // Bổ sung dấu ngoặc kép
