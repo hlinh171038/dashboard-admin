@@ -5,7 +5,7 @@ import { Transaction } from "@prisma/client"
 import Image from "next/image"
 import ItemLastTransaction from "./item-last-transaction"
 import '@/app/globals.css'
-import { useCallback, useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { MdOutlineCallMade } from "react-icons/md"
 import NoItem from "./no-item"
@@ -50,6 +50,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
                     The list of lastest transaction in this week.
                 </div>
             </div>
+            <Suspense fallback={<div>loading</div>}>
             {transactionThisWeek.length >0 ?(
                 <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
                     <tr >
@@ -77,7 +78,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
             ):(
                 <NoItem />
             )}
-            
+            </Suspense>
         </div>
     )
 }
