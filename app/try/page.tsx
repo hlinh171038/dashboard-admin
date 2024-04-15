@@ -4,11 +4,11 @@ import { getAllMail } from '../actions/getAllMail'
 import MyComponent from './my-component'
 
 const  Try = async() =>{
-    const mail = await getAllMail()
+  
     return (
         <Suspense fallback={<>loading ...</>}>
             <MyComponent 
-                mail = {mail}
+               
             />
         </Suspense>
     )

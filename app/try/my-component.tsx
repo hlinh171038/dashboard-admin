@@ -1,13 +1,12 @@
-"use client"
 
-interface MycomponentProps {
-    mail:any;
-}
 
-const MyComponent:React.FC<MycomponentProps>=  ({
-    mail = []
+import { getAllMail } from "../actions/getAllMail"
+
+
+const MyComponent= async ({
+   
 }) =>{
-
+    const mail = await  getAllMail()
     return (
         <div>
             {mail?.map((item:any)=>{
