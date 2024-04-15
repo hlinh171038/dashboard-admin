@@ -9,7 +9,7 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { User } from "@prisma/client"
 import { LuMailWarning } from "react-icons/lu"
-
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 
 

@@ -127,7 +127,7 @@ const MailItem:React.FC<MailItemProps> = ({
                         className="rounded-full aspect-square "
                     />
                     <div className="flex flex-col gap-0.5">
-                        <div>{mailSend}</div>
+                        <div>{mailSend || <Skeleton/>}</div>
                         <div className="text-neutral-400 text-[13px]">{new Date(created_at).toLocaleString()}</div>
                     </div>
                 </div>

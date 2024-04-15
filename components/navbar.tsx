@@ -150,14 +150,14 @@ const Navbar:React.FC<NavProps>= ({
                                 )}
                             </PopoverTrigger>
                             <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
-                            <Suspense fallback={<div>Loading...</div>}>
-                                {showMail ? (
+                           
+                              
                                    <MailContent 
                                         mail ={showMail}
                                         userId = {userId && userId}
                                     />
-                                ) : null}
-                                </Suspense>
+                                
+                               
                                 
                             </PopoverContent>
                         </Popover>
