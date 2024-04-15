@@ -16,6 +16,7 @@ import { MdOutlineReportGmailerrorred } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 
 interface MailItemProps {

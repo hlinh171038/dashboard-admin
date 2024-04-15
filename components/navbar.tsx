@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useState } from "react"
 
 import useLoginModal from "../app/hooks/useLoginModal"
 
@@ -150,10 +150,15 @@ const Navbar:React.FC<NavProps>= ({
                                 )}
                             </PopoverTrigger>
                             <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
-                                <MailContent 
-                                    mail ={showMail}
-                                   userId = {userId && userId}
-                                />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                {showMail ? (
+                                   <MailContent 
+                                        mail ={showMail}
+                                        userId = {userId && userId}
+                                    />
+                                ) : null}
+                                </Suspense>
+                                
                             </PopoverContent>
                         </Popover>
                     </div>

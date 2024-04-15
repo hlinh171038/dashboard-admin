@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import MailItem from "./mail-item"
-import { useCallback, useState } from "react"
+import { Suspense, useCallback, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import axios from "axios"
 import toast from "react-hot-toast"
@@ -13,13 +13,16 @@ import { LuMailWarning } from "react-icons/lu"
 
 
 
+
 interface MailContentProps {
     mail: any;
    userId: string;
+ 
 }
 const MailContent:React.FC<MailContentProps> = ({
     mail,
-   userId
+   userId,
+ 
 }) =>{
 
     const [isLoading,setIsLoading] = useState(false)
@@ -84,6 +87,7 @@ const MailContent:React.FC<MailContentProps> = ({
                 </TabsList>
                 <TabsContent value="all">
                 <div>
+                   
                     {mail && mail.length>0 && mail.map((item:any)=>{
                         return <MailItem 
                                     key={item.id}
@@ -96,6 +100,7 @@ const MailContent:React.FC<MailContentProps> = ({
                                     userId ={userId}
                                 />
                     })}
+                
                 </div>
                 </TabsContent>
                 <TabsContent value="unread">
@@ -122,3 +127,4 @@ const MailContent:React.FC<MailContentProps> = ({
 }
 
 export default MailContent
+
