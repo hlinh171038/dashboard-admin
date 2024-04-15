@@ -50,7 +50,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
                     The list of lastest transaction in this week.
                 </div>
             </div>
-            <Suspense fallback={<div>loading</div>}>
+            
             {transactionThisWeek.length >0 ?(
                 <table id="trend-sale-table" className="w-full text-start text-sm gap-2 ">
                     <tr >
@@ -78,7 +78,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
             ):(
                 <NoItem />
             )}
-            </Suspense>
+           
         </div>
     )
 }

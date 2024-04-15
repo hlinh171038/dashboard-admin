@@ -3,6 +3,8 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import '@/app/globals.css'
+
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 interface ItemLastTransactionProps {
     name: string,
     image: string,
@@ -11,6 +13,7 @@ interface ItemLastTransactionProps {
     price: number,
     id: string
 }
+
 
 const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
     name,
@@ -33,7 +36,7 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                             className="rounded-full aspect-square"
                         />
                     </div>
-                    <div className="capitalize">{name}</div>
+                    <div className="capitalize">{name || <Skeleton/> }</div>
                 </div>
                 
             </td>
@@ -47,7 +50,7 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                     status === "cancel" && "text-red-600",
                 )}
                 >
-                {status}
+                {status || <Skeleton/>}
                 </div>
             </td>
             <td className="px-2">{new Date(date).toLocaleDateString()}</td>
