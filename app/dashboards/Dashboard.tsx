@@ -150,11 +150,14 @@ const Dashboard:React.FC<DashbaordProps> = ({
                 </div>
                 {/* transaction */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2">
+                    <Suspense fallback ={<div>loading...</div>}>
                     <LastTransaction 
                         transaction = {transaction}
                         thisWeek = {thisWeek}
                         lastWeek = {lastWeek}
                     />
+                    </Suspense>
+                    
                 </div>
                 {/* chart */}
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 text-[14px] text-neutral-100">
