@@ -10,7 +10,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { FcCloseUpMode } from "react-icons/fc";
 import { Toaster } from "react-hot-toast" 
 import { Discount, Product, User } from "@prisma/client"
-import { useCallback, useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useState } from "react"
 import CardUser from "@/components/dashboard-home/card-user"
 import CardTransaction from "@/components/dashboard-home/card-transaction"
 import CardRevenue from "@/components/dashboard-home/card-revenue"
@@ -128,11 +128,14 @@ const Dashboard:React.FC<DashbaordProps> = ({
            <div className="col-span-3 flex flex-col gap-2 ">
                 {/* statistical */}
                 <div className="grid grid-cols-3 gap-2">
+                <Suspense fallback={<div>loading ...</div>}>
                     <CardUser
                         totalUserThisWeek = {totalUserThisWeek}
                         totalUserLastWeek = {totalUserLastWeek}
                         users = {users}
                     />
+                </Suspense>
+                    
                     <CardTransaction
                         thisWeek = {thisWeek}
                         lastWeek = {lastWeek}
