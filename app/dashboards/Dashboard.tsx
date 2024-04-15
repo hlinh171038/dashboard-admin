@@ -24,6 +24,7 @@ import TeamLead from "@/components/dashboard-home/team-lead"
 import TeamLeadCahrt from "@/components/dashboard-home/team-lead-chart"
 import TopCustomer from "@/components/dashboard-home/top-customer"
 
+
 interface DashbaordProps {
     users: User[] | any;
     transaction: any;
@@ -217,6 +218,7 @@ const Dashboard:React.FC<DashbaordProps> = ({
                  <DiscountTrend
                     discount = {discount}
                  />
+                 
                 <NewVersion 
                     title = "Availble Now"
                     iconTitle= {FcLinux}

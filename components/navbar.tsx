@@ -23,9 +23,11 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-import MailContent from "./navbar/mail"
+
 import { LuMailWarning } from "react-icons/lu";
 import CommentContent from "./navbar/comment-content"
+import MailContent from "./navbar/mailclient"
+
 
 
 interface NavProps {
@@ -150,11 +152,10 @@ const Navbar:React.FC<NavProps>= ({
                                 )}
                             </PopoverTrigger>
                             <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
-                           
-                              
-                                   <MailContent 
-                                        mail ={showMail}
-                                        userId = {userId && userId}
+
+                                   <MailContent
+                                         mail ={showMail}
+                                         userId = {userId && userId}
                                     />
                                 
                                

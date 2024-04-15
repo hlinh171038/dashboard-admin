@@ -9,7 +9,9 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { User } from "@prisma/client"
 import { LuMailWarning } from "react-icons/lu"
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { getAllMail3 } from "@/lib/post"
+import { getAllUser2 } from "@/app/actions/getAllUser2"
+
 
 
 
@@ -22,12 +24,13 @@ interface MailContentProps {
 const MailContent:React.FC<MailContentProps> = ({
     mail,
    userId,
- 
+   
 }) =>{
 
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
 
+   
     //handle delete
     const handleDeleteAll = useCallback((id:string)=>{
         setIsLoading(true);
