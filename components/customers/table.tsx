@@ -68,24 +68,24 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     },[router])
 
     // search + skelton
-    // useEffect( ()=>{
-    //     setIsLoading(true)
-    //    // console.log(array)
-    //     axios.post('/api/filter-user',{search})
-    //         .then((res)=>{
-    //             console.log(res.data)
-    //             toast.success('search ');
-    //             router.refresh()
+    useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-user',{search})
+            .then((res)=>{
+                console.log(res.data)
+                toast.success('search ');
+                router.refresh()
                
-    //         })
-    //         .catch((err:any)=>{
-    //             toast.error("Something went wrong !!!")
-    //         }).finally(()=>{
-    //             setCheckId([]);
-    //             setIsLoading(false)
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
                
-    //         })
-    // },[search,router])
+            })
+     },[search,router])
     
     return (
         <div>

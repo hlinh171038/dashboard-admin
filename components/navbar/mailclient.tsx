@@ -9,7 +9,7 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { User } from "@prisma/client"
 import { LuMailWarning } from "react-icons/lu"
-import { getAllMail3 } from "@/lib/post"
+
 import { getAllUser2 } from "@/app/actions/getAllUser2"
 
 
