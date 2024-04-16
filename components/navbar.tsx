@@ -77,7 +77,9 @@ const Navbar:React.FC<NavProps>= ({
         })
         setShowMail(array)
     },[email,tempMail])
+    console.log(tempMail)
     console.log(showMail) // curentuser id,email,name,comment
+    console.log(email)
     // sticky when scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -107,7 +109,6 @@ const Navbar:React.FC<NavProps>= ({
         })
         setArrComment(result)
       },[comment,showMail])
-      //console.log(arrComment); // comment correpond with current user
 
       // user id correpond with current user
       useEffect(()=>{
@@ -155,7 +156,7 @@ const Navbar:React.FC<NavProps>= ({
                             <PopoverContent side="bottom" className="mt-6 mr-2 w-[300px] rounded-md">
 
                                    <MailContent
-                                         mail ={showMail}
+                                        // mail ={showMail}
                                          userId = {userId && userId}
                                     />
                                 
@@ -178,7 +179,8 @@ const Navbar:React.FC<NavProps>= ({
                                     // arrHeart = {arrHeart}
                                     // arrRelly = {arrRelly}
                                     // arrRellyHeart = {arrRellyHeart}
-                                    notify = {notify}
+                                    //notify = {notify}
+                                    userId ={userId}
                                 />
                             </PopoverContent>
                         </Popover>
