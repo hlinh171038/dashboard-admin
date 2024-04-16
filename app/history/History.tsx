@@ -97,7 +97,7 @@ const History:React.FC<HistoryProps> = ({
           console.log(result)
           setData(result)
         }
-    },[query])
+    },[query,data])
 
     //handle back product
     const handleBackProduct = useCallback(()=>{

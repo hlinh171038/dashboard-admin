@@ -3,6 +3,7 @@ import Customer from "./Customer"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getAllUser2 } from "@/app/actions/getAllUser2";
+import { Suspense } from "react";
 
 const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     const search =
@@ -18,14 +19,17 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     const currentUser = await getServerSession(authOptions);
     
     return (
-        <Customer 
-            users = {users}
-            user2 ={users2}
-            page={page}
-            per_page ={per_page}
-            search ={search}
-            currentUser = {currentUser}
-        />
+        <Suspense fallback='loading from suspense'>
+
+            <Customer 
+                users = {users}
+                user2 ={users2}
+                page={page}
+                per_page ={per_page}
+                search ={search}
+                currentUser = {currentUser}
+            />
+        </Suspense>
     )
 }
 export default CustomerPage

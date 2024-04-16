@@ -15,6 +15,7 @@ const CustomerId = async({params}:{params:Iparams}) => {
   
     return (
         <div>
+            
             <DetailCustomer 
                 userById = {customerById}
                 user = {user}

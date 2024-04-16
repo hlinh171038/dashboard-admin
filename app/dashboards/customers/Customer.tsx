@@ -9,7 +9,9 @@ import TotalAdminCard from "@/components/customers/total-admin-card"
 import TotalUserCard from "@/components/customers/total-user-card"
 import { User } from "@prisma/client"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useState } from "react"
+
+
 
 interface Cusromerprops {
     users  : User[];
@@ -106,6 +108,15 @@ const Customer:React.FC<Cusromerprops> = ({
     setTotalAdmin(result.length)
    },[users])
 
+   // handle loading
+   const handleLoading = useCallback((value:boolean)=>{
+        if(value) {
+            console.log('true')
+        }else {
+            console.log('false')
+        }
+   },[])
+
    //handle ctr + z
   useEffect(() => {
     const handleKeyDown = (event:any) => {
@@ -151,11 +162,17 @@ const Customer:React.FC<Cusromerprops> = ({
                         customer ={users}
                         user2 = {user2}
                         currentUser = {currentUser}
+                        handleLoading = {handleLoading}
                     />
                     <div className="px-2 w-full">
+                       {/* <Table/> */}
+                       <Suspense fallback="loading de...">
                         <TableCustomer
                             users={updateUser}
+                            search ={search}
+                            handleLoading ={handleLoading}
                         />
+                       </Suspense>
                     </div>
                 </div>
                 {/* check condition if page =1 / page = last page */}

@@ -4,19 +4,24 @@ import { User } from "@prisma/client"
 import ItemCustomer from "./item"
 import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5"
 import { useRouter } from "next/navigation"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "sonner"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { MdAutoDelete } from "react-icons/md";
+import { getAllComment } from "@/app/actions/getAllComment"
 
 
 interface TableCustomerProps {
-    users?: User[] | null
+    users?: User[] | null;
+    handleLoading : (value:boolean) =>void;
+    search?:string;
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
-    users =[]
+    users =[],
+    handleLoading,
+    search
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
@@ -46,12 +51,14 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 console.log(res.data)
                 toast.success('removed ');
                 router.refresh()
+               
             })
             .catch((err:any)=>{
                 toast.error("Something went wrong !!!")
             }).finally(()=>{
                 setCheckId([]);
                 setIsLoading(false)
+               
             })
     },[router])
 
@@ -59,6 +66,27 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     const handleBackProduct = useCallback(()=>{
         router.push(`/dashboards/customers?search=&role=&action=&start=&end=&page=1&per_page=10`);
     },[router])
+
+    // search + skelton
+    // useEffect( ()=>{
+    //     setIsLoading(true)
+    //    // console.log(array)
+    //     axios.post('/api/filter-user',{search})
+    //         .then((res)=>{
+    //             console.log(res.data)
+    //             toast.success('search ');
+    //             router.refresh()
+               
+    //         })
+    //         .catch((err:any)=>{
+    //             toast.error("Something went wrong !!!")
+    //         }).finally(()=>{
+    //             setCheckId([]);
+    //             setIsLoading(false)
+               
+    //         })
+    // },[search,router])
+    
     return (
         <div>
             {checkId.length >0 && (

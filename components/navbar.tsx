@@ -113,11 +113,12 @@ const Navbar:React.FC<NavProps>= ({
       useEffect(()=>{
        const result =  user && user.find((item:any) =>item.email === email);
        console.log(result)
-       setUserId(result.id)
+       setUserId(result && result?.id)
       },[email,user])
 
       console.log(userId)
-    
+     console.log(user)
+     console.log(name)
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >

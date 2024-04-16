@@ -22,12 +22,14 @@ interface HeaderProps {
     customer: User[] | any;
     user2: User[] | any;
     currentUser: any;
+    handleLoading: (value:boolean) => void;
 }
 
 const HeaderCustomer:React.FC<HeaderProps> = ({
     customer =[],
     user2 = [],
-    currentUser
+    currentUser,
+    handleLoading,
 }) =>{
     const [text,setText] = useState('')
     const [current,setCurrent] = useState<any>([])
@@ -55,8 +57,9 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
     }
 
     useEffect(()=>{
+        handleLoading(true)
         router.push(`/dashboards/customers/?search=${query}&page=1&per_page=10`)
-    },[router,query])
+    },[router,query,handleLoading])
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{
             if(event.ctrlKey && event.key === 'm'){
