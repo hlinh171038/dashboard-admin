@@ -10,22 +10,24 @@ import { toast } from "sonner"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { MdAutoDelete } from "react-icons/md";
 import { getAllComment } from "@/app/actions/getAllComment"
+import { Skeleton } from "../ui/skeleton"
 
 
 interface TableCustomerProps {
-    users?: User[] | null;
-    handleLoading : (value:boolean) =>void;
+    //users?: User[] | null;
+    //handleLoading : (value:boolean) =>void;
     search?:string;
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
-    users =[],
-    handleLoading,
+    //users =[],
+    //handleLoading,
     search
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [data,setData] = useState<any>([])
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -57,6 +59,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 toast.error("Something went wrong !!!")
             }).finally(()=>{
                 setCheckId([]);
+            
                 setIsLoading(false)
                
             })
@@ -74,7 +77,8 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
         axios.post('/api/filter-user',{search})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('search ');
+                setData(res.data && res.data)
+                //toast.success('search ');
                 router.refresh()
                
             })
@@ -86,7 +90,40 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                
             })
      },[search,router])
-    
+    console.log(data)
+
+    const array = [0,1,2,3,4,5,6,7,8,9,10]
+    if(isLoading) {
+        return (
+           <div className="flex flex-col gap-0.5">
+                <div className="grid grid-cols-12 w-full h-[30px]">
+                    
+                </div>
+                <div className="flex flex-col gap-1">
+                    {array.map((item:any)=>{
+                        return (
+                            <div key={item} className="flex items-center space-x-4 justify-between">
+                                <div className="flex items-center space-x-4 justify-between">
+                                <Skeleton className="h-6 w-6 rounded-full" />
+                                <div className="space-y-1">
+                                    <Skeleton className="h-3 w-[250px]" />
+                                    <Skeleton className="h-3 w-[200px]" />
+                                </div>
+                                </div>
+                                <Skeleton className="h-4 w-[50px]" />
+                                <Skeleton className="h-4 w-[50px]" />
+                                <Skeleton className="h-4 w-[50px]" />
+                                <Skeleton className="h-4 w-[50px]" />
+                                <Skeleton className="h-4 w-[50px]" />
+                                <Skeleton className="h-4 w-[50px]" />
+
+                            </div>
+                        )
+                    })}
+                </div>
+           </div>
+        )
+    }
     return (
         <div>
             {checkId.length >0 && (
@@ -118,7 +155,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 </td>
                 <td></td>
             </tr>
-            {users && users.map((item:any)=>{
+            {data && data.map((item:any)=>{
                 return (<ItemCustomer 
                         key={item.id}
                         id={item.id}
@@ -134,7 +171,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 )
             })}
        </table>
-            {users && users.length === 0 &&(
+            {data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
                    

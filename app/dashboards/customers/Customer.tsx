@@ -168,9 +168,9 @@ const Customer:React.FC<Cusromerprops> = ({
                        {/* <Table/> */}
                        <Suspense fallback="loading de...">
                         <TableCustomer
-                            users={updateUser}
+                            //users={updateUser}
                             search ={search}
-                            handleLoading ={handleLoading}
+                            //handleLoading ={handleLoading}
                         />
                        </Suspense>
                     </div>
