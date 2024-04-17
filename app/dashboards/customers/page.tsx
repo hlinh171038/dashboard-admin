@@ -27,6 +27,10 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
                 user2 ={users2}
                 page={page}
                 per_page ={per_page}
+                role = {role}
+                action ={ action}
+                start = {start}
+                end = {end}
                 search ={search}
                 currentUser = {currentUser}
             />

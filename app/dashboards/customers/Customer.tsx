@@ -18,6 +18,10 @@ interface Cusromerprops {
     user2 : User[] |any;
     page: number;
     per_page: number;
+    role: string;
+    action: string;
+    start: string;
+    end: string;
     search: string;
     currentUser: any;
 }
@@ -26,6 +30,10 @@ const Customer:React.FC<Cusromerprops> = ({
     user2 = [],
     page,
     per_page,
+    role,
+    action,
+    start:startDate,
+    end:endDate,
     search,
     currentUser
 }) =>{
@@ -170,6 +178,10 @@ const Customer:React.FC<Cusromerprops> = ({
                         <TableCustomer
                             //users={updateUser}
                             search ={search}
+                            role = {role}
+                            action = {action}
+                            startDate = {startDate}
+                            endDate = {endDate}
                             //handleLoading ={handleLoading}
                         />
                       

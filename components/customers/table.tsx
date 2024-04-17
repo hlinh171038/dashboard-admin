@@ -17,12 +17,20 @@ interface TableCustomerProps {
     //users?: User[] | null;
     //handleLoading : (value:boolean) =>void;
     search?:string;
+    role?: string;
+    action?: string;
+    startDate?: string;
+    endDate?: string;
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
     //users =[],
     //handleLoading,
-    search
+    search,
+    role,
+    action,
+    startDate,
+    endDate
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
@@ -74,7 +82,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     useEffect( ()=>{
         setIsLoading(true)
        // console.log(array)
-        axios.post('/api/filter-user',{search})
+        axios.post('/api/filter-user',{search,role,action,startDate,endDate})
             .then((res)=>{
                 console.log(res.data)
                 setData(res.data && res.data)
@@ -89,7 +97,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 setIsLoading(false)
                
             })
-     },[search,router])
+     },[search,role,action,startDate,endDate,router])
     console.log(data)
 
     const array = [0,1,2,3,4,5,6,7,8,9,10]
