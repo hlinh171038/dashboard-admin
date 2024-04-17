@@ -166,13 +166,13 @@ const Customer:React.FC<Cusromerprops> = ({
                     />
                     <div className="px-2 w-full">
                        {/* <Table/> */}
-                       <Suspense fallback="loading de...">
+                      
                         <TableCustomer
                             //users={updateUser}
                             search ={search}
                             //handleLoading ={handleLoading}
                         />
-                       </Suspense>
+                      
                     </div>
                 </div>
                 {/* check condition if page =1 / page = last page */}

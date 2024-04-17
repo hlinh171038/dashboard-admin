@@ -12,7 +12,7 @@ import { MdAutoDelete } from "react-icons/md";
 import { getAllComment } from "@/app/actions/getAllComment"
 import { Skeleton } from "../ui/skeleton"
 
-
+const array = [0,1,2,3,4,5,6,7,8,9]
 interface TableCustomerProps {
     //users?: User[] | null;
     //handleLoading : (value:boolean) =>void;
@@ -93,37 +93,37 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     console.log(data)
 
     const array = [0,1,2,3,4,5,6,7,8,9,10]
-    if(isLoading) {
-        return (
-           <div className="flex flex-col gap-0.5">
-                <div className="grid grid-cols-12 w-full h-[30px]">
+    // if(isLoading) {
+    //     return (
+    //        <div className="flex flex-col gap-0.5">
+    //             <div className="grid grid-cols-12 w-full h-[30px]">
                     
-                </div>
-                <div className="flex flex-col gap-1">
-                    {array.map((item:any)=>{
-                        return (
-                            <div key={item} className="flex items-center space-x-4 justify-between">
-                                <div className="flex items-center space-x-4 justify-between">
-                                <Skeleton className="h-6 w-6 rounded-full" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[250px]" />
-                                    <Skeleton className="h-3 w-[200px]" />
-                                </div>
-                                </div>
-                                <Skeleton className="h-4 w-[50px]" />
-                                <Skeleton className="h-4 w-[50px]" />
-                                <Skeleton className="h-4 w-[50px]" />
-                                <Skeleton className="h-4 w-[50px]" />
-                                <Skeleton className="h-4 w-[50px]" />
-                                <Skeleton className="h-4 w-[50px]" />
+    //             </div>
+    //             <div className="flex flex-col gap-1">
+    //                 {array.map((item:any)=>{
+    //                     return (
+    //                         <div key={item} className="flex items-center space-x-4 justify-between">
+    //                             <div className="flex items-center space-x-4 justify-between">
+    //                             <Skeleton className="h-6 w-6 rounded-full" />
+    //                             <div className="space-y-1">
+    //                                 <Skeleton className="h-3 w-[250px]" />
+    //                                 <Skeleton className="h-3 w-[200px]" />
+    //                             </div>
+    //                             </div>
+    //                             <Skeleton className="h-4 w-[50px]" />
+    //                             <Skeleton className="h-4 w-[50px]" />
+    //                             <Skeleton className="h-4 w-[50px]" />
+    //                             <Skeleton className="h-4 w-[50px]" />
+    //                             <Skeleton className="h-4 w-[50px]" />
+    //                             <Skeleton className="h-4 w-[50px]" />
 
-                            </div>
-                        )
-                    })}
-                </div>
-           </div>
-        )
-    }
+    //                         </div>
+    //                     )
+    //                 })}
+    //             </div>
+    //        </div>
+    //     )
+    // }
     return (
         <div>
             {checkId.length >0 && (
@@ -155,7 +155,31 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 </td>
                 <td></td>
             </tr>
-            {data && data.map((item:any)=>{
+            {isLoading ? (
+                
+            array.map((item:any)=>{
+                    return (
+                        <tr key={item} className="my-2">
+                            <td className="w-6 h-6">
+                                <Skeleton className="h-4 w-4" />
+                            </td>
+                            <td className="max-w-20" >
+                                <div className="flex items-center justify-start gap-1">
+                                    <Skeleton className="h-6 w-6 rounded-full" />
+                                    <Skeleton className="h-4 w-[70px]" />
+                                    
+                                </div>
+                            </td>
+                            <td><Skeleton className="h-4 w-[100px]" /></td>
+                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                        </tr>
+                    )
+                })
+            ):(data && data.map((item:any)=>{
                 return (<ItemCustomer 
                         key={item.id}
                         id={item.id}
@@ -169,9 +193,11 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                     />
                 )
-            })}
+            }))}
+          
        </table>
-            {data && data.length === 0 &&(
+            
+            { !isLoading && data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
                    

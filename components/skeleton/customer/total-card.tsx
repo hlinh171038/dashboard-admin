@@ -1,0 +1,23 @@
+"use client"
+
+import { Skeleton } from "@/components/ui/skeleton"
+
+export const TotalCardUserSkeleton = () =>{
+    return (
+        <div className="bg-slate-600 rounded-md p-2 relative">
+            <div className="font-bold text-[15px] text-neutral-100">User Manager</div>
+            <div className="flex items-center justify-start gap-2 my-2">
+                <Skeleton className="w-8 h-8" />
+                <div className="text-[12px] ">
+                    <Skeleton className="w-20 h-4"/>
+                    <div className="text-neutral-400">in this week</div>
+                </div>
+            </div>
+
+
+            <div className="absolute bottom-1 right-1  text-neutral-100 text-[14px] flex items-end justify-end w-full">
+                <Skeleton className="w-12 h-4"/>
+            </div>
+        </div>
+    )
+}

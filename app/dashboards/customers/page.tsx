@@ -5,6 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getAllUser2 } from "@/app/actions/getAllUser2";
 import { Suspense } from "react";
 
+
 const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
     const search =
     typeof searchParams.search === 'string' ? searchParams.search : ''
@@ -19,7 +20,7 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     const currentUser = await getServerSession(authOptions);
     
     return (
-        <Suspense fallback='loading from suspense'>
+       
 
             <Customer 
                 users = {users}
@@ -29,7 +30,7 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
                 search ={search}
                 currentUser = {currentUser}
             />
-        </Suspense>
+   
     )
 }
 export default CustomerPage

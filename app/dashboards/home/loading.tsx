@@ -28,7 +28,7 @@ const Loading  =() =>{
                     {/* last transaction */}
                     <LastTransactionSkeleton />
                     {/* Weekly Statictical */}
-                    <WeeklyStaticallySkeleton/>
+                    <WeeklyStaticallySkeleton home/>
                     {/* admin && top customer */}
                     <div className="w-full  transition  text-[14px] text-neutral-100 grid grid-cols-2 gap-2 ">
                         <div className="bg-slate-600 rounded-md  p-2">
