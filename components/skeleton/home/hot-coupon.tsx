@@ -10,21 +10,25 @@ export const HotCouponSkeleton = () =>{
             <div className="mb-2">
             <div className="text-white text-[16px] font-bold flex items-center justify-between ">
             <div> Hot Coupon</div>
-            <Skeleton className="h-4 w-20 " />
+            <Skeleton className="h-4 w-12 " />
 
             </div>
             </div>
-            {array.map((item:any)=>{
-                return (
-                    <div key={item} className="flex items-center space-x-4">
-                        <Skeleton className="h-8 w-8 rounded-full" />
-                        <div className="space-y-2">
-                            <Skeleton className="h-4 w-[150px]" />
-                            <Skeleton className="h-4 w-[100px]" />
+            <div className="flex flex-col gap-2">
+                {array.map((item:any)=>{
+                    return (
+                        <div key={item} className="flex items-center justify-between">
+                            
+                            <div className="space-y-0.5">
+                                <Skeleton className="h-4 w-[150px]" />
+                                <Skeleton className="h-4 w-[100px]" />
+                            </div>
+                            <Skeleton className="h-4 w-2 rounded-sm" />
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })}
+            </div>
+            
 
             </div>
     )

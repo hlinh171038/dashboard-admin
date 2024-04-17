@@ -10,7 +10,7 @@ export const LastTransactionSkeleton = () =>{
                     <div >
                         <div className="text-white text-[16px] font-bold flex items-center justify-between">
                             <div> Lastest  Transactiion</div>
-                            <Skeleton className="w-4 h-20" />
+                            <Skeleton className="w-12 h-4" />
                         </div>
                         <div className="text-neutral-400 font-normal text-[14px] ">
                             The list of lastest transaction in this week.
@@ -28,22 +28,22 @@ export const LastTransactionSkeleton = () =>{
                             {array.map((item:any)=>{
                                 return (
                                     <tr key={item}>
-                                        <td>
+                                        <td className="px-2">
                                             <div className="flex items-center space-x-2">
                                             <Skeleton className="h-6 w-6 rounded-full" />
                                             <Skeleton className="h-4 w-[70px]" />
                                             </div>
                                         </td>
-                                        <td>
+                                        <td className="px-2">
                                             <Skeleton className="h-4 w-[50px]" />
                                         </td>
-                                        <td>
+                                        <td className="px-2">
                                             <Skeleton className="h-4 w-[50px]" />
                                         </td>
-                                        <td>
+                                        <td className="px-2">
                                             <Skeleton className="h-4 w-[50px]" />
                                         </td>
-                                        <td>
+                                        <td className="px-2">
                                             <Skeleton className="h-4 w-[50px]" />
                                         </td>
                                     </tr>
