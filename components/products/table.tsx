@@ -17,30 +17,35 @@ import { IoReturnDownBackOutline } from "react-icons/io5";
 import axios from "axios";
 import { toast } from "sonner";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { Skeleton } from "../ui/skeleton";
 
-
+const array = [0,1,2,3,4,5,6,7,8,9]
 
 interface TableProductProps {
-    data: Product[] | undefined;
+    //data: Product[] | undefined;
     query: string
     category: string
     brand: string
     price: string
     stock: string
     location: string
-
+    startDate: string
+    endDate: string
 }
 
 const TableProduct:React.FC<TableProductProps> = ({
-    data =[],
+    //data =[],
     query,
     category,
     brand,
     price,
     stock,
-    location
+    location,
+    startDate,
+    endDate
 }) =>{
     const router = useRouter()
+    const [data,setData] = useState<any>([])
     const [categoryArr,setCategoryArr] = useState<any>([])
     const [brandArr,setBrandArr] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
@@ -141,6 +146,29 @@ const TableProduct:React.FC<TableProductProps> = ({
        fillterCategory()
        fillterBrand()
     },[fillterBrand,fillterCategory])
+
+     // search + skelton
+     useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-product',{query,category,brand,location,price,stock,startDate,endDate})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                //toast.success('search ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+               
+            })
+     },[query,category,brand,location,price,stock,startDate,endDate,router])
+    console.log(data)
+
 
     return (
        <div className="w-full h-full mt-2">
@@ -284,7 +312,50 @@ const TableProduct:React.FC<TableProductProps> = ({
                 </td>
                 <td></td>
             </tr>
-            {data.map((item)=>{
+            {isLoading ? (
+                
+                array.map((item:any)=>{
+                        return (
+                            <tr key={item} className="my-2">
+                                <td className="w-6 h-6">
+                                    <Skeleton className="h-4 w-4" />
+                                </td>
+                                <td className="max-w-20" >
+                                    <Skeleton className="h-4 w-[100px]" />
+                                </td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td>
+                                    <div className="flex items-center justify-center">
+                                        <Skeleton className="h-4 w-[50px]" />
+                                    </div>
+                                </td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                            </tr>
+                        )
+                    })
+                ):(data && data.map((item:any)=>{
+                    return (<ItemProduct
+                        key={item.id}
+                        title={item.title as string }
+                        brand = {item.brand as string}
+                        category = {item.category as string}
+                        location = {item.location as string}
+                        description={item.description as string }
+                        img={item.image as string}
+                        price={item.defaultPrice as number }
+                        created_at={item.created_at }
+                        stock={item.stock as number}
+                        id = {item.id}
+                        check={checkId && checkId.includes(item.id)}
+                        handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                    />
+                    )
+                }))}
+            {/* {data.map((item:any)=>{
                 return (
                     <ItemProduct
                         key={item.id}
@@ -302,11 +373,11 @@ const TableProduct:React.FC<TableProductProps> = ({
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                     />
                 )
-            })}
+            })} */}
     
           
        </table>
-         {data && data.length === 0 &&(
+         { !isLoading && data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
                    

@@ -101,37 +101,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     console.log(data)
 
     const array = [0,1,2,3,4,5,6,7,8,9,10]
-    // if(isLoading) {
-    //     return (
-    //        <div className="flex flex-col gap-0.5">
-    //             <div className="grid grid-cols-12 w-full h-[30px]">
-                    
-    //             </div>
-    //             <div className="flex flex-col gap-1">
-    //                 {array.map((item:any)=>{
-    //                     return (
-    //                         <div key={item} className="flex items-center space-x-4 justify-between">
-    //                             <div className="flex items-center space-x-4 justify-between">
-    //                             <Skeleton className="h-6 w-6 rounded-full" />
-    //                             <div className="space-y-1">
-    //                                 <Skeleton className="h-3 w-[250px]" />
-    //                                 <Skeleton className="h-3 w-[200px]" />
-    //                             </div>
-    //                             </div>
-    //                             <Skeleton className="h-4 w-[50px]" />
-    //                             <Skeleton className="h-4 w-[50px]" />
-    //                             <Skeleton className="h-4 w-[50px]" />
-    //                             <Skeleton className="h-4 w-[50px]" />
-    //                             <Skeleton className="h-4 w-[50px]" />
-    //                             <Skeleton className="h-4 w-[50px]" />
-
-    //                         </div>
-    //                     )
-    //                 })}
-    //             </div>
-    //        </div>
-    //     )
-    // }
+  
     return (
         <div>
             {checkId.length >0 && (

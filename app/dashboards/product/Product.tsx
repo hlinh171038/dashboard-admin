@@ -21,6 +21,8 @@ interface ProductProps {
     brand: string;
     price: string;
     stock: string;
+    start:string;
+    end: string;
     transaction: Transaction[] | any;
     product2:  any;
     currentUser: any;
@@ -37,6 +39,8 @@ const Product:React.FC<ProductProps> = ({
     brand,
     price,
     stock,
+    start:startDate,
+    end:endDate,
     transaction = [],
     product2 =[],
     currentUser,
@@ -165,13 +169,15 @@ const Product:React.FC<ProductProps> = ({
                     />
                     <div className="px-2">
                         <TableProduct
-                            data = {updateProduct}
+                            //data = {updateProduct}
                             query = {query}
                             category ={category}
                             brand = {brand}
                             price = {price}
                             location = {location}
                             stock = {stock}
+                            startDate = {startDate}
+                            endDate = {endDate}
                         />
                     </div>
                 </div>
