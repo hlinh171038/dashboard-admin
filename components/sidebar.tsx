@@ -46,7 +46,7 @@ const menuItems = [
     {
         title:"Home",
         icon: IoHome,
-        link:"/dashboards"
+        link:"/dashboards/home"
     },
     {
         title:"Customers",

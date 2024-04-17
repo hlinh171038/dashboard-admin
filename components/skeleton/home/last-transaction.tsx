@@ -10,7 +10,7 @@ export const LastTransactionSkeleton = () =>{
                     <div >
                         <div className="text-white text-[16px] font-bold flex items-center justify-between">
                             <div> Lastest  Transactiion</div>
-                            <Skeleton className="w-4 h-6" />
+                            <Skeleton className="w-4 h-20" />
                         </div>
                         <div className="text-neutral-400 font-normal text-[14px] ">
                             The list of lastest transaction in this week.
