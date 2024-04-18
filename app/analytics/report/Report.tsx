@@ -227,13 +227,17 @@ const Report:React.FC<ReportProps> = ({
             <div className="col-span-2 rounded-md bg-slate-500/60 px-2 py-2">
                 <CustomerProblem 
                     mail ={mail}
-                    updateMail ={updateMail}
+                    //updateMail ={updateMail}
                     mail2 ={mail2}
                     thisWeek = {thisWeek}
                     lastWeek = {lastWeek}
                     currentUser = {currentUser}
                     user = {user}
                     search ={search}
+                    role ={role}
+                    status = {status}
+                    start ={start}
+                    end ={end}
                     page ={page}
                     per_page = {per_page}
                 />

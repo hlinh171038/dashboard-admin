@@ -5,11 +5,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 interface Props {
     customer?: boolean;
     home?: boolean
+   
 }
 
 export const WeeklyStaticallySkeleton:React.FC<Props> = ({
     customer,
-    home
+    home,
+  
 }) =>{
     return (
         <div>
@@ -17,6 +19,7 @@ export const WeeklyStaticallySkeleton:React.FC<Props> = ({
                 <div className="text-white text-[16px] font-bold flex items-center justify-between">
                 {home && ( <div> Weekly Statictical</div>)}
                 {customer && ( <div> User statistics</div>)}
+        
                
                 <Skeleton className="h-4 w-12" />
                 </div>

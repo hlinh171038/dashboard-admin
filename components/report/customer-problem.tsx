@@ -5,21 +5,28 @@ import ItemCustomerReport from "./item-customer-report";
 import ReportHeader from "./header";
 import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdAutoDelete } from "react-icons/md";
+import { Skeleton } from "../ui/skeleton";
+
+const array = [0,1,2,3,4,5,6,7,8,9]
 
 interface CustomerProblemProps {
     mail: Mail[] | any;
-    updateMail: Mail[] | any;
+   // updateMail: Mail[] | any;
     mail2: Mail[] | any;
     thisWeek: any;
     lastWeek:any;
     currentUser:any;
     user : User[] | any;
     search: string;
+    role: string;
+    status: string;
+    start: string;
+    end: string
     page: number;
     per_page: number
 }
@@ -27,17 +34,22 @@ interface CustomerProblemProps {
 const CustomerProblem:React.FC<CustomerProblemProps> = ({
     mail = [],
     mail2 = [],
-    updateMail = [],
+   // updateMail = [],
     thisWeek,
     lastWeek,
     currentUser,
     user = [],
     search,
+    role,
+    status,
+    start,
+    end,
     page,
     per_page
 }) =>{
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [data,setData] = useState<any> ([])
     const router = useRouter()
 
      //handle orther check
@@ -77,6 +89,29 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
     const handleBack = useCallback(()=>{
         router.push(`/analytics/report?search=&status=}&role=}&start=&end=&page=1&per_page=10`);
     },[router])
+
+    // search + skelton
+    useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-report',{search,role,status,start,end})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                //toast.success('search ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+               
+            })
+     },[search,role,status,start,end,router])
+    console.log(data)
+
     return (
         <div className=" relative text-[14px] text-neutral-400 ">
             <ReportHeader
@@ -108,7 +143,47 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                     <td>Status</td>
                     <td>Detail</td>
                 </tr>
-                {updateMail && updateMail.map((item:any)=>{
+                {isLoading ? (
+                
+                array.map((item:any)=>{
+                        return (
+                            <tr key={item} className="my-2">
+                                <td className="w-6 h-6">
+                                    <Skeleton className="h-4 w-4" />
+                                </td>
+                                <td className="max-w-20" >
+                                    <div className="flex items-center justify-start gap-1">
+                                        <Skeleton className="h-6 w-6 rounded-full" />
+                                        <Skeleton className="h-4 w-[70px]" />
+                                        
+                                    </div>
+                                </td>
+                                <td><Skeleton className="h-4 w-[100px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                            </tr>
+                        )
+                    })
+                ):(data && data.map((item:any)=>{
+                    return (<ItemCustomerReport
+                        key={item.id}
+                        email = {item.mailSend}
+                        role = {item.role}
+                        date = {item.created_at}
+                        supportBy = {item.supportBy}
+                        id={item.id}
+                        currentUser ={currentUser}
+                        user = {user}
+                        status = {item.status}
+                        check={checkId && checkId.includes(item.id)}
+                        handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                    />
+                    )
+                }))}
+                {/* {data && data.map((item:any)=>{
                     return <ItemCustomerReport
                                 key={item.id}
                                 email = {item.mailSend}
@@ -122,9 +197,9 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                                 check={checkId && checkId.includes(item.id)}
                                 handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                             />
-                })}
+                })} */}
             </table>
-            {mail && mail.length === 0 &&(
+            {!isLoading && mail && mail.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
                    
