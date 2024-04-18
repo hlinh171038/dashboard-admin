@@ -43,7 +43,7 @@ const Loading  =() =>{
            <div className="col-span-1  flex flex-col gap-2 ">
                 <PopularCategorySkeleton />
                 <PayMethodSkeleton />
-                <HotCouponSkeleton />
+                <HotCouponSkeleton home/>
                 <NewVersion 
                     title = "Availble Now"
                     iconTitle= {FcLinux}

@@ -13,7 +13,7 @@ const LoadingCustomer  =() =>{
         <div className="w-full  px-2">
         <div className="grid grid-cols-3 gap-2 mb-2">
             <div className="col-span-1 flex flex-col gap-2 ">
-                <TotalCardUserSkeleton />
+                <TotalCardUserSkeleton customer/>
                 <TotalCardUserAdminSkeleton />
                 <CreateNewSkeleton />
             </div>

@@ -1,10 +1,5 @@
 "use client"
 
-
-import { TotalCardUserSkeleton } from "@/components/skeleton/customer/total-card"
-import { CreateNewSkeleton } from "@/components/skeleton/discount/create-new"
-import { TableSkeleton } from "@/components/skeleton/discount/table"
-import { HotCouponSkeleton } from "@/components/skeleton/home/hot-coupon"
 import { Skeleton } from "@/components/ui/skeleton"
 
 

@@ -49,14 +49,17 @@ const Filter:React.FC<FilterProps> =({
             percent:0,
             countFrom: 0,
             countTo: 100,
-            dayStart: new Date(),
-            dayEnd: new Date(),
+            dayStart: '',
+            dayEnd: '',
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        router.push(`/dashboards/discount?search=${search}&type=${data.type}&percent=${data.percent}&dayStart=${data.dayStart}&dayEnd=${data.dayEnd}&countFrom=${data.countFrom}&countTo=${data.countTo}&page=1&per_page=10`)
+        const dayStart = data.dayStart !=='' ? new Date(new Date(data.dayStart).getTime() ).toISOString() : ''
+        const dayEnd = data.dayEnd !=='' ? new Date(new Date(data.dayEnd).getTime() + 86400000).toISOString() : ''
+        router.push(`/dashboards/discount?search=${search}&type=${data.type}&percent=${data.percent}&dayStart=${dayStart}&dayEnd=${dayEnd}&countFrom=${data.countFrom}&countTo=${data.countTo}&page=1&per_page=10`)
       }
     
+
      
 
        // custome Value
@@ -191,10 +194,17 @@ const Filter:React.FC<FilterProps> =({
                 </div>
                 {/* date range */}
                 <div>
+                <div>
+                    { dayStart==='' ? (
+                        <span className="text-orange-600">Choose the range date</span>
+                    ):(
+                        <span className="text-green-600">You have chosen</span> 
+                    )}
+                </div>
                 <DateRangePicker
                     ranges={[dateRange]}
                     onChange={handleChangeDate}
-                    minDate={new Date()}
+                    
                 />
                 </div>
                 

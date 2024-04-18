@@ -16,19 +16,34 @@ import axios from "axios"
 import { toast } from "sonner"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { MdAutoDelete } from "react-icons/md"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
+const array = [0,1,2,3,4,5,6,7,8,9]
 
 interface TableProps {
-    discount: Discount[] | any;
-   
+    //discount: Discount[] | any;
+   search: string;
+   type:string;
+   percent: number;
+   countFrom: number;
+   countTo: number;
+   dayStart: string;
+   dayEnd: string;
 }
 
 const Table:React.FC<TableProps> = ({
-    discount =[],
-    
+    //discount =[],
+    search,
+    type,
+    percent,
+    countFrom,
+    countTo,
+    dayStart,
+    dayEnd
 }) =>{
 
+    const [data,setData] = useState<any>([])
     const [cateType,setCateType] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
@@ -71,20 +86,42 @@ const Table:React.FC<TableProps> = ({
     // filter type
     useEffect(()=>{
         const result : any[] = [];
-        for(let i=0;i<discount.length;i++){
-            if(!result.includes(discount[i].type)){
+        for(let i=0;i<data.length;i++){
+            if(!result.includes(data[i].type)){
              
-                result.push(discount[i].type)
+                result.push(data[i].type)
             
             }
         }
        setCateType(result)
-    },[discount])
+    },[data])
 
     //handle back product
     const handleBackProduct = useCallback(()=>{
         router.push(`/dashboards/discount?search=&type=&percent=&dayStart=&dayEnd=&countFrom=&countTo=&page=1&per_page=10`)
     },[router])
+
+    // search + skelton
+    useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-discount',{search,type,percent,countFrom,countTo,dayStart,dayEnd})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                //toast.success('search ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+               
+            })
+     },[search,type,percent,countFrom,countTo,dayStart,dayEnd,router])
+    console.log(data)
     return (
        <div className="mt-2">
          {checkId.length >0 && (
@@ -99,18 +136,44 @@ const Table:React.FC<TableProps> = ({
             )}
             <table className="w-full text-[15px] text-neutral-400 ">
                 <tr className="font-bold text-neutral-100">
-                    <td></td>
-                    <td>Title</td>
-                    <td>
-                        Type
-                    </td>
-                    <td>Percent </td>
-                    <td>Count</td>
-                    <td>Created</td>
-                    <td>Status</td>
-                    <td></td>
+                <td></td>
+                <td>Title</td>
+                <td>Type</td>
+                <td>Percent</td>
+                <td>Count</td>
+                <td>
+                    Created
+                </td>
+                <td>
+                    Status
+                </td>
+                <td></td>
                 </tr>
-                {discount && discount.map((item:any)=>{
+                {isLoading ? (
+                
+                array.map((item:any)=>{
+                        return (
+                            <tr key={item} className="my-2">
+                                <td className="w-6 h-6">
+                                    <Skeleton className="h-4 w-4" />
+                                </td>
+                                <td className="max-w-20" >
+                                    <div className="flex items-center justify-start gap-1">
+                                        <Skeleton className="h-6 w-6 rounded-full" />
+                                        <Skeleton className="h-4 w-[70px]" />
+                                        
+                                    </div>
+                                </td>
+                                <td><Skeleton className="h-4 w-[100px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                            </tr>
+                        )
+                    })
+                ):(data && data.map((item:any)=>{
                     return (<Item
                             key={item.id}
                             id={item.id}
@@ -125,9 +188,25 @@ const Table:React.FC<TableProps> = ({
                             handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                         />
                     )
-                })}
+                }))}
+                {/* {data && data.map((item:any)=>{
+                    return (<Item
+                            key={item.id}
+                            id={item.id}
+                            title = {item.title}
+                            type={item.type}
+                            percent ={item.percent}
+                            count = {item.count}
+                            created_at={item.created_at}
+                            startDate = {item.startDate}
+                            endDate = {item.endDate}
+                            check={checkId && checkId.includes(item.id)}
+                            handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                        />
+                    )
+                })} */}
         </table>
-        {discount && discount.length === 0 &&(
+        {!isLoading && data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
                
                    

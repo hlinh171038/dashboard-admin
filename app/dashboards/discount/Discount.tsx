@@ -14,6 +14,12 @@ interface DiscountProps {
     discount:  any;
     discount2:  any;
     search: string;
+    type:string;
+    percent: number;
+    countFrom: number;
+    countTo: number;
+    dayStart: string;
+    dayEnd: string;
     page: number,
     per_page:number,
     users: User[],
@@ -26,6 +32,12 @@ const Discount:React.FC<DiscountProps> =({
     users = [],
      currentUser,
     search,
+    type,
+    percent,
+    countFrom,
+    countTo,
+    dayStart,
+    dayEnd,
     page,
     per_page
 }) =>{
@@ -140,8 +152,14 @@ const Discount:React.FC<DiscountProps> =({
                 customer = {users}
               />
               <Table 
-                discount ={updateDiscount}
-               
+                //discount ={updateDiscount}
+               search ={search}
+               type={type}
+               percent = {percent}
+               countFrom ={countFrom}
+               countTo = {countTo}
+               dayStart = {dayStart}
+               dayEnd = {dayEnd}
               />
               <Pagination 
                 page={page}
