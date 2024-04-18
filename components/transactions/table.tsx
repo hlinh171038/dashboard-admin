@@ -2,7 +2,7 @@
 
 import { Product, Transaction, User } from "@prisma/client"
 import Item from "./item"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import {
     Select,
     SelectContent,
@@ -11,9 +11,15 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { toast } from "sonner"
+import { Skeleton } from "../ui/skeleton"
+import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5"
+
+const array = [0,1,2,3,4,5,6,7,8,9]
 
 interface TableProps {
-    transaction : Transaction[] | any
+    //transaction : Transaction[] | any
     search : string;
     status: string;
     payment: string;
@@ -24,7 +30,7 @@ interface TableProps {
 }
 
 const Table:React.FC<TableProps> = ({
-    transaction = [],
+    //transaction = [],
     search,
     status,
     payment,
@@ -35,6 +41,8 @@ const Table:React.FC<TableProps> = ({
 }) => {
 
     const router = useRouter()
+    const [data,setData] = useState<any>([])
+    const [isLoading,setIsLoading] = useState(false)
 
     //handle push payment
     const handlePushPayment = useCallback((value: string)=>{
@@ -43,10 +51,38 @@ const Table:React.FC<TableProps> = ({
 
     //handle push status
     const handlePushStatus = useCallback((value:string)=>{
-        router.push(`/dashboards/transaction?search=${search}&payment=${payment}&status=${value === 'all' ?'':value}&&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
+        router.push(`/dashboards/transaction?search=${search}&payment=${payment}&status=${value === 'all' ?'':value}&startDate=${startDate}&endDate=${endDate}&page=1&per_page=10`)
     },[router,payment,search,startDate,endDate])
+
+    //handle back product
+    const handleBackProduct = useCallback(()=>{
+        router.push(`/dashboards/transaction?search=&payment=&status=&startDate=&endDate=&page=1&per_page=10`);
+    },[router])
+
+    // search + skelton
+    useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-transaction',{payment,status,startDate,endDate})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                //toast.success('search ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                
+                setIsLoading(false)
+               
+            })
+     },[payment,status,startDate,endDate,router])
+    console.log(data)
     return (
-        <table className="text-neutral-400 w-full text-[14px] mt-4 pb-2">
+        <div>
+            <table className="text-neutral-400 w-full text-[14px] mt-4 pb-2">
             <tr className="text-[15px] text-neutral-100 font-bold">
                 <td>
                     User
@@ -94,7 +130,46 @@ const Table:React.FC<TableProps> = ({
                     className="text-end"
                 >View Detail</td>
             </tr>
-            {transaction && transaction.map((item:any)=>{
+            {isLoading ? (
+                
+                array.map((item:any)=>{
+                        return (
+                            <tr key={item} className="my-2">
+                                <td className="w-6 h-6">
+                                    <Skeleton className="h-4 w-4" />
+                                </td>
+                                <td className="max-w-20" >
+                                    <div className="flex items-center justify-start gap-1">
+                                        <Skeleton className="h-6 w-6 rounded-full" />
+                                        <Skeleton className="h-4 w-[70px]" />
+                                        
+                                    </div>
+                                </td>
+                                <td><Skeleton className="h-4 w-[100px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                            </tr>
+                        )
+                    })
+                ):(data && data.map((item:any)=>{
+                    return (<Item 
+                        key={item.id}
+                        productId = {item.id}
+                        userName = {item.user.name}
+                        userImage = {item.user.image}
+                        userId = {item.userId}
+                        payment = {item.transportation}
+                        date = {item.date}
+                        quantity ={item.amount}
+                        status = {item.status}
+                        total = {item.totalPrice}
+                    />
+                    )
+                }))}
+            {/* {data && data.map((item:any)=>{
                 return <Item 
                             key={item.id}
                             productId = {item.id}
@@ -107,8 +182,25 @@ const Table:React.FC<TableProps> = ({
                             status = {item.status}
                             total = {item.totalPrice}
                         />
-            })}
+            })} */}
         </table>
+        { !isLoading && data && data.length === 0 &&(
+            <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
+               
+                   
+                    <div className="flex flex-col gap-1 items-center justify-center">
+                        <div className="flex items-center justify-start gap-2">
+                        <IoBasketOutline className="w-6 h-6 text-neutral-100 font-thin"/>
+                        <div className=" text-[14px] uppercase">No result found !!!</div>
+                        </div>
+                        <div className="flex items-center justify-start gap-2">
+                            <span className="text-thin text-[14px] text-neutral-400 flex items-center justify-center gap-1">Click here  <span><IoReturnDownBackOutline onClick={handleBackProduct} className="text-neutral-200 w-4 h-4 cursor-pointer hover:text-white transition-all duration-300"/></span> to back to all transaction</span> 
+                        </div>
+                    </div>
+            </div>
+            
+        )}
+        </div>
     )
 }
 

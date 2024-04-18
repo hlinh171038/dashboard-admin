@@ -5,16 +5,19 @@ import { Skeleton } from "@/components/ui/skeleton"
 interface Props {
     product?: boolean;
     customer?: boolean;
+    transaction?: boolean;
 }
 
 export const TotalCardUserSkeleton:React.FC<Props> = ({
     product,
-    customer
+    customer,
+    transaction
 }) =>{
     return (
         <div className="bg-slate-600 rounded-md p-2 relative">
             {product && <div className="font-bold text-[15px] text-neutral-100">Product Manager</div> }
             {customer && <div className="font-bold text-[15px] text-neutral-100">User Manager</div> }
+            {transaction && <div className="font-bold text-[15px] text-neutral-100">Transaction Manager</div> }
             
             <div className="flex items-center justify-start gap-2 my-2">
                 <Skeleton className="w-8 h-8" />

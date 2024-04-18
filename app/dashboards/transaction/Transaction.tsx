@@ -308,7 +308,7 @@ useEffect(() => {
                  per_page ={per_page}
                 />
                 <Table 
-                    transaction = {updateTransaction}
+                    //transaction = {updateTransaction}
                     search = {search}
                     status = {status}
                     payment = {payment}

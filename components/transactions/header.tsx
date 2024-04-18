@@ -121,7 +121,7 @@ const Header:React.FC<HeaderProps> = ({
                         ranges={[dateRange]}
                         onChange={handleSelect}
                         maxDate={new Date()}
-                        minDate={earlyDate}
+                        //minDate={earlyDate}
                     />
             </PopoverContent>
         </Popover>
