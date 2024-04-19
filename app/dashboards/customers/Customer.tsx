@@ -45,6 +45,7 @@ const Customer:React.FC<Cusromerprops> = ({
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalUserThisWeek,setTotalUserThisWeek] = useState<any[]>([])
     const [totalUserLastWeek,setTotalUserLastWeek] = useState<any[]>([])
+    const [status,setStatus] = useState(true);
 
     const start = (page - 1) * per_page; // 0,5,10
     const end = start + per_page;//5,10,15
@@ -54,7 +55,7 @@ const Customer:React.FC<Cusromerprops> = ({
 
 
 
-    const updateUser = users.slice(start,end)
+   // const updateUser = users.slice(start,end)
 
     // find out this week
     useEffect(()=>{
@@ -118,12 +119,10 @@ const Customer:React.FC<Cusromerprops> = ({
 
    // handle loading
    const handleLoading = useCallback((value:boolean)=>{
-        if(value) {
-            console.log('true')
-        }else {
-            console.log('false')
-        }
+      setStatus(value)
    },[])
+
+   console.log(status)
 
    //handle ctr + z
   useEffect(() => {
@@ -182,6 +181,9 @@ const Customer:React.FC<Cusromerprops> = ({
                             action = {action}
                             startDate = {startDate}
                             endDate = {endDate}
+                            start = {start}
+                            end = {end}
+                            status ={status}
                             //handleLoading ={handleLoading}
                         />
                       
@@ -194,6 +196,7 @@ const Customer:React.FC<Cusromerprops> = ({
                         per_page ={per_page}
                         search={search}
                         max = {lengthuser}
+                        handleLoading ={handleLoading}
                     />
                 </div>
             </div>

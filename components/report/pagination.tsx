@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useEffect, useState } from "react";
 import { GrFormPrevious,GrFormNext  } from "react-icons/gr";
 
 
@@ -13,7 +14,8 @@ interface PaginationParams {
     status:string;
     role:string;
     start:string;
-    end:string
+    end:string;
+    handleLoading: (value:boolean) => void;
 }
 
 const Pagination:React.FC<PaginationParams> = ({
@@ -24,24 +26,39 @@ const Pagination:React.FC<PaginationParams> = ({
    status,
    role,
    start,
-   end
+   end,
+   handleLoading
 }) =>{
     const router = useRouter()
+    const [tempPage,setTempPage] = useState(1);
    
     const pagin=[]
    
     for(let i= 0;i<max;i++){
         pagin.push(i)
     }
+
+    const handleNavigate = useCallback((value1: number,value2: number) =>{
+        setTempPage(value1)
+        
+        router.push(`/analytics/report?search=${search}&status=${status}&role=${role}&start=${start}&end=${end}&page=${value1}&per_page=${value2}`);
+        
+    },[router,search,status,role,start,end])
+
+    useEffect(()=>{
+        if(page === tempPage) {
+            handleLoading(true)
+        }else {
+            handleLoading(false)
+        }
+    },[page,handleLoading,tempPage])
     return (
         <div
                 className="flex items-center justify-end px-2 py-2 text-[15px] "
                 >
                     <button 
                         disabled = {Number(page) <=1}
-                        onClick={()=>{
-                            router.push(`/analytics/report?search=${search}&status=${status}&role=${role}&start=${start}&end=${end}&page=${page -1}&per_page=10`);
-                        }}
+                        onClick={()=>handleNavigate(page -1 ,per_page)}
                         className={cn("  rounded-md flex items-center justify-center gap-1 text-neutral-200",
                                     Number(page) <= 1 ?"":"hover:bg-white"
                                 )}
@@ -54,9 +71,7 @@ const Pagination:React.FC<PaginationParams> = ({
                             pagin && pagin.map((item)=>{
                                 return (
                                     <div 
-                                         onClick={()=>{
-                                            router.push(`/analytics/report?search=${search}&status=${status}&role=${role}&start=${start}&end=${end}&page=${item+1}&per_page=10`);
-                                         }}
+                                         onClick={()=>handleNavigate(item + 1,per_page)}
                                          key={item} 
                                          className={cn(" w-6 h-6 pt-0.5 rounded-md flex items-center justify-center text-neutral-300 transition-all hover:text-white cursor-pointer" ,
                                                         item + 1 == Number(page) && "bg-[#5EC0B5] p-2 w-6 h-6"                                                    
@@ -70,9 +85,7 @@ const Pagination:React.FC<PaginationParams> = ({
                     </div>
                     <button 
                         disabled = {Number(page) >= max}
-                        onClick={()=>{
-                            router.push(`/analytics/report?search=${search}&status=${status}&role=${role}&start=${start}&end=${end}&page=${page +1}&per_page=10`);
-                        }}
+                        onClick={()=>handleNavigate(page + 1,per_page)}
                         className={cn(" rounded-md flex items-center justify-center text-neutral-200",
                                        Number(page) >=max ?"":"hover:bg-white"
                                  )}>

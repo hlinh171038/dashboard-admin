@@ -8,7 +8,7 @@ import Table from "@/components/dashboard/discount/table"
 import TotalDiscount from "@/components/dashboard/discount/total-discount";
 import {  User } from "@prisma/client"
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface DiscountProps {
     discount:  any;
@@ -47,12 +47,13 @@ const Discount:React.FC<DiscountProps> =({
     const [lastWeek,setLastWeek] = useState<any>([])
     const [totalDiscountThisWeek,setTotaDiscountThisWeek] = useState<any>([])
     const [totalDiscountLastWeek,setTotalDiscountLastWeek] = useState<any>([])
+    const [status,setStatus] = useState(true)
 
     let start = (page *per_page) -per_page;
     let end = page * per_page;
     const max = Math.ceil(discount.length /per_page)
 
-    const updateDiscount  = discount.slice(start,end)
+    //const updateDiscount  = discount.slice(start,end)
 
     //this week
      useEffect(()=>{
@@ -108,6 +109,11 @@ const Discount:React.FC<DiscountProps> =({
       router.push(`/dashboards/discount?search=${search}&page=1&per_page=10`)
     },[router,search])
 
+     // handle loading
+   const handleLoading = useCallback((value:boolean)=>{
+    setStatus(value)
+ },[])
+
     //handle ctr + z
   useEffect(() => {
     const handleKeyDown = (event:any) => {
@@ -143,7 +149,7 @@ const Discount:React.FC<DiscountProps> =({
                 />
               </div>
             </div>
-            <div className="bg-slate-600 rounded-md px-2 py-2 w-full mb-2">
+            <div className=" relative bg-slate-600 rounded-md px-2 py-2 w-full mb-2">
               <Header 
                 discount = {discount}
                 discount2 ={discount2}
@@ -160,12 +166,16 @@ const Discount:React.FC<DiscountProps> =({
                countTo = {countTo}
                dayStart = {dayStart}
                dayEnd = {dayEnd}
+               start ={start}
+               end ={end}
+               status ={status}
               />
               <Pagination 
                 page={page}
                 per_page={per_page}
                 search={search}
                 max={max}
+                handleLoading = {handleLoading}
               />
             </div>
         </div>

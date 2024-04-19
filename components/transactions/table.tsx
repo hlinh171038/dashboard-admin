@@ -26,7 +26,10 @@ interface TableProps {
     startDate: string;
     endDate: string;
     page:number;
-    per_page:number
+    per_page:number;
+    start: number;
+    end: number;
+    loading: boolean
 }
 
 const Table:React.FC<TableProps> = ({
@@ -37,12 +40,17 @@ const Table:React.FC<TableProps> = ({
     startDate,
     endDate,
     page,
-    per_page
+    per_page,
+    start,
+    end,
+    loading
 }) => {
 
     const router = useRouter()
     const [data,setData] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+
+    const updateData = data.slice(start,end);
 
     //handle push payment
     const handlePushPayment = useCallback((value: string)=>{
@@ -130,31 +138,37 @@ const Table:React.FC<TableProps> = ({
                     className="text-end"
                 >View Detail</td>
             </tr>
-            {isLoading ? (
+            {!loading || isLoading ? (
                 
                 array.map((item:any)=>{
                         return (
                             <tr key={item} className="my-2">
-                                <td className="w-6 h-6">
-                                    <Skeleton className="h-4 w-4" />
-                                </td>
-                                <td className="max-w-20" >
+                               
+                                <td className="w-40" >
                                     <div className="flex items-center justify-start gap-1">
                                         <Skeleton className="h-6 w-6 rounded-full" />
-                                        <Skeleton className="h-4 w-[70px]" />
+                                        <Skeleton className="h-4 w-[120px]" />
                                         
                                     </div>
                                 </td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
-                                <td><Skeleton className="h-4 w-[70px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[100px]" /></td>
+                                <td>
+                                    <div className="flex items-center justify-end">
+                                        <Skeleton className="h-4 w-[70px]" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="flex items-center justify-end">
+                                        <Skeleton className="h-4 w-[50px]" />
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })
-                ):(data && data.map((item:any)=>{
+                ):(updateData && updateData.map((item:any)=>{
                     return (<Item 
                         key={item.id}
                         productId = {item.id}
@@ -169,20 +183,7 @@ const Table:React.FC<TableProps> = ({
                     />
                     )
                 }))}
-            {/* {data && data.map((item:any)=>{
-                return <Item 
-                            key={item.id}
-                            productId = {item.id}
-                            userName = {item.user.name}
-                            userImage = {item.user.image}
-                            userId = {item.userId}
-                            payment = {item.transportation}
-                            date = {item.date}
-                            quantity ={item.amount}
-                            status = {item.status}
-                            total = {item.totalPrice}
-                        />
-            })} */}
+            
         </table>
         { !isLoading && data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">

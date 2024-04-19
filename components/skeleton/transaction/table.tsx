@@ -39,10 +39,10 @@ export const TableSkeleton = () =>{
                         return (
                             <tr key={item} className="my-2">
                                
-                                <td className="max-w-20" >
+                                <td className="w-40" >
                                     <div className="flex items-center justify-start gap-1">
                                         <Skeleton className="h-6 w-6 rounded-full" />
-                                        <Skeleton className="h-4 w-[70px]" />
+                                        <Skeleton className="h-4 w-[120px]" />
                                         
                                     </div>
                                 </td>
@@ -50,8 +50,16 @@ export const TableSkeleton = () =>{
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
-                                <td><Skeleton className="h-4 w-[70px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td>
+                                    <div className="flex items-center justify-end">
+                                        <Skeleton className="h-4 w-[70px]" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="flex items-center justify-end">
+                                        <Skeleton className="h-4 w-[50px]" />
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })}

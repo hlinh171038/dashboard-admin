@@ -57,6 +57,8 @@ const Report:React.FC<ReportProps> = ({
     const [newUserLastWeek,setNewuserLastWeek] = useState<any>([])
     const router = useRouter()
 
+    const [loading,setLoading] = useState(true)
+
   //pagination
     //begin
     const begin = (page -1)*per_page;  // 0,10,20
@@ -182,6 +184,11 @@ const Report:React.FC<ReportProps> = ({
         setTotalPriceLastWeek(result)
     },[guestLastWeek])
 
+    // handle loading
+   const handleLoading = useCallback((value:boolean)=>{
+        setLoading(value)
+    },[])
+
 
     // revenue of cash
     // revenue of card
@@ -240,6 +247,7 @@ const Report:React.FC<ReportProps> = ({
                     end ={end}
                     page ={page}
                     per_page = {per_page}
+                    loading = {loading}
                 />
                 <Pagination
                     page ={page}
@@ -250,6 +258,7 @@ const Report:React.FC<ReportProps> = ({
                     role={role}
                     start ={start}
                     end ={end}
+                    handleLoading ={handleLoading}
                 />
             </div>
            </div>

@@ -9,7 +9,7 @@ import TableProduct from "@/components/products/table"
 import TotalProduct from "@/components/products/total-product";
 import {  Transaction, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface ProductProps {
     product: any;
@@ -50,13 +50,14 @@ const Product:React.FC<ProductProps> = ({
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalProductThisWeek,setTotalProductThisWeek] = useState<any>([]);
     const [totalProductLastWeek,setTotalProductLastWeek] = useState<any>([]);
+    const [status,setStatus] = useState(true)
     const router = useRouter()
     //  pagination
     const start = (page - 1) * per_page; // 0,5,10
     const end = start + per_page;//5,10,15
     const max = Math.ceil(product.length / per_page);
     
-    const updateProduct = product.slice(start,end)
+    //const updateProduct = product.slice(start,end)
 
     // find out this week
     useEffect(()=>{
@@ -110,7 +111,11 @@ const Product:React.FC<ProductProps> = ({
 
         setTotalProductLastWeek(result)
     },[product,lastWeek])
-
+        // handle loading
+    const handleLoading = useCallback((value:boolean)=>{
+        setStatus(value)
+    },[])
+    console.log(status)
     //handle ctr + z
   useEffect(() => {
     const handleKeyDown = (event:any) => {
@@ -178,6 +183,9 @@ const Product:React.FC<ProductProps> = ({
                             stock = {stock}
                             startDate = {startDate}
                             endDate = {endDate}
+                            start = {start}
+                            end = {end}
+                            status ={status}
                         />
                     </div>
                 </div>
@@ -192,6 +200,7 @@ const Product:React.FC<ProductProps> = ({
                     location ={location}
                     stock = {stock}
                     price ={price}
+                    handleLoading = {handleLoading}
                 />
                
             </div>

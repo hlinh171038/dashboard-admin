@@ -31,6 +31,9 @@ interface TableProductProps {
     location: string
     startDate: string
     endDate: string
+    start: number
+    end: number
+    status: boolean
 }
 
 const TableProduct:React.FC<TableProductProps> = ({
@@ -42,7 +45,10 @@ const TableProduct:React.FC<TableProductProps> = ({
     stock,
     location,
     startDate,
-    endDate
+    endDate,
+    start,
+    end,
+    status
 }) =>{
     const router = useRouter()
     const [data,setData] = useState<any>([])
@@ -50,6 +56,8 @@ const TableProduct:React.FC<TableProductProps> = ({
     const [brandArr,setBrandArr] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+
+    const updateData = data.slice(start,end)
 
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -312,7 +320,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                 </td>
                 <td></td>
             </tr>
-            {isLoading ? (
+            {!status || isLoading ? (
                 
                 array.map((item:any)=>{
                         return (
@@ -320,8 +328,8 @@ const TableProduct:React.FC<TableProductProps> = ({
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="max-w-20" >
-                                    <Skeleton className="h-4 w-[100px]" />
+                                <td className="w-40" >
+                                    <Skeleton className="h-4 w-[140px]" />
                                 </td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
@@ -337,7 +345,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                             </tr>
                         )
                     })
-                ):(data && data.map((item:any)=>{
+                ):(updateData && updateData.map((item:any)=>{
                     return (<ItemProduct
                         key={item.id}
                         title={item.title as string }

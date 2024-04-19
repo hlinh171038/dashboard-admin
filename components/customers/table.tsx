@@ -21,6 +21,9 @@ interface TableCustomerProps {
     action?: string;
     startDate?: string;
     endDate?: string;
+    start?: number;
+    end?: number;
+    status: boolean;
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
@@ -30,12 +33,17 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     role,
     action,
     startDate,
-    endDate
+    endDate,
+    start,
+    end,
+    status
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
+
+    const updateData = data.slice(start,end)
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -133,7 +141,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 </td>
                 <td></td>
             </tr>
-            {isLoading ? (
+            {isLoading || !status ? (
                 
             array.map((item:any)=>{
                     return (
@@ -157,7 +165,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                         </tr>
                     )
                 })
-            ):(data && data.map((item:any)=>{
+            ):(updateData && updateData.map((item:any)=>{
                 return (<ItemCustomer 
                         key={item.id}
                         id={item.id}

@@ -7,7 +7,7 @@ import Table from "@/components/transactions/table"
 import TotalTransactioinCard from "@/components/transactions/total-transaction"
 import { cn } from "@/lib/utils"
 import { Product, Transaction, User } from "@prisma/client"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { MdCandlestickChart } from "react-icons/md";
 import { MdCircle } from "react-icons/md";
 import RightChart from "../../../components/transactions/right-chart"
@@ -76,6 +76,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
     const [lastWeek,setLastWeek] = useState<Date[]>([])
     const [totalTransactionThisWeek,setTotalTransactionThisWeek] = useState<any>([]);
     const [totalTransactionLastWeek,setTotalTransactionLastWeek] = useState<any>([]);
+    const [loading,setLoading] = useState(true)
     const [chart,setChart] = useState('all');
     const [chartRight,setChartRight] = useState('all');
     const router = useRouter()
@@ -89,7 +90,7 @@ const TransactionPage:React.FC<TransactionProps> = ({
     const end = start + per_page;//5,10,15
     
     //update transaction
-    const updateTransaction = transaction.slice(start,end)
+    //const updateTransaction = transaction.slice(start,end)
 
 
 
@@ -147,6 +148,11 @@ const TransactionPage:React.FC<TransactionProps> = ({
         setTotalTransactionLastWeek(result)
     },[transaction2,lastWeek])
     // total last week
+
+     // handle loading
+   const handleLoading = useCallback((value:boolean)=>{
+        setLoading(value)
+    },[])
 
 //handle ctr + z
 useEffect(() => {
@@ -316,6 +322,9 @@ useEffect(() => {
                     endDate = {endDate}
                     page={page}
                     per_page ={per_page}
+                    start ={start}
+                    end ={end}
+                    loading ={loading}
                 />
                 <Pagination
                     page={page}
@@ -326,6 +335,7 @@ useEffect(() => {
                     payment = {payment}
                     per_page={per_page}
                     max={lengthStransaction}
+                    handleLoading = {handleLoading}
                 />
             </div>
         </div>

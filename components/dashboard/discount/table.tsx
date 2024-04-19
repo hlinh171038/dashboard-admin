@@ -30,6 +30,9 @@ interface TableProps {
    countTo: number;
    dayStart: string;
    dayEnd: string;
+   start: number;
+   end:number;
+   status: boolean
 }
 
 const Table:React.FC<TableProps> = ({
@@ -40,7 +43,10 @@ const Table:React.FC<TableProps> = ({
     countFrom,
     countTo,
     dayStart,
-    dayEnd
+    dayEnd,
+    start,
+    end,
+    status
 }) =>{
 
     const [data,setData] = useState<any>([])
@@ -49,7 +55,7 @@ const Table:React.FC<TableProps> = ({
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
  
-
+    const updateData = data.slice(start,end)
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
         const tempArr = [...checkId];
@@ -123,8 +129,8 @@ const Table:React.FC<TableProps> = ({
      },[search,type,percent,countFrom,countTo,dayStart,dayEnd,router])
     console.log(data)
     return (
-       <div className="mt-2">
-         {checkId.length >0 && (
+       <div className=" mt-2">
+         {checkId.length > 0 && (
                 <button
                     disabled ={isLoading}
                     onClick={()=>handleDelete(checkId)}
@@ -149,31 +155,27 @@ const Table:React.FC<TableProps> = ({
                 </td>
                 <td></td>
                 </tr>
-                {isLoading ? (
+                {!status || isLoading ? (
                 
                 array.map((item:any)=>{
                         return (
                             <tr key={item} className="my-2">
-                                <td className="w-6 h-6">
-                                    <Skeleton className="h-4 w-4" />
-                                </td>
-                                <td className="max-w-20" >
-                                    <div className="flex items-center justify-start gap-1">
-                                        <Skeleton className="h-6 w-6 rounded-full" />
-                                        <Skeleton className="h-4 w-[70px]" />
-                                        
-                                    </div>
-                                </td>
-                                <td><Skeleton className="h-4 w-[100px]" /></td>
-                                <td><Skeleton className="h-4 w-[70px]" /></td>
-                                <td><Skeleton className="h-4 w-[70px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
-                            </tr>
+                            <td className="w-6 h-6">
+                                <Skeleton className="h-4 w-4" />
+                            </td>
+                            <td className="w-64" >
+                                    <Skeleton className="h-4 w-[220px]" /> 
+                            </td>
+                            <td><Skeleton className="h-4 w-[100px]" /></td>
+                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                        </tr>
                         )
                     })
-                ):(data && data.map((item:any)=>{
+                ):(updateData && updateData.map((item:any)=>{
                     return (<Item
                             key={item.id}
                             id={item.id}
@@ -189,22 +191,7 @@ const Table:React.FC<TableProps> = ({
                         />
                     )
                 }))}
-                {/* {data && data.map((item:any)=>{
-                    return (<Item
-                            key={item.id}
-                            id={item.id}
-                            title = {item.title}
-                            type={item.type}
-                            percent ={item.percent}
-                            count = {item.count}
-                            created_at={item.created_at}
-                            startDate = {item.startDate}
-                            endDate = {item.endDate}
-                            check={checkId && checkId.includes(item.id)}
-                            handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
-                        />
-                    )
-                })} */}
+              
         </table>
         {!isLoading && data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">

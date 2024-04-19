@@ -28,7 +28,8 @@ interface CustomerProblemProps {
     start: string;
     end: string
     page: number;
-    per_page: number
+    per_page: number;
+    loading:boolean;
 }
 
 const CustomerProblem:React.FC<CustomerProblemProps> = ({
@@ -45,7 +46,8 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
     start,
     end,
     page,
-    per_page
+    per_page,
+    loading
 }) =>{
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
@@ -143,7 +145,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                     <td>Status</td>
                     <td>Detail</td>
                 </tr>
-                {isLoading ? (
+                {!loading || isLoading ? (
                 
                 array.map((item:any)=>{
                         return (
@@ -151,10 +153,10 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="max-w-20" >
+                                <td className="w-44" >
                                     <div className="flex items-center justify-start gap-1">
                                         <Skeleton className="h-6 w-6 rounded-full" />
-                                        <Skeleton className="h-4 w-[70px]" />
+                                        <Skeleton className="h-4 w-[120px]" />
                                         
                                     </div>
                                 </td>
@@ -183,21 +185,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                     />
                     )
                 }))}
-                {/* {data && data.map((item:any)=>{
-                    return <ItemCustomerReport
-                                key={item.id}
-                                email = {item.mailSend}
-                                role = {item.role}
-                                date = {item.created_at}
-                                supportBy = {item.supportBy}
-                                id={item.id}
-                                currentUser ={currentUser}
-                                user = {user}
-                                status = {item.status}
-                                check={checkId && checkId.includes(item.id)}
-                                handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
-                            />
-                })} */}
+               
             </table>
             {!isLoading && mail && mail.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">

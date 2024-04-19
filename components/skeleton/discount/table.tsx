@@ -41,12 +41,9 @@ export const TableSkeleton = () =>{
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="max-w-20" >
-                                    <div className="flex items-center justify-start gap-1">
-                                        <Skeleton className="h-6 w-6 rounded-full" />
-                                        <Skeleton className="h-4 w-[70px]" />
-                                        
-                                    </div>
+                                <td className="w-64" >
+                                    <Skeleton className="h-4 w-[220px]" />
+                                    
                                 </td>
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>

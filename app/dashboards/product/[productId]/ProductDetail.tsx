@@ -67,6 +67,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
   //const [userId,setUserId] = useState(user?.id )
   const [cate,setCate] = useState('')
 
+
   const schema: ZodType<formData> = z.object({
     productId: z.string(),
     discountId: z.array(z.string()).nonempty(),
@@ -262,6 +263,8 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
   
         setCustomerValue('tag',re)
       },[setCustomerValue,tag])
+
+  
 
       //handle ctr + z
   useEffect(() => {

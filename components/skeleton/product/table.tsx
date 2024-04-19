@@ -42,8 +42,8 @@ export const TableSkeleton = () =>{
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="max-w-20" >
-                                    <Skeleton className="h-4 w-[100px]" />
+                                <td className="w-40" >
+                                    <Skeleton className="h-4 w-[140px]" />
                                 </td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
