@@ -18,8 +18,15 @@ export async function POST(request:Request) {
                 isLeader:null,
             }
         })
-        
-        return NextResponse.json(update)
+        const result = await prisma.user.findMany({
+            where: {
+                role: 'yes'
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+        return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json({message:"Internal Server Error"},{status: 500})
     }

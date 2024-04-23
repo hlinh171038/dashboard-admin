@@ -106,7 +106,7 @@ const Member:React.FC<MemberProps> = ({
         axios.post('/api/delete-admin',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                setData(res.data)
+                setData(res.data && res.data)
                 router.refresh()
                 //toast.success('removed ');
             })
@@ -117,8 +117,8 @@ const Member:React.FC<MemberProps> = ({
                 setIsLoading(false)
                 setDele(true)
             })
-            handleUpdate()
-    },[router,handleUpdate])
+            //handleUpdate()
+    },[router])
 console.log(data)
 
 
