@@ -5,7 +5,7 @@ import Header from "@/components/team/header"
 import Leader from "@/components/team/leader";
 import Member from "@/components/team/member";
 import { Comment, HeartReply, Relly, User } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GoPlus } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -15,6 +15,7 @@ import TeamLeadCahrt from "@/components/dashboard-home/team-lead-chart";
 import { cn } from "@/lib/utils";
 import TableQuantity from "@/components/team/table-quantity";
 import { useRouter } from "next/navigation";
+import PaginationTable from "@/components/team/paginatiion-table";
 
 
 interface TeamProps {
@@ -56,12 +57,14 @@ const Team:React.FC<TeamProps> = ({
     const [chartRight,setChartRight] = useState('all');
     const router = useRouter()
  
+    const [status,setStatus] = useState(true)
     //pagination
     const start =(per_page * page) -per_page;  //0,5,10,15,...
     const end = per_page * page;               //5,10,15
 
     const userSearchUpdate = userSearch.slice(start,end)
     const max= Math.ceil(userSearch.length / per_page);
+    const maxTable = Math.ceil(member && member.length / per_page_admin);
    
     // find out this week
     useEffect(()=>{
@@ -125,6 +128,12 @@ const Team:React.FC<TeamProps> = ({
         });
         setMember(result)
     },[user])
+     // handle loading
+   const handleLoading = useCallback((value:boolean)=>{
+    setStatus(value)
+ },[])
+
+ console.log(status)
    
   //handle ctr + z
   useEffect(() => {
@@ -249,7 +258,16 @@ const Team:React.FC<TeamProps> = ({
                                 per_page_admin ={per_page_admin}
                                 max ={max}
                                 search_admin = {search_admin}
+                                status = {status}
                             />
+
+                        <PaginationTable
+                            page = {page_admin}
+                            per_page ={per_page_admin}
+                            search={search_admin}
+                            max ={maxTable}
+                            handleLoading ={handleLoading}
+                        />
                         
                         </div>
                     </TabsContent>

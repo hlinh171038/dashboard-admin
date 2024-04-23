@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { User } from "@prisma/client"
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { toast } from "sonner";
 
@@ -27,27 +27,17 @@ const Department:React.FC<DepartmentProps> = ({
     const [openLeader,setOpenLeader] = useState(false);
     const [isLoading,setIsLoading] = useState(false);
     const router = useRouter()
-  
-  
-    useEffect(()=>{
-        const result = users && users.filter((item:any)=>item.role === 'yes');
-        const re:any[] = [];
 
-        result && result.forEach((item:any)=>{
-            const index = re && re.findIndex((it:any)=>it.position === item.position)
-            //console.log(index)
-            if(index === -1) {
-                // push new
-                let obj ={position:item.position, count:1}
-                re.push(obj)
-            } else {
-                // update count
-                re[index].count ++;
-            }
-            //console.log(re)
-        })
-        setAdmin(re)
-    },[users])
+   
+
+    const handleAddDepartment = useCallback((value:string)=>{
+       
+        setDepartment(value)
+    },[])
+
+   
+
+    console.log(admin)
 
     //check is leader
     const handleCheckLeader = useCallback((department:string) =>{
@@ -119,6 +109,55 @@ const Department:React.FC<DepartmentProps> = ({
                 router.push(`/analytics/team?admin=&search=&page=1&per_page=5`)
             })
     },[router,department,permission,role,ad])
+
+    useEffect(()=>{
+        const result = users && users.filter((item:any)=>item.role === 'yes');
+        const re:any[] = [
+            {
+                role:'owner',
+                count:0,
+            },
+            {
+                role:'marketing',
+                count:0,
+            },
+            {
+                role:'sale',
+                count:0,
+            },
+            {
+                role:'employee',
+                count:0,
+            },
+            {
+                role:'developer',
+                count:0,
+            },
+            {
+                role:'customer-service',
+                count:0,
+            },
+            {
+                role:'accountant',
+                count:0,
+            }
+        ];
+
+        console.log(result)
+        console.log(re)
+        result && result.forEach((item:any)=>{
+             console.log(item.position)
+            const index = re && re.findIndex((it:any)=>it.role === item.position)
+            console.log(index)
+            if(index !== -1) {
+                console.log('try')
+                re[index].count ++;
+            } 
+            console.log(re)
+        })
+        setAdmin(re)
+        
+    },[users])
     return (
         <div className="relative text-[14px] text-slate-600 px-2 py-4 flex flex-col gap-2">
             {openLeader && (
@@ -144,12 +183,12 @@ const Department:React.FC<DepartmentProps> = ({
                     <div></div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                    {admin && admin.map((item:any)=>{
+                    {admin.map((item:any)=>{
                         return (
                             <div key={item.id} className="flex items-center justify-between gap-4">
                                 <label htmlFor="department" className="flex items-center justify-start gap-2">
-                                <input type="radio" name="department" value={item.position} onClick={(e:any)=>setDepartment(e.target.value)} checked={department ===`${item.position}`}/>
-                                    <span className="capitalize">{item.position}</span>
+                                <input type="radio" name="department" value={item.role} onClick={()=>handleAddDepartment(item.role)} checked={department ===`${item.role}`}/>
+                                    <span className="capitalize">{item.role}</span>
                                 </label>
                                 <div>{item.count + 'member'}</div>
                             </div>
@@ -162,9 +201,15 @@ const Department:React.FC<DepartmentProps> = ({
                 <div className="text-[15px] text-slate-900 font-bold">Role</div>
                 <div>
                     <label htmlFor="role" className="flex items-center justify-start gap-2">
-                    <input type="radio" name="role" value={'leader'}  onClick={(e:any)=>handleRole(e.target.value)} checked={role === 'leader'}/>
+                    <input type="radio" name="role" value={'leader'}  onClick={(e:any)=>handleRole(e.target.value)} checked={role === 'leader'} disabled={isLeader}/>
                         <span className="capitalize">leader</span>
-                        <span className="text-red-600 ml-4">{isLeader && 'There is a group leader'}</span>
+                        <span >{isLeader && (
+                            <span className="flex items-center justify-end gap-4">
+                                
+                                <span className="text-red-600 ml-4">There is already a leader</span>
+                                <span onClick={()=>setOpenLeader(true)} className="underline text-neutral-400 text-[14px]">Change</span>
+                            </span>
+                        )}</span>
                     </label>
                     <label htmlFor="role" className="flex items-center  justify-start gap-2">
                     <input type="radio" name="role" value="member"  onClick={(e:any)=>handleRole(e.target.value)} checked={role === 'member'}/>

@@ -22,6 +22,7 @@ import MemberItem from "./member-item";
 import Department from "./department";
 import HeaderTable from "./header-table";
 import PaginationTable from "./paginatiion-table";
+import { Skeleton } from "../ui/skeleton";
 
 interface MemberProps {
     member: User[] | any
@@ -35,7 +36,8 @@ interface MemberProps {
     currentUser: any;
     search_admin: string;
     page_admin: number;
-    per_page_admin: number
+    per_page_admin: number;
+    status: boolean
 }
 
 const Member:React.FC<MemberProps> = ({
@@ -50,14 +52,16 @@ const Member:React.FC<MemberProps> = ({
     per_page_admin,
     max,
     currentUser,
-    search_admin
+    search_admin,
+    status
 }) =>{
     //console.log(search_admin)
 
-    const [filterArr,setFillterArr] = useState<any>([])
+    //const [filterArr,setFillterArr] = useState<any>([])
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [data,setData] = useState<any>([])
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -101,17 +105,38 @@ const Member:React.FC<MemberProps> = ({
     const end = per_page_admin * page_admin;               //5,10,15
 
      // updateFilterArr
-     const updateFilterArr = filterArr && filterArr.slice(start,end);
+     const updateData = data && data.slice(start,end);
      // max
-     const maxTable = Math.ceil(member && member.length / per_page_admin);
+     //const maxTable = Math.ceil(member && member.length / per_page_admin);
   
 
-    useEffect(()=>{
-       const result =  member && member.filter((item:any)=>item.email.includes(search_admin));
+    // useEffect(()=>{
+    //    const result =  member && member.filter((item:any)=>item.email.includes(search_admin));
        
-       setFillterArr(result)
-    },[member,search_admin])
+    //    setFillterArr(result)
+    // },[member,search_admin])
   
+    // search + skelton
+    useEffect( ()=>{
+        setIsLoading(true)
+       // console.log(array)
+        axios.post('/api/filter-team',{search:search_admin})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                //toast.success('search ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                setCheckId([]);
+                setIsLoading(false)
+               
+            })
+     },[search_admin,router])
+    console.log(data)
 
     return (
         <div className="relative px-2 w-full text-[14px] text-neutral-400">
@@ -119,7 +144,7 @@ const Member:React.FC<MemberProps> = ({
             <div className="col-span-3 w-auto py-2">
             <div className="flex items-center justify-between ">
             <HeaderTable
-                    customer = {filterArr}
+                    customer = {data}
                     user2={member}
                     currentUser={currentUser}
                     />
@@ -181,7 +206,46 @@ const Member:React.FC<MemberProps> = ({
                             <td>Is Group Leader</td>
                             <td>Permission</td>
                         </tr>
-                        {updateFilterArr && updateFilterArr.map((item:any)=>{
+                        {isLoading || !status ? (
+                
+                            [0,1,2,3,4,5,6,7,8,9].map((item:any)=>{
+                                    return (
+                                        <tr key={item} className="my-2">
+                                            <td className="w-6 h-6">
+                                                <Skeleton className="h-4 w-4" />
+                                            </td>
+                                            <td className="max-w-20" >
+                                                <div className="flex items-center justify-start gap-1">
+                                                    <Skeleton className="h-6 w-6 rounded-full" />
+                                                    <Skeleton className="h-4 w-[70px]" />
+                                                    
+                                                </div>
+                                            </td>
+                                            <td><Skeleton className="h-4 w-[100px]" /></td>
+                                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                                            <td><Skeleton className="h-4 w-[70px]" /></td>
+                                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                                        </tr>
+                                    )
+                                })
+                            ):(updateData && updateData.map((item:any)=>{
+                                return (<MemberItem
+                                    key={item.id}
+                                    id={item.id}
+                                    email = {item.email}
+                                    position ={item.position}
+                                    isLeader = {item.isLeader}
+                                    permission = {item.permission}
+                                    user={user}
+                                    currentUser = {currentUser}
+                                    check={checkId && checkId.includes(item.id)}
+                                    handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                                />
+                                )
+                            }))}
+                        {/* {updateData && updateData.map((item:any)=>{
                         return (
                             <MemberItem
                                 key={item.id}
@@ -196,14 +260,9 @@ const Member:React.FC<MemberProps> = ({
                                 handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                             />
                         )
-                    })}
+                    })} */}
                     </table>
-                    <PaginationTable
-                        page = {page_admin}
-                        per_page ={per_page_admin}
-                        search={search_admin}
-                        max ={maxTable}
-                    />
+                    
                 </div>
                 
                 
