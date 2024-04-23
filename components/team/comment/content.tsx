@@ -56,8 +56,9 @@ const Content:React.FC<ContentProps> = ({
         setCommentArr([...result])
     }
     useEffect(()=>{
-        setCommentArr(comments && comments)
+        setCommentArr(comments && comments) 
     },[comments])
+    
     return (
         <div  >
             {comments.length === 0 ?(

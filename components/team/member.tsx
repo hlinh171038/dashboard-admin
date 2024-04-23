@@ -136,8 +136,9 @@ console.log(data)
                 setIsLoading(false)
                
             })
-     },[search_admin,router])
+     },[search_admin,router,user])
     console.log(data)
+    console.log(user)
 
     useEffect(()=>{
         setData(data)
