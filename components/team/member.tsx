@@ -80,6 +80,25 @@ const Member:React.FC<MemberProps> = ({
         setCheckId(tempArr)
     },[checkId])
 
+
+    const handleUpdate = useCallback(()=>{
+        axios.post('/api/filter-team',{})
+                .then((res)=>{
+                    console.log(res.data)
+                    setData(res.data && res.data)
+                    toast.success('removed ');
+                    router.refresh()
+                   
+                })
+                .catch((err:any)=>{
+                    toast.error("Something went wrong !!!")
+                }).finally(()=>{
+                    //setCheckId([]);
+                    setIsLoading(false)
+                   
+                })
+    },[router])
+
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
         setIsLoading(true)
@@ -87,6 +106,7 @@ const Member:React.FC<MemberProps> = ({
         axios.post('/api/delete-admin',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
+                setData(res.data)
                 router.refresh()
                 //toast.success('removed ');
             })
@@ -97,23 +117,11 @@ const Member:React.FC<MemberProps> = ({
                 setIsLoading(false)
                 setDele(true)
             })
-            axios.post('/api/filter-team',{})
-            .then((res)=>{
-                console.log(res.data)
-                setData(res.data && res.data)
-                toast.success('removed ');
-                router.refresh()
-               
-            })
-            .catch((err:any)=>{
-                toast.error("Something went wrong !!!")
-            }).finally(()=>{
-                //setCheckId([]);
-                setIsLoading(false)
-               
-            })
-    },[router])
+            handleUpdate()
+    },[router,handleUpdate])
 console.log(data)
+
+
 
     //pagination
      // start
