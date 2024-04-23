@@ -37,7 +37,7 @@ const TableQuantity:React.FC<TableQuantityProps> = ({
                 className="w-full flex flex-col gap-2"
             >
                 <div >
-                 <div className="text-[15px] text-neutral-100 ">Memebers</div>
+                 <div className="text-[15px] text-neutral-100 font-bold">Memebers</div>
                  <div>A mount of member each Department</div>
                 </div>
                 <table 

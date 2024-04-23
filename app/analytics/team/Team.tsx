@@ -173,7 +173,7 @@ const Team:React.FC<TeamProps> = ({
                 <div className="col-span-4 bg-slate-600 px-2 py-2 rounded-md flex flex-col gap-2 h-full w-full text-[14px] text-neutral-400 ">
                    <div className="flex items-center justify-between ">
                     <div>
-                            <div className="text-[15px] text-neutral-100">Department & Employee</div>
+                            <div className="text-[15px] text-neutral-100 font-bold">Department & Employee</div>
                             <div>Statictical show the amount of memeber each department.</div>
                         </div>
                         <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 px-2">
@@ -235,14 +235,14 @@ const Team:React.FC<TeamProps> = ({
                     <TabsContent value="account" className="bg-slate-600">
                         <div className="">
                             <Header />
-                            <div>
+                            <div className="mt-2">
                                 <hr />
                             </div>
                             <Leader
                                 currentUser = {currentUser}
                                 users = {user}
                             />
-                            <div>
+                            <div className="mt-2">
                                 <hr />
                             </div>
                             <Member 

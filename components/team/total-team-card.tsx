@@ -59,7 +59,7 @@ interface TotalUserCardProps {
     },[])
     return (
         <div className="bg-slate-600 rounded-md p-2 relative">
-            <div className="text-[15px] text-neutral-100">Team manager</div>
+            <div className="text-[15px] text-neutral-100 font-bold">Team manager</div>
             <div className="flex items-center justify-start gap-2">
                 <div className="text-[35px] text-neutral-400 ">{admin && admin.length}</div>
                 <div className="text-[12px] ">

@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server'
 
 export async function POST(request:Request) {
@@ -17,6 +18,7 @@ export async function POST(request:Request) {
                 isLeader:null,
             }
         })
+        revalidatePath(`/analytics/team`);
         return NextResponse.json(update)
     } catch (error) {
         return NextResponse.json({message:"Internal Server Error"},{status: 500})

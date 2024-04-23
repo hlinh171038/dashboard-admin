@@ -62,6 +62,7 @@ const Member:React.FC<MemberProps> = ({
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
+    const [updateData,setUpdateData] = useState<any> ([])
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -85,8 +86,8 @@ const Member:React.FC<MemberProps> = ({
         axios.post('/api/delete-admin',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('removed ');
                 router.refresh()
+                toast.success('removed ');
             })
             .catch((err:any)=>{
                 toast.error("Something went wrong !!!")
@@ -95,7 +96,7 @@ const Member:React.FC<MemberProps> = ({
                 setIsLoading(false)
             })
     },[router])
-
+console.log(data)
 
     //pagination
      // start
@@ -105,7 +106,7 @@ const Member:React.FC<MemberProps> = ({
     const end = per_page_admin * page_admin;               //5,10,15
 
      // updateFilterArr
-     const updateData = data && data.slice(start,end);
+     
      // max
      //const maxTable = Math.ceil(member && member.length / per_page_admin);
   
@@ -138,6 +139,12 @@ const Member:React.FC<MemberProps> = ({
      },[search_admin,router])
     console.log(data)
 
+    useEffect(()=>{
+        setData(data)
+        const updateData = data && data.slice(start,end);
+        setUpdateData(updateData)
+    },[data,end,start])
+    
     return (
         <div className="relative px-2 w-full text-[14px] text-neutral-400">
             

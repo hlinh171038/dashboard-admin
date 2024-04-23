@@ -20,7 +20,7 @@ const Header = () =>{
                     className=" flex items-center justify-start gap-2"
                 >
                     <div><AiOutlineTeam className="w-4 h-4 text-neutral-100" /></div>
-                    <div className="text-[15px] text-neutral-100">Team Manager</div>
+                    <div className="text-[15px] text-neutral-100 font-bold">Team Manager</div>
                 </div>
                 <div 
                     className="text-neutral-400 "

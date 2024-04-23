@@ -106,7 +106,8 @@ const Department:React.FC<DepartmentProps> = ({
             })
             .finally(()=>{
                 setIsLoading(false)
-                router.push(`/analytics/team?admin=&search=&page=1&per_page=5`)
+                router.refresh()
+                router.push(`/analytics/team`)
             })
     },[router,department,permission,role,ad])
 

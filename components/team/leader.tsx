@@ -25,7 +25,7 @@ const Leader:React.FC<LeaderProps> = ({
             <div className="col-span-3 flex flex-col items-start justify-start gap-1 ">
                 <div className="flex items-center justify-between gap-2 mt-2">
                     <MdLockPerson className="w-4 h-4 text-neutral-100"/>
-                    <div className="text-[15px] text-neutral-100 mb-[-3px]">Team Leader</div>
+                    <div className="text-[15px] text-neutral-100 mb-[-3px] font-bold">Team Leader</div>
                 </div>
                 <div className="text-justify ">
                     You can add new member as admin under your role, ensuring clear direction and effective leadership within your teams.
