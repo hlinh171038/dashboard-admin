@@ -22,6 +22,7 @@ import { authOptions } from './api/auth/[...nextauth]/options'
 import { getAllReply } from './actions/getAllReply'
 import { getAllNotify } from './actions/getAllNotify'
 import { getAllTempMail } from './actions/getAllTempMail'
+import { StoreProvider } from './store/storeProvider'
 
 
 
@@ -51,6 +52,7 @@ export default async function RootLayout({
     
 
   return (
+    <StoreProvider>
     <html lang="en">
       <body className={inter.className} >
       <LoginModals />
@@ -88,5 +90,6 @@ export default async function RootLayout({
        
         </body>
     </html>
+    </StoreProvider>
   )
 }

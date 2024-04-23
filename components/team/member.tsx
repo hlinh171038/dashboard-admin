@@ -62,7 +62,8 @@ const Member:React.FC<MemberProps> = ({
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
-    const [updateData,setUpdateData] = useState<any> ([])
+    const [dele,setDele] = useState(false)
+   
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -87,13 +88,29 @@ const Member:React.FC<MemberProps> = ({
             .then((res)=>{
                 console.log(res.data)
                 router.refresh()
-                toast.success('removed ');
+                //toast.success('removed ');
             })
             .catch((err:any)=>{
                 toast.error("Something went wrong !!!")
             }).finally(()=>{
                 setCheckId([]);
                 setIsLoading(false)
+                setDele(true)
+            })
+            axios.post('/api/filter-team',{})
+            .then((res)=>{
+                console.log(res.data)
+                setData(res.data && res.data)
+                toast.success('removed ');
+                router.refresh()
+               
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).finally(()=>{
+                //setCheckId([]);
+                setIsLoading(false)
+               
             })
     },[router])
 console.log(data)
@@ -109,7 +126,7 @@ console.log(data)
      
      // max
      //const maxTable = Math.ceil(member && member.length / per_page_admin);
-  
+     const updateData = data && data.slice(start,end);
 
     // useEffect(()=>{
     //    const result =  member && member.filter((item:any)=>item.email.includes(search_admin));
@@ -136,15 +153,15 @@ console.log(data)
                 setIsLoading(false)
                
             })
-     },[search_admin,router,user])
+     },[search_admin,router])
     console.log(data)
     console.log(user)
 
-    useEffect(()=>{
-        setData(data)
-        const updateData = data && data.slice(start,end);
-        setUpdateData(updateData)
-    },[data,end,start])
+    // useEffect(()=>{
+    //     setData(data)
+        
+    //     setUpdateData(updateData)
+    // },[data,end,start])
     
     return (
         <div className="relative px-2 w-full text-[14px] text-neutral-400">
