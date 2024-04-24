@@ -14,7 +14,14 @@ export async function POST(request:Request) {
                 id:{in:checkId}
             }
         })
-        return NextResponse.json(discount)
+
+        const result = await prisma.discount.findMany({
+           
+            orderBy: {
+                created_at: 'desc'
+            }
+        })
+        return NextResponse.json(result)
     } catch (error) {
         console.log(error)
         return NextResponse.json({error:"Internal Server Errors"},{status: 500})

@@ -57,17 +57,22 @@ type formData = {
 
 interface AddNewProductProps {
     user: User | any;
+    currentUser: any;
     discount: Discount[] | any
+    users: User[] | any;
 }
 
 
 const AddNewProduct:React.FC<AddNewProductProps>= ({
     user,
-    discount
+    users = [],
+    discount,
+    currentUser
 }) => {
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
-  //const [userId,setUserId] = useState(user?.id )
+  const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
+ 
   const [cate,setCate] = useState('')
 
   const schema: ZodType<formData> = z.object({
@@ -147,7 +152,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
               .then((res)=>{
-                toast.success('Created new product.')
+                //toast.success('Created new product.')
                 router.push('/dashboards/product')
                 router.refresh()
               })
@@ -157,6 +162,23 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
               .finally(()=>{
                 setIsLoading(false)
               })
+
+          axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`add new product`,
+                type: 'add-new-product'
+            })
+            .then((res)=>{
+                
+                toast.success('add new product');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
       }
 
       const setCustomerValue = useCallback((id:string, value:any) => {
@@ -290,6 +312,15 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [router]);
+
+  useEffect(()=>{
+
+    if(currentUser) {
+        const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+        setCurrentUserInfo(result)
+    }
+    
+  },[currentUser,users])
     return (
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
           <div className="grid grid-cols-3 w-full rounded-md  gap-2 ">

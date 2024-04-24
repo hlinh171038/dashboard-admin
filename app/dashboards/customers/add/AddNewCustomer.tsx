@@ -30,13 +30,21 @@ import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import Radio from "@/components/customers/radio"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { User } from "@prisma/client"
 
 
+interface AddNewCustomerProps {
+    currentUser: any;
+    users: User[] | any;
+}
 
-
-const AddNewCustomer = () =>{
+const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
+    currentUser,
+    users =[]
+}) =>{
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
   
     const schema: ZodType<formData> = z.object({
         name: z.string().min(3).max(20),
@@ -88,11 +96,14 @@ const AddNewCustomer = () =>{
     
       
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-   
+            if(! currentUser) {
+                toast.warning('Have not login !!!')
+                return;
+            }
         setIsLoading(true)
         axios.post('/api/add-new-user', data)
                 .then(()=>{
-                  toast.success("created new user.")
+                  
                   router.push('/dashboards/customers')
                   router.refresh()
                 })
@@ -100,6 +111,23 @@ const AddNewCustomer = () =>{
                     toast.error('Email already exists !!!')
                 })
                 .finally(()=>{
+                    setIsLoading(false)
+                })
+               
+                axios.post('/api/create-new-history',{
+                    userId: currentUserInfo && currentUserInfo.id,
+                    title:'add new user',
+                    type: 'add-new-user'
+                })
+                .then((res)=>{
+                    
+                    toast.success("created new user.")
+                    router.refresh();
+                })
+                .catch((err:any)=>{
+                    toast.error("Something went wrong !!!")
+                }).
+                finally(()=>{
                     setIsLoading(false)
                 })
                
@@ -125,6 +153,16 @@ useEffect(() => {
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [router]);
+
+  useEffect(()=>{
+
+    if(currentUser) {
+        const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+        setCurrentUserInfo(result)
+    }
+    
+  },[currentUser,users])
+  console.log(currentUserInfo)
     return (
         <div className="px-2 ">
             <Toaster/>

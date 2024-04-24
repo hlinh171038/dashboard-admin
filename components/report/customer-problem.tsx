@@ -52,6 +52,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any> ([])
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
     const router = useRouter()
 
      //handle orther check
@@ -71,12 +72,18 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
 
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
+        
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-report',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('removed ');
+                setData(res.data && res.data)
+                //toast.success('removed ');
                 router.refresh()
             })
             .catch((err:any)=>{
@@ -85,7 +92,23 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                 setCheckId([]);
                 setIsLoading(false)
             })
-    },[router])
+            axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`removed ${array && array.length} report`,
+                type: 'removed-report'
+            })
+            .then((res)=>{
+                
+                toast.success('removed ');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
+    },[router,currentUser,currentUserInfo])
 
     //handle back product
     const handleBack = useCallback(()=>{
@@ -113,6 +136,15 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
             })
      },[search,role,status,start,end,router])
     console.log(data)
+
+    useEffect(()=>{
+
+        if(currentUser) {
+            const result = user && user.find((item:any)=>item.email === currentUser?.user.email);
+            setCurrentUserInfo(result)
+        }
+        
+      },[currentUser,user])
 
     return (
         <div className=" relative text-[14px] text-neutral-400 ">

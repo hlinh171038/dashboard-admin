@@ -1,6 +1,6 @@
 "use client"
 
-import { Product } from "@prisma/client"
+import { Product, User } from "@prisma/client"
 import ItemProduct from "./item"
 import {
     Select,
@@ -34,6 +34,8 @@ interface TableProductProps {
     start: number
     end: number
     status: boolean
+    currentUser:any
+    users: User[] | any;
 }
 
 const TableProduct:React.FC<TableProductProps> = ({
@@ -48,7 +50,9 @@ const TableProduct:React.FC<TableProductProps> = ({
     endDate,
     start,
     end,
-    status
+    status,
+    currentUser,
+    users =[]
 }) =>{
     const router = useRouter()
     const [data,setData] = useState<any>([])
@@ -56,6 +60,7 @@ const TableProduct:React.FC<TableProductProps> = ({
     const [brandArr,setBrandArr] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
 
     const updateData = data.slice(start,end)
 
@@ -76,12 +81,18 @@ const TableProduct:React.FC<TableProductProps> = ({
 
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
+        setIsLoading(true)
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-product',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('removed ');
+                setData(res?.data && res?.data)
+                //toast.success('removed ');
                 router.refresh()
             })
             .catch((err:any)=>{
@@ -90,7 +101,23 @@ const TableProduct:React.FC<TableProductProps> = ({
                 setCheckId([]);
                 setIsLoading(false)
             })
-    },[router])
+            axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`removed ${array && array.length} user`,
+                type: 'removed-product'
+            })
+            .then((res)=>{
+                
+                toast.success('removed');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
+    },[router,currentUserInfo,currentUser])
 
 
     const fillterCategory = useCallback(() =>{
@@ -177,6 +204,14 @@ const TableProduct:React.FC<TableProductProps> = ({
      },[query,category,brand,location,price,stock,startDate,endDate,router])
     console.log(data)
 
+    useEffect(()=>{
+
+        if(currentUser) {
+            const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+            setCurrentUserInfo(result)
+        }
+        
+      },[currentUser,users])
 
     return (
        <div className="w-full h-full mt-2">
@@ -328,7 +363,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="w-40" >
+                                <td className="w-40 flex items-center justify-start gap-1 py-2" >
                                     <Skeleton className="h-4 w-[140px]" />
                                 </td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
@@ -341,7 +376,11 @@ const TableProduct:React.FC<TableProductProps> = ({
                                         <Skeleton className="h-4 w-[50px]" />
                                     </div>
                                 </td>
-                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td>
+                                    <div className="flex items-center justify-end gap-2">
+                                        <Skeleton className="h-6 w-[70px]" />
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })

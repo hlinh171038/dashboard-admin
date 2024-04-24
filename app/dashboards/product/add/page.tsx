@@ -7,11 +7,13 @@ import { getUserByEmail } from "@/app/actions/getUserByEmail"
 import { getAllDiscount } from "@/app/actions/getAllDiscount"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
 import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
+import { getAllUser2 } from "@/app/actions/getAllUser2"
 //import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const Product = async() =>{
 
   const session = await getServerSession(authOptions)
+  const users = await getAllUser2()
   const discount = await getAllDiscount({})
   
 
@@ -26,7 +28,11 @@ const Product = async() =>{
     <div>
         <AddNewProduct 
         discount = {discount}
-        user = {user}/>
+        user = {user}
+        currentUser = {session}
+        users ={users}
+        />
+        
     </div>
   )
 }

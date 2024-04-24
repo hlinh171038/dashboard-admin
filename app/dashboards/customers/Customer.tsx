@@ -184,7 +184,8 @@ const Customer:React.FC<Cusromerprops> = ({
                             start = {start}
                             end = {end}
                             status ={status}
-                            //handleLoading ={handleLoading}
+                            currentUser = {currentUser}
+                            user2 = {user2}
                         />
                       
                     </div>

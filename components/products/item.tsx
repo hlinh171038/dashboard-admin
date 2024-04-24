@@ -132,14 +132,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
                         className="inline-block rounded-md text-neutral-200 bg-[#4FA29E]  items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2">
                         View
                     </button>
-                    {/* <button 
-                        disabled = {isLoading}
-                        onClick={handleDelete}
-                        className={cn(" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:bg-red-600/40 hover:text-white transition-all duration-300",
-                                        isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
-                                    )}>
-                        Delete
-                    </button> */}
+                
                 </div>
             </td>
        </tr>

@@ -41,7 +41,7 @@ export const TableSkeleton = () =>{
                                 <td className="w-6 h-6">
                                     <Skeleton className="h-4 w-4" />
                                 </td>
-                                <td className="max-w-20" >
+                                <td className="max-w-20 flex items-center justify-start gap-1 py-2" >
                                     <div className="flex items-center justify-start gap-1">
                                         <Skeleton className="h-6 w-6 rounded-full" />
                                         <Skeleton className="h-4 w-[70px]" />
@@ -53,7 +53,11 @@ export const TableSkeleton = () =>{
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td>
+                                    <div className="flex justify-end items-start">
+                                        <Skeleton className="h-6 w-[50px]" />
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })}

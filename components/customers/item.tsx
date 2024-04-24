@@ -47,20 +47,20 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     },[id,route])
 
     // delete by id
-    const handleDeleteUser = (id:string)=>{
-        setIsLoading(true)
-        axios.post(`/api/delete-user/`,{id})
-            .then((res)=>{
-                toast.success('deleted')
-                route.refresh()
-            })
-            .catch((err:any)=>{
-                toast.error('Some thing went wrong!!!')
-            })
-            .finally(()=>{
-                setIsLoading(false)
-            })
-    }
+    // const handleDeleteUser = (id:string)=>{
+    //     setIsLoading(true)
+    //     axios.post(`/api/delete-user/`,{id})
+    //         .then((res)=>{
+    //             toast.success('deleted')
+    //             route.refresh()
+    //         })
+    //         .catch((err:any)=>{
+    //             toast.error('Some thing went wrong!!!')
+    //         })
+    //         .finally(()=>{
+    //             setIsLoading(false)
+    //         })
+    // }
 
     return (
        <tr>
@@ -98,8 +98,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                    triggerMonth + "-" + 
                    year} 
             </span>
-            {/* <span>{new Date(created_at).getMonth()+1 + "-"}</span>
-            <span>{new Date(created_at).getFullYear().toString()}</span> */}
+          
         </td>
         <td>
             {new Date(created_at).toLocaleTimeString('en-US')}
@@ -121,13 +120,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                             className="inline-block rounded-md text-neutral-200   items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2" style={{backgroundColor:'#5EC0B5'}}>
                             View
                         </button>
-                        {/* <button 
-                            disabled = {isLoading}
-                            onClick={()=>handleDeleteUser(id)}
-                            className=" inline-block rounded-md text-neutral-200 bg-red-600  items-center justify-center px-2 py-0.5 hover:opacity-[0.7] hover:text-white transition-all duration-300"
-                        >
-                            Delete
-                        </button> */}
+                      
                     </div>
             </td>
        </tr>

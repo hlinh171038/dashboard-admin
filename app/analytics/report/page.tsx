@@ -33,6 +33,8 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     const mail = await getAllMail2({search,role,status,start,end})
     const mail2 = await getAllMail()
     const tempMail = await getAllTempMail()
+   
+   
     
     return (
         <div>

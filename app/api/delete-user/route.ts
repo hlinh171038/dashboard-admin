@@ -15,7 +15,14 @@ export async function POST(request:Request) {
             }
         })
 
-        return NextResponse.json(userDelete)
+        const result = await prisma.user.findMany({
+           
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return NextResponse.json(result)
     } catch (error) {
         console.log(error)
         return NextResponse.json({error:"internal Server Error"},{status: 500})

@@ -186,6 +186,8 @@ const Product:React.FC<ProductProps> = ({
                             start = {start}
                             end = {end}
                             status ={status}
+                            currentUser ={currentUser}
+                            users = {customer}
                         />
                     </div>
                 </div>

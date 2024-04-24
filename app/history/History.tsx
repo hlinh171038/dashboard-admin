@@ -70,11 +70,14 @@ const History:React.FC<HistoryProps> = ({
     useEffect(()=>{
         const result = user && user.find((item:any)=>item.email === currentUser?.user.email);
         const result2 = history && history.filter((item:any)=>item.userId === result.id);
+        console.log(result)
         console.log(result2)
         setData(result2)
         setRootData(result2)
     },[currentUser,user,history])
     console.log(data)
+    console.log(history)
+    console.log(currentUser?.user.email)
 
     useEffect(()=>{
         if(data && data.length >20) {

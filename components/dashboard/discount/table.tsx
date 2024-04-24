@@ -1,6 +1,6 @@
 "use client"
 
-import { Discount } from "@prisma/client"
+import { Discount, User } from "@prisma/client"
 import Item from "./item"
 import {
     Select,
@@ -32,7 +32,9 @@ interface TableProps {
    dayEnd: string;
    start: number;
    end:number;
-   status: boolean
+   status: boolean;
+   currentUser: any;
+   users: User[] | any;
 }
 
 const Table:React.FC<TableProps> = ({
@@ -46,13 +48,16 @@ const Table:React.FC<TableProps> = ({
     dayEnd,
     start,
     end,
-    status
+    status,
+    currentUser,
+    users = []
 }) =>{
 
     const [data,setData] = useState<any>([])
     const [cateType,setCateType] = useState<any>([])
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
     const router = useRouter()
  
     const updateData = data.slice(start,end)
@@ -73,12 +78,16 @@ const Table:React.FC<TableProps> = ({
 
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-discount',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('removed ');
+                //toast.success('removed ');
                 router.refresh()
             })
             .catch((err:any)=>{
@@ -87,7 +96,24 @@ const Table:React.FC<TableProps> = ({
                 setCheckId([]);
                 setIsLoading(false)
             })
-    },[router])
+            axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`removed ${array && array.length} discount`,
+                type: 'removed-discount'
+            })
+            .then((res)=>{
+                
+                toast.success('removed ');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+                router.push('dashboards/discount?search=&page=1&per_page=10')
+            })
+    },[router,currentUser,currentUserInfo])
 
     // filter type
     useEffect(()=>{
@@ -128,6 +154,15 @@ const Table:React.FC<TableProps> = ({
             })
      },[search,type,percent,countFrom,countTo,dayStart,dayEnd,router])
     console.log(data)
+
+    useEffect(()=>{
+
+        if(currentUser) {
+            const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+            setCurrentUserInfo(result)
+        }
+        
+      },[currentUser,users])
     return (
        <div className=" mt-2">
          {checkId.length > 0 && (

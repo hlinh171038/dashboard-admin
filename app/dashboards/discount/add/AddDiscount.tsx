@@ -91,7 +91,10 @@ const AddDiscount:React.FC<AddDiscountProps> = ({
       const condition = watch('condition')
    
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-   
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
         setIsLoading(true)
         axios.post('/api/add-new-coupon',data)
                 .then((res)=>{
@@ -107,12 +110,12 @@ const AddDiscount:React.FC<AddDiscountProps> = ({
         // create history
             axios.post('/api/create-new-history',{
                 userId:userId?.id,
-                title:`Coupon`,
-                type: 'add new'
+                title:`coupon`,
+                type: 'add-new-coupon'
             })
             .then((res)=>{
                 
-                toast.success('add new');
+                toast.success('add new coupon');
                 router.refresh();
             })
             .catch((err:any)=>{
@@ -120,6 +123,7 @@ const AddDiscount:React.FC<AddDiscountProps> = ({
             }).
             finally(()=>{
                 setIsLoading(false)
+                router.push('/dashboards/discount?search=&page=1&per_page=10')
             })
       }
 
@@ -213,7 +217,7 @@ const AddDiscount:React.FC<AddDiscountProps> = ({
                    
                     {/* date */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="col-span-1 w-3/4 relative">
+                        <div className="col-span-1 w-full relative">
                             <DatePicker 
                                 value={startDate}
                                 onChange={(value)=>setCustomValue('startDate',value)}
@@ -221,7 +225,7 @@ const AddDiscount:React.FC<AddDiscountProps> = ({
                             />
                             {errors.startDate && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.startDate.message as string}</span>}
                         </div>
-                        <div className="col-span-1 w-3/4 relative">
+                        <div className="col-span-1 w-full relative">
                             <DatePicker 
                                 value={endDate}
                                 onChange={(value)=>setCustomValue('endDate',value)}

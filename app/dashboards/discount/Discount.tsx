@@ -169,6 +169,8 @@ const Discount:React.FC<DiscountProps> =({
                start ={start}
                end ={end}
                status ={status}
+               currentUser ={currentUser}
+               users = {users}
               />
               <Pagination 
                 page={page}

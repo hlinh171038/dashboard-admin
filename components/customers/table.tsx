@@ -24,6 +24,8 @@ interface TableCustomerProps {
     start?: number;
     end?: number;
     status: boolean;
+    currentUser: any;
+    user2: User[] | any;
 }
 
 const TableCustomer:React.FC<TableCustomerProps> = ({
@@ -36,12 +38,15 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     endDate,
     start,
     end,
-    status
+    status,
+    currentUser,
+    user2
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
 
     const updateData = data.slice(start,end)
     
@@ -62,12 +67,18 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
 
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
+
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-user',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
-                toast.success('removed ');
+                setData(res?.data && res?.data )
+                // toast.success('removed ');
                 router.refresh()
                
             })
@@ -79,7 +90,23 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 setIsLoading(false)
                
             })
-    },[router])
+            axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`removed ${array && array.length} user`,
+                type: 'removed-user'
+            })
+            .then((res)=>{
+                
+                toast.success('removed ');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+            })
+    },[router,currentUserInfo,currentUser])
 
     //handle back product
     const handleBackProduct = useCallback(()=>{
@@ -107,6 +134,15 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
             })
      },[search,role,action,startDate,endDate,router])
     console.log(data)
+
+    useEffect(()=>{
+
+        if(currentUser) {
+            const result = user2 && user2.find((item:any)=>item.email === currentUser?.user.email);
+            setCurrentUserInfo(result)
+        }
+        
+      },[currentUser,user2])
 
     const array = [0,1,2,3,4,5,6,7,8,9,10]
   
@@ -146,22 +182,26 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
             array.map((item:any)=>{
                     return (
                         <tr key={item} className="my-2">
-                            <td className="w-6 h-6">
-                                <Skeleton className="h-4 w-4" />
-                            </td>
-                            <td className="max-w-20" >
-                                <div className="flex items-center justify-start gap-1">
-                                    <Skeleton className="h-6 w-6 rounded-full" />
-                                    <Skeleton className="h-4 w-[70px]" />
-                                    
-                                </div>
-                            </td>
-                            <td><Skeleton className="h-4 w-[100px]" /></td>
-                            <td><Skeleton className="h-4 w-[70px]" /></td>
-                            <td><Skeleton className="h-4 w-[70px]" /></td>
-                            <td><Skeleton className="h-4 w-[50px]" /></td>
-                            <td><Skeleton className="h-4 w-[50px]" /></td>
-                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                             <td className="w-6 h-6">
+                                    <Skeleton className="h-4 w-4" />
+                                </td>
+                                <td className="max-w-20 flex items-center justify-start gap-1 py-2" >
+                                    <div className="flex items-center justify-start gap-1">
+                                        <Skeleton className="h-6 w-6 rounded-full" />
+                                        <Skeleton className="h-4 w-[70px]" />
+                                        
+                                    </div>
+                                </td>
+                                <td><Skeleton className="h-4 w-[100px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[70px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td>
+                                    <div className="flex justify-end items-start">
+                                        <Skeleton className="h-6 w-[50px]" />
+                                    </div>
+                                </td>
                         </tr>
                     )
                 })
