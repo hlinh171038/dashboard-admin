@@ -28,6 +28,7 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
   const [isLoading,setIsLoading] = useState(false)
   const [check,setCheck] = useState(false)
   const [text,setText] = useState('')
+  const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
 
 
 
@@ -80,6 +81,22 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
       setIsLoading(false);
     })
     
+    axios.post('/api/create-new-history',{
+      userId: currentUserInfo && currentUserInfo.id,
+      title:`send mail to leader: hoanglinh171038@gmail.com`,
+      type: 'send-mail'
+      })
+      .then((res)=>{
+          
+          toast.success('sended ');
+          router.refresh();
+      })
+      .catch((err:any)=>{
+          toast.error("Something went wrong !!!")
+      }).
+      finally(()=>{
+          setIsLoading(false)
+      })
       
   };
 
@@ -98,6 +115,14 @@ export const ContactUsMember:React.FC<ContactUsProps> = ({
   const handleCheck = useCallback(()=>{
     setCheck(!check)
  },[check])
+
+ useEffect(()=>{
+
+  if(currentUser) {
+      const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+      setCurrentUserInfo(result)
+  }
+},[currentUser,users])
   return (
     <div className='text-[15px] text-slate-700 px-2 py-4 rounded-md'>
         <div className='font-bold'>

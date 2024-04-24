@@ -80,8 +80,8 @@ const History:React.FC<HistoryProps> = ({
     console.log(currentUser?.user.email)
 
     useEffect(()=>{
-        if(data && data.length >20) {
-            const remain = data.length -10;
+        if(data && data.length >50) {
+            const remain = data.length -40;
             const temp:any[] =[];
             for(let i=0; i<remain;i++){
                 temp.push(data[data.length -1-i].id)

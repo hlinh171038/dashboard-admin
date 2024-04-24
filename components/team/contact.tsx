@@ -26,6 +26,7 @@ export const ContactUs:React.FC<ContactUsProps> = ({
   const [check,setCheck] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
   const [content,setContent] = useState('')
+  const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
 
 
 
@@ -79,6 +80,23 @@ export const ContactUs:React.FC<ContactUsProps> = ({
     .finally(()=>{
       setIsLoading(false);
     })
+
+    axios.post('/api/create-new-history',{
+      userId: currentUserInfo && currentUserInfo.id,
+      title:`send mail to leader: hoanglinh171038@gmail.com`,
+      type: 'send-mail'
+      })
+      .then((res)=>{
+          
+          //toast.success('sended ');
+          router.refresh();
+      })
+      .catch((err:any)=>{
+          toast.error("Something went wrong !!!")
+      }).
+      finally(()=>{
+          setIsLoading(false)
+      })
     
     emailjs
       .sendForm('service_edpq52f', 'template_rsm7k1f', form.current, {
@@ -110,6 +128,15 @@ export const ContactUs:React.FC<ContactUsProps> = ({
    const handleCheck = useCallback(()=>{
     setCheck(!check)
  },[check])
+
+ useEffect(()=>{
+
+  if(currentUser) {
+      const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+      setCurrentUserInfo(result)
+  }
+  
+},[currentUser,users])
   return (
     <div className='text-[15px] text-slate-700 px-2 py-4 rounded-md'>
         <div className='font-bold'>
