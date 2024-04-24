@@ -22,9 +22,14 @@ import { MdOutlineUpdate } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { cn } from "@/lib/utils";
+import { FaSmile } from "react-icons/fa";
+import { IconType } from "react-icons/lib";
+import { Skeleton } from "@/components/ui/skeleton";
+import { MdOutlineKeyboardCommandKey } from "react-icons/md";
 
 interface CommentItemProps {
     content: string;
+    title?: IconType;
     createdAt: string;
     userId: string;
     userName: string;
@@ -40,6 +45,7 @@ interface CommentItemProps {
 const CommentItem:React.FC<CommentItemProps> = ({
     currentUser,
     content,
+    title:Icon,
     createdAt,
     id,
     userId,
@@ -53,10 +59,16 @@ const CommentItem:React.FC<CommentItemProps> = ({
 }) =>{
     const [text,setText] = useState('')
     const [isLoading,setIsLoading] = useState(false);
+    const [isLoadingHeart,setIsLoadingHeart] = useState(false);
+    const [isLoadingReply,setIsLoadingReply] = useState(false);
     const [openReply,setOpenReply] = useState(false);
     const [isHeart,setIsHeart]  = useState(heart === 'no' ? false : true)
     const [heartObj,setHeartObj] = useState<any>(null)
+    const [heartStatus,setHeartStatus] = useState<any>(false)
     const [currentUserId,setCurrentUserId] = useState<any>(null)
+
+    const input2Ref = useRef<any>(null);
+   
     
     const [textUpdate,setTextUpdate] = useState(content? content : '')
     const [update,setUpdate] = useState(false)
@@ -64,11 +76,12 @@ const CommentItem:React.FC<CommentItemProps> = ({
     const router = useRouter()
    
     const handleSubmit = ()=>{
+        
         if(!currentUser) {
             toast.warning('Login');
             return;
         }
-        setIsLoading(true)
+        setIsLoadingReply(true)
 
         axios.post('/api/add-new-item',{
            content:text,
@@ -86,7 +99,8 @@ const CommentItem:React.FC<CommentItemProps> = ({
             toast.error('Some thing went wrong !!!')
         })
         .finally(()=>{
-            setIsLoading(false)
+            setIsLoadingReply(false)
+            setText('')
         })
 
         axios.post('/api/create-notify',{
@@ -106,7 +120,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
            
          })
          .finally(()=>{
-             setIsLoading(false)
+            setIsLoadingReply(false)
          })
         
     }
@@ -162,8 +176,8 @@ const CommentItem:React.FC<CommentItemProps> = ({
    
     //handle update heart
     const handleCreateHeart = useCallback((id:string)=>{
-     
-        setIsLoading(true)
+        setHeartStatus(true)
+        setIsLoadingHeart(true)
             axios.post('/api/create-heart',{
                 userId:currentUserId?.id,
                 userName:currentUserId?.name,
@@ -179,7 +193,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 toast.error('Some thing went wrong')
             })
             .finally(()=>{
-                setIsLoading(false)
+                //setIsLoadingHeart(false)
             })
             
             axios.post('/api/create-notify',{
@@ -195,12 +209,12 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 
             })
             .catch((error:any)=>{
-               
+               setHeartStatus(false)
             })
             .finally(()=>{
-                setIsLoading(false)
+                setIsLoadingHeart(false)
             })
-        
+              
     },[router,currentUserId])
 
     //handle out side input
@@ -215,7 +229,19 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 setHeartObj(item)
             }
         })
-      },[heart,id])
+        if( currentUserId?.id === userId && heartObj && heartObj.status === 'yes' ) {
+            setHeartStatus(false)
+        } else {
+            setHeartStatus(false)
+        }
+        
+      },[heart,id,currentUserId,userId,heartObj])
+
+      const handleFocusUpdate = useCallback(()=>{
+       setUpdate(!update)
+       console.log(update)
+       
+      },[update])
 
       // take currentUser
       useEffect(()=>{
@@ -227,11 +253,22 @@ const CommentItem:React.FC<CommentItemProps> = ({
       },[currentUser.user.email,user])
 
       useEffect(()=>{
-   
-      },[createdAt])
+        if (update) {
+            console.log(input2Ref)
+            input2Ref.current.focus(); // Focus on input if opened
+          }
+      },[update])
+
+      console.log(update)
+
+     
+
+    
+     
 
     return (
         <div className="flex flex-col gap-2 mt-1">
+          
                 <div className="flex items-center justify-between">
                     <div className="flex items-center justify-start gap-2 text-[14px] text-neutral-100">
                         <Image 
@@ -241,7 +278,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                             alt="avatar"
                             className="rounded-full aspect-square"
                         />
-                        <div>
+                        <div className="text-[15px] capitalize">
                             
                             {userName && userName}
                         </div>
@@ -261,11 +298,11 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                             className=" rounded-md shadow-md mr-10 bg-slate-600"
                                         >   
                                            <div className="flex flex-col gap-2 px-4 py-2 ">
-                                            <button onClick={()=>handleDelete(id)} disabled={isLoading} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-slate-900 cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
+                                            <button onClick={()=>handleDelete(id)} disabled={isLoading} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-[#4FA29E] cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
                                                 Delete
                                                 {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5 flex items-center justify-center"><MdDeleteOutline className="w-4 h-4 " /></div>}
                                             </button> 
-                                            <button onClick={()=>setUpdate(!update)} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-slate-900 cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
+                                            <button onClick={handleFocusUpdate} className="flex items-center justify-start gap-1 px-2 py-1 bg-slate text-neutral-100 bg-[#4FA29E] cursor-pointer hover:bg-slate-800 rounded-md text-[14px]">
                                                 Update
                                                 <div className="w-5 h-5 flex items-center justify-center"><MdOutlineUpdate  className="w-4 h-4 " /></div>
                                             </button> 
@@ -280,65 +317,151 @@ const CommentItem:React.FC<CommentItemProps> = ({
                             <div >
                                 {update ?
                                 (
-                                    <div className="flex flex-col gap-1 text[14px] text-neutral-100">
-                                        <div><strong>Enter</strong> to update , click outside to cancel</div>
+                                    <div className="relative flex flex-col gap-1 text[14px] text-neutral-100">
+                                        <div className="flex items-center justify-end px-2">
+                                            <div className="text-neutral-100 text-[14px]"> Cancel: click outside.</div>
+                                        </div>
+                                      
                                         <OutsideClickHandler onOutsideClick={handleClickOutside}>
                                             <input 
-                                               
+                                               ref={input2Ref}
                                                 type="text" 
                                                 value={textUpdate} 
                                                 onChange={(e)=>setTextUpdate(e.target.value)}
                                                 onKeyDown={handleUpdate}
-                                                className="bg-slate-500/60 px-2 py-1 rounded-md outline-none w-full min-h-4"
+                                                className="bg-slate-500/60 px-2 py-1 pr-16 rounded-md outline-none w-full min-h-4"
                                             />
                                         </OutsideClickHandler>
+                                        <div className="absolute top-[1.75rem] right-2 text-neutral-400 text-[13px] flex items-center justify-start gap-1 ">
+                                            <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
+                                            <span>Enter</span>
+                                        </div>
                                     </div>
                                 )
-                                :content && content}
+                                :(
+                                    <span>
+                                        <span>{content && content}</span>
+                                        {/* <span>{Icon !== null && (<Icon/>)}</span> */}
+                                    </span>
+                                )
+                                }
                             </div>
-                            <div className="flex items-center justify-start gap-2 text-neutral-400">
+                            <div className=" flex items-center justify-start gap-2 text-neutral-400">
                                 <div className="flex items-center justify-start gap-1">
                                    
-                                    { currentUserId?.id === userId && heartObj && heartObj.status === 'yes' ?(
+                                    { heartStatus ?(
                                         <FaHeart  className="w-3 h-3 " onClick={()=>handleCreateHeart(id)}/>
                                     ):(
                                         <FaRegHeart className="w-3 h-3 " onClick={()=>handleCreateHeart(id)}/>
                                     )}
-                                     <span>{heart.length}</span>
+                                     <span>{isLoadingHeart ?heart.length + 1 : heart.length}</span>
                                 </div>
-                                <div className="flex items-center justify-start gap-2"  onClick={()=>setOpenReply(!openReply)}>
-                                    <Popover>
-                                        <PopoverTrigger>
-                                            <span className="flex items-center justify-start gap-2">
-                                               <span className="text-[13px] underline"> Reply <span>{rellyComment.length}</span></span>
-                                               
-                                            </span>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            side="right"
-                                            className=" min-w-[30rem] w-full rounded-md shadow-md px-2 py-2 text-[14px] mt-4"
-                                        >
-                                            <label htmlFor="">
-                                                <span>Reply</span>
-                                                <input 
-                                                    type="text" 
-                                                    className="w-full px-2 py-1 rounded-md border border-slate-500 "
-                                                    value = {text}
-                                                    onChange={(e)=>setText(e.target.value)}
-                                                />
-                                            </label>
-                                            <input type="submit" value="Reply" onClick={handleSubmit} className="bg-slate-900 px-2 py-2 flex items-center justify-center w-full text-neutral-100 rounded-md mt-2" />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <span>{openReply ? (
-                                            <IoIosArrowUp className="w-3 h-3 text-neutral-400 ml-2" />
+                                <div className=" group flex items-center justify-start text-[14px] gap-2 cursor-pointer hover:text-neutral-100"  onClick={()=>setOpenReply(!openReply)}>
+                                   
+                                        Reply {`(${rellyComment && rellyComment.length})`} <span>{openReply ? (
+                                            <IoIosArrowUp className="w-3 h-3 text-neutral-400 ml-2   group-hover:text-neutral-100" />
                                         ): (
-                                            <IoIosArrowDown className="w-3 h-3 text-neutral-400 ml-2" />
+                                            <IoIosArrowDown className="w-3 h-3 text-neutral-400 ml-2 group-hover:text-neutral-100" />
                                         )}</span>
                             </div>
+                        
+                        </div>
+                        <div className={cn("relative",
+                                        openReply ? 'block' : 'hidden'
+                                     )}>
+                            <label htmlFor="">
+                                <span className="text-neutral-100 text-[14px]">Reply : {userName}</span>
+                                <input 
+                                    type="text" 
+                                    className="w-full px-2 pr-32 py-1 rounded-md border border-slate-500/60 bg-slate-500/60 h-auto  outline-none text-[14px] text-neutral-100"
+                                    value = {text}
+                                    onChange={(e)=>setText(e.target.value)}
+                                    placeholder="Reply..."
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          handleSubmit();
+                                        }
+                                      }}
+                                />
+                            </label>
+                            <div className="absolute top-[1.55rem] right-16 text-neutral-400 text-[13px] flex items-center justify-start gap-1 ">
+                                <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
+                                <span>Enter</span>
+                            </div>
+                            <input type="submit" value="Reply" onClick={handleSubmit} className="absolute top-[0.9rem] cursor-pointer right-1 bg-[#4FA29E] px-2 py-0.5 text-[13px] flex items-center justify-center  text-neutral-100 rounded-md mt-2" />
                         </div>
                     </div>
-                        {rellyComment && rellyComment.length>0 && (
+
+                    {
+
+                            isLoadingReply ?(
+                                <div>
+                                    <div className=" flex flex-col gap-1 px-2 mt-2">
+                                    <div className="flex items-center justify-start gap-2">
+                                        <Skeleton className="w-7 h-7 rounded-full aspect-square" />
+                                        <Skeleton className="w-14 h-4" />
+                                        <Skeleton className="w-20 h-4" />
+                                    </div>
+                                    <div className="px-6">
+                                        <Skeleton className="w-full h-8" />
+                                    </div>
+                                    <div className="px-6">
+                                        <Skeleton className="w-20 h-4" />
+
+                                    </div>
+                                </div>
+                                {rellyComment && rellyComment.length>0 && (
+                                rellyComment.map((item:any)=>{
+                                    return <div key={item.id} className={cn(" ",
+                                                                            openReply ? 'flex flex-col gap-2 ml-1 my-1': 'hidden'
+                                                                        )}>
+                                                <ItemReply 
+                                                    key={item.id}
+                                                    content ={item.content}
+                                                    userName = {item.userName}
+                                                    userImage = {item.userImage}
+                                                    createdAt = {item.createdAt}
+                                                    id={item.id}
+                                                    heart = {item.heartRelly}
+                                                    currentUser= {currentUser}
+                                                    userId = {item.userId}
+                                                    user = {user}
+                                                    relly = {relly}
+                                                    heartRelly = {heartRelly}
+                                                />
+                                            </div>
+                                })
+                            )}
+                                </div>
+                            )
+                            :
+                            (
+                                rellyComment && rellyComment.length>0 && (
+                                    rellyComment.map((item:any)=>{
+                                        return <div key={item.id} className={cn(" ",
+                                                                                openReply ? 'flex flex-col gap-2 ml-1 my-1': 'hidden'
+                                                                            )}>
+                                                    <ItemReply 
+                                                        key={item.id}
+                                                        content ={item.content}
+                                                        userName = {item.userName}
+                                                        userImage = {item.userImage}
+                                                        createdAt = {item.createdAt}
+                                                        id={item.id}
+                                                        heart = {item.heartRelly}
+                                                        currentUser= {currentUser}
+                                                        userId = {item.userId}
+                                                        user = {user}
+                                                        relly = {relly}
+                                                        heartRelly = {heartRelly}
+                                                    />
+                                                </div>
+                                    })
+                                )
+                            )
+
+                            }
+                        {/* {rellyComment && rellyComment.length>0 && (
                             rellyComment.map((item:any)=>{
                                 return <div key={item.id} className={cn(" ",
                                                                         openReply ? 'flex flex-col gap-2 ml-1 my-1': 'hidden'
@@ -359,7 +482,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                                             />
                                         </div>
                             })
-                        )}
+                        )} */}
                 </div>
            </div> 
     )
