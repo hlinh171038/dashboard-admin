@@ -86,9 +86,9 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 toast.error("Something went wrong !!!")
             }).finally(()=>{
                 setCheckId([]);
-            
+                
                 setIsLoading(false)
-               
+                router.push('/dashboards/customers?search=&page=1&per_page=10')
             })
             axios.post('/api/create-new-history',{
                 userId: currentUserInfo && currentUserInfo.id,
@@ -105,6 +105,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
             }).
             finally(()=>{
                 setIsLoading(false)
+                
             })
     },[router,currentUserInfo,currentUser])
 

@@ -87,6 +87,7 @@ const Table:React.FC<TableProps> = ({
         axios.post('/api/delete-discount',{checkId:array})
             .then((res)=>{
                 console.log(res.data)
+                setData(res.data && res.data)
                 //toast.success('removed ');
                 router.refresh()
             })
@@ -111,7 +112,7 @@ const Table:React.FC<TableProps> = ({
             }).
             finally(()=>{
                 setIsLoading(false)
-               // router.push('/dashboards/discount?search=&page=1&per_page=10')
+                router.push('/dashboards/discount?search=&page=1&per_page=10')
             })
     },[router,currentUser,currentUserInfo])
 

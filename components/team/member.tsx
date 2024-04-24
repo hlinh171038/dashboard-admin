@@ -116,6 +116,7 @@ const Member:React.FC<MemberProps> = ({
                 setCheckId([]);
                 setIsLoading(false)
                 setDele(true)
+                router.push('/analytics/team?search_admin=&page_admin=1&per_page_admin=10')
             })
             //handleUpdate()
     },[router])

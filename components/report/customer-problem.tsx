@@ -91,6 +91,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
             }).finally(()=>{
                 setCheckId([]);
                 setIsLoading(false)
+                router.push('/analytics/report?search=&page=1&per_page=10')
             })
             axios.post('/api/create-new-history',{
                 userId: currentUserInfo && currentUserInfo.id,

@@ -100,6 +100,7 @@ const TableProduct:React.FC<TableProductProps> = ({
             }).finally(()=>{
                 setCheckId([]);
                 setIsLoading(false)
+                router.push('/dashboards/product?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10')
             })
             axios.post('/api/create-new-history',{
                 userId: currentUserInfo && currentUserInfo.id,
