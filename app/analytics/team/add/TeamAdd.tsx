@@ -72,6 +72,7 @@ const Add:React.FC<AddProps> = ({
 
      //handle back product
      const handleBack = useCallback(()=>{
+        setText('')
         router.push(`/analytics/team/add?search=&page=1&per_page=10`);
     },[router])
 

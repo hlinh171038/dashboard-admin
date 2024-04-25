@@ -15,12 +15,14 @@ import { toast } from "sonner";
 
 interface AddByIdProps {
     id:string;
-    users: User[] | any
+    users: User[] | any;
+    currentUser: any;
 }
 
 const AddById:React.FC<AddByIdProps> = ({
     id:ad,
-    users = []
+    users = [],
+    currentUser
 }) =>{
     const [admin,setAdmin] = useState<any>([])
     const [department,setDepartment] = useState('');
@@ -31,6 +33,7 @@ const AddById:React.FC<AddByIdProps> = ({
     const [openLeader,setOpenLeader] = useState(false);
     const [isLoading,setIsLoading] = useState(false);
     const [finish,setFinish] = useState(false)
+    const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
     const router = useRouter()
 
    
@@ -89,6 +92,11 @@ const AddById:React.FC<AddByIdProps> = ({
 
     //handle add new addmin
     const handleAddNewAdmin = useCallback(()=>{
+
+        if(!currentUser) {
+            toast.warning('have not login !!!');
+            return;
+        }
         setFinish(true)
         if(department === '' ) {
             toast.warning('choosen department !!!');
@@ -116,7 +124,24 @@ const AddById:React.FC<AddByIdProps> = ({
                 router.refresh()
                 router.push(`/analytics/team`)
             })
-    },[router,department,permission,role,ad])
+            axios.post('/api/create-new-history',{
+                userId: currentUserInfo && currentUserInfo.id,
+                title:`add new admin`,
+                type: 'add-user-admin'
+            })
+            .then((res)=>{
+                
+                toast.success('removed ');
+                router.refresh();
+            })
+            .catch((err:any)=>{
+                toast.error("Something went wrong !!!")
+            }).
+            finally(()=>{
+                setIsLoading(false)
+                
+            })
+    },[router,department,permission,role,ad,currentUser,currentUserInfo])
 
     useEffect(()=>{
         const result = users && users.filter((item:any)=>item.role === 'yes');
@@ -176,6 +201,15 @@ const AddById:React.FC<AddByIdProps> = ({
         setAdmin(re)
         
     },[users])
+
+    useEffect(()=>{
+
+        if(currentUser) {
+            const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+            setCurrentUserInfo(result)
+        }
+        
+      },[currentUser,users])
     return (
         <div className="w-full h-auto px-2 text-neutral-400 text-[14px]">
             
