@@ -46,19 +46,8 @@ const ItemTable:React.FC<ItemUserProps> = ({
             toast.warning(`${name} is an admin.`);
             return;
         }
-        router.push(`/analytics/team?admin=${id}&search=&page=1&per_page=10`)
-        // setIsLoading(true)
-        // axios.post('/api/update-admin',{id})
-        //     .then((res)=>{
-        //         toast.success("success")
-        //         router.refresh();
-        //     })
-        //     .catch((err:any)=>{
-        //        toast.error('Some thing went wrong')
-        //     })
-        //     .finally(()=>{
-        //         setIsLoading(false)
-        //     })
+        router.push(`/analytics/team/add/${id}`)
+     
     },[router,role,name,id])
     return (
         <tr>
@@ -88,6 +77,7 @@ const ItemTable:React.FC<ItemUserProps> = ({
             </td>
             
             <td className="cursor-pointer underline">
+                <div className="flex items-center justify-end">
                 <button
                     disabled={isLoading}
                      onClick={handleAddAdmin}
@@ -106,6 +96,7 @@ const ItemTable:React.FC<ItemUserProps> = ({
                     {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
                     
                 </button>
+                </div>
             </td>
         </tr>
     )

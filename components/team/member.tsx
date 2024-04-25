@@ -131,17 +131,9 @@ console.log(data)
      const start =(per_page_admin * page_admin) -per_page_admin;  //0,5,10,15,...
     const end = per_page_admin * page_admin;               //5,10,15
 
-     // updateFilterArr
-     
-     // max
-     //const maxTable = Math.ceil(member && member.length / per_page_admin);
      const updateData = data && data.slice(start,end);
 
-    // useEffect(()=>{
-    //    const result =  member && member.filter((item:any)=>item.email.includes(search_admin));
-       
-    //    setFillterArr(result)
-    // },[member,search_admin])
+    
   
     // search + skelton
     useEffect( ()=>{
@@ -166,11 +158,7 @@ console.log(data)
     console.log(data)
     console.log(user)
 
-    // useEffect(()=>{
-    //     setData(data)
-        
-    //     setUpdateData(updateData)
-    // },[data,end,start])
+  
     
     return (
         <div className="relative px-2 w-full text-[14px] text-neutral-400">
@@ -182,44 +170,8 @@ console.log(data)
                     user2={member}
                     currentUser={currentUser}
                     />
-            <Popover>
-                    <PopoverTrigger  >
-                    <div>
-                        <div className="inline-flex px-2 py-1 rounded-md items-center justify-start gap-2 text-neutral-100 mt-2 hover:bg-slate-500/30 cursor-pointer ">
-                            <GoPlus className="w-4 h-4 text-neutral-100" />
-                            <div className="text-[14px]">Add other</div>
-                        </div>
-                    </div>    
-                    </PopoverTrigger>
-                    <PopoverContent  
-                        side="bottom" 
-                        align="start" 
-                        sideOffset={4}
-                        className="bg-neutral-100 text-slate-600 text-[13px]  rounded-md mr-2 "
-                        >
-                            {!admin ?(
-                                <div className="p-2">
-                                    <Table 
-                                        //user = {user}
-                                        userSearch ={userSearch}
-                                    />
-                                    <Pagination 
-                                        search={search}
-                                        page={page}
-                                        per_page={per_page}
-                                        max={max}
-                                    />
-                                </div>
-                            ):(
-                                <Department 
-                                    admin ={admin}
-                                    users = {user}
-                                />
-                            )}
-                          
-                    </PopoverContent>
-                </Popover>
-                
+            
+                <div onClick={()=>router.push('/analytics/team/add')} className="cursor-pointer ">Add +</div>
                 </div>
                 <div className=" flex flex-col gap-2 my-2">
                     {checkId.length >0 && (
@@ -279,22 +231,7 @@ console.log(data)
                                 />
                                 )
                             }))}
-                        {/* {updateData && updateData.map((item:any)=>{
-                        return (
-                            <MemberItem
-                                key={item.id}
-                                id={item.id}
-                                email = {item.email}
-                                position ={item.position}
-                                isLeader = {item.isLeader}
-                                permission = {item.permission}
-                                user={user}
-                                currentUser = {currentUser}
-                                check={checkId && checkId.includes(item.id)}
-                                handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
-                            />
-                        )
-                    })} */}
+                      
                     </table>
                     
                 </div>
