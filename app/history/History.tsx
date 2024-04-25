@@ -11,7 +11,7 @@ import { MdHistory } from "react-icons/md";
 import { toast } from "sonner";
 
 interface HistoryProps {
-    history:| any;
+   history:| any;
     currentUser: any;
     query:string;
     user: User[] | any;
@@ -23,6 +23,7 @@ const History:React.FC<HistoryProps> = ({
     currentUser,
     query
 }) =>{
+    //const [history,setHistory] = useState<any> ([])
     const [data,setData] = useState<any>([])
     const [dataSearch,setDataSearch] = useState<any>([])
     const [rootData,setRootData] = useState<any>([])
@@ -106,6 +107,29 @@ const History:React.FC<HistoryProps> = ({
     const handleBackProduct = useCallback(()=>{
         router.push(`/analytics/report/history?query=`);
     },[router])
+
+   // search + skelton
+//    useEffect( ()=>{
+//     setIsLoading(true)
+//    // console.log(array)
+//     axios.post('/api/filter-history',{query})
+//         .then((res)=>{
+//             console.log(res.data)
+//             setData(res.data && res.data)
+//             //toast.success('search ');
+//             router.refresh()
+           
+//         })
+//         .catch((err:any)=>{
+//             toast.error("Something went wrong !!!")
+//         }).finally(()=>{
+//             setCheckId([]);
+//             setIsLoading(false)
+           
+//         })
+//  },[query,router])
+
+//  console.log(history)
  
     return (
         <div className="px-2">
