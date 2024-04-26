@@ -35,6 +35,7 @@ interface ContentProps {
     handleLoading: (value:any) =>void;
     removed: string
     updated: string
+    heart:string
 }
 
 const Content:React.FC<ContentProps> = ({
@@ -50,7 +51,8 @@ const Content:React.FC<ContentProps> = ({
    add,
    handleLoading,
    removed,
-   updated
+   updated,
+   heart
 }) =>{
 
     const [commentArr,setCommentArr] = useState<any>([])
@@ -119,7 +121,7 @@ console.log(commentArr)
             }).finally(()=>{
                 setIsLoading(false)
             })
-    },[comment_page,comment_per_page,sort,add,removed,updated])
+    },[comment_page,comment_per_page,sort,add,removed,updated,heart])
    
     return (
         <div  >

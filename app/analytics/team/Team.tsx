@@ -29,6 +29,7 @@ interface TeamProps {
     comment_per_page: number;
     sort: string;
     removed: string;
+    heart:string;
     updated:string;
     add: string;
     currentUser: any;
@@ -54,6 +55,7 @@ const Team:React.FC<TeamProps> = ({
     comment_per_page,
     sort,
     removed,
+    heart,
     updated,
     add,
     currentUser,
@@ -297,6 +299,7 @@ const Team:React.FC<TeamProps> = ({
                                 sort = {sort}
                                 add ={add}
                                 removed = {removed}
+                                heart = {heart}
                                 updated = {updated}
                             />
                         </div>

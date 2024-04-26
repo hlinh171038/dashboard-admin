@@ -19,6 +19,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     const sort = typeof searchParams.sort === 'string' ? searchParams.sort : '' 
     const updated = typeof searchParams.updated === 'string' ? searchParams.updated : ''
     const removed = typeof searchParams.removed === 'string' ? searchParams.removed : ''
+    const heart = typeof searchParams.heart === 'string' ? searchParams.heart : ''
     const add = typeof searchParams.add === 'string' ? searchParams.add:''
     const admin = typeof searchParams.admin === 'string' ? searchParams.admin: ''; 
     const search_admin = typeof searchParams.search_admin === 'string' ? searchParams.search_admin: ''
@@ -48,6 +49,7 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
                 comment_per_page = {comment_per_page}
                 sort ={sort}
                 removed = {removed}
+                heart = {heart}
                 updated = {updated}
                 add = {add}
                 page_admin ={page_admin}

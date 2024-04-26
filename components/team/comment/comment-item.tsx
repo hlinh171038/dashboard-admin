@@ -189,7 +189,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 commentId:id,
             })
             .then((res:any)=>{
-            
+                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&heart=${id}`)
                 router.refresh();
                 toast.success("success");
             })

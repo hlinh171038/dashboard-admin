@@ -18,6 +18,7 @@ interface CommentProps {
     sort: string
     add:string
     removed: string;
+    heart:string
     updated:string;
 }
 
@@ -32,6 +33,7 @@ const CommentSection:React.FC<CommentProps> = ({
     sort,
     add,
     removed,
+    heart,
     updated
 }) =>{
     const [loading,setLoading] = useState(false)
@@ -63,6 +65,7 @@ const CommentSection:React.FC<CommentProps> = ({
                 add = {add}
                 removed ={removed}
                 updated = {updated}
+                heart ={heart}
             />
         </div>
     )
