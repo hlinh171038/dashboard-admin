@@ -93,6 +93,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         })
         .then((res:any)=>{
             toast.success('New reply.')
+            router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&add=${crypto.randomUUID()}`) 
             router.refresh()
         })
         .catch((error:any)=>{
@@ -130,6 +131,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         axios.post('/api/delete-comment',{id})
         .then((res:any)=>{
             toast.success("Deleted.")
+            router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&removed=${id}`) 
             router.refresh();
         })
         .catch((error:any)=>{
@@ -137,6 +139,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         })
         .finally(()=>{
             setIsLoading(false)
+           
         })
 
        
@@ -161,6 +164,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
             })
             .then((res:any)=>{
                 toast.success("Updated.");
+                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&updated=${id}`)
                 router.refresh();
             })
             .catch((error:any)=>{
@@ -461,28 +465,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                             )
 
                             }
-                        {/* {rellyComment && rellyComment.length>0 && (
-                            rellyComment.map((item:any)=>{
-                                return <div key={item.id} className={cn(" ",
-                                                                        openReply ? 'flex flex-col gap-2 ml-1 my-1': 'hidden'
-                                                                    )}>
-                                            <ItemReply 
-                                                key={item.id}
-                                                content ={item.content}
-                                                userName = {item.userName}
-                                                userImage = {item.userImage}
-                                                createdAt = {item.createdAt}
-                                                id={item.id}
-                                                heart = {item.heartRelly}
-                                                currentUser= {currentUser}
-                                                userId = {item.userId}
-                                                user = {user}
-                                                relly = {relly}
-                                                heartRelly = {heartRelly}
-                                            />
-                                        </div>
-                            })
-                        )} */}
+                       
                 </div>
            </div> 
     )

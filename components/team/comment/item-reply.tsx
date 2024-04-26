@@ -8,14 +8,14 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import OutsideClickHandler from "react-outside-click-handler";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { HeartReply, Relly, User } from "@prisma/client";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdDeleteOutline, MdOutlineUpdate } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineKeyboardCommandKey, MdOutlineUpdate } from "react-icons/md";
 
   interface ItemReplyProps {
     content: string;
@@ -51,6 +51,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
     const [currentUserId,setCurrentUserId] = useState<any>(null)
     const [showHeart,setShowHeart] = useState<any>(null)
     const [numberic,setNumberic] = useState(0)
+    const input2Ref = useRef<any>(null);
     const router = useRouter()
      //handle delete
      const handleDelete = useCallback((id:string)=>{
@@ -58,6 +59,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
         axios.post('/api/delete-reply',{id})
         .then((res:any)=>{
             toast.success('Deleted.')
+            router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&removed=${id}`)
             router.refresh();
         })
         .catch((error:any)=>{
@@ -88,6 +90,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
             })
             .then((res:any)=>{
                 toast.success("Updated.");
+                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&updated=${id}`)
                 router.refresh();
             })
             .catch((error:any)=>{
@@ -179,6 +182,15 @@ const ItemReply:React.FC<ItemReplyProps> = ({
         let result = heartRelly.filter((item:any)=>item.rellyId === id);
         setNumberic(result.length)
       },[heartRelly,id])
+
+      // Focus on input if opened
+      useEffect(()=>{
+        if (update) {
+            console.log(input2Ref)
+            input2Ref.current.focus(); // Focus on input if opened
+          }
+      },[update])
+
     return (
         <div className="mt-1">
             <div className="flex items-center justify-between">
@@ -226,23 +238,36 @@ const ItemReply:React.FC<ItemReplyProps> = ({
                 <div className="border-l border-slate-950 ml-3 mt-1">
                     <div className="flex flex-col gap-1 ml-2 "> 
                             <div >
-                                {update ?
-                                    (
-                                        <div className="flex flex-col gap-1 text[14px] text-neutral-100">
-                                            <div><strong>Enter</strong> to update , click outside to cancel</div>
-                                            <OutsideClickHandler onOutsideClick={handleClickOutside}>
-                                                <input 
-                                                
-                                                    type="text" 
-                                                    value={textUpdate} 
-                                                    onChange={(e)=>setTextUpdate(e.target.value)}
-                                                    onKeyDown={handleUpdate}
-                                                    className="bg-slate-500/60 px-2 py-1 rounded-md outline-none w-full min-h-4"
-                                                />
-                                            </OutsideClickHandler>
+                            {update ?
+                                (
+                                    <div className="relative flex flex-col gap-1 text[14px] text-neutral-100">
+                                        <div className="flex items-center justify-end px-2">
+                                            <div className="text-neutral-100 text-[14px]"> Cancel: click outside.</div>
                                         </div>
-                                    )
-                                    :content && content}
+                                      
+                                        <OutsideClickHandler onOutsideClick={handleClickOutside}>
+                                            <input 
+                                               ref={input2Ref}
+                                                type="text" 
+                                                value={textUpdate} 
+                                                onChange={(e)=>setTextUpdate(e.target.value)}
+                                                onKeyDown={handleUpdate}
+                                                className="bg-slate-500/60 px-2 py-1 pr-16 rounded-md outline-none w-full min-h-4"
+                                            />
+                                        </OutsideClickHandler>
+                                        <div className="absolute top-[1.75rem] right-2 text-neutral-400 text-[13px] flex items-center justify-start gap-1 ">
+                                            <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
+                                            <span>Enter</span>
+                                        </div>
+                                    </div>
+                                )
+                                :(
+                                    <span>
+                                        <span>{content && content}</span>
+                                        {/* <span>{Icon !== null && (<Icon/>)}</span> */}
+                                    </span>
+                                )
+                                }
                             </div>
                             <div className="flex items-center justify-start gap-2 text-[14px] text-neutral-400">
                                 <div className="flex items-center justify-start gap-1">

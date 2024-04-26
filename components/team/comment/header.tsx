@@ -28,6 +28,7 @@ const Header:React.FC<HeaderProps> = ({
     const [text,setText] = useState('')
     const [userId,setUserId] =useState<any>([])
     const [isLoading,setIsLoading] = useState(false)
+    const [addNewData,setAddNewData] = useState<any>([])
     const router = useRouter()
    
   
@@ -44,10 +45,11 @@ const Header:React.FC<HeaderProps> = ({
             userImage: userId[0].image,
             userName: userId[0].name,
             text,
-            
+           
         })
         .then((res:any)=>{
             router.refresh()
+            //setAddNewData()
             toast.success("commented")
         })
         .catch((error:any)=>{
@@ -55,7 +57,7 @@ const Header:React.FC<HeaderProps> = ({
         })
         .finally(()=>{
             setIsLoading(false)
-            handleLoading(false)
+           
             setText('')
         })
         

@@ -21,6 +21,13 @@ export async function POST(request:Request) {
     
             }
         })
+        // const result = await prisma.comment.findMany({
+        //     skip:1,
+        //     take:5
+        //     orderBy: {
+        //         createdAt: 'desc'
+        //     }
+        // })
         return NextResponse.json(comment)
     } catch (error) {
         console.log(error)

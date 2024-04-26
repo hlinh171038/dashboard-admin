@@ -20,6 +20,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Pagination from "./pagination";
 
+
 interface ContentProps {
     user: User[] | any
     currentUser?: any;
@@ -29,7 +30,11 @@ interface ContentProps {
     loading: boolean;
     comment_page: number;
     comment_per_page:number;
-    sort: string
+    sort: string;
+    add:string;
+    handleLoading: (value:any) =>void;
+    removed: string
+    updated: string
 }
 
 const Content:React.FC<ContentProps> = ({
@@ -41,7 +46,11 @@ const Content:React.FC<ContentProps> = ({
    loading,
    comment_page,
    comment_per_page,
-   sort
+   sort,
+   add,
+   handleLoading,
+   removed,
+   updated
 }) =>{
 
     const [commentArr,setCommentArr] = useState<any>([])
@@ -59,14 +68,12 @@ const max = Math.ceil(comments && comments.length/comment_per_page);
     const handleSelected = (item:any)=>{
         let result:any[] = []
         switch(item) {
-            // case 'featured':
-            //             router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'featured'}&comment_page=${1}&comment_per_page=5`)
-            //             setTextSort('Featured Comment');break;
+          
             case 'lastest': 
-                        router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'desc'}&comment_page=${1}&comment_per_page=5`)
+                        router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=desc&comment_page=${1}&comment_per_page=5`)
                         ;setTextSort('Lastest Comment');break;
             default: 
-                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'asc'}&comment_page=${1}&comment_per_page=5`)
+                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=asc&comment_page=${1}&comment_per_page=5`)
                 ;setTextSort('Oldest Comment');break;        
         }
         setOpenSort(false)
@@ -90,18 +97,15 @@ console.log(commentArr)
         }
       }, [openSort]);
     
-    //  const handleUpdateLengthComment = useCallback((pre: number,check:string)=>{
-    //     if(check === 'show') {
-    //         router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${sort}&comment_page=${pre+1}&comment_per_page=5`)
-    //     } else {
-    //         router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${sort}&comment_page=${1}&comment_per_page=5`)
-    //     }
-        
-    //  },[router,sort])
+  
     
-    //  useEffect(()=>{
-    //     setCommentArr(comments && comments) 
-    // },[comments])
+     useEffect(()=>{
+        if(loading) {
+            router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=&comment_page=${1}&comment_per_page=5&add=${crypto.randomUUID()}`) 
+             
+            handleLoading(false)
+        }
+     },[router,loading,handleLoading])
 
      //console.log(comment)
      useEffect(()=>{
@@ -115,7 +119,7 @@ console.log(commentArr)
             }).finally(()=>{
                 setIsLoading(false)
             })
-    },[comment_page,comment_per_page,sort])
+    },[comment_page,comment_per_page,sort,add,removed,updated])
    
     return (
         <div  >
@@ -136,21 +140,27 @@ console.log(commentArr)
                     </div>
                     </div>
                     <div className=" ">
-                        {isLoading || loading ?(<div>
-                                    <div className=" flex flex-col gap-1">
-                                    <div className="flex items-center justify-start gap-2">
-                                        <Skeleton className="w-7 h-7 rounded-full aspect-square" />
-                                        <Skeleton className="w-14 h-4" />
-                                        <Skeleton className="w-20 h-4" />
-                                    </div>
-                                    <div className="px-6">
-                                        <Skeleton className="w-full h-8" />
-                                    </div>
-                                    <div className="px-6">
-                                        <Skeleton className="w-20 h-4" />
+                        {isLoading || loading ?(
+                                    [0,1,2,3,4,].map((item:any)=>{
+                                        return (
+                                            <div key={item} className="mt-2">
+                                                <div className=" flex flex-col gap-1">
+                                                <div className="flex items-center justify-start gap-2">
+                                                    <Skeleton className="w-7 h-7 rounded-full aspect-square" />
+                                                    <Skeleton className="w-14 h-4" />
+                                                    <Skeleton className="w-20 h-4" />
+                                                </div>
+                                                <div className="px-6">
+                                                    <Skeleton className="w-full h-8" />
+                                                </div>
+                                                <div className="px-6">
+                                                    <Skeleton className="w-20 h-4" />
 
-                                    </div>
-                                </div></div>):(
+                                                </div>
+                                            </div></div>
+                                        )
+                                    })
+                                ):(
                                     commentArr && commentArr.map((item:any)=>{
                                         return <CommentItem 
                                                     currentUser ={currentUser}

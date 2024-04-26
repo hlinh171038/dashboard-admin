@@ -16,7 +16,9 @@ interface CommentProps {
     comment_page: number;
     comment_per_page: number;
     sort: string
-
+    add:string
+    removed: string;
+    updated:string;
 }
 
 const CommentSection:React.FC<CommentProps> = ({
@@ -27,7 +29,10 @@ const CommentSection:React.FC<CommentProps> = ({
     heartRelly = [],
     comment_page,
     comment_per_page,
-    sort
+    sort,
+    add,
+    removed,
+    updated
 }) =>{
     const [loading,setLoading] = useState(false)
     //const [comments,setComments] = useState<any>([])
@@ -54,6 +59,10 @@ const CommentSection:React.FC<CommentProps> = ({
                 heartRelly ={heartRelly}
                 loading = {loading}
                 sort = {sort}
+                handleLoading = {handleLoading}
+                add = {add}
+                removed ={removed}
+                updated = {updated}
             />
         </div>
     )

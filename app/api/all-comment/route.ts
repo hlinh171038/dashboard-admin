@@ -8,7 +8,7 @@ export async function POST(request:Request) {
 
         const skip = (page -1) * per_page;
 
-        const query: any = {}
+      
 
          
 
@@ -16,7 +16,7 @@ export async function POST(request:Request) {
            skip,
            take:per_page,
            orderBy: {
-            createdAt: sort === '' ? 'desc' :'asc'
+            createdAt: sort ==='asc' ? 'asc' : 'desc'
            },
            include: {
             heart:true,
