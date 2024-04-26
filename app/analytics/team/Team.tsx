@@ -25,6 +25,9 @@ interface TeamProps {
     admin: string;
     page: number;
     per_page: number;
+    comment_page: number;
+    comment_per_page: number;
+    sort: string;
     currentUser: any;
     comments: Comment[] | any;
     relly: Relly[] | any;
@@ -43,6 +46,9 @@ const Team:React.FC<TeamProps> = ({
     admin,
     page,
     per_page,
+    comment_page,
+    comment_per_page,
+    sort,
     currentUser,
     heartRelly =[],
     search_admin,
@@ -279,6 +285,9 @@ const Team:React.FC<TeamProps> = ({
                                 comments = {comments}
                                 relly = {relly}
                                 heartRelly = {heartRelly}
+                                comment_page = {comment_page}
+                                comment_per_page = {comment_per_page}
+                                sort = {sort}
                             />
                         </div>
                     </TabsContent>

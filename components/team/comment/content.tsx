@@ -16,6 +16,9 @@ import {
   } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Pagination from "./pagination";
 
 interface ContentProps {
     user: User[] | any
@@ -23,7 +26,10 @@ interface ContentProps {
     comments : Comment[] | any;
     relly: Relly[] | any;
     heartRelly: HeartReply[] | any;
-    loading: boolean
+    loading: boolean;
+    comment_page: number;
+    comment_per_page:number;
+    sort: string
 }
 
 const Content:React.FC<ContentProps> = ({
@@ -32,44 +38,43 @@ const Content:React.FC<ContentProps> = ({
     comments =[],
    relly =[],
    heartRelly = [],
-   loading
+   loading,
+   comment_page,
+   comment_per_page,
+   sort
 }) =>{
 
-    const [commentArr,setCommentArr] = useState<any>(comments &&comments)
+    const [commentArr,setCommentArr] = useState<any>([])
     const [openSort,setOpenSort] = useState(false)
     const [textSort,setTextSort] = useState('sort by ...')
     const boxRef = useRef<any>(null);
-    const [updateComment,setUpdateComment] = useState<any>(comments.slice(0,5))
+    const [show,setShow] = useState<any>(5)
+    const updateComment = commentArr && commentArr.slice(0,show)
+    const [isLoading,setIsLoading] = useState(false)
+    const router = useRouter()
+    //
 
-
+const max = Math.ceil(comments && comments.length/comment_per_page);
 
     const handleSelected = (item:any)=>{
         let result:any[] = []
         switch(item) {
-            case 'featured': result = comments.sort((a:any,b:any)=>{
-                        if(a.heart.length > b.heart.length) return -1;
-                        if(a.heart.length < b.heart.length) return 1;
-                        return 0
-                        }); setTextSort('Featured Comment');break;
-            case 'lastest': result = comments.sort((a:any,b:any)=>{
-                        if(a.createdAt < b.createdAt) return -1;
-                        if(a.createdAt > b.createdAt) return 1;
-                        return 0
-                        });setTextSort('Lastest Comment');break;
-            default: result = comments.sort((a:any,b:any)=>{
-                    if(a.createdAt > b.createdAt) return -1;
-                    if(a.createdAt < b.createdAt) return 1;
-                    return 0
-                    });setTextSort('Oldest Comment');break;        
+            // case 'featured':
+            //             router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'featured'}&comment_page=${1}&comment_per_page=5`)
+            //             setTextSort('Featured Comment');break;
+            case 'lastest': 
+                        router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'desc'}&comment_page=${1}&comment_per_page=5`)
+                        ;setTextSort('Lastest Comment');break;
+            default: 
+                router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${'asc'}&comment_page=${1}&comment_per_page=5`)
+                ;setTextSort('Oldest Comment');break;        
         }
         setOpenSort(false)
         setCommentArr([...result])
     }
-    useEffect(()=>{
-        setCommentArr(comments && comments) 
-    },[comments])
+   
 
-console.log(comments)
+console.log(commentArr)
     //handle click outside
     const handleClickOutside = (event:any) => {
         if (boxRef.current && !boxRef?.current?.contains(event.target)) {
@@ -85,21 +90,37 @@ console.log(comments)
         }
       }, [openSort]);
     
-     const handleUpdateLengthComment = useCallback((pre: number)=>{
-        setUpdateComment(comments.slice(0,pre+5))
-     },[comments])
+    //  const handleUpdateLengthComment = useCallback((pre: number,check:string)=>{
+    //     if(check === 'show') {
+    //         router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${sort}&comment_page=${pre+1}&comment_per_page=5`)
+    //     } else {
+    //         router.push(`/analytics/team?search_admin=&page_admin=1&per_page_admin=10&sort=${sort}&comment_page=${1}&comment_per_page=5`)
+    //     }
+        
+    //  },[router,sort])
     
-    
+    //  useEffect(()=>{
+    //     setCommentArr(comments && comments) 
+    // },[comments])
+
+     //console.log(comment)
+     useEffect(()=>{
+        setIsLoading(true)
+        axios.post('/api/all-comment',{page:comment_page,per_page:comment_per_page,sort})
+            .then((res:any)=>{
+                console.log(res.data);
+                setCommentArr(res.data && res.data)
+            }).catch((error:any)=>{
+                console.log(error)
+            }).finally(()=>{
+                setIsLoading(false)
+            })
+    },[comment_page,comment_per_page,sort])
+   
     return (
         <div  >
-            {comments.length === 0 ?(
-            <div className="flex items-center justify-center w-full h-full">
-                <div className="flex items-center justify-center  gap-1 text-neutral-100 text-[15px]">
-                    <MdOutlineCommentsDisabled className="w-4 h-4 "/>
-                    <span>No comment here !!!</span>
-                </div>
-            </div>
-            ):(
+            {/* 
+            ):( */}
                 <div className="text-[14px] text-neutral-100 ">
                  <div className="flex items-center justify-end ">
                     <div className="relative w-[20%]">
@@ -115,7 +136,42 @@ console.log(comments)
                     </div>
                     </div>
                     <div className=" ">
-                        {
+                        {isLoading || loading ?(<div>
+                                    <div className=" flex flex-col gap-1">
+                                    <div className="flex items-center justify-start gap-2">
+                                        <Skeleton className="w-7 h-7 rounded-full aspect-square" />
+                                        <Skeleton className="w-14 h-4" />
+                                        <Skeleton className="w-20 h-4" />
+                                    </div>
+                                    <div className="px-6">
+                                        <Skeleton className="w-full h-8" />
+                                    </div>
+                                    <div className="px-6">
+                                        <Skeleton className="w-20 h-4" />
+
+                                    </div>
+                                </div></div>):(
+                                    commentArr && commentArr.map((item:any)=>{
+                                        return <CommentItem 
+                                                    currentUser ={currentUser}
+                                                    key={item.id}
+                                                    id={item.id}
+                                                    content ={item.content}
+                                                    title ={item?.title}
+                                                    createdAt ={item.createdAt}
+                                                    userId = {item.userId}
+                                                    userImage = {item.userImage}
+                                                    userName = {item.userName}    
+                                                    rellyComment = {item.relly}
+                                                    heart = {item.heart}
+                                                    user = {user}
+                                                    relly ={relly}
+                                                    heartRelly ={heartRelly}
+                                                />
+                                    })
+                                )}
+                        
+                        {/* {
 
                             loading ?(
                                 <div>
@@ -133,7 +189,7 @@ console.log(comments)
 
                                     </div>
                                 </div>
-                                 {updateComment && updateComment.map((item:any)=>{
+                                 {commentArr && commentArr.map((item:any)=>{
                                     return <CommentItem 
                                                 currentUser ={currentUser}
                                                 key={item.id}
@@ -155,7 +211,7 @@ console.log(comments)
                             )
                             :
                             (
-                                updateComment && updateComment.map((item:any)=>{
+                                commentArr && commentArr.map((item:any)=>{
                                     return <CommentItem 
                                                 currentUser ={currentUser}
                                                 key={item.id}
@@ -175,13 +231,32 @@ console.log(comments)
                                 })
                             )
                             
-                        }
+                        } */}
                     </div>
-                    <div className="flex items-center justify-end px-2">
-                        <div className="underline" onClick={()=>handleUpdateLengthComment(updateComment.length)}>{updateComment.length >= commentArr.length ? 'collapse' : 'show more'}</div>
-                    </div>
+                    {/* <div className="flex items-center justify-end px-2">
+                        <div className="underline cursor-pointer" >{(comment_page +1) * comment_per_page >= comments.length ? (
+                            <span onClick={()=>handleUpdateLengthComment(comment_page,'collapse')}>collapse {`(${updateComment.length})`}</span>
+                        ) : (
+                            <span onClick={()=>handleUpdateLengthComment(comment_page,'show')}>show more {`(${updateComment.length})`}</span>
+                        )}
+                        </div>
+                    </div> */}
+
+                    {commentArr.length === 0 && !isLoading  &&(
+                        <div className="flex items-center justify-center w-full h-full">
+                            <div className="flex items-center justify-center  gap-1 text-neutral-100 text-[15px]">
+                                <MdOutlineCommentsDisabled className="w-4 h-4 "/>
+                                <span>No comment here !!!</span>
+                            </div>
+                        </div>
+                    )}
+                    <Pagination 
+                        page ={comment_page}
+                        per_page = {comment_per_page}
+                        max = {max}
+                    />
                 </div>
-            )}
+       
           
           
         

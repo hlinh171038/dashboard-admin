@@ -112,7 +112,7 @@ const AddById:React.FC<AddByIdProps> = ({
         setIsLoading(true)
         axios.post('/api/update-admin',{id:ad,department,permission,role})
             .then((res)=>{
-                toast.success("success")
+               // toast.success("success")
                 router.refresh();
             })
             .catch((err:any)=>{
@@ -131,7 +131,7 @@ const AddById:React.FC<AddByIdProps> = ({
             })
             .then((res)=>{
                 
-                toast.success('removed ');
+                toast.success('add new admin.');
                 router.refresh();
             })
             .catch((err:any)=>{

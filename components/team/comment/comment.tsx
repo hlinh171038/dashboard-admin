@@ -3,8 +3,9 @@
 import { Comment, HeartReply, Relly, User } from "@prisma/client"
 import Content from "./content"
 import Header from "./header"
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { comment } from "postcss";
+import axios from "axios";
 
 interface CommentProps {
     currentUser?: any,
@@ -12,6 +13,10 @@ interface CommentProps {
     comments: Comment[] | any;
     relly:Relly[] | any;
     heartRelly :HeartReply[] | any;
+    comment_page: number;
+    comment_per_page: number;
+    sort: string
+
 }
 
 const CommentSection:React.FC<CommentProps> = ({
@@ -20,13 +25,17 @@ const CommentSection:React.FC<CommentProps> = ({
     comments =[],
     relly = [],
     heartRelly = [],
+    comment_page,
+    comment_per_page,
+    sort
 }) =>{
     const [loading,setLoading] = useState(false)
+    //const [comments,setComments] = useState<any>([])
     const handleLoading = useCallback((value:any)=>{
         setLoading(value)
     },[])
 
-    console.log(comment)
+   
     return (
         <div className="w-full px-2 py-1 ">
             <Header 
@@ -39,9 +48,12 @@ const CommentSection:React.FC<CommentProps> = ({
                 user ={user}
                 currentUser ={currentUser}
                 comments ={comments}
-                relly = {relly}
+                comment_page ={comment_page}
+                comment_per_page = {comment_per_page}
+                 relly = {relly}
                 heartRelly ={heartRelly}
                 loading = {loading}
+                sort = {sort}
             />
         </div>
     )

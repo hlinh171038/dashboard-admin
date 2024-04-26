@@ -38,7 +38,7 @@ const MailContent:React.FC<MailContentProps> = ({
         setIsLoading(true);
         axios.post('/api/delete-all-tempMail',{id})
         .then((res)=>{
-            
+            setData(res.data && res.data)
            // toast.success('Deleted');
             router.refresh();
         })
@@ -140,6 +140,7 @@ const MailContent:React.FC<MailContentProps> = ({
                                     userImage = {item.userImage}
                                     mailId = {item.id}
                                     userId ={userId}
+                                    setData = {setData}
                                 />
                     }):(
                         <div>
@@ -190,12 +191,13 @@ const MailContent:React.FC<MailContentProps> = ({
                                     userImage = {item.userImage}
                                     mailId = {item.id}
                                     userId ={userId}
+                                    setData ={setData}
                                 />
                     }):(
                         <div>
                             <div className="flex items-center justify-center gap-2 text-[14px] py-4">
                                 <LuMailWarning/>
-                                <div>No Readed Eamil </div>
+                                <div>No Readed Email </div>
                             </div>
                      </div> 
                     )
@@ -213,6 +215,7 @@ const MailContent:React.FC<MailContentProps> = ({
                                     userImage = {item.userImage}
                                     mailId = {item.id}
                                     userId ={userId}
+                                    setData = {setData}
                                 />
                     })}
                 </div>

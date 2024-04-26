@@ -14,6 +14,9 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
     const search = typeof searchParams.search === 'string' ? searchParams.search : ''
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
     const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10;
+    const comment_page = typeof searchParams.comment_page === 'string' ? Number(searchParams.comment_page): 1
+    const comment_per_page = typeof searchParams.comment_per_page === 'string' ? Number(searchParams.comment_per_page):5
+    const sort = typeof searchParams.sort === 'string' ? searchParams.sort : '' 
     const admin = typeof searchParams.admin === 'string' ? searchParams.admin: ''; 
     const search_admin = typeof searchParams.search_admin === 'string' ? searchParams.search_admin: ''
     const page_admin = typeof searchParams.page_admin === 'string' ? Number(searchParams.page_admin) : 1
@@ -38,6 +41,9 @@ const page = async({searchParams}:{searchParams: { [key: string]: string | strin
                 admin ={admin}
                 page= {page}
                 per_page ={per_page}
+                comment_page = {comment_page}
+                comment_per_page = {comment_per_page}
+                sort ={sort}
                 page_admin ={page_admin}
                 per_page_admin ={per_page_admin}
                 currentUser = {currentUser}

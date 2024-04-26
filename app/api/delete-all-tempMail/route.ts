@@ -11,7 +11,8 @@ export async function POST(request:Request) {
         if(!check) {
             return NextResponse.json({error:"Id not exist"},{status:500})
         }
-        return NextResponse.json(check)
+        const result = await prisma.tempMail.findMany()
+        return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json({error:"Internal Server Error"},{status:500})
     }

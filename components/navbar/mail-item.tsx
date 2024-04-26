@@ -27,6 +27,7 @@ interface MailItemProps {
     userImage : string
     mailId: string
     userId:string
+    setData:any;
 }
 
 const MailItem:React.FC<MailItemProps> = ({
@@ -36,7 +37,8 @@ const MailItem:React.FC<MailItemProps> = ({
     userName,
     mailId,
     userId,
-    mailRecive
+    mailRecive,
+    setData
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
@@ -50,7 +52,7 @@ const MailItem:React.FC<MailItemProps> = ({
         setIsLoading(true);
         axios.post('/api/delete-tempMail',{mailId})
         .then((res)=>{
-            
+            setData(res.data && res.data)
            // toast.success('Deleted');
             router.refresh();
         })

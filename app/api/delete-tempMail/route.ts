@@ -19,7 +19,9 @@ export async function POST(request:Request) {
            
 
         })
-        return NextResponse.json(temp)
+
+        const result = await prisma.tempMail.findMany()
+        return NextResponse.json(result)
     } catch (error:any) {
         console.log(error)
         return NextResponse.json({error:"Internal Server Error"},{status:500}) 

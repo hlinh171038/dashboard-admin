@@ -55,7 +55,7 @@ const HeaderTable:React.FC<HeaderProps> = ({
     // }
 
     useEffect(()=>{
-        router.push(`/analytics/team?search_admin=${query}&page_admin=1&per_page_admin=10`)
+        router.push(`/analytics/team?search_admin=${query}&page_admin=1&per_page_admin=10&sort=&comment_page=1&comment_per_page=5`)
     },[router,query])
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{
