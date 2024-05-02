@@ -14,7 +14,7 @@ interface CategoryRadioProps {
     category: string,
     register: UseFormRegister<FieldValues>
     errors: FieldErrors
-    exercute: any
+    exercute?: any
 }
 const cate = ['cloth','t-shirt','shirt','pant','jean','vest','tie','belt','glasses','hat','craft','skirt','stock','bag','slipper','shoes','underware','watch','jacket']
 const CategoryRadio:React.FC<CategoryRadioProps> = ({
