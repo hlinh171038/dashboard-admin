@@ -24,7 +24,7 @@ interface InputNumberProps {
     wide?: boolean
     unit?: string
     value?: number
-    
+    exercute:any
 }
 
 const InputPrice:React.FC<InputNumberProps> = (
@@ -41,6 +41,7 @@ const InputPrice:React.FC<InputNumberProps> = (
         wide,
         unit,
         value:va,
+        exercute
      
     }
 ) =>{
@@ -81,6 +82,7 @@ const InputPrice:React.FC<InputNumberProps> = (
                             className="px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-[14px] text-neutral-200 focus:outline-none w-full" 
                             placeholder={placeholder} 
                             {...register(id)}
+                            disabled={exercute}
                             />
                     </div>
                 

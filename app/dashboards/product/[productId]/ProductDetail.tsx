@@ -28,6 +28,7 @@ import { toast } from "sonner"
 import { RxCross2 } from "react-icons/rx"
 import DiscountSearch from "@/components/products/discount-search"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { truncate } from "fs"
 
 type formData = {
     productId: string,
@@ -54,16 +55,21 @@ type formData = {
 
 interface ProductDetailProps {
     product: Product[] | undefined | any;
-    discount: Discount[] | any
+    discount: Discount[] | any;
+    currentUser: any;
+    users: User[] | any;
 }
 
 
 const ProductDetail:React.FC<ProductDetailProps> = ({
     product,
     discount,
+    currentUser,
+    users = []
 }) =>{
     const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
+  const [exercute,setExercute] = useState(true)
   //const [userId,setUserId] = useState(user?.id )
   const [cate,setCate] = useState('')
 
@@ -139,22 +145,26 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       const userId = watch('userId')
       const discountId = watch('discountId')
 
+      console.log(transaction)
+
    
       const onSubmit: SubmitHandler<FieldValues> = (data) => {  
-  
-        setIsLoading(true)
-        axios.post('/api/update-product',data)
-              .then((res)=>{
-                toast.success('Product is updated.')
-                router.push('/dashboards/product')
-                router.refresh()
-              })
-              .catch((err:any)=>{
-                toast.error('Something went wrong')
-              })
-              .finally(()=>{
-                setIsLoading(false)
-              })
+        if(!exercute) {
+          setIsLoading(true)
+          axios.post('/api/update-product',data)
+                .then((res)=>{
+                  toast.success('Product is updated.')
+                  router.push('/dashboards/product')
+                  router.refresh()
+                })
+                .catch((err:any)=>{
+                  toast.error('Something went wrong')
+                })
+                .finally(()=>{
+                  setIsLoading(false)
+                })
+        }
+       
       }
 
       const setCustomerValue = useCallback((id:string, value:any) => {
@@ -183,7 +193,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
 
       //handle add transaction
       const handleAddTransaction = (transaction:any,value:string) =>{
-    
+          
           const index = transaction.find((val:string)=>val === value)
  
           if(index) {
@@ -256,13 +266,15 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
 
        // handle delete tag
        const handleDeleteTagItem = useCallback((id:string)=>{
+        if(!exercute) {
+
+          const result = [...tag];
      
-        const result = [...tag];
-   
-        const re = result.filter((item:any)=> item !== id)
-  
-        setCustomerValue('tag',re)
-      },[setCustomerValue,tag])
+          const re = result.filter((item:any)=> item !== id)
+    
+          setCustomerValue('tag',re)
+        }
+      },[setCustomerValue,tag,exercute])
 
   
 
@@ -278,6 +290,16 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [router]);
+
+  useEffect(()=>{
+    const result = users && users.find((item:any)=>item.email === currentUser.user.email);
+    if(!result) {
+      toast.warning("login !!!");
+    }
+    if(result && result.role === 'yes' && result.permission !== 'read') {
+      setExercute(false)
+    }
+},[currentUser,users])
     return (
         
         <div className="flex flex-col justify-start items-start gap-2 w-full px-2">
@@ -295,9 +317,11 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   <UploadImage 
                       value={image}
                       onChange={(value)=>setCustomerValue("image",value)}
+                      
                   />
             </div>
             <div className="col-span-2 bg-slate-600 rounded-md p-2">
+              <div className="text-red-600 text-[14px] text-end">Only update product with exercute permission</div>
                 <div className="relative">
                   <InputCustomerId 
                     id="title"
@@ -306,6 +330,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     placeholder="product name"
                     type="text"
                     errors={errors}
+                    disabled ={exercute}
                   />
                   {errors.title && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.title.message as string}</span>}
                 </div>
@@ -319,6 +344,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                         placeholder="brand"
                         type="text"
                         errors={errors}
+                        disabled ={exercute}
                     />
                     {errors.brand && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.brand.message as string}</span>}
                   </div>
@@ -327,6 +353,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     register={register}
                     errors={errors}
                     category={category}
+                    exercute = {exercute}
                   />
                  
 
@@ -342,6 +369,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                         type="number"
                         errors={errors}
                         unit="#"
+                        exercute ={exercute}
                       />
                       {errors.stock && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.stock.message as string}</span>}
                     </div>
@@ -354,6 +382,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                           type="number"
                           errors={errors}
                           unit="kg"
+                          exercute ={exercute}
                         />
                          {errors.weight && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
                     </div>
@@ -366,6 +395,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                               <div className="flex flex-col items-start justify-start  relative h-full">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
                                   <textarea
+                                      disabled ={exercute}
                                       {...register("location")} 
                                       className="
                                       outline-none 
@@ -396,6 +426,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                               <div className="flex flex-col items-start justify-start  relative ">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Description</label>
                                   <textarea
+                                      disabled ={exercute}
                                       {...register("description")} 
                                       className="
                                       outline-none 
@@ -435,6 +466,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     column= {3}
                     title="Color"
                     colorValue ={color}
+                    exercute = {exercute}
                   />
                    {errors.color && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.color.message as string}</span>}
                  </div>
@@ -445,6 +477,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                       column={3}
                       title="Size"
                       sizeValue = {size}
+                      exercute = {exercute}
                     />
                      {errors.size && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.size.message as string}</span>}
                   </div>
@@ -455,6 +488,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                       column={2}
                       title="Design for"
                       personValue ={person}
+                      exercute = {exercute}
                     />
                     {errors.person && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.person.message as string}</span>}
                   </div>
@@ -468,6 +502,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     unit={unit}
                     register={register}
                     errors={errors}
+                    exercute ={exercute}
                   />
                    {errors.unit && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.unit.message as string}</span>}
                 </div>
@@ -476,6 +511,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   <Transaction 
                       handleAddTransaction = {handleAddTransaction}
                       transaction = {transaction}
+                      exercute ={exercute}
                   />
                   {errors.transaction && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.transaction.message as string}</span>}
                 </div>
@@ -490,7 +526,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     register={register}
                     errors={errors}
                     unit={unit ? unit:'vnd'}
-                  
+                    exercute={exercute}
                     value={defaultPrice}
                   />
                    {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
@@ -508,6 +544,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     register={register}
                     errors={errors}
                     unit="%"
+                    exercute ={exercute}
                   />
                   {errors.tax && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
                 </div>
@@ -523,6 +560,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     register={register}
                     errors={errors}
                     unit={unit ? unit:'vnd'}
+                    exercute ={exercute}
                   />
                   {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
               </div>
@@ -535,6 +573,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     handleAddDiscountId = {handleAddDiscountId}
                     hadleDeleteDiscount = {handleDeleteDiscount}
                     detailId = {discountId}
+                    exercute ={exercute}
                   />
               </div>
               <div className="col-span-1  py-1 relative mb-2">
@@ -543,6 +582,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
               <div className=" group flex gap-2 items-center justify-center  ">
                 <input 
                   type='text' 
+                  disabled={exercute}
                   placeholder="tag ..."
                   value={cate}
                   onChange={(e)=>setCate(e.target.value)}

@@ -14,14 +14,15 @@ interface CategoryRadioProps {
     category: string,
     register: UseFormRegister<FieldValues>
     errors: FieldErrors
-
+    exercute: any
 }
 const cate = ['cloth','t-shirt','shirt','pant','jean','vest','tie','belt','glasses','hat','craft','skirt','stock','bag','slipper','shoes','underware','watch','jacket']
 const CategoryRadio:React.FC<CategoryRadioProps> = ({
     id,
     category,
     register,
-    errors
+    errors,
+    exercute
 }) =>{
     return (
         <div className=" col-span-1 w-full flex flex-col items-start justify-start gap-[1%] relative h-[70px]">
@@ -55,7 +56,7 @@ const CategoryRadio:React.FC<CategoryRadioProps> = ({
                                 return (<label 
                                             key={item} 
                                             className="flex items-center justify-start">
-                                            <input type="radio" {...register(id)} value={item}  />
+                                            <input type="radio" {...register(id)} value={item} disabled={exercute} />
                                             <span>{item}</span>
                                         </label>)
                             })}

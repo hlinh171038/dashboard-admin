@@ -29,13 +29,15 @@ import { MdDeleteOutline } from "react-icons/md";
     detailId?: string[] | any;
     handleAddDiscountId: (value:string) => void;
     hadleDeleteDiscount: (id:string) =>void; 
+    exercute:any
   }
 
 const DiscountSearch:React.FC<DiscountSearchProps> = ({
     discount = [],
     detailId = [],
     handleAddDiscountId,
-    hadleDeleteDiscount
+    hadleDeleteDiscount,
+    exercute
 }) =>{
 
     const [title,setTitle] = useState('')
@@ -48,27 +50,31 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
 
     //handle delete
     const handleDeleteItem = useCallback((id:string)=>{
+        if(!exercute) {
         const result = chosen.filter((item:any)=>item.id !== id)
         setChosen(result)
         hadleDeleteDiscount(id)
-    },[chosen,hadleDeleteDiscount])
+        }
+    },[chosen,hadleDeleteDiscount,exercute])
 
     //handle command
     const handleCommand =(item:any)=>{
-        
-        setTitle(item.title)
-        // let array = chosen
-       const check = chosen.find((it:any)=>it.id === item.id)
-       if(check) {
-        toast.warning('have added !!');
-        return;
-       }
-        const array = [...chosen,item];
-      
+        if(!exercute) {
+            setTitle(item.title)
+            // let array = chosen
+           const check = chosen.find((it:any)=>it.id === item.id)
+           if(check) {
+            toast.warning('have added !!');
+            return;
+           }
+            const array = [...chosen,item];
+          
+           
+           
+         setChosen(array)
+         handleAddDiscountId(item.id)
+        }
        
-       
-     setChosen(array)
-     handleAddDiscountId(item.id)
     }
 
 

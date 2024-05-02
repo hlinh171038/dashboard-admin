@@ -16,6 +16,7 @@ import Filter from "./filter"
 import { Product, User } from "@prisma/client"
 import CopyLink from "../customers/copylink"
 import { RxCross2 } from "react-icons/rx";
+import { toast } from "sonner"
 
 interface ProducHeaderProps {
     category: string
@@ -47,10 +48,19 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
   
     const router = useRouter()
     const inputRef = useRef<any>(null)
+    const [current,setCurrent] = useState<any>(null)
 
     const handleAddNew = useCallback(()=>{
+        if(current.role === 'no'){
+            toast.warning("Only create new user with exercute peremission !!!");
+            return;
+        }
+        if(current.permission === 'read') {
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
+        }
         router.push('/dashboards/product/add')
-    },[router])
+    },[router,current])
 
     //handle reset
     const handleReset = useCallback(()=>{
@@ -76,6 +86,10 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
         }
     },[])
 
+    useEffect(()=>{
+        const result = customer && customer.find((item:any)=>item.email === currentUser.user.email);
+        setCurrent(result)
+     },[currentUser,customer])
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">
@@ -123,6 +137,7 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
                 {/* export to SCV file */}
                 <ExportFile
                     data = {product}
+                     currentUser = {current}
                     filename='porduct'
                 />
                 {/* coppy link */}

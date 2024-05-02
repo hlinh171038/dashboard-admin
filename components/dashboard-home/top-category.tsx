@@ -62,6 +62,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
           return 0;
         })
      
+        console.log(array)
         if(array.length >5){
           const sub = array.slice(5);
      
@@ -69,18 +70,23 @@ const TopCategory:React.FC<TopCategoryProps> = ({
        
           obj.category = 'orther'
           obj.count= total;
-        }
-     
-        const first = array.slice(0,5);
+          const first = array.slice(0,5);
      
          first.push(obj);
         setData(first)
+        }
+     
+        setData(array)
        },[trendCategory])
    
     useEffect(()=>{
        const result = data && data.reduce((calculator:number,currentValue:any)=> calculator + currentValue.count,0);
        setTotal(result);
     },[data])
+
+    console.log(data)
+    console.log(total)
+    console.log(trendCategory)
     return (
         <div className={cn("bg-slate-600 rounded w-full p-2  transition-all duration-300 relative",
                             productCondition && productCondition ? 'hover:opacity-[1]':'hover:bg-slate-500/40'

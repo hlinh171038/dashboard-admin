@@ -9,7 +9,8 @@ interface CheckboxSizeProps {
     array: any
     column?: number
     title: string,
-    sizeValue?: string
+    sizeValue?: string,
+    exercute: any
 }
 
 
@@ -18,7 +19,8 @@ const CheckboxSize:React.FC<CheckboxSizeProps> = ({
     array ,
     column,
     title,
-    sizeValue
+    sizeValue,
+    exercute
 }) =>{
 
     const [data,setData] = useState(array)
@@ -36,7 +38,7 @@ const CheckboxSize:React.FC<CheckboxSizeProps> = ({
             >
                 {data.map((item:string)=>{
                     return <label key={item}  className="flex items-center justify-start" onClick={()=>handleCheck(check,item)}>
-                            <input type="checkbox" value={item} checked={check.includes(item)}/>
+                            <input type="checkbox" value={item} checked={check.includes(item)} disabled={exercute}/>
                             <span>{item}</span>
                           </label>
                 })}

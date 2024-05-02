@@ -10,6 +10,7 @@ interface CheckboxProps {
     column?: number
     title: string
     colorValue?: string[] | null
+    exercute: any
 }
 
 
@@ -18,7 +19,8 @@ const Checkbox:React.FC<CheckboxProps> = ({
     array ,
     column,
     title,
-    colorValue
+    colorValue,
+    exercute
 }) =>{
 
     const [data,setData] = useState(array)
@@ -36,7 +38,7 @@ const Checkbox:React.FC<CheckboxProps> = ({
             >
                 {data.map((item:string)=>{
                     return <label key={item}  className="flex items-center justify-start" onClick={()=>handleCheck(check,item)}>
-                            <input type="checkbox" value={item} checked ={check.includes(item)}/>
+                            <input type="checkbox" value={item} checked ={check.includes(item)} disabled ={exercute}/>
                             <span>{item}</span>
                           </label>
                 })}

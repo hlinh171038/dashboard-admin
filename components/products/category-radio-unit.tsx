@@ -13,13 +13,15 @@ interface CategoryRadioProps {
     unit: string,
     register: UseFormRegister<FieldValues>
     errors: FieldErrors
+    exercute:any
 
 }
 const CategoryRadioUnit:React.FC<CategoryRadioProps> = ({
     id,
     unit,
     register,
-    errors
+    errors,
+    exercute
 }) =>{
     return (
         <div className=" col-span-1 w-full flex flex-col items-start justify-start gap-[1%] relative h-[70px]">
@@ -39,11 +41,11 @@ const CategoryRadioUnit:React.FC<CategoryRadioProps> = ({
                         >
                           <div className="grid grid-cols-3 text-[14px] text-slate-900">
                               <label className="flex items-center justify-start">
-                                  <input  className="text-slate-900" type="radio" {...register(id)} value="vnd" defaultChecked/>
+                                  <input  className="text-slate-900" type="radio" {...register(id)} value="vnd" defaultChecked disabled={exercute}/>
                                   <span>Vnd</span>
                               </label>
                               <label className="flex items-center justify-start">
-                                  <input className="text-slate-900"  type="radio" {...register(id)} value="dollar"/>
+                                  <input className="text-slate-900"  type="radio" {...register(id)} value="dollar" disabled={exercute}/>
                                   <span>Dollar</span>
                               </label>
                              
