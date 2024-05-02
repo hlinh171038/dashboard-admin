@@ -129,7 +129,7 @@ const Link:React.FC<linkProps> = ({
                 </Breadcrumb>
             )}
             {/* product */}
-            {type === 'product' && (
+            {/* {type === 'product' && (
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -180,7 +180,7 @@ const Link:React.FC<linkProps> = ({
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-            )}
+            )} */}
             {/* disocunt */}
             {type === 'discount' && (
                 <Breadcrumb>
@@ -191,7 +191,7 @@ const Link:React.FC<linkProps> = ({
                         
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                        <BreadcrumbPage>Product</BreadcrumbPage>
+                        <BreadcrumbPage>Discount</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -260,7 +260,7 @@ const Link:React.FC<linkProps> = ({
                         
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboards/transaction">Discount</BreadcrumbLink>
+                            <BreadcrumbLink href="/dashboards/transaction">Transaction</BreadcrumbLink>
                         </BreadcrumbItem>
                         
                         <BreadcrumbSeparator />
