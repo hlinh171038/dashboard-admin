@@ -79,7 +79,7 @@ const MailItem:React.FC<MailItemProps> = ({
         finally(()=>{
             setIsLoading(false)
         })
-    },[mailId,router,userId,mailSend])
+    },[mailId,router,userId,mailSend,setData])
     //handle go to mail
     const handleGoToEmail = useCallback((id:string)=>{
         if(userId === '') {
@@ -89,6 +89,7 @@ const MailItem:React.FC<MailItemProps> = ({
         axios.post('/api/update-tempMail',{mailId})
             .then((res)=>{
                // toast.success('check your mail');
+               setData(res.data && res.data)
                 router.refresh();
             })
             .catch((err:any)=>{
@@ -111,7 +112,7 @@ const MailItem:React.FC<MailItemProps> = ({
             finally(()=>{
                 setIsLoading(false)
             })
-    },[mailId,router,mailRecive,userId])
+    },[mailId,router,mailRecive,userId,setData])
 
     //handle spam
     const handleSpam = useCallback((id:string)=>{

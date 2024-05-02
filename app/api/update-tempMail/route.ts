@@ -22,7 +22,13 @@ export async function POST(request:Request) {
                 seen: true
             }
         })
-        return NextResponse.json(mail)
+
+        const result = await prisma.tempMail.findMany({
+            orderBy: {
+                created_at: "desc"
+            }
+        })
+        return NextResponse.json(result)
     } catch (error) {
         console.log(error)
         return NextResponse.json({error:"Internal Server Error"},{status: 500})

@@ -24,9 +24,15 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 
+
+  
+
 import { LuMailWarning } from "react-icons/lu";
 import CommentContent from "./navbar/comment-content"
 import MailContent from "./navbar/mailclient"
+import Link from "./navbar/link"
+import { usePathname } from "next/navigation"
+
 
 
 
@@ -66,6 +72,20 @@ const Navbar:React.FC<NavProps>= ({
     const [arrRelly,setArrRelly] = useState<any>([])
     const [arrRellyHeart,setArrRellyHeart] = useState<any>([])
     const [userId,setUserId] = useState('')
+    const [link,setLink] = useState('')
+    const [idUrl,setIdUrl] = useState('')
+    const path = usePathname()
+    console.log(path)
+
+    // take id fron url
+    useEffect(()=>{
+        const pathPart = path.split('/');
+        console.log(pathPart);
+        if(pathPart.length === 4) {
+            setIdUrl(pathPart[pathPart.length -1])
+        }
+        console.log(idUrl)
+    },[path,idUrl])
 
     useEffect(()=>{
         const array:any[] = []
@@ -117,9 +137,29 @@ const Navbar:React.FC<NavProps>= ({
        setUserId(result && result?.id)
       },[email,user])
 
-      console.log(userId)
-     console.log(user)
-     console.log(name)
+     useEffect(()=>{
+        
+        switch(path) {
+            case '/dashboards/customers' : setLink('customer'); break;
+            case '/dashboards/customers/add' : setLink('customer-add'); break;
+            case `/dashboards/customers/${idUrl}`: setLink('customer-detail');break;
+            case '/dashboards/product' : setLink('product'); break;
+            case '/dashboards/product/add' : setLink('product-add'); break;
+            case `/dashboards/product/${idUrl}`: setLink('product-detail');break;
+            case '/dashboards/discount' : setLink('discount'); break;
+            case '/dashboards/discount/add' : setLink('discount-add'); break;
+            case `/dashboards/discount/${idUrl}`: setLink('discount-detail');break;
+            case '/dashboards/transition' : setLink('transaction'); break;
+            case `/dashboards/transition/${idUrl}`: setLink('transaction-detail');break;
+            case '/analytics/report' : setLink('report'); break;
+            case `/analytics/report/${idUrl}`: setLink('report-detail');break;
+            case '/analytics/team' : setLink('team'); break;
+            case '/analytics/team/add' : setLink('team-add'); break;
+            case '/users/help' : setLink('help'); break;
+            case '/history' : setLink('history'); break;
+        }
+     },[path,idUrl])
+     console.log(link)
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >
@@ -136,6 +176,7 @@ const Navbar:React.FC<NavProps>= ({
                         
                                 )} 
                     />
+               <Link type={link} />
                 </div>
                 <div className="col-span-7 flex justify-end items-center">
                     <div className="relative">

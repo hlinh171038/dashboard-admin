@@ -28,7 +28,7 @@ const Employee:React.FC<EmployeeProps> =({
             <div className="text-neutral-400 font-normal text-[14px] mb-2">
                 All Positiion and role of administrator.
             </div>
-            <div className="flex items-center justify-start gap-4">
+            <div className="flex items-center justify-between gap-4">
                 <div>
                     <div className="flex items-center justify-start gap-1">
                         <div>Total:</div>
@@ -43,9 +43,9 @@ const Employee:React.FC<EmployeeProps> =({
                         <div className="text-neutral-400 text-[13px]">{member && member.length -2} Member</div>
                     </div>
                 </div>
-                <div>
+                <div className="flex items-center justify-end">
                     <Image 
-                        src="/employee.png"
+                        src="/admin.png"
                         width={150}
                         height={150}
                         alt="employee"

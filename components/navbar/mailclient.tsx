@@ -12,8 +12,9 @@ import { LuMailWarning } from "react-icons/lu"
 
 import { getAllUser2 } from "@/app/actions/getAllUser2"
 import { Skeleton } from "../ui/skeleton"
-
-
+import { PiDotOutlineFill } from "react-icons/pi";
+import { MdOutlineKeyboardArrowLeft,MdOutlineKeyboardArrowRight } from "react-icons/md";
+import PaginationTempMail from "./pagination-temp-mail"
 
 
 
@@ -30,9 +31,43 @@ const MailContent:React.FC<MailContentProps> = ({
 
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
+    const [dataSeen,setDataSeen] = useState<any>([])
+    const [page,setPage] = useState(1)
+    const [perPage,setPerPage] = useState(5); 
+   
+    // const [line,setLine] = useState(1)
+    // const [perLine,setPerLine] = useState(4);
     const router = useRouter()
 
-   
+
+    const start = (page*perPage) - perPage;
+    const end = page * perPage;
+ 
+    const updateData = data && data.slice(start,end)
+    console.log(updateData)
+    const pagin:any[] = [];
+    for(let i= 1; i<=Math.ceil(data.length / perPage); i++) {
+        pagin.push(i)
+    }
+
+
+    //dataSeaan
+    const updateDataSeen = dataSeen && dataSeen.slice(start,end)
+    //pagin seen 
+    const paginSeen:any[] = [];
+    for(let i= 1;i<=(Math.ceil(dataSeen && dataSeen.length /perPage));i++) {
+        paginSeen.push(i)
+    }
+
+
+    console.log(paginSeen)
+    console.log(dataSeen)
+
+    //handle click
+    const handleClick = () => {
+        
+        setPage(1)
+    }
     //handle delete
     const handleDeleteAll = useCallback((id:string)=>{
         setIsLoading(true);
@@ -88,6 +123,11 @@ const MailContent:React.FC<MailContentProps> = ({
     console.log(data)
      console.log(userId)
   
+
+     useEffect(()=>{
+        const result = data && data.filter((item:any)=>item.seen === true )
+        setDataSeen(result)
+     },[data])
     
     return (
         <div className="text-[14px] flex flex-col gap-2 px-2 py-2 rounded-md">
@@ -98,39 +138,31 @@ const MailContent:React.FC<MailContentProps> = ({
             <div className="text-[14px] ">
             <Tabs defaultValue="all"  className="text-[14px] ">
                 <TabsList className="font-thin text-[14px]">
-                    <TabsTrigger value="all" className="text-[14px] font-thin">New</TabsTrigger>
-                    <TabsTrigger value="unread" className="text-[14px] font-thin">Seen</TabsTrigger>
+                    <TabsTrigger value="all" className="text-[14px] font-thin" onClick={handleClick}>New</TabsTrigger>
+                    <TabsTrigger value="unread" className="text-[14px] font-thin" onClick={handleClick}>Seen</TabsTrigger>
                     
                 </TabsList>
                 <TabsContent value="all">
                 <div>
                    {isLoading ?(
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
+                        {[0,1,2,3,4].map((item:any)=>{
+                            return (
+                                <div key={item} className="flex items-center justify-start gap-2">
+                                        <Skeleton className="h-8 w-8 rounded-full aspect-square" />
+                                        <div className="space-y-1">
+                                            <Skeleton className="h-3 w-[200px]" />
+                                            <Skeleton className="h-3 w-[150px]" />
+                                        </div>
                                 </div>
-                        </div>
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
-                                </div>
-                        </div>
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
-                                </div>
-                        </div>
+                            )
+                        })}
+                        
+                        
                     </div>
                     
                    ):(
-                     data?.length>0 ? data.map((item:any)=>{
+                    updateData?.length>0 ? updateData.map((item:any)=>{
                         return <MailItem 
                                     key={item.id}
                                     mailSend = {item.mailSend}
@@ -151,37 +183,30 @@ const MailContent:React.FC<MailContentProps> = ({
                      </div> 
                     )
                    )}
-                
+                   {/* pagination */}
+                   <PaginationTempMail pagin= {pagin} setPage ={setPage} isLoading ={isLoading}/>
+               
+
                 </div>
                 </TabsContent>
                 <TabsContent value="unread">
                 <div>
                    {isLoading ?(
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
+                        {[0,1,2,3,4].map((item:any)=>{
+                            return (
+                                <div key={item} className="flex items-center justify-start gap-2">
+                                        <Skeleton className="h-8 w-8 rounded-full aspect-square" />
+                                        <div className="space-y-1">
+                                            <Skeleton className="h-3 w-[200px]" />
+                                            <Skeleton className="h-3 w-[150px]" />
+                                        </div>
                                 </div>
-                        </div>
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
-                                </div>
-                        </div>
-                        <div className="flex items-center justify-start gap-2">
-                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
-                                <div className="space-y-1">
-                                    <Skeleton className="h-3 w-[200px]" />
-                                    <Skeleton className="h-3 w-[150px]" />
-                                </div>
-                        </div>
+                            )
+                        })}
                     </div>
                    ):(
-                    data.filter((item:any)=>item.seen === true && item.history !== true).length>0 ? data.filter((item:any)=>item.seen === true && item.history !== true).map((item:any)=>{
+                    updateDataSeen.length>0 ? updateDataSeen.map((item:any)=>{
                         return <MailItem 
                                     key={item.id}
                                     mailSend = {item.mailSend}
@@ -202,22 +227,10 @@ const MailContent:React.FC<MailContentProps> = ({
                      </div> 
                     )
                    )}
-                
+                    <PaginationTempMail pagin ={paginSeen} setPage={setPage} isLoading ={isLoading}/>
                 </div>
                 <div>
-                    {data && data.length>0 && data.filter((item:any)=>item.seen === true && item.history !== true) .map((item:any)=>{
-                        return <MailItem 
-                                    key={item.id}
-                                    mailSend = {item.mailSend}
-                                    mailRecive ={item.mailRecive}
-                                    created_at = {item.created_at}
-                                    userName = {item.userName}
-                                    userImage = {item.userImage}
-                                    mailId = {item.id}
-                                    userId ={userId}
-                                    setData = {setData}
-                                />
-                    })}
+                    
                 </div>
                 </TabsContent>
             </Tabs>

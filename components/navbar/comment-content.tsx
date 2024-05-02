@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { IoIosNotificationsOff } from "react-icons/io";
 import { Skeleton } from "../ui/skeleton";
 import { LuMailWarning } from "react-icons/lu";
+import PaginationTempMail from "./pagination-temp-mail";
 
 
 interface CommentContentProps {
@@ -30,8 +31,38 @@ const CommentContent:React.FC<CommentContentProps> = ({
 }) =>{
     const [isLoading,setIsLoading] = useState(false);
     const [notify,setNotify] = useState<any>([])
+    const [notifySeen,setNotifySeen] = useState<any>([])
     const router = useRouter()
     //const [allArr,setAllArr] = useState<any>([])
+
+    const [page,setPage] = useState(1)
+    const [perPage,setPerPage] = useState(5); 
+
+    //pagination
+
+    const start = (page*perPage) - perPage;
+    const end = page * perPage;
+ 
+    const updateNotify = notify && notify.slice(start,end)
+    console.log(updateNotify)
+    const pagin:any[] = [];
+    for(let i= 1; i<=Math.ceil(notify.length / perPage); i++) {
+        pagin.push(i)
+    }
+
+    const updateNotifySeen = notifySeen && notifySeen.slice(start,end)
+    //pagin seen 
+    const paginSeen:any[] = [];
+    for(let i= 1;i<=(Math.ceil(notifySeen && notifySeen.length /perPage));i++) {
+        paginSeen.push(i)
+    }
+    console.log()
+    console.log(paginSeen)
+     //handle click
+     const handleClick = () => {
+        
+        setPage(1)
+    }
 
     const handleDeleteAll = useCallback(()=>{
         setIsLoading(true);
@@ -71,17 +102,11 @@ const CommentContent:React.FC<CommentContentProps> = ({
 
      console.log(notify)
 
-    // if(notify.length <=0) {
-    //     return (
-    //         <div>
-                
-    //             <div className="flex items-center justify-center gap-2 text-[14px] py-4">
-    //                 <IoIosNotificationsOff className="w-4 h-4" />
-    //                 <div>No Notification</div>
-    //             </div>
-    //         </div>
-    //     )
-    // }
+     useEffect(()=>{
+        const result = notify && notify.filter((item:any)=>item.mark === true)
+        setNotifySeen(result)
+     },[notify])
+ 
     return (
         <div className="text-[14px] flex flex-col gap-2 px-2 py-2 rounded-md">
             <div className="flex items-center justify-between">
@@ -90,8 +115,8 @@ const CommentContent:React.FC<CommentContentProps> = ({
             </div>
             <Tabs defaultValue="account" className="w-full">
             <TabsList>
-                <TabsTrigger value="account" className="text-neutral-400 text-[15px] cursor-pointer">Total</TabsTrigger>
-                <TabsTrigger value="password" className="text-neutral-400 text-[15px] cursor-pointer">Seen</TabsTrigger>
+                <TabsTrigger value="account" className="text-neutral-400 text-[15px] cursor-pointer" onClick={handleClick}>Total</TabsTrigger>
+                <TabsTrigger value="password" className="text-neutral-400 text-[15px] cursor-pointer"  onClick={handleClick}>Seen</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
             {/* <div className="text-[14px] flex flex-col ">
@@ -134,7 +159,7 @@ const CommentContent:React.FC<CommentContentProps> = ({
                     </div>
                     
                    ):(
-                    notify ? notify.map((item:any) =>{
+                    updateNotify ? updateNotify.map((item:any) =>{
                         return <CommentItemReply 
                                     key={item.id}
                                     userName ={item.userName}
@@ -153,12 +178,14 @@ const CommentContent:React.FC<CommentContentProps> = ({
                      </div> 
                     )
                    )}
-                
+                {/* pagination */}
+                <PaginationTempMail pagin= {pagin} setPage ={setPage} isLoading ={isLoading}/>
+               
                 </div>
             </TabsContent>
             <TabsContent value="password">
             <div className="text-[14px] flex flex-col ">
-                {notify && notify.filter((item:any)=>item.mark === true).map((item:any) =>{
+                {updateNotifySeen && updateNotifySeen.map((item:any) =>{
                     return <CommentItemReply 
                                 key={item.id}
                                 userName ={item.userName}
@@ -169,6 +196,7 @@ const CommentContent:React.FC<CommentContentProps> = ({
                                 mark ={item.mark}
                             />
                 })}
+                <PaginationTempMail pagin ={paginSeen} setPage={setPage} isLoading ={isLoading}/>
             </div>
             </TabsContent>
             </Tabs>
