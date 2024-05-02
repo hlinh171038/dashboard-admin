@@ -32,13 +32,12 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
     handleLoading,
 }) =>{
     const [text,setText] = useState('')
-    const [current,setCurrent] = useState<any>([])
+    const [current,setCurrent] = useState<any>(null)
  
     const [query] = useDebounce(text, 300);
     const inputRef = useRef<any>(null)
-    const searchparams = useSearchParams()
-    const pathname = usePathname()
-    const {replace} = useRouter()
+  
+   
     
 
     const router = useRouter()
@@ -51,7 +50,12 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
 
     const handleAddNew = () =>{
         if(current.role === 'no'){
-            toast.warning("Use admin role to create new users")
+            toast.warning("Only create new user with exercute peremission !!!");
+            return;
+        }
+        if(current.permission === 'read') {
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
         }
         router.push('/dashboards/customers/add')
     }
@@ -123,6 +127,7 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
                 {/* export to SCV file */}
                 <ExportFile
                     data = {customer}
+                    currentUser = {current}
                     filename='customer'
                 />
                 {/* coppy link */}

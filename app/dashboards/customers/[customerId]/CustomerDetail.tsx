@@ -125,8 +125,8 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
 
 useEffect(()=>{
     setCheck(true)
-    if(userById.email === currentUser.user.email ){
-        setCheck(false)
+    if(userById.email !== currentUser.user.email ){
+        setCheck(true)
     }
     user && user.forEach((item:any)=>{
       
@@ -134,7 +134,7 @@ useEffect(()=>{
         //console.log(currentUser.email)
         if(item.email == currentUser.user.email ){
 
-            if(item.role ==='yes'){
+            if(item.role ==='yes' && item.permission !=='read'){
                 console.log('try')
                 setCheck(false)
             }
@@ -159,6 +159,7 @@ useEffect(() => {
         <div className="grid grid-cols-3 gap-2 px-2">
             
            <div className=" rounded-md col-span-1 flex flex-col items-center justify-start gap-4">
+           
             <div className="relative w-full  ">
                 <div className="absolute top-[48%] left-[48%] hover:z-50 transition-all duration-300 flex flex-col items-center justify-center gap-2">
                     <MdAddPhotoAlternate className="w-6 h-6 text-white" />
@@ -194,12 +195,16 @@ useEffect(() => {
             </div>
            </div>
            <div className="bg-slate-600 rounded-md col-span-2 px-2 py-4">
-            <QuestionNotified 
-                content="
-                    just be update user by admin's role
-                "
-                title="linh thai"
-            />
+                <div className="flex items-center justify-between">
+                
+                <QuestionNotified 
+                    content="
+                        just be update user by admin's role
+                    "
+                    title="linh thai"
+                />
+                {check && (<div className="w-full text-end text-red-600 text-[14px]">Only Updated with exercute permission</div>)}
+                </div>
                 <form>
                     <InputCustomerId
                          id="name"

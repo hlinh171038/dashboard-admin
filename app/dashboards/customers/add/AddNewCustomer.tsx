@@ -167,13 +167,16 @@ useEffect(() => {
         <div className="px-2 ">
             <Toaster/>
             <div className="bg-slate-600 w-full h-auto rounded-md px-2 py-2 flex flex-col gap-2">
-            <div className="grid grid-cols-2 gap-8">
-                    <div className="col-span-1 flex flex-col ">
+            <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-5 flex flex-col ">
                         {/* upload image */}
-                            <div>
+                            <div className="flex items-center justify-between text-neutral-100 text-[14px] mb-1">
+                                <div className="text-[15px]">Add new avatar</div>
                                 <QuestionNotified 
                                     title="?"
-                                    content="content"
+                                    content="1. Click icons in this frame to add avatar for your account."
+                                    content2="2. Choose option which you want to add image."
+                                    content3="3. Click upload to completed."
                                 />    
                             </div> 
                             <UploadImage 
@@ -182,7 +185,7 @@ useEffect(() => {
                             /> 
                             
                     </div>
-                    <div className="col-span-1 flex flex-col gap-1">
+                    <div className="col-span-7 flex flex-col gap-1">
                         {/* user name */}
                     <div className="relative">
                         <InputCustomerId 
@@ -204,7 +207,7 @@ useEffect(() => {
                                 type="password"
                                 {...register('password')}
                                 placeholder="Password"
-                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 "
+                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200"
                             />
                                 <label 
                                     className="
@@ -235,7 +238,7 @@ useEffect(() => {
                                 type="password"
                                 {...register('confirmPassword')}
                                 placeholder="Confirm Password"
-                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 "
+                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200"
                             />
                                 <label 
                                     className="
@@ -294,7 +297,7 @@ useEffect(() => {
                                 type="number"
                                 {...register('phone')}
                                 placeholder="Phone"
-                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 "
+                                className=" peer absolute top-5 left-0 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200"
                             />
                                 <label 
                                     className="
@@ -316,17 +319,19 @@ useEffect(() => {
                         {/* address */}
                         <div className="relative">
                             <div className="flex flex-col items-start justify-start  relative ">
-                                <label htmlFor="address" className="text-neutral-200 text-[15px] ">Address</label>
+                                <label htmlFor="address" className="text-neutral-100 text-[15px] ">Address</label>
                                 <Textarea  
                                     {...register("address")} 
                                     className="
                                     outline-none 
                                     bg-slate-500/60 
                                     border-0 
+                                    text-neutral-200
                                     focus:bg-white 
+                                    focus:text-slate-900
                                     focus:border-0 
                                     h-full 
-                                    mb-4" 
+                                    " 
 
                                     placeholder="Address"
                                 />

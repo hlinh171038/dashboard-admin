@@ -147,7 +147,7 @@ const CommentItemReply:React.FC<CommentItemProps> = ({
                                 </span>
                             ))}
                         </div>
-                        <div className="text-neutral-400 text-[13px] ml-1">{day >0+ ' day ago' ? day : house >0 + 'hours ago' ? house : minute + ' minutes ago'}</div>
+                        <div className="text-neutral-400 text-[13px] ml-1">{day > 0 ? day + ' day ago':(house >0 ? house + ' hours ago': minute + ' minute ago')}</div>
                     </div>
                 </div>
                 <div>

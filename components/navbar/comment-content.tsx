@@ -156,6 +156,20 @@ const CommentContent:React.FC<CommentContentProps> = ({
                                     <Skeleton className="h-3 w-[150px]" />
                                 </div>
                         </div>
+                        <div className="flex items-center justify-start gap-2">
+                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
+                                <div className="space-y-1">
+                                    <Skeleton className="h-3 w-[200px]" />
+                                    <Skeleton className="h-3 w-[150px]" />
+                                </div>
+                        </div>
+                        <div className="flex items-center justify-start gap-2">
+                                <Skeleton className="h-8 w-8 rounded-full aspect-square" />
+                                <div className="space-y-1">
+                                    <Skeleton className="h-3 w-[200px]" />
+                                    <Skeleton className="h-3 w-[150px]" />
+                                </div>
+                        </div>
                     </div>
                     
                    ):(

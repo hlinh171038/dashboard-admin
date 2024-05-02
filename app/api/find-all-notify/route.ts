@@ -7,6 +7,9 @@ export async function POST(request:Request) {
         const notify = await prisma.notify.findMany({
             where:{
                 userId: userId
+            },
+            orderBy:{
+                createdAt: 'desc'
             }
         })
 

@@ -9,7 +9,7 @@ import {
   } from "@/components/ui/popover"
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDeleteOutline, MdOutlineUpdate } from "react-icons/md";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { MdOutlineReportGmailerrorred } from "react-icons/md";
@@ -41,6 +41,9 @@ const MailItem:React.FC<MailItemProps> = ({
     setData
 }) =>{
     const [isLoading,setIsLoading] = useState(false)
+    const [day,setDay] = useState<any>(0)
+    const [house,setHouse] = useState<any>(0)
+    const [minute,setMinute] = useState<any>(0)
     const router = useRouter()
 
     //handle delete and create history
@@ -118,6 +121,20 @@ const MailItem:React.FC<MailItemProps> = ({
     const handleSpam = useCallback((id:string)=>{
         router.push('/users/help')
     },[router])
+
+    // timer
+     useEffect(()=>{
+        const now:any = new Date(); // current
+        const end:any = new Date(created_at) // commnet day
+        const diff = now - end;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        setDay(days);
+        setHouse(hours);
+        setMinute(minutes);
+    },[created_at])
     return(
         <div className="flex items-start justify-between ">
                 <div className="flex items-center justify-start gap-2">
@@ -131,7 +148,7 @@ const MailItem:React.FC<MailItemProps> = ({
                     />
                     <div className="flex flex-col gap-0.5">
                         <div>{mailSend || <Skeleton/>}</div>
-                        <div className="text-neutral-400 text-[13px]">{new Date(created_at).toLocaleString()}</div>
+                        <div className="text-neutral-400 text-[13px]">{day > 0 ? day + ' day ago':(house >0 ? house + ' hours ago': minute + ' minute ago')}</div>
                     </div>
                 </div>
                 <div>

@@ -41,21 +41,21 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
         <div className="flex flex-col gap-2 text-[14px] text-neutral-400">
             <div className="flex items-center justify-start gap-2">
                 <div>
-                    <GoDotFill className="text-green w-4 h-4" />
+                    <GoDotFill className="text-green-600 w-4 h-4" />
                 </div>
                 <div>
-                    active
+                    Active
                 </div>
-                <div>2</div>
+                <div>2 member</div>
             </div>
             <div className="flex items-center justify-start gap-2">
                 <div>
-                    <GoDotFill className="text-red w-4 h-4" />
+                    <GoDotFill className="text-red-600 w-4 h-4" />
                 </div>
                 <div>
                     Inactive
                 </div>
-                <div>{total && total.length -2}</div>
+                <div>{total && total.length -2} member</div>
             </div>
         </div>
        

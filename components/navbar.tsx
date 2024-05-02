@@ -168,10 +168,10 @@ const Navbar:React.FC<NavProps>= ({
                     sticky ?'bg-slate-600 shadow-md':''
                 )}
             >
-                <div className="col-span-2">
+                <div className="col-span-2 mb-4">
                     <HiOutlineBars3 
                         onClick={()=>sidebar.onOpen()}
-                        className={cn("w-6 h-6 text-white cursor-pointer transition block hover:text-slate-600",
+                        className={cn("w-6 h-6 text-white cursor-pointer transition block hover:opacity-[0.5]",
                                     sidebar.isOpen && " hidden"
                         
                                 )} 

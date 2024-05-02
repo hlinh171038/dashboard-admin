@@ -7,6 +7,9 @@ export async function POST(request:Request) {
         const tempMail = await prisma.tempMail.findMany({
             where:{
                 userId: userId
+            },
+            orderBy: {
+                created_at: 'desc'
             }
         })
 
