@@ -10,7 +10,7 @@ interface CheckboxProps {
     column?: number
     title: string
     colorValue?: string[] | null
-    exercute: any
+    exercute?: any
 }
 
 

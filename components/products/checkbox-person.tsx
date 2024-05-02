@@ -10,7 +10,7 @@ interface CheckboxPersonProps {
     column?: number
     title: string,
     personValue?: string[]
-    exercute:any
+    exercute?:any
 }
 
 

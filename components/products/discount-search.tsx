@@ -29,7 +29,7 @@ import { MdDeleteOutline } from "react-icons/md";
     detailId?: string[] | any;
     handleAddDiscountId: (value:string) => void;
     hadleDeleteDiscount: (id:string) =>void; 
-    exercute:any
+    exercute?:any
   }
 
 const DiscountSearch:React.FC<DiscountSearchProps> = ({

@@ -24,7 +24,7 @@ interface InputNumberProps {
     wide?: boolean
     unit?: string
     value?: number
-    exercute:any
+    exercute?:any
 }
 
 const InputPrice:React.FC<InputNumberProps> = (

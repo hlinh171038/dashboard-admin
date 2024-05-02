@@ -13,7 +13,7 @@ interface CategoryRadioProps {
     unit: string,
     register: UseFormRegister<FieldValues>
     errors: FieldErrors
-    exercute:any
+    exercute?:any
 
 }
 const CategoryRadioUnit:React.FC<CategoryRadioProps> = ({

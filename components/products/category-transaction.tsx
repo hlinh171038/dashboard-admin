@@ -13,7 +13,7 @@ import {
 interface TransactionProps {
     handleAddTransaction: (transaction:any,value:string) =>void;
     transaction: any
-    exercute:any
+    exercute?:any
 }
 
 const Transaction:React.FC<TransactionProps> = ({

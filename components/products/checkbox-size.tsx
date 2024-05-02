@@ -10,7 +10,7 @@ interface CheckboxSizeProps {
     column?: number
     title: string,
     sizeValue?: string,
-    exercute: any
+    exercute?: any
 }
 
 
