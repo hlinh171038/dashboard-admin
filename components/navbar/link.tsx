@@ -358,7 +358,7 @@ const Link:React.FC<linkProps> = ({
             )}
 
             {/* hisotry */}
-            {type === 'help' && (
+            {type === 'history' && (
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>

@@ -149,8 +149,8 @@ const Navbar:React.FC<NavProps>= ({
             case '/dashboards/discount' : setLink('discount'); break;
             case '/dashboards/discount/add' : setLink('discount-add'); break;
             case `/dashboards/discount/${idUrl}`: setLink('discount-detail');break;
-            case '/dashboards/transition' : setLink('transaction'); break;
-            case `/dashboards/transition/${idUrl}`: setLink('transaction-detail');break;
+            case '/dashboards/transaction' : setLink('transaction'); break;
+            case `/dashboards/transaction/${idUrl}`: setLink('transaction-detail');break;
             case '/analytics/report' : setLink('report'); break;
             case `/analytics/report/${idUrl}`: setLink('report-detail');break;
             case '/analytics/team' : setLink('team'); break;
