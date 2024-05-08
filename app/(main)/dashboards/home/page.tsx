@@ -1,9 +1,10 @@
-import { getAllDiscount2 } from "../../actions/getAllDiscount2"
-import { getAllProduct2 } from "../../actions/getAllProduct2"
-import { getAllTransaction2 } from "../../actions/getAllTransaction2"
-import { getAllUser2 } from "../../actions/getAllUser2"
+
+import { getAllUser2 } from "@/app/actions/getAllUser2"
 import Dashboard from "./Dashboard"
 import Home from "./page"
+import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
+import { getAllProduct2 } from "@/app/actions/getAllProduct2"
+import { getAllDiscount2 } from "@/app/actions/getAllDiscount2"
 
 
 const page = async() =>{

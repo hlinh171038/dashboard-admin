@@ -1,27 +1,7 @@
 import type { Metadata } from 'next'
 import {Nunito} from 'next/font/google'
 import './globals.css'
-import Modals from './modals/modals'
-import LoginModals from './modals/login-modals'
-import Navbar from '../components/navbar'
-import RegisterModal from './modals/register-modals'
 
-// import { authOptions } from './api/auth/[...nextauth]/route'
-import { getServerSession } from 'next-auth'
-import Sidebar from '@/components/sidebar'
-import useSidebar from './hooks/useSidebar'
-import SidebarCover from '@/components/sidebar-cover'
-import NavbarCover from '@/components/navbar-cover'
-import Footer from '@/components/footer'
-import { Toaster } from 'react-hot-toast'
-import CategoryModal from './modals/category-modal'
-import { getAllMail } from './actions/getAllMail'
-import { getAllUser2 } from './actions/getAllUser2'
-import { getAllComment } from './actions/getAllComment'
-import { authOptions } from './api/auth/[...nextauth]/options'
-import { getAllReply } from './actions/getAllReply'
-import { getAllNotify } from './actions/getAllNotify'
-import { getAllTempMail } from './actions/getAllTempMail'
 
 
 
@@ -41,13 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   
-  const session = await getServerSession(authOptions)
-  const mail = await getAllMail()
-  const user = await getAllUser2()
-  const comment = await getAllComment()
-  const relly = await getAllReply()
-  const notify = await getAllNotify()
-  const tempMail = await getAllTempMail()
+
   
     
 
@@ -55,46 +29,11 @@ export default async function RootLayout({
 
     <html lang="en">
       
-      {session?.user ?(
-        <body className={inter.className}>
-          <LoginModals />
-        <CategoryModal />
-        <LoginModals />
-        <RegisterModal />
-        
-        <div className='flex justify-start items-start w-full min-h-screen h-auto bg-slate-900/90'>
-          <SidebarCover >
-            <Sidebar 
-              name ={session?.user?.name}
-              img = {session?.user?.image}
-              email = {session?.user?.email}
-            />
-          </SidebarCover>
-            <NavbarCover >
-              <Navbar 
-                name ={session?.user?.name}
-                img = {session?.user?.image}
-                email = {session?.user?.email}
-                mail = {mail}
-                user = {user}
-                comment = {comment}
-                relly = {relly}
-                notify ={notify}
-                tempMail = {tempMail}
-                />
-                {/* <div className='h-[13vh] w-full'></div> */}
-              {children}
-         
-          </NavbarCover>
-        </div>
-        
-        <Footer/>
-        </body>
-      ):(
+      
         <body className={inter.className}>
            {children}
         </body>
-      )}
+   
        
        
     </html>

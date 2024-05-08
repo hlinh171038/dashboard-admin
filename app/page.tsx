@@ -1,11 +1,7 @@
 
 
-import axios from "axios"
-import { useEffect, useState } from "react"
+
 import { getServerSession } from "next-auth"
-//import { authOptions } from "./api/auth/[...nextauth]/route"
-import Dashboard from "./dashboards/home/page"
-import LoginModals from "./modals/login-modals"
 
 import { redirect } from "next/navigation"
 import { authOptions } from "./api/auth/[...nextauth]/options"
