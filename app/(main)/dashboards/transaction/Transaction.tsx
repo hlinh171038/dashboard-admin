@@ -10,7 +10,7 @@ import { Product, Transaction, User } from "@prisma/client"
 import { useCallback, useEffect, useState } from "react"
 import { MdCandlestickChart } from "react-icons/md";
 import { MdCircle } from "react-icons/md";
-import RightChart from "../../../components/transactions/right-chart"
+import RightChart from "@/components/transactions/right-chart"
 import { useRouter } from "next/navigation"
 
 
