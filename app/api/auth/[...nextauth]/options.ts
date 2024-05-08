@@ -56,7 +56,7 @@ import bcrypt from 'bcrypt'
           },
       }),  
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: 'o4XoNNzVnk',
   session: {
       strategy: "jwt",
   },
