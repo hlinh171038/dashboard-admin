@@ -10,7 +10,7 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-//import ExportFile from "../customers/export-file"
+import ExportFile from "../customers/export-file"
 import { LuClipboardCopy } from "react-icons/lu"
 
 import { Mail, Product, User } from "@prisma/client"
@@ -116,11 +116,11 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                 
                 <div className="flex items-center justify-end gap-2">
                 {/* export to SCV file */}
-                {/* <ExportFile
+                <ExportFile
                     data = {mail}
                     filename='Mail'
                     currentUser={currentUser}
-                /> */}
+                />
                 {/* coppy link */}
                     <Popover>
                         <PopoverTrigger  >
