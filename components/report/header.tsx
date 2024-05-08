@@ -119,6 +119,7 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                 <ExportFile
                     data = {mail}
                     filename='Mail'
+                    currentUser={currentUser}
                 />
                 {/* coppy link */}
                     <Popover>
