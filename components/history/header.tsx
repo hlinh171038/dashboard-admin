@@ -120,6 +120,7 @@ const HeaderHistory:React.FC<HeaderProps> = ({
                 <ExportFile
                     data = {customer}
                     filename='history'
+                    currentUser={currentUser}
                 />
                 {/* coppy link */}
                     <Popover>
