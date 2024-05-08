@@ -321,7 +321,8 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   />
             </div>
             <div className="col-span-2 bg-slate-600 rounded-md p-2">
-              <div className="text-red-600 text-[14px] text-end">Only update product with exercute permission</div>
+              {exercute && <div className="text-red-600 text-[14px] text-end">Only update product with exercute permission</div> }
+              
                 <div className="relative">
                   <InputCustomerId 
                     id="title"
