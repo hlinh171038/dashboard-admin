@@ -12,7 +12,7 @@ import { MdCandlestickChart } from "react-icons/md";
 import { MdCircle } from "react-icons/md";
 
 import { useRouter } from "next/navigation"
-import RightChart from "@/components/transactions/right-chart"
+//import RightChart from "@/components/transactions/right-chart"
 
 
 
@@ -293,12 +293,12 @@ useEffect(() => {
                         <span>{new Date(lastWeek[lastWeek.length -1]).toDateString()}</span>
                     </span>
                 ): 'all the time')}</div>
-                <RightChart
+                {/* <RightChart
                     thisWeek ={thisWeek}
                     lastWeek ={lastWeek}
                     transaction = {transaction2}
                     type={chartRight}
-                />
+                /> */}
                 </div>
             </div>
             {/* table */}
