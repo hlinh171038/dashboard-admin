@@ -15,7 +15,7 @@ import Filter from "./filter"
 import { Discount, User } from "@prisma/client"
 import { IoMdAdd } from "react-icons/io";
 import { IoFilterSharp } from "react-icons/io5";
-import ExportFile from "@/components/customers/export-file"
+//import ExportFile from "@/components/customers/export-file"
 import { LuClipboardCopy } from "react-icons/lu"
 import CopyLink from "@/components/customers/copylink"
 import { RxCross2 } from "react-icons/rx"
@@ -120,11 +120,11 @@ const Header:React.FC<HeaderProps> = ({
                 </div>
                 <div className="flex items-center justify-end gap-2">
                     {/* export to SCV file */}
-                <ExportFile
+                {/* <ExportFile
                     data = {discount}
                     filename='discount'
                     currentUser={currentUser}
-                />
+                /> */}
                 {/* coppy link */}
                     <Popover>
                         <PopoverTrigger  >

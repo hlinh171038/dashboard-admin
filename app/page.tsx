@@ -20,7 +20,7 @@ export default async function Home() {
   if(session){
     redirect('/dashboards')
   } else {
-    redirect('/login')
+    redirect('/signIn')
   }
 
   return (
