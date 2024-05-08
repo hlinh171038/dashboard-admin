@@ -3,7 +3,7 @@ import History from "./History";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getAllUser2 } from "@/app/actions/getAllUser2";
-import { getAllHistory } from "../actions/getAllHistory";
+import { getAllHistory } from "@/app/actions/getAllHistory";
 
 
 
