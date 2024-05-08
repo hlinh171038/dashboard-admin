@@ -54,8 +54,10 @@ export default async function RootLayout({
   return (
 
     <html lang="en">
-      <body className={inter.className} >
-      <LoginModals />
+      
+      {session?.user ?(
+        <body className={inter.className}>
+          <LoginModals />
         <CategoryModal />
         <LoginModals />
         <RegisterModal />
@@ -87,8 +89,14 @@ export default async function RootLayout({
         </div>
         
         <Footer/>
-       
         </body>
+      ):(
+        <body className={inter.className}>
+           {children}
+        </body>
+      )}
+       
+       
     </html>
  
   )

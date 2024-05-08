@@ -123,6 +123,7 @@ const HeaderTable:React.FC<HeaderProps> = ({
                 <ExportFile
                     data = {customer}
                     filename='administrator'
+                    currentUser={currentUser}
                 />
                 {/* coppy link */}
                     <Popover>

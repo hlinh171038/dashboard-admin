@@ -56,7 +56,7 @@ const CategoryRadio:React.FC<CategoryRadioProps> = ({
                                 return (<label 
                                             key={item} 
                                             className="flex items-center justify-start">
-                                            <input type="radio" {...register(id)} value={item} disabled={exercute} />
+                                            <input type="radio" {...register(id)} value={item} disabled={exercute && exercute} />
                                             <span>{item}</span>
                                         </label>)
                             })}

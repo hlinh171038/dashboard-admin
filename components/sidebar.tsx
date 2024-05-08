@@ -150,7 +150,10 @@ const Sidebar:React.FC<SideProps> = ({
     },[registerModal])
 
     const handleSignOut = useCallback(()=>{
-       signOut()
+       signOut({
+        redirect: true,
+        callbackUrl: `${window.location.origin}/login`
+       })
     },[])
     
 
