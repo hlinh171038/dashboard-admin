@@ -123,6 +123,7 @@ const Header:React.FC<HeaderProps> = ({
                 <ExportFile
                     data = {discount}
                     filename='discount'
+                    currentUser={currentUser}
                 />
                 {/* coppy link */}
                     <Popover>
