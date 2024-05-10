@@ -1,0 +1,9 @@
+.img-slider-btn:hover {
+    animation: squish 200ms ease-in-out;
+}
+
+@keyframes squish {
+    50% {
+        scale: 1.4 0.6;
+    }
+}

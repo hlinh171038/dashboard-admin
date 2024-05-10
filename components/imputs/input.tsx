@@ -8,7 +8,8 @@ interface InputPros {
     register:UseFormRegister<FieldValues>
     required?: boolean,
     disabled?: boolean,
-    errors:FieldErrors
+    errors:FieldErrors,
+    isVisible?: boolean
 
 }
 
@@ -19,17 +20,18 @@ const Input:React.FC<InputPros> = ({
     register,
     required,
     disabled,
-    errors
+    errors,
+    isVisible
 }) => {
-
+    console.log(isVisible)
     return (
         <div className='mb-2 px-2'>
             <input 
                 id={id}
-                type={type}
+                type={isVisible ? ' text' :type}
                 {...register(id,{required})}
                 placeholder={label}
-                className={clsx("rounded-md tranparent focus:outline-none border-2 focus:border-sky-500  text-slate-600 placeholder:text-slate-300 w-full p-2",
+                className={clsx("rounded-md tranparent focus:outline-none border-2 focus:border-[#5DBEBB]  text-slate-600 placeholder:text-slate-300 text-[14px] w-full px-2 py-1 placeholder:capitalize",
                     errors[id] && "text-rose-500 border-rose-500 focus:boder-rose-500"
                 )}
             />
