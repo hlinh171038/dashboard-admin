@@ -88,6 +88,7 @@ const Navbar:React.FC<NavProps>= ({
     },[path,idUrl])
 
     useEffect(()=>{
+        console.log('try')
         const array:any[] = []
         tempMail && tempMail.forEach((item:any)=>{
             if(item.mailRecive === email) {
@@ -95,6 +96,7 @@ const Navbar:React.FC<NavProps>= ({
                array.push(item)
             }
         })
+        console.log(array)
         setShowMail(array)
     },[email,tempMail])
     console.log(tempMail)
