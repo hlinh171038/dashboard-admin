@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 export async function getAlluser({search,role,action,start,end}:{search?: string,role?:string,action?:string,start?:string, end?:string}) {
     try {
         // const {search} = params
-
+        console.log(search)
         const query:any = {}
         if(search) {
             query.OR =[
@@ -51,6 +51,7 @@ export async function getAlluser({search,role,action,start,end}:{search?: string
         return users
        
     } catch (error:any) {
+        console.log(error)
         throw new Error(error)
     }
 }

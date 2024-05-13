@@ -53,7 +53,7 @@ const HeaderCustomer:React.FC<HeaderProps> = ({
             toast.warning("Only create new user with exercute peremission !!!");
             return;
         }
-        if(current.permission === 'read') {
+        if(current?.permission === 'read') {
             toast.warning("Only create new user with exercute permission !!!");
             return;
         }

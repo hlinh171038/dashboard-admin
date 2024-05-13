@@ -7,8 +7,7 @@ import { Suspense } from "react";
 
 
 const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) =>{
-    const search =
-    typeof searchParams.search === 'string' ? searchParams.search : ''
+    const search = typeof searchParams.search === 'string' ? searchParams.search : ''
     const page = typeof searchParams.page ==='string' ? Number(searchParams.page) : 1;
     const per_page = typeof searchParams.per_page ==='string' ? Number(searchParams.per_page): 10
     const role = typeof searchParams.role === 'string' ? searchParams.role: ''
