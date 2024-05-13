@@ -20,6 +20,8 @@ import { IoIosEyeOff } from "react-icons/io";
 import './style.css'
 import Button from "@/components/button"
 import { FcGoogle } from "react-icons/fc"
+import { z } from "zod"
+import randomstring from 'randomstring';
 
 
 const Login = () =>{
@@ -27,9 +29,10 @@ const Login = () =>{
     const [imageIndex,setImageIndex] = useState<number>(0)
     const [isLoading,setIsLoading] = useState(false)
 
+
     const [isVisible, setIsVisible] = useState(false);
     
-
+   
   const handleKeyDown = () => {
     console.log('key down')
     setIsVisible(true);
@@ -39,7 +42,13 @@ const Login = () =>{
     setIsVisible(false);
     console.log('key up')
   };
-  console.log(isVisible)
+
+//   zod validate
+const formSchema = z.object({
+    email: z.string().email({message: "Wrong email format"}),
+   
+  })
+  
     const {
         register,
         handleSubmit,
@@ -211,7 +220,7 @@ const Login = () =>{
                         />
                         <div className="absolute top-[55%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown} onMouseUp={handleKeyUp}/></div>
                         </div>
-                        <div className="text-neutral-100 text-[14px] font-bold text-end px-2">Forget Password ?</div>
+                        <div onClick={()=> router.push('/forget-password?step=1')} className="text-neutral-100 text-[14px] font-bold text-end px-2">Forget Password ?</div>
                         <div className="px-2">
                             <button
                                 onClick={handleSubmit(onSubmit)}
@@ -246,7 +255,7 @@ const Login = () =>{
                     <div className=" h-full flex overflow-hidden ">
                         {contents.map((item:any)=>{
                             return <div 
-                                    key={item} 
+                                    key={item } 
                                     className={`h-full p-4 flex-1 translate-x-[${-100 * imageIndex}%] transition-all duration-300`}
                                     style={{flex: "1 0 100%"}}
                                     >

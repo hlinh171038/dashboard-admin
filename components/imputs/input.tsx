@@ -9,7 +9,8 @@ interface InputPros {
     required?: boolean,
     disabled?: boolean,
     errors:FieldErrors,
-    isVisible?: boolean
+    isVisible?: boolean,
+    name?: string
 
 }
 
@@ -21,12 +22,14 @@ const Input:React.FC<InputPros> = ({
     required,
     disabled,
     errors,
-    isVisible
+    isVisible,
+    name
 }) => {
     console.log(isVisible)
     return (
         <div className='mb-2 px-2'>
             <input 
+               
                 id={id}
                 type={isVisible ? ' text' :type}
                 {...register(id,{required})}
