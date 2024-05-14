@@ -5,7 +5,8 @@ import { getServerSession } from "next-auth"
 
 import { redirect } from "next/navigation"
 import { authOptions } from "./api/auth/[...nextauth]/options"
-import Login from "./login/page"
+import Login from "./(auth)/signIn/page"
+
 
 
 
@@ -25,7 +26,7 @@ export default async function Home() {
 
   return (
     <div  >
-      <Login />
+        <Login />
     </div>
   )
 }
