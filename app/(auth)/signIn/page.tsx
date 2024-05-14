@@ -21,7 +21,9 @@ import './style.css'
 import Button from "@/components/button"
 import { FcGoogle } from "react-icons/fc"
 import { z } from "zod"
-import randomstring from 'randomstring';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
+
 
 
 const Login = () =>{
@@ -45,8 +47,11 @@ const Login = () =>{
 
 //   zod validate
 const formSchema = z.object({
-    email: z.string().email({message: "Wrong email format"}),
-   
+    email: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .email("This is not a valid email."),
+    password: z.string().min(6)
   })
   
     const {
@@ -55,6 +60,7 @@ const formSchema = z.object({
         watch,
         formState: { errors },
       } = useForm<FieldValues>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
             password: ""
@@ -73,12 +79,15 @@ const formSchema = z.object({
            }
 
            if(callback?.ok && !callback?.error) {
-            
+              
                router.refresh()
                toast.success('Logged in successfully!')
                router.push('/dashboards/home')
            }
        } )
+       .finally(()=>{
+        setIsLoading(false)
+       })
       }
 
  
@@ -175,6 +184,7 @@ const formSchema = z.object({
             return index + 1
         })
       },[])
+      console.log(errors?.email)
     return (
         <div className="w-auto h-screen">
             <div className="w-full h-full grid grid-cols-2 gap-2 bg-gradient-to-r from-slate-900 via-[#5EC0BD] to-slate-900 ">
@@ -196,7 +206,7 @@ const formSchema = z.object({
                     <div className="px-16 py-8">
                         <div className="text-neutral-100 text-[20px] mb-6">Sign In</div>
                         {/* login form */}
-                        <div>
+                        <div className="relative h-[70px]">
                             <label htmlFor="email" className="text-[14px] text-neutral-100 px-2">Email</label>
                             <Input
                                 id="email"
@@ -207,8 +217,9 @@ const formSchema = z.object({
                                 required
                                 errors={errors}
                             />
+                            {errors?.email && <span className="text-red-600 text-[14px] absolute bottom-[-10px] left-2">{`${errors?.email?.message}`}</span>}
                         </div>
-                        <div className="relative">
+                        <div className="relative h-[70px]">
                             <label htmlFor="email" className="text-[14px] text-neutral-100 px-2">Password</label>
                             <Input 
                             id="password"
@@ -220,15 +231,18 @@ const formSchema = z.object({
                             errors={errors}
                             isVisible ={isVisible}
                         />
-                        <div className="absolute top-[55%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown} onMouseUp={handleKeyUp}/></div>
+                         {errors?.password && <span className="text-red-600 text-[14px] absolute bottom-[-10px] left-2">{`${errors?.password?.message}`}</span>}
+                            <div className="absolute top-[50%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown} onMouseUp={handleKeyUp}/></div>
                         </div>
                         <div onClick={()=> router.push('/forget-password?step=1')} className="text-neutral-100 text-[14px] font-bold text-end px-2">Forget Password ?</div>
                         <div className="px-2">
                             <button
+                                disabled ={isLoading}
                                 onClick={handleSubmit(onSubmit)}
                                 className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-full hover:bg-[#60c3d2] hover:text-white  transition-colors"
                             >
                                 Sign In
+                                {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5 ml-2"></div>}
                             </button>
                         </div>
                         <div className="px-2 py-2 pt-4 flex items-center justify-center text-neutral-400">

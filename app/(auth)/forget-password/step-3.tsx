@@ -25,6 +25,7 @@ const Step3:React.FC<step2Props> = ({
   const [text,setText] = useState('')
   const [text2,setText2] = useState('')
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisible2, setIsVisible2] = useState(false);
   const [isLoading,setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -80,7 +81,15 @@ const handleKeyDown = () =>{
 const handleKeyUp = () =>{
     setIsVisible(false)
 }
+//handle key down
+const handleKeyDown2 = () =>{
+    setIsVisible2(true)
+}
 
+//handle key up
+const handleKeyUp2 = () =>{
+    setIsVisible2(false)
+}
 //handle submit
 const handleSubmit = (e:any) =>{
     e.preventDefault();
@@ -97,7 +106,7 @@ const handleSubmit = (e:any) =>{
     }
     // compare
     if(text !== text2) {
-        toast.warning('password and password confirm must be the same !!!');
+        toast.warning('password and password confirm must be the same!');
         return;
     }
     // at least 6 character
@@ -182,7 +191,7 @@ const handleSubmit = (e:any) =>{
                                 value={text2} 
                                 className='w-full px-2 py-1 text-slate-950 rounded-md outline-none ' 
                             />
-                        <div className="absolute top-[55%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown} onMouseUp={handleKeyUp}/></div>
+                        <div className="absolute top-[55%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown2} onMouseUp={handleKeyUp2}/></div>
                     </div>
                    
                     
