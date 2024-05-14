@@ -80,6 +80,8 @@ const formSchema = z.object({
            }
        } )
       }
+
+ 
       
       const content1 = (
             <div className="relative h-full w-full">
@@ -238,13 +240,13 @@ const formSchema = z.object({
                             <Button
                                 label="Sign In with Github"
                                 outline
-                                onClick={()=>signIn('github')}
+                                onClick={()=>signIn('github', {callbackUrl: '/dashboards/home'})}
                                 icon={FaGithub}
                             />
                             <Button 
                                 label="Sign In with Google"
                                 outline
-                                onClick={()=>signIn('google')}
+                                onClick={() => signIn('google', { callbackUrl: '/dashboards/home' })}
                                 icon={FcGoogle}
                             />
                         </div>

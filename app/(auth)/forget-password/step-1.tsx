@@ -12,11 +12,23 @@ import emailjs from '@emailjs/browser';
 import { useDebounce } from 'use-debounce';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-const Step1 = () => {
+interface step1Props {
+    setInfor : any;
+    setCode: any;
+    code: any;
+}
+
+const Step1:React.FC<step1Props> = ({
+    setInfor,
+    setCode,
+    code
+}) => {
 
     const form = useRef<any>();
     const [text,setText] = useState<any>('')
+    const [generate,setGenerate] = useState<any>('')
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
     const [query] = useDebounce(text, 300);
@@ -24,20 +36,6 @@ const Step1 = () => {
         email: z.string().email({message: "Wrong Email Format"}),
       })
 
-    // const {
-    //     register,
-    //     handleSubmit,
-    //     watch,
-    //     formState: { errors },
-    //   } = useForm<FieldValues>({
-    //     resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         email: ""
-    //     }
-    //   })
-
-    //   const email = watch('email');
-    //   console.log(email)
       const handleSubmit = (e:any) => {
        e.preventDefault()
         setIsLoading(true)
@@ -48,7 +46,10 @@ const Step1 = () => {
                 console.log(res.data)
                 toast.success('completed step 1')
                 router.push('/forget-password?step=2')
+                // set infor 
+                setInfor(res?.data && res?.data)
 
+                // send email
                 emailjs
                 .sendForm('service_6w0ws6q', 'template_e6vvpy6', form.current , {
                   publicKey: 'TS-u5iOD3yffcZ1CJ',
@@ -73,8 +74,13 @@ const Step1 = () => {
            
         //router.push('/forget-password?step=2')
       }
-
-    
+      useEffect(()=>{
+        const result =  Math.floor(Math.random() * 9000) + 1000;
+        setCode(result)
+        setGenerate(result)
+      },[])
+   
+    console.log(generate)
   return (
     <div className="px-4">
             {/* logo */}
@@ -92,57 +98,38 @@ const Step1 = () => {
                 </div>
             </div>
            {/* step 1 */}
-           <div>
+           <div className='px-16 py-8'>
             {/* icon */}
             <div className='p-2 border border-neutral-100 rounded-md flex items-center justify-center w-10 h-10'>
                 <IoFingerPrintOutline className='w-6 h-6 text-neutral-100'/>
             </div>
-            <div className='text-neutral-100 text-[20px] '>Forget Password ?</div>
+            <div className='text-neutral-100 text-[20px] mt-6'>Forget Password ?</div>
             <div className='text-[14px] text-neutral-400 font-thin'>Dont worries, we will send you reset instructions.</div>
             <div>
-            <form ref={form} >
+            <form ref={form} className='mt-2'>
   
-                <label>Email</label>
+                <div className='text-neutral-100 text-[15px] mb-0.5'>Enter your email</div>
                 <input type="email" 
                         name="user_email" 
                         onChange={(e)=> setText(e.target.value)}
                         value={text} 
+                        placeholder='Email'
+                        className='px-2 py-0.5 rounded-md outline-none placeholder:text-[14px] w-[60%] text-[14px]'
                     />
                 
-                <textarea name="code" defaultValue={randomString.generate(4)} className='hidden'/>
-                <div className="px-2">
+                <textarea name="code" defaultValue={generate} className='hidden'/>
+                <div className="mt-2">
                 <button
+                disabled ={isLoading}
                     onClick={handleSubmit}
-                    className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-full hover:bg-[#60c3d2] hover:text-white  transition-colors"
+                    className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-[60%] hover:bg-[#60c3d2] hover:text-white  transition-colors"
                 >
                     Reset PassWord
+                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5 ml-2"></div>}
                 </button>
             </div>
             </form>
-            {/* <div>
-                <label htmlFor="email" className="text-[14px] text-neutral-100 px-2">Email</label>
-                    <Input
-                        id="email"
-                       
-                        type="email"
-                        label="email"
-                        register= {register}
-                        //disabled ={ isLoading}
-                        required
-                        errors={errors}
-                    />
-                    <input 
-                        
-                        id="email"
-                        type='text'
-                        {...register('email',{required: true})}
-                        placeholder={'Eamil'}
-                        className={clsx("rounded-md tranparent focus:outline-none border-2 focus:border-[#5DBEBB]  text-slate-600 placeholder:text-slate-300 text-[14px] w-full px-2 py-1 placeholder:capitalize",
-                            errors["email"] && "text-rose-500 border-rose-500 focus:boder-rose-500"
-                        )}
-                    />
-            </div>
-            */}
+            <div className='text-[14px] text-neutral-400 underline font-light cursor-pointer' onClick={()=> router.push('/signIn')}>Back to SignIn</div>
             
             </div>
            </div>
