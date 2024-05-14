@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import prisma from '@/lib/prisma'
 
 export async function POST(req:Request) {
    try {
     const {email} = await req.json();
     console.log(email)
 
-    const checkEmail = await prisma?.user.findUnique({
+    const checkEmail = await prisma.user.findFirst({
         where: {
             email
         }
