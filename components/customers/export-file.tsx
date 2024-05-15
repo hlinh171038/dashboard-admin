@@ -26,7 +26,7 @@ const ExportFile:React.FC<ExportFileProps> = ({ data, filename, currentUser }) =
    }
 
    useEffect(()=>{
-    if(currentUser === null || currentUser.permission === 'read') {
+    if(currentUser === null || currentUser?.permission === 'read') {
       setOpen(false)
     }else {
 
