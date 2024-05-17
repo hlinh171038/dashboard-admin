@@ -13,6 +13,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { AiFillBell } from "react-icons/ai";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineComment } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
 
 import { HiOutlineBars3 } from "react-icons/hi2";
 
@@ -31,7 +32,7 @@ import { LuMailWarning } from "react-icons/lu";
 import CommentContent from "./navbar/comment-content"
 import MailContent from "./navbar/mailclient"
 import Link from "./navbar/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 
 
@@ -75,7 +76,8 @@ const Navbar:React.FC<NavProps>= ({
     const [link,setLink] = useState('')
     const [idUrl,setIdUrl] = useState('')
     const path = usePathname()
-    console.log(path)
+    const router = useRouter()
+  
 
     // take id fron url
     useEffect(()=>{
@@ -228,7 +230,7 @@ const Navbar:React.FC<NavProps>= ({
                             </PopoverContent>
                         </Popover>
                     </div>
-                    
+                    <CgProfile className="w-5 h-5 text-white" onClick={()=>router.push('/profile')} />
                 </div>
                 
             </div>

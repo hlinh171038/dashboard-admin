@@ -17,7 +17,10 @@ export async function POST(request:Request) {
         active,
         phone,
         imgUrl,
-        address
+        address,
+        province,
+        district,
+        commune
     } = data
 
     console.log(data)
@@ -53,7 +56,10 @@ export async function POST(request:Request) {
           action,
           phone,
           image:imgUrl,
-          address
+          address,
+          province,
+          district,
+          commune
         },
       })
 

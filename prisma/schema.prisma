@@ -19,6 +19,9 @@ model User {
   role           String?
   action         Boolean?
   address        String?
+  province       String?
+  district       String?
+  commune        String?
   position       String?
   isLeader       Boolean?
   permission     String?
