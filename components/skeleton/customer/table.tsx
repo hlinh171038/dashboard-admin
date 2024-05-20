@@ -30,7 +30,9 @@ export const TableSkeleton = () =>{
                     Role
                 </td>
                 <td>
-                    Status
+                    <div className="flex items-center justify-center">        
+                        Status
+                    </div>
                 </td>
                 <td></td>
             </tr>
@@ -52,7 +54,11 @@ export const TableSkeleton = () =>{
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                <td>
+                                    <div className="flex items-center justify-center">
+                                        <Skeleton className="h-4 w-[50px]" />
+                                    </div>
+                                </td>
                                 <td>
                                     <div className="flex justify-end items-start">
                                         <Skeleton className="h-6 w-[50px]" />

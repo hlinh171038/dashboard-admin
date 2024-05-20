@@ -10,10 +10,10 @@ const Loading = () =>{
             <div className="grid grid-cols-2 gap-8">
                     <div className="col-span-1 flex flex-col ">
                         {/* upload image */}
-                           <Skeleton className="w-full h-full" />
+                           <Skeleton className="w-full aspect-square" />
                             
                     </div>
-                    <div className="col-span-1 flex flex-col gap-8">
+                    <div className="col-span-1 flex flex-col gap-10">
                         {/* user name */}
                         <Skeleton className="w-full h-6" />
                         <Skeleton className="w-full h-6" />
@@ -21,6 +21,11 @@ const Loading = () =>{
                         <Skeleton className="w-full h-6" />
                         <Skeleton className="w-full h-6" />
                         <Skeleton className="w-full h-6" />
+                        <Skeleton className="w-full h-6" />
+                        <div className=" grid grid-cols-2 gap-2">
+                        <Skeleton className="w-full h-6" />
+                        <Skeleton className="w-full h-6" />
+                        </div>
                         <Skeleton className="w-full h-20" />
                        
                     </div>
