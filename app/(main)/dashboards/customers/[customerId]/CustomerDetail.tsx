@@ -25,6 +25,9 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import QuestionNotified from "@/components/question-notified"
 import { GoDotFill } from "react-icons/go";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import SelectProvince from "@/app/(main)/profile/selectProvince"
+import SelectDistrict from "@/app/(main)/profile/selectDistrict"
+import SelectCommune from "@/app/(main)/profile/selectCommune"
 
 
 
@@ -42,6 +45,14 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
 }) =>{
     const [isLoading,setisLoading] = useState(false)
     const[check,setCheck] = useState(true)
+
+
+    const [provinces,setProvinces] = useState<any>([])
+    const [districts,setDistricts] = useState<any>([])
+    const [communes,setCommunes] = useState<any>([])
+    const [provinceSelected,setProvinceSelected] = useState<any>(null)
+    const [districtSelected,setDistrictSelected] = useState<any>(null)
+
     const router = useRouter()
 
   
@@ -62,6 +73,9 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
         role: userById?.role,
         active: userById?.active,
         imgUrl: userById?.image,
+        province: userById?.province,
+        district: userById?.district,
+        commune: userById?.commune,
         address: userById?.address,
         confirmPassword: ""
     }
@@ -77,6 +91,9 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
   const role = watch('role');
   const active = watch('active');
   const imgUrl = watch('imgUrl');
+  const province = watch('province');
+  const district = watch('district');
+  const commune = watch('commune');
   const address = watch('address')
 
   
@@ -91,6 +108,9 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
         role,
         active,
         imgUrl,
+        province,
+        district,
+        commune,
         address
     })
         .then((res)=>{
@@ -143,6 +163,50 @@ useEffect(()=>{
     
 },[currentUser.user.email, userById,user])
 console.log(check)
+
+/////////////////////////seleted ////////////////////////////////////
+// data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
+// data districts
+useEffect(()=>{
+    if(provinceSelected) {
+        console.log(provinceSelected)
+        console.log(provinceSelected?.idProvince)
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/?idProvince=${provinceSelected?.idProvince}`)
+            .then((res:any)=>{
+                setDistricts(res?.data)
+            })
+            .catch((err:any)=>{
+                console.log(err)
+            })
+    } 
+  },[provinceSelected])
+    console.log(districts)
+// data commune
+useEffect(()=>{
+    if(districtSelected) {
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune/?idDistrict=${districtSelected?.idDistrict}`)
+        .then((res:any)=>{
+            setCommunes(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+    }
+   
+},[districtSelected])
+
+
+console.log(communes)
 //handle ctr + z
 useEffect(() => {
     const handleKeyDown = (event:any) => {
@@ -254,6 +318,13 @@ useEffect(() => {
                             <div className="text-[13px] text-neutral-400 mt-[-2px]">Can be change by Admin</div>
                         </div>
                         <div className="bg-slate-500/60 inline-block px-2 py-1 rounded-md text-[14px]">{role === 'no' ? "User": 'Admin'}</div>
+                    </div>
+                    <div className="flex flex-col gap-4 mb-4">
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                        <div className="grid grid-cols-2 gap-2">
+                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
+                        </div>
                     </div>
                     <InputCustomerId 
                         id="address"

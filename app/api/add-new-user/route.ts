@@ -16,6 +16,10 @@ export async function POST(request:Request) {
             role,
             active,
             imgUrl,
+            province,
+            district,
+            commune,
+            block,
             address,
             emailVerified
     } = body;
@@ -38,6 +42,10 @@ export async function POST(request:Request) {
             hashedPassword,
             image: imgUrl,
             address,
+            province,
+            district,
+            commune,
+            block,
             emailVerified,
            
         }

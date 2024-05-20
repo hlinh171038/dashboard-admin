@@ -29,6 +29,7 @@ model User {
   phone          String?
   image          String?
   hashedPassword String?
+  block          Boolean?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

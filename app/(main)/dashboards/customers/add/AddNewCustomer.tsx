@@ -24,6 +24,7 @@ type formData = {
     address: string,
     password: string,
     confirmPassword: string,
+    block: boolean,
 }
 
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
@@ -75,6 +76,7 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
         commune: z.string().min(1,{
             message: "Choose commune"
         }),
+        block: z.boolean(),
         address: z.string().min(10),
         password:z.string().min(5).max(20),
         //check password and password confirm
@@ -106,7 +108,8 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
             district: "",
             commune: "",
             address: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            block: true
         }
       })
 
@@ -119,8 +122,9 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
       const province = watch('province')
       const district = watch('district')
       const commune = watch('commune')
+      const block = watch('block')
 
-    console.log(province)
+    //console.log(province)
       
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
             if(! currentUser) {
@@ -232,27 +236,7 @@ useEffect(()=>{
    
 },[districtSelected])
 
-// useEffect(()=>{
-//     if(province) {
-//         const findId = provinces.find((item:any)=>item?.name === province );
-//         console.log(findId);
-//       const result =   districts && districts.filter((item:any)=> item.idProvince === findId?.idProvince)
-//         console.log(result)
-//         setDistrictPassPros(result)
-//     }
-//   },[province,districts,provinces])
- 
 
-
-
-// useEffect(()=>{
-// if(district ) {
-//     const findId = districts.find((item:any)=>item?.name === district );
-//   const result =   communes && communes.filter((item:any)=> item?.idDistrict === findId?.idDistrict)
-//     console.log(result)
-//     setCommunePassPros(result)
-// }
-// },[district,districts,communes])
 console.log(communes)
     return (
         <div className="px-2 ">

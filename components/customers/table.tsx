@@ -216,6 +216,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                         created_at={item.createdAt}
                         role={item.role}
                         action={item.action}
+                        block = {item.block}
                         check={checkId && checkId.includes(item.id)}
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                     />

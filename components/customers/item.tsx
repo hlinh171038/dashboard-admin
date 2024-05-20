@@ -7,6 +7,8 @@ import { useCallback, useState } from "react";
 import { FaRegSquare } from "react-icons/fa";
 import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
+import { BsToggleOn } from "react-icons/bs";
+import { BsToggleOff } from "react-icons/bs";
 
 interface ItemCustomerProps {
     id: string,
@@ -17,6 +19,7 @@ interface ItemCustomerProps {
     role: string;
     action: boolean;
     check: boolean;
+    block: boolean;
     handleOtherCheck: (id:string) =>void;
 }
 
@@ -29,6 +32,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     created_at,
     role,
     action,
+    block,
     check,
     handleOtherCheck
 }
@@ -40,27 +44,37 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     const month = new Date(created_at).getMonth() + 1;
     const triggerMonth = month <10 ? "0"+ month: month
     const year = new Date(created_at).getFullYear().toString()
+
+    const [blockRedict, setBlockRedict] = useState<boolean>(block)
     
     const route = useRouter()
     const handleRouteDetailUser = useCallback(()=>{
         route.push(`/dashboards/customers/${id}`)
     },[id,route])
 
-    // delete by id
-    // const handleDeleteUser = (id:string)=>{
-    //     setIsLoading(true)
-    //     axios.post(`/api/delete-user/`,{id})
-    //         .then((res)=>{
-    //             toast.success('deleted')
-    //             route.refresh()
-    //         })
-    //         .catch((err:any)=>{
-    //             toast.error('Some thing went wrong!!!')
-    //         })
-    //         .finally(()=>{
-    //             setIsLoading(false)
-    //         })
-    // }
+    const handleUpdateBlock = useCallback(()=>{
+        setIsLoading(true)
+        setBlockRedict(!blockRedict)
+        axios.post('/api/update-block',{id,block:blockRedict})
+            .then((res:any)=>{
+                console.log(res.data);
+                if(res?.data?.block === true) {
+                    toast.success('UnBlocked.')
+                } else {
+                    toast.success('Blocked.')
+                }
+                
+            })
+            .catch((err:any) =>{
+                console.log(err)
+                toast.error('Something went wrong')
+                setBlockRedict(!blockRedict)
+            })
+            .finally(()=>{
+                 setIsLoading(false)
+            })
+    },[blockRedict,id])
+
 
     return (
        <tr>
@@ -106,11 +120,21 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
         <td>{role === 'yes' ? 'Admin': 'User'}</td>
         <td className="">
             <div className="flex items-center justify-center">
-            {action  ?(
+            {/* {action  ?(
                     <span className="text-green-600 ">Active</span>
                 ) : (
                     <span className=" ">InActive</span>
-                )}
+                )} */}
+                {
+                    blockRedict ? 
+                    (
+                        <BsToggleOn className="w-8 h-8 text-neutral-100" onClick={handleUpdateBlock}/>
+                    )
+                    :
+                    (
+                        <BsToggleOff className="w-8 h-8 text-neutral-100" onClick={handleUpdateBlock} />
+                    )
+                }
             </div>
         </td>
             <td >

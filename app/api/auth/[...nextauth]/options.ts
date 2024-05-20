@@ -52,6 +52,11 @@ import bcrypt from 'bcrypt'
                   throw new Error('Incorrect password')
               }
 
+              // block or not
+              if(user?.block) {
+                throw new Error("Your account is block")
+              }
+
               return user;
           },
       }),  
