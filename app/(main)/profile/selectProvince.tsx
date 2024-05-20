@@ -10,13 +10,14 @@ interface provincesProps {
     id: string;
 
     setCustomValue: (id:string, value: any) =>void;
+    setProvinceSelected?: any
     province: string
 }
 
 const SelectProvince:React.FC<provincesProps> = ({
     data = [],
     setCustomValue,
-
+    setProvinceSelected,
     id,
     province
 }) => {
@@ -24,7 +25,7 @@ const SelectProvince:React.FC<provincesProps> = ({
     const [array,setArray] =useState([])
     const [open,setOpen] = useState(false)
     const [openSort,setOpenSort] = useState(false)
-    const [text,setText] = useState(`---${id}---`)
+    const [text,setText] = useState(`--- choose your ${id} ---`)
     const boxRef = useRef<any>(null);
 
      //handle click outside
@@ -41,10 +42,10 @@ const SelectProvince:React.FC<provincesProps> = ({
     },[openSort])
 
     //handle option
-    const handleOption = (idjson:string,value:any) =>{
-        setText(value)
-        setCustomValue(id,value)
-      
+    const handleOption = (idjson:string,name:any,obj:any) =>{
+        setText(name)
+        setCustomValue(id,name)
+        setProvinceSelected(obj)
     }
     // click outside the box
     useEffect(() => {
@@ -66,7 +67,9 @@ const SelectProvince:React.FC<provincesProps> = ({
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
             <div  ref={boxRef} className="bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-between gap-0.5" onClick={handleOpenSort}>
-               <div> {text}</div>
+               <div className={cn("duration-300 transition-all",
+                 text ===`--- choose your ${id} ---` ? 'text-neutral-400 capitalize' : 'text-neutral-100 '
+               )}> {text}</div>
                {!openSort ? (<MdOutlineArrowDropDown  className='w-4 h-4 text-neutral-100'/>): (<IoMdArrowDropup  className='w-4 h-4 text-neutral-100'/>)}
                
             </div>
@@ -76,7 +79,7 @@ const SelectProvince:React.FC<provincesProps> = ({
                 {data && data.map((item:any)=>{
                     return <div 
                                 key={id ==="province" ? item?.idProvince  : (id === 'district' ? item?.idDistrict : item?.idCommune)}
-                                onClick={()=>handleOption(item?.idProvince,item?.name)}
+                                onClick={()=>handleOption(item?.idProvince,item?.name,item)}
                                 className='hover:text-white transition-colors duration-300'
                             >
                                 {item?.name}

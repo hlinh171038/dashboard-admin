@@ -18,6 +18,9 @@ type formData = {
      role: string,
     active: string,
     imgUrl: string,
+    province: string,
+    district: string;
+    commune: string;
     address: string,
     password: string,
     confirmPassword: string,
@@ -31,6 +34,9 @@ import { cn } from "@/lib/utils"
 import Radio from "@/components/customers/radio"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { User } from "@prisma/client"
+import SelectProvince from "@/app/(main)/profile/selectProvince"
+import SelectDistrict from "@/app/(main)/profile/selectDistrict"
+import SelectCommune from "@/app/(main)/profile/selectCommune"
 
 
 interface AddNewCustomerProps {
@@ -45,6 +51,12 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
     const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
+    const [provinces,setProvinces] = useState<any>([])
+    const [districts,setDistricts] = useState<any>([])
+    const [communes,setCommunes] = useState<any>([])
+    const [provinceSelected,setProvinceSelected] = useState<any>(null)
+    const [districtSelected,setDistrictSelected] = useState<any>(null)
+ 
   
     const schema: ZodType<formData> = z.object({
         name: z.string().min(3).max(20),
@@ -54,6 +66,15 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
         role: z.string(),
         active: z.string(),
         imgUrl: z.string(),
+        province: z.string().min(1, {
+            message:"Choosen province"
+        }),
+        district: z.string().min(1,{
+            message:"Choosen district"
+        }),
+        commune: z.string().min(1,{
+            message: "Choose commune"
+        }),
         address: z.string().min(10),
         password:z.string().min(5).max(20),
         //check password and password confirm
@@ -81,6 +102,9 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
             role: "no",
             active: "yes",
             imgUrl: "",
+            province: "",
+            district: "",
+            commune: "",
             address: "",
             confirmPassword: ""
         }
@@ -92,8 +116,11 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
       const password = watch('password')
       const passwordConfirm = watch('confirmPassword')
       const active = watch('active')
+      const province = watch('province')
+      const district = watch('district')
+      const commune = watch('commune')
 
-    
+    console.log(province)
       
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
             if(! currentUser) {
@@ -163,6 +190,70 @@ useEffect(() => {
     
   },[currentUser,users])
   console.log(currentUserInfo)
+
+  // province |||| district  ||| commune data
+  // data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
+// data districts
+useEffect(()=>{
+    if(provinceSelected) {
+        console.log(provinceSelected)
+        console.log(provinceSelected?.idProvince)
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/?idProvince=${provinceSelected?.idProvince}`)
+            .then((res:any)=>{
+                setDistricts(res?.data)
+            })
+            .catch((err:any)=>{
+                console.log(err)
+            })
+    } 
+  },[provinceSelected])
+    console.log(districts)
+// data commune
+useEffect(()=>{
+    if(districtSelected) {
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune/?idDistrict=${districtSelected?.idDistrict}`)
+        .then((res:any)=>{
+            setCommunes(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+    }
+   
+},[districtSelected])
+
+// useEffect(()=>{
+//     if(province) {
+//         const findId = provinces.find((item:any)=>item?.name === province );
+//         console.log(findId);
+//       const result =   districts && districts.filter((item:any)=> item.idProvince === findId?.idProvince)
+//         console.log(result)
+//         setDistrictPassPros(result)
+//     }
+//   },[province,districts,provinces])
+ 
+
+
+
+// useEffect(()=>{
+// if(district ) {
+//     const findId = districts.find((item:any)=>item?.name === district );
+//   const result =   communes && communes.filter((item:any)=> item?.idDistrict === findId?.idDistrict)
+//     console.log(result)
+//     setCommunePassPros(result)
+// }
+// },[district,districts,communes])
+console.log(communes)
     return (
         <div className="px-2 ">
             <Toaster/>
@@ -315,6 +406,13 @@ useEffect(() => {
                                 </label>
                         </div>
                             {errors.phone && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
+                    </div>
+                    <div className="flex flex-col gap-4 mb-4">
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                        <div className="grid grid-cols-2 gap-2">
+                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
+                        </div>
                     </div>
                         {/* address */}
                         <div className="relative">

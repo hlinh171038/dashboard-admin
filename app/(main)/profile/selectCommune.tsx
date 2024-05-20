@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { IoMdArrowDropup } from "react-icons/io";
 import { MdOutlineArrowDropDown } from "react-icons/md";
+import { toast } from 'sonner';
 
 interface provincesProps {
     data: any[];
@@ -24,7 +25,7 @@ const SelectCommune:React.FC<provincesProps> = ({
     const [array,setArray] =useState([])
     const [open,setOpen] = useState(false)
     const [openSort,setOpenSort] = useState(false)
-    const [text,setText] = useState(`---${id}---`)
+    const [text,setText] = useState(`--- choose your ${id} ---`)
     const boxRef = useRef<any>(null);
 
      //handle click outside
@@ -37,8 +38,11 @@ const SelectCommune:React.FC<provincesProps> = ({
 
     //handle open sort
     const handleOpenSort = useCallback(()=>{
+      if(data && data.length <= 0) {
+        toast.warning('choose district first')
+      }
         setOpenSort(!openSort)  
-    },[openSort])
+    },[openSort,data])
 
     //handle option
     const handleOption = (value:any) =>{
@@ -65,10 +69,13 @@ const SelectCommune:React.FC<provincesProps> = ({
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
            <div  ref={boxRef} className="bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-between gap-0.5" onClick={handleOpenSort}>
-               <div> {text}</div>
-               {!openSort ? (<MdOutlineArrowDropDown  className='w-4 h-4 text-neutral-100'/>): (<IoMdArrowDropup  className='w-4 h-4 text-neutral-100'/>)}
+              <div className={cn("duration-300 transition-all",
+                 text ===`--- choose your ${id} ---` ? 'text-neutral-400 capitalize' : 'text-neutral-100 '
+               )}> {text}</div>
+               {openSort && data && data.length > 0 ? (<IoMdArrowDropup  className='w-4 h-4 text-neutral-100'/>): (<MdOutlineArrowDropDown  className='w-4 h-4 text-neutral-100'/>)}
                
             </div>
+            {data && data.length >0 && (
             <div className={cn("absolute top-[3.2rem] left-0 bg-slate-500 rounded-md w-full h-[150px] duration-300 transition-all cursor-pointer z-10 overflow-y-scroll",
                             openSort ? 'flex flex-col gap-1 px-2 py-1 space-y-1' : 'hidden'
                         )}>
@@ -83,6 +90,7 @@ const SelectCommune:React.FC<provincesProps> = ({
                         
              
             </div>
+            )}
         </div>
     </div>
   )

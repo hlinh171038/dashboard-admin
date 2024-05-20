@@ -53,6 +53,8 @@ const Profile:React.FC<DetailCustomerProps> = ({
     // const [dataCheckCommune,setDataCheckCommune] = useState<any>('')
     const [districtPassProps,setDistrictPassPros] = useState<any>([])
     const [CommunePassProps,setCommunePassPros] = useState<any>([])
+    const [provinceSelected,setProvinceSelected] = useState<any>(null)
+    const [districtSelected,setDistrictSelected] = useState<any>(null)
     const[check,setCheck] = useState(false)
     const router = useRouter()
 
@@ -161,46 +163,34 @@ const Profile:React.FC<DetailCustomerProps> = ({
 
 // data districts
 useEffect(()=>{
-        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/`)
+    if(provinceSelected) {
+        console.log(provinceSelected)
+        console.log(provinceSelected?.idProvince)
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/?idProvince=${provinceSelected?.idProvince}`)
             .then((res:any)=>{
                 setDistricts(res?.data)
             })
             .catch((err:any)=>{
                 console.log(err)
             })
-  },[])
-
-  useEffect(()=>{
-    if(province) {
-        const findId = provinces.find((item:any)=>item?.name === province );
-        console.log(findId);
-      const result =   districts && districts.filter((item:any)=> item.idProvince === findId?.idProvince)
-        console.log(result)
-        setDistrictPassPros(result)
-    }
-  },[province,districts,provinces])
- 
-
-  
+    } 
+  },[provinceSelected])
+    console.log(districts)
 // data commune
 useEffect(()=>{
-    axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune`)
+    if(districtSelected) {
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune/?idDistrict=${districtSelected?.idDistrict}`)
         .then((res:any)=>{
             setCommunes(res?.data)
         })
         .catch((err:any)=>{
             console.log(err)
         })
-},[])
+    }
+   
+},[districtSelected])
 
-useEffect(()=>{
-if(district ) {
-    const findId = districts.find((item:any)=>item?.name === district );
-  const result =   communes && communes.filter((item:any)=> item?.idDistrict === findId?.idDistrict)
-    console.log(result)
-    setCommunePassPros(result)
-}
-},[district,districts,communes])
+ 
 console.log(communes)
 //handle ctr + z
 useEffect(() => {
@@ -326,10 +316,10 @@ useEffect(() => {
                         disabled={check}
                     />
                     <div className="flex flex-col gap-4 mb-4">
-                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province}/>
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected={setProvinceSelected}/>
                        <div className="grid grid-cols-2 gap-2">
-                        <SelectDistrict data={districtPassProps} id={'district'} setCustomValue = {setCustomValue}   district = {district}/> 
-                        <SelectCommune data={CommunePassProps} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
+                        <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected={setDistrictSelected}/> 
+                        <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
                        </div>
                     </div>
                     <InputCustomerId 
