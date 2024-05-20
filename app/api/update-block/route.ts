@@ -13,7 +13,8 @@ export async function POST(request:Request) {
         id
     } = data
 
-
+    console.log(block)
+    console.log(id)
 
     // exactly id
     const idconfirm = await prisma.user.findUnique({

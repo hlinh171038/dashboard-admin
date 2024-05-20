@@ -55,13 +55,13 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     const handleUpdateBlock = useCallback(()=>{
         setIsLoading(true)
         setBlockRedict(!blockRedict)
-        axios.post('/api/update-block',{id,block:blockRedict})
+        axios.post('/api/update-block',{id,block:!blockRedict})
             .then((res:any)=>{
                 console.log(res.data);
                 if(res?.data?.block === true) {
-                    toast.success('UnBlocked.')
+                    toast.success('Block.')
                 } else {
-                    toast.success('Blocked.')
+                    toast.success('UnBlock.')
                 }
                 
             })

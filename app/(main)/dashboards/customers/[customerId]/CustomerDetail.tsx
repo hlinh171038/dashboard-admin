@@ -167,14 +167,17 @@ console.log(check)
 /////////////////////////seleted ////////////////////////////////////
 // data provinces
   useEffect(()=>{
-    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+    if(currentUser?.user?.permission === 'exercute') {
+        axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
         .then((res:any)=>{
             setProvinces(res?.data)
         })
         .catch((err:any)=>{
             console.log(err)
         })
-  },[])
+    }
+   
+  },[currentUser])
 
 // data districts
 useEffect(()=>{

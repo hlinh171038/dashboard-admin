@@ -69,7 +69,11 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     const handleDelete = useCallback((array:any[])=>{
 
         if(!currentUser) {
-            toast.warning('have not login !!!');
+            toast.warning('Have not login !!!');
+            return;
+        }
+        if(currentUser?.user?.permission !== 'exercute') {
+            toast.warning('Only delete with exercute permission !!!');
             return;
         }
         setIsLoading(true)
