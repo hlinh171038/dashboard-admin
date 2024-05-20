@@ -167,7 +167,7 @@ console.log(check)
 /////////////////////////seleted ////////////////////////////////////
 // data provinces
   useEffect(()=>{
-    if(currentUser?.user?.permission === 'exercute') {
+    if(check) {
         axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
         .then((res:any)=>{
             setProvinces(res?.data)
@@ -177,8 +177,8 @@ console.log(check)
         })
     }
    
-  },[currentUser])
-
+  },[check])
+console.log(provinces)
 // data districts
 useEffect(()=>{
     if(provinceSelected) {
@@ -222,6 +222,9 @@ useEffect(() => {
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [router]);
+
+  // take user permisssion to check 
+
     return (
         <div className="grid grid-cols-3 gap-2 px-2">
             
