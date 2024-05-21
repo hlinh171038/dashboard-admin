@@ -176,7 +176,7 @@ const Navbar:React.FC<NavProps>= ({
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >
             <div 
-                className={cn("bg-slate-600 shadow-sm  w-full h-[70px] grid grid-cols-12 gap-x-4 justify-between items-center px-4 relative rounded-md",
+                className={cn("bg-slate-600 shadow-sm  w-full h-[70px] grid grid-cols-12 gap-x-4 justify-between items-center px-2 relative rounded-md",
                     sticky ?'bg-slate-600 shadow-md':''
                 )}
             >

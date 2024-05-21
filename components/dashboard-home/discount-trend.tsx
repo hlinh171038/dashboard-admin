@@ -43,7 +43,7 @@ const DiscountTrend:React.FC<DiscountTrendProps> = ({
                             discountCondition ? 'bg-none': 'bg-slate-600 hover:bg-slate-500/40 '
                         )}>
              <div className="mb-2">
-                <div className="text-white text-[16px] font-bold flex items-center justify-between ">
+                <div className="text-white text-[16px] font-semibold flex items-center justify-between ">
                     <div> Hot Coupon</div>
                     {!discountCondition && (
                         <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>

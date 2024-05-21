@@ -160,8 +160,8 @@ const Chart:React.FC<ChartProps> = ({
           data={chartThisWeek}
           margin={{
             top: 5,
-            right: 30,
-            left: 20,
+            right: 5,
+            left: 5,
             bottom: 5,
           }}
         >

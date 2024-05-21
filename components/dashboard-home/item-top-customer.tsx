@@ -61,7 +61,7 @@ const [convertTotal,setConvertTotal] = useState(0)
                     width={40}
                     height={40}
                     alt="avatar"
-                    className="rounded-full aspect-square"
+                    className="rounded-full aspect-square object-cover"
                 />
                 <div>
                     <div>{name}</div>
@@ -70,33 +70,33 @@ const [convertTotal,setConvertTotal] = useState(0)
                 {index === 0 && (
                     <div className="absolute bottom-[-7px] left-8">
                     <Image 
-                        src={ '/gold-medal.png'}
+                        src={ '/gold-medal.webp'}
                         width={30}
                         height={30}
                         alt="avatar"
-                        className="rounded-full aspect-square"
+                        className="rounded-full aspect-square object-cover"
                     />
                     </div>
                 )}
                 {index === 1  && (
                     <div className="absolute bottom-[-7px] left-8">
                     <Image 
-                        src={ '/silver-medal.png'}
+                        src={ '/silver-medal.webp'}
                         width={30}
                         height={30}
                         alt="avatar"
-                        className="rounded-full aspect-square"
+                        className="rounded-full aspect-square object-cover"
                     />
                     </div>
                 )}
                 { index ===2 && (
                     <div className="absolute bottom-[-7px] left-8">
                     <Image 
-                        src={ '/medal-2.png'}
+                        src={ '/medal-2.webp'}
                         width={30}
                         height={30}
                         alt="avatar"
-                        className="rounded-full aspect-square"
+                        className="rounded-full aspect-square object-cover"
                     />
                     </div>
                 )}

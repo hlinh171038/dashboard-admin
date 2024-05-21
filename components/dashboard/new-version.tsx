@@ -33,12 +33,12 @@ const NewVersion:React.FC<NewVersionProps> = ({
                 </div>
             </div>
             <div>
-                <p className="text-[10px] text-gray-300 ">{question}</p>
+                <p className="text-[14px]  text-neutral-400">{question}</p>
             </div>
-            <div className="text-[13px]">
+            <div className="text-[14px]">
                 <p>{content1}</p>
             </div>
-            <div className="text-[13px]">
+            <div className="text-[14px]">
                 <p>{content2}</p>
             </div>
             <div>

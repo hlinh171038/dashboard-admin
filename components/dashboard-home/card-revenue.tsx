@@ -171,7 +171,7 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                     <GiPayMoney className="w-4 h-4 text-white " />
                 </div>
                 <div>
-                <div className="font-bold text-[16px] text-neutral-100">Revenue</div>
+                <div className="font-semibold text-[16px] text-neutral-100">Revenue</div>
                 <div className=" text-[14px] text-neutral-100">{profitThisWeek.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</div>
                 </div>
             </div>
@@ -185,13 +185,13 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                                     <span className="text-[13px] text-red-600 mb-[-1px] ">{percent * -1 + '%'}</span>
                                 </div>
                             ):(
-                                <div className="flex items-end justify-start gap-0.5 bg-green-200 rounded-md px-1  ">
+                                <div className="flex items-end justify-start gap-0.5 bg-green-200 rounded-md px-1 mb-1 ">
                                     <PiArrowFatLinesUpFill className="w-3 h-4 text-green-600" />
                                     <div className="text-[12px] text-green-800 mb-[-1px]    ">{percent + '%'}</div>
                                 </div>
                             )}
                     </div>
-                    <div className="mb-[-1px] ">compare last week.</div>
+                    <div className="mb-1 ">compare last week.</div>
                 </div>
             </div>
             <div className=" absolute top-0 left-0 text-[14px] w-0 h-full group-hover:bg-gray-900/80 group-hover:w-full text-neutral-400  hover:text-neutral-100 transition-all duration-300 flex flex-col justify-start rounded-md overflow-hidden ">

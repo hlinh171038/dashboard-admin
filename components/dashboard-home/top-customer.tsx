@@ -43,7 +43,7 @@ const TopCustomer:React.FC<TopCustomerProps> = ({
 
     return (
         <div className="text-[14px] text-neutral-100 ">
-             <div className="text-white text-[16px] font-bold flex items-center justify-between">
+             <div className="text-white text-[16px] font-semibold flex items-center justify-between">
                        <div> Customer Service</div>
                         <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                     </div>
@@ -51,8 +51,8 @@ const TopCustomer:React.FC<TopCustomerProps> = ({
                        
 Customer service is the assistance and support provided by a company to its customers, both before and after they purchase or use a product or service.
                     </div>
-            <div className="font-bold text-[15px] my-2 mb-4">Top 6 Best Customer</div>
-            <div className="flex flex-col gap-2">
+            <div className="font-semibold text-[15px] my-2 mb-4">Top 6 Best Customer</div>
+            <div className="flex flex-col gap-2"> 
                 {guestData && guestData.slice(0,6).map((item:any,index:any) =>{
                     return (
                        <ItemTopCustomer

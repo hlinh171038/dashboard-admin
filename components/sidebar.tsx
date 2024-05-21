@@ -31,6 +31,7 @@ import { FaPlus } from "react-icons/fa6";
 import SidebarItem from "./sidebar/sidebar-item";
 import { MdDiscount } from "react-icons/md";
 import { Router } from "lucide-react";
+import { IoClose } from "react-icons/io5";
 
 import {
     Popover,
@@ -160,9 +161,9 @@ const Sidebar:React.FC<SideProps> = ({
 
     
     return (
-        <div className={cn("flex flex-col rounded-md h-full bg-slate-600  "
+        <div className={cn("relative flex flex-col rounded-md h-full bg-slate-600  "
             )}>
-            <div className="h-auto text-white  flex items-center justify-between px-4 py-4">
+            <div className="h-auto text-white  flex items-center justify-between px-2 py-4">
             <div className="flex items-center justify-start gap-2 text-[15px] ">
                 <Avatar className="" onClick={()=>router.push('/profile')}>
                         <AvatarImage src={img as string} />
@@ -181,12 +182,12 @@ const Sidebar:React.FC<SideProps> = ({
                     </div>
                 </div>
             </div>
-               
-               
-                <MdArrowBackIos 
+            <div className="absolute top-2 right-2">
+                <IoClose  
                     className="text-white w-5 h-5  hover:text-neutral-400 transition-all"
                     onClick={()=>sidebar.onClose()}
                 />
+            </div>  
             </div>
             
             
@@ -263,7 +264,7 @@ const Sidebar:React.FC<SideProps> = ({
                         })}
                 </div> 
             </div>
-            <div onClick={handleSignOut} className=" px-4 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
+            <div onClick={handleSignOut} className=" px-2 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
                 <div >Log out</div>
                 <MdLogout className="w-4 h-4" />
             </div>

@@ -88,10 +88,10 @@ const TopCategory:React.FC<TopCategoryProps> = ({
     console.log(total)
     console.log(trendCategory)
     return (
-        <div className={cn("bg-slate-600 rounded w-full p-2  transition-all duration-300 relative",
+        <div className={cn("bg-slate-600 rounded w-full px-2 py-2  transition-all duration-300 relative",
                             productCondition && productCondition ? 'hover:opacity-[1]':'hover:bg-slate-500/40'
                         )}>
-            <div className="text-[15px] text-neutral-100 font-bold ">Popular Category</div>
+            <div className="text-sm text-neutral-100 font-semibold ">Popular Category</div>
             <div className="text-[14px] text-neutral-400">List of hotest category sort by quanity of transaction.</div>
            <div className={cn("flex justify-between ",
                             productCondition && productCondition ?'flex-row-reverse':'flex-wrap'
@@ -100,7 +100,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
                 data = {data}
             />
             <div className={cn("  ",
-                                productCondition && productCondition ? 'mt-6 flex flex-col gap-1.5 w-full':"w-full"
+                                productCondition && productCondition ? 'mt-6 mb-2 flex flex-col gap-1.5 w-full':"w-full"
                             )}>
                 {data && data.map((item:any,index:any)=>{
                     return (
@@ -117,7 +117,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
                 })}
             </div>
            </div>
-            <div className="absolute bottom-1 right-1 text-[14px] text-neutral-100 ">Total:{total}</div>
+            <div className="absolute bottom-2 right-2 text-[14px] text-neutral-100 ">Total:{total}</div>
         </div>
     )
 }

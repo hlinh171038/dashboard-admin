@@ -44,10 +44,10 @@ const CardUser:React.FC<CardUserProps> = ({
    
     
     return (
-        <div className="bg-slate-600 hover:bg-slate-500/40 px-2 py-0.5 flex flex-col justify-between gap-1 rounded-md cursor-pointer ">
+        <div className="bg-slate-600 hover:bg-slate-500/40 px-2 py-2 flex flex-col justify-between gap-1 rounded-md cursor-pointer ">
             <div>
                 <div className="text-white hover:text-200 grid grid-cols-2 items-center justify-between gap-2 text-[15px] w-full ">
-                    <div className="font-bold col-span-1 text-[16px]">New Users</div>
+                    <div className="font-semibold col-span-1 text-[16px]">New Users</div>
                     
                     {/* <div>{totalUserThisWeek && totalUserThisWeek.length <10 ? `0${totalUserThisWeek.length}`:totalUserThisWeek.length}</div> */}
                     <div className="col-span-1 text-neutral-100 text-[14px] flex items-end justify-end w-full">{percent && percent <0 ?(
@@ -78,7 +78,7 @@ const CardUser:React.FC<CardUserProps> = ({
             )}
             
             {totalUserThisWeek.length>0 ?(
-                <div className=" w-full flex items-end justify-start ">
+                <div className=" w-full flex items-end justify-start px-2 ">
                
                 {
                     //map user this week
@@ -92,7 +92,7 @@ const CardUser:React.FC<CardUserProps> = ({
                                         height={40}
                                         alt="avatar"
                                         objectFit="cover"
-                                        className={`rounded-full aspect-square border-2 border-slate-600 `}
+                                        className={`rounded-full aspect-square border-2 border-slate-600 object-cover`}
                                     />
                                 </div>
                         )
@@ -107,7 +107,7 @@ const CardUser:React.FC<CardUserProps> = ({
                                  
             </div>
             ):(
-                <div className=" w-full flex items-end justify-start ">
+                <div className=" w-full flex items-end justify-start ml-1">
                
                     {
                         //map user this week
@@ -121,7 +121,7 @@ const CardUser:React.FC<CardUserProps> = ({
                                             height={40}
                                             alt="avatar"
                                             objectFit="cover"
-                                            className={`rounded-full aspect-square border-2 border-slate-600 `}
+                                            className={`rounded-full aspect-square border-2 border-slate-600 object-cover`}
                                         />
                                     </div>
                             )
@@ -129,7 +129,7 @@ const CardUser:React.FC<CardUserProps> = ({
                     }
                     {
                       users.length >6 && (
-                        <span className="flex items-end justify-end gap-0.5 text-neutral-400 text-[13px]"> {`...+${(users.length - 6) <10 ? `0${users.length - 6}` : users.length - 6}`} all the tine</span>
+                        <span className="flex items-end justify-end gap-0.5 text-neutral-400 text-[13px]"> {`...+${(users.length - 6) <10 ? `0${users.length - 6}` : users.length - 6}`} all </span>
                       )  
                     }
                   

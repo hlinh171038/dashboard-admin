@@ -57,7 +57,7 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
     },[cashAmount,cardAmount])
     return (
        <div className="bg-slate-600 hover:bg-slate-500/40 text-[14px] text-neutral-100 rounded-md p-2">
-        <div className="text-white text-[16px] font-bold flex items-center justify-between mb-2">
+        <div className="text-white text-[16px] font-semibold flex items-center justify-between mb-2">
                        <div> Payment Method</div>
                         <div className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                     </div>
