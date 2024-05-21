@@ -129,7 +129,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
                 <div className="flex items-center justify-end gap-2">
                     <button 
                         onClick={handleViewDetail}
-                        className="inline-block rounded-md text-neutral-200 bg-[#4FA29E]  items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 mr-2">
+                        className="inline-block rounded-md text-neutral-200 bg-[#4FA29E]  items-center justify-center px-2 py-0.5  hover:opacity-[0.7] hover:text-white transition-all duration-300 ">
                         View
                     </button>
                 

@@ -26,27 +26,27 @@ const ItemHostestProduct:React.FC<ItemHostestProductProps> = ({
                   <div className="flex items-center justify-start gap-1">
                     <Image 
                         src={image ? image : '/avatar.png'}
-                        width={30}
-                        height ={30}
+                        width={25}
+                        height ={25}
                         alt="avatar"
                         objectFit="cover"
-                        className="aspect-square"
+                        className="aspect-square object-cover"
                     />
                     <div>
-                        <div className="text-neutral-100 mb-[-2px]">{name}</div>
+                        <div className="text-neutral-100 mb-[-4px]">{name}</div>
                         <div className="text-neutral-400 text-[13px]">{brand2}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-2 capitalize">{category}</td>
-                <td className="px-2 capitalize">{count}</td>
+                <td className="px-2 capitalize">{count && count <10 ? `0${count}`: count} items</td>
             </tr>
         )
     }
     return (
         <tr className="text-neutral-400 text-[14px]">
            <td className="capitalize px-2">{brand}</td>
-           <td className="px-2">{count}</td>
+           <td className="px-2">{count && count <10 ? `0${count}`: count} items</td>
            <td className="px-2">Instock</td>
         </tr>
     )

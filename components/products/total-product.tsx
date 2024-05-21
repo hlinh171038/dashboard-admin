@@ -30,11 +30,11 @@ interface TotalProductProps {
         <div className="bg-slate-600 rounded-md p-2 relative">
             <div className="flex items-center justify-between">
             <div>
-                <div className="font-bold text-[17px] text-neutral-100">Product Manager</div>
+                <div className="font-semibold text-[16px] text-neutral-100">Product Manager</div>
                 <div className="flex items-center justify-start gap-2">
-                    <div className="text-[35px] text-neutral-400 ">{product && product.length}</div>
+                    <div className="text-[35px] text-neutral-400 ">{product && product.length <10 ? `0${product.length}`:product.length}</div>
                     <div className="text-[12px] ">
-                        <div className="mb-[-2px] text-green-500">+ {totalProductThisWeek && totalProductThisWeek.length}</div>
+                        <div className="mb-[-2px] text-green-500">+ {totalProductThisWeek && totalProductThisWeek.length <10 ? `0${totalProductThisWeek.length}`:totalProductThisWeek.length}</div>
                         <div className="text-neutral-400">in this week</div>
                     </div>
                 </div>

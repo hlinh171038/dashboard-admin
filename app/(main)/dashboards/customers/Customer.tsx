@@ -172,7 +172,7 @@ const Customer:React.FC<Cusromerprops> = ({
                         currentUser = {currentUser}
                         handleLoading = {handleLoading}
                     />
-                    <div className="pl-2 w-full">
+                    <div className="px-2 w-full">
                        {/* <Table/> */}
                       
                         <TableCustomer
