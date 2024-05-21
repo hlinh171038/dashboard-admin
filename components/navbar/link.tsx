@@ -372,6 +372,21 @@ const Link:React.FC<linkProps> = ({
                     </BreadcrumbList>
                 </Breadcrumb>
             )}
+            {/* profile */}
+              {type === 'profile' && (
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/dashboards">Home</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                        <BreadcrumbPage>Profile</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
+            )}
         </div>
     )
 }

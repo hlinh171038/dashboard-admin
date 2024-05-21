@@ -173,7 +173,7 @@ const CommentContent:React.FC<CommentContentProps> = ({
                     </div>
                     
                    ):(
-                    updateNotify ? updateNotify.map((item:any) =>{
+                    updateNotify.length >0 ? updateNotify.map((item:any) =>{
                         return <CommentItemReply 
                                     key={item.id}
                                     userName ={item.userName}

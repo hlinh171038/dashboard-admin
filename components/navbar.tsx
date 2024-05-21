@@ -68,6 +68,7 @@ const Navbar:React.FC<NavProps>= ({
     const [hover,setHover] = useState(false)
     const [showMail,setShowMail] = useState<any>(null)
     const [sticky,setSticky] = useState(false)
+    const [tempNotify,setTempNotify] = useState<any>(null)
     const [arrComment,setArrComment] = useState<any>([])
     const [arrHeart,setArrHeart] = useState<any>([])
     const [arrRelly,setArrRelly] = useState<any>([])
@@ -161,9 +162,16 @@ const Navbar:React.FC<NavProps>= ({
             case '/analytics/team/add' : setLink('team-add'); break;
             case '/users/help' : setLink('help'); break;
             case '/history' : setLink('history'); break;
+            case '/profile' : setLink('profile'); break;
         }
      },[path,idUrl])
      console.log(link)
+     console.log(notify)
+     useEffect(()=>{
+        const result = notify && notify.filter((item:any)=>item.userId === userId)
+        setTempNotify(result)
+     },[notify,userId])
+     console.log(tempNotify)
     return (
         <div id="navbar" style={{background:'#262E3F'}} className={cn("transition-all duration-300 sticky top-0 p-2 z-30 ",
                         )} >
@@ -185,7 +193,7 @@ const Navbar:React.FC<NavProps>= ({
                 <div className="col-span-7 flex justify-end items-center">
                     <div className="relative">
                         <div className="absolute top-2 left-2 "><IoSearchSharp className="w-3 h-3 text-white"/></div>
-                        <input className="px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-sm focus:outline-none" placeholder="Search ... "/>
+                        <input className="px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-sm focus:outline-none text-neutral-100" placeholder="Search ... "/>
                     </div>
                 </div>
                 
@@ -210,12 +218,12 @@ const Navbar:React.FC<NavProps>= ({
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <AiFillBell className="w-5 h-5 text-white" />
+                    {/* <AiFillBell className="w-5 h-5 text-white" /> */}
                     <div className="relative mt-2">
                         <Popover>
                             <PopoverTrigger>
                                 <MdOutlineComment className="w-5 h-5 text-white" />
-                                {notify && notify.length >0 && (
+                                {tempNotify && tempNotify.length >0 && (
                                     <div className="absolute top-0 right-0 w-2  h-2 bg-red-600 rounded-full"></div>
                                 )}
                             </PopoverTrigger>

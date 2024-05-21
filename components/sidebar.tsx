@@ -163,9 +163,27 @@ const Sidebar:React.FC<SideProps> = ({
         <div className={cn("flex flex-col rounded-md h-full bg-slate-600  "
             )}>
             <div className="h-auto text-white  flex items-center justify-between px-2 py-4">
-                <Popover>
+            <div className="flex items-center justify-start gap-2 text-[15px] ">
+                <Avatar className="" onClick={()=>router.push('/profile')}>
+                        <AvatarImage src={img as string} />
+                        <AvatarFallback>LT</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-start gap-0.5">
+                    <div className="capitalize ml-4" onClick={()=>router.push('/profile')}>
+                        {name}
+                    </div>
+                    <div className="inline-flex justify-start items-center gap-2">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <div className="font-thin text-[14px]">Ready for working</div>
+                    </div>
+                </div>
+            </div>
+                {/* <Popover>
                     <PopoverTrigger>
-                        {/* <Image src="/logo2.png" width="96" height="96" alt="logo"/> */}
+                    
                             <div className="flex items-center justify-start gap-2 text-[15px] ">
                                 <Avatar className="">
                                         <AvatarImage src={img as string} />
@@ -199,7 +217,7 @@ const Sidebar:React.FC<SideProps> = ({
                         />
 
                     </PopoverContent>
-                </Popover>
+                </Popover> */}
                
                 <MdArrowBackIos 
                     className="text-white w-5 h-5 mr-4 hover:text-neutral-400 transition-all"

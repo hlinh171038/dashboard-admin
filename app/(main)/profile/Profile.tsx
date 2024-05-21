@@ -29,6 +29,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import SelectDistrict from "./selectDistrict"
 import SelectProvince from "./selectProvince"
 import SelectCommune from "./selectCommune"
+import { BsToggleOff, BsToggleOn } from "react-icons/bs"
 
 
 
@@ -80,6 +81,7 @@ const Profile:React.FC<DetailCustomerProps> = ({
         district: userById?.district,     
         commune: userById?.commune,
         address: userById?.address,
+        block: userById?.block,
         confirmPassword: ""
     }
   })
@@ -98,6 +100,7 @@ const Profile:React.FC<DetailCustomerProps> = ({
   const province = watch('province');
   const district = watch('district');
   const commune = watch('commune');
+  const block = watch('block')
 
   console.log(province);
   console.log(district);
@@ -118,7 +121,8 @@ const Profile:React.FC<DetailCustomerProps> = ({
         address,
         province,
         district,
-        commune
+        commune,
+       
     })
         .then((res)=>{
             toast.success('User is uploaded')
@@ -255,7 +259,18 @@ useEffect(() => {
                         <div className="w-20 h-0.5 bg-neutral-100"></div>
                     </div>
                     {/* wating */}
-                    <div>block/unblock</div>
+                    <div>
+                        {
+                            block ? 
+                            (
+                                <BsToggleOn className="w-8 h-8 text-neutral-100"/>
+                            )
+                            :
+                            (
+                                <BsToggleOff className="w-8 h-8 text-neutral-100"  />
+                            )
+                        }
+                    </div>
                 </div>
                
                 </div>
