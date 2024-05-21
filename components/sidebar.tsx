@@ -162,14 +162,14 @@ const Sidebar:React.FC<SideProps> = ({
     return (
         <div className={cn("flex flex-col rounded-md h-full bg-slate-600  "
             )}>
-            <div className="h-auto text-white  flex items-center justify-between px-2 py-4">
+            <div className="h-auto text-white  flex items-center justify-between px-4 py-4">
             <div className="flex items-center justify-start gap-2 text-[15px] ">
                 <Avatar className="" onClick={()=>router.push('/profile')}>
                         <AvatarImage src={img as string} />
                         <AvatarFallback>LT</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start gap-0.5">
-                    <div className="capitalize ml-4" onClick={()=>router.push('/profile')}>
+                    <div className="capitalize " onClick={()=>router.push('/profile')}>
                         {name}
                     </div>
                     <div className="inline-flex justify-start items-center gap-2">
@@ -177,124 +177,93 @@ const Sidebar:React.FC<SideProps> = ({
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                         </span>
-                        <div className="font-thin text-[14px]">Ready for working</div>
+                        <div className="font-thin text-[13px] text-neutral-400">Ready for working</div>
                     </div>
                 </div>
             </div>
-                {/* <Popover>
-                    <PopoverTrigger>
-                    
-                            <div className="flex items-center justify-start gap-2 text-[15px] ">
-                                <Avatar className="">
-                                        <AvatarImage src={img as string} />
-                                        <AvatarFallback>LT</AvatarFallback>
-                                </Avatar>
-                                <div className="flex flex-col items-start gap-0.5">
-                                    <div className="capitalize ml-4">
-                                        {name}
-                                    </div>
-                                    <div className="inline-flex justify-start items-center gap-2">
-                                        <span className="relative flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                        </span>
-                                        <div className="font-thin text-[14px]">Ready for working</div>
-                                    </div>
-                                </div>
-                            </div>
-                    </PopoverTrigger>
-                    <PopoverContent className=" bg-white rounded-md w-[300px] ml-2  px-2 py-4 flex flex-col gap-2 transition-all duration-300">
-                        
-                        <Button 
-                            label="Login"
-                            onClick={handleLogin}
-                        
-                        />
-                        <Button 
-                                label="Register"
-                                onClick={handleRegister}
-                                outline
-                        />
-
-                    </PopoverContent>
-                </Popover> */}
+               
                
                 <MdArrowBackIos 
-                    className="text-white w-5 h-5 mr-4 hover:text-neutral-400 transition-all"
+                    className="text-white w-5 h-5  hover:text-neutral-400 transition-all"
                     onClick={()=>sidebar.onClose()}
                 />
             </div>
             
             
-            <div className=" h-screen text-white flex flex-col gap-4 px-4 py-4">
-                <Link  href={"/dashboards"} 
-                       className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
-                                path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-80"
-                        )}
-                >
-                    <MdDashboardCustomize className="w-5 h-5"/>
-                    <div>Dashboard</div>
-                </Link>
-                {menuItems.map((item)=>{
-                    
-                    return (
-                        <SidebarItem
-                            key={item.title}
-                            link={item.link}
-                            title={item.title}
-                            icon ={item.icon}
-                            addTitle = {item.add &&item.add.title}
-                            addLink = {item.add && item.add.link}
-                            addIcon = {item.add && item.add.icon}
-                            />
-                    )
-                })}
+            <div className=" h-screen text-white flex flex-col gap-8 px-4 py-2">
+                <div className="flex flex-col gap-4 ">
+                    <Link  href={"/dashboards"} 
+                        className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
+                                    path.includes('/dashboards') && "text-slate-900 font-bold hover:text-slate-800"
+                            )}
+                    >
+                        <MdDashboardCustomize className="w-5 h-5"/>
+                        <div>Dashboard</div>
+                    </Link>
+                    {menuItems.map((item)=>{
+                        
+                        return (
+                            <SidebarItem
+                                key={item.title}
+                                link={item.link}
+                                title={item.title}
+                                icon ={item.icon}
+                                addTitle = {item.add &&item.add.title}
+                                addLink = {item.add && item.add.link}
+                                addIcon = {item.add && item.add.icon}
+                                />
+                        )
+                    })}
+                </div>
+                
 
                 {/* analyst */}
-                <div className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
-                    path.includes("/analytics") && "text-slate-900 hover:text-slate-800 font-bold"
-                )}>
-                    <IoAnalytics className="w-5 h-5"/>
-                    <div>Analytics</div>
-                </div>
-                {analytics.map((item)=>{
-                    const Icon = item.icon
-                    return (
-                        <Link 
-                            href={item.link} 
-                            key={item.title} 
-                            className={cn("px-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm  transition-all duration-300",
-                                path === item.link && "bg-slate-500/60 rounded-md py-1"
-                            )}>
-                            <Icon className="w-4 h-4" />
-                            <div> {item.title}</div>
-                        </Link>
-                    )
-                })}
-                {/* setting */}
-                <div className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
-                    path.includes("/users") && "text-slate-900 hover:text-slate-800 font-bold"
-                )}>
-                    <FaUserCircle className="w-5 h-5"/>
-                    <div>Users</div>
-
-                </div>
-                    {setting.map((item)=>{
-                        const Icon = item.icon;
+                <div className="flex flex-col gap-4 ">
+                    <div className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
+                        path.includes("/analytics") && "text-slate-900 hover:text-slate-800 font-bold"
+                    )}>
+                        <IoAnalytics className="w-5 h-5"/>
+                        <div>Analytics</div>
+                    </div>
+                    {analytics.map((item)=>{
+                        const Icon = item.icon
                         return (
-                            <Link href={item.link} key={item.title} className={clsx("px-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm transition-all duration-300 ",
-                            
-                                path === item.link && "bg-slate-500/60 rounded-md py-1"
-                            )}>
+                            <Link 
+                                href={item.link} 
+                                key={item.title} 
+                                className={cn("px-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm  transition-all duration-300",
+                                    path === item.link && "bg-slate-500/60 rounded-md py-1"
+                                )}>
                                 <Icon className="w-4 h-4" />
                                 <div> {item.title}</div>
                             </Link>
                         )
                     })}
-                
-                
+                </div>
+                {/* setting */}
+                <div className="flex flex-col gap-4 ">
+                    <div className={cn("flex items-center text-white text-sm gap-4 cursor-pointer transition-all duration-300",
+                        path.includes("/users") && "text-slate-900 hover:text-slate-800 font-bold"
+                    )}>
+                        <FaUserCircle className="w-5 h-5"/>
+                        <div>Users</div>
+
+                    </div>
+                        {setting.map((item)=>{
+                            const Icon = item.icon;
+                            return (
+                                <Link href={item.link} key={item.title} className={clsx("px-4 flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200 text-sm transition-all duration-300 ",
+                                
+                                    path === item.link && "bg-slate-500/60 rounded-md py-1"
+                                )}>
+                                    <Icon className="w-4 h-4" />
+                                    <div> {item.title}</div>
+                                </Link>
+                            )
+                        })}
+                </div> 
             </div>
-            <div onClick={handleSignOut} className=" px-2 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
+            <div onClick={handleSignOut} className=" px-4 py-4 text-white flex items-center justify-start gap-4 cursor-pointer hover:text-neutral-200">
                 <div >Log out</div>
                 <MdLogout className="w-4 h-4" />
             </div>
