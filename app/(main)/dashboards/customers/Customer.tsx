@@ -159,6 +159,7 @@ const Customer:React.FC<Cusromerprops> = ({
                     <ChartCustomer 
                         totalUserThisWeek = {totalUserThisWeek}
                         totalUserLastWeek = {totalUserLastWeek}
+                        thisWeek = {thisWeek}
                     />
                 </div>
             </div>
@@ -171,7 +172,7 @@ const Customer:React.FC<Cusromerprops> = ({
                         currentUser = {currentUser}
                         handleLoading = {handleLoading}
                     />
-                    <div className="px-2 w-full">
+                    <div className="pl-2 w-full">
                        {/* <Table/> */}
                       
                         <TableCustomer

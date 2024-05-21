@@ -8,11 +8,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 interface ChartCustomerProps {
     totalUserThisWeek: any;
     totalUserLastWeek: any;
+    thisWeek: any;
 }
 
 const ChartCustomer:React.FC<ChartCustomerProps> = ({
     totalUserThisWeek = [],
-    totalUserLastWeek = []
+    totalUserLastWeek = [],
+    thisWeek
 }) => {
   const [data,setData] = useState<any>([])
 
@@ -91,10 +93,17 @@ const ChartCustomer:React.FC<ChartCustomerProps> = ({
 
     return (
          <div className='px-2 py-2'>
-            <div className='text-[15px] text-neutral-100 font-bold'>User statistics</div>
+            <div className='text-[16px] text-neutral-100 font-semibold'>User statistics</div>
             <div className='text-[14px] text-neutral-400 '>The chart shows users this week compared to the previous week</div>
-           
-            <div className='w-full h-[300px] text-[14px] text-neutral-400 '>
+            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-start pr-1  text-neutral-100 text-[14px]">
+                <div className="px-1">Date : </div>
+                <div>{new Date(thisWeek[0]).toLocaleDateString()}</div>
+                <div className="px-1"> - </div>
+                <div>{new Date(thisWeek[thisWeek.length -1]).toLocaleDateString()}</div>
+            </div>
+                    </div>
+            <div className='w-full h-[283px] text-[14px] text-neutral-400 '>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                     width={500}

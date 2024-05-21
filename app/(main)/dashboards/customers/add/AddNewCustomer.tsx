@@ -109,7 +109,7 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
             commune: "",
             address: "",
             confirmPassword: "",
-            block: true
+            block: false
         }
       })
 

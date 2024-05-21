@@ -36,7 +36,7 @@ const CreateCard:React.FC<CopyLinkProps> = ({
      },[currentUser,customer])
     return (
         <div className="bg-slate-600 rounded-md p-2 relative">
-            <div className="font-bold text-[15px] text-neutral-100">Action</div>
+            <div className="font-semibold text-[16px] text-neutral-100">Action</div>
             <div className="text-neutral-400 text-[14px]">Only create new user with exercute permission.</div>
             <div
                 onClick={handleNavigate}
