@@ -60,7 +60,7 @@ Customer service is the assistance and support provided by a company to its cust
                         name= {item.name}
                         image = {item.image}
                         total = {item.total}
-                        location = {item.address}
+                        location = {item.province}
                         index ={index}
                        />
                     )

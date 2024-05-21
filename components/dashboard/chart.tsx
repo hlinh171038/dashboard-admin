@@ -170,10 +170,10 @@ const Chart:React.FC<ChartProps> = ({
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="Done" stackId="a" fill="#64D03E"  />
-          <Bar dataKey="Pending" stackId="a" fill="#EC8D4B" />
-          <Bar dataKey="Cancel" stackId="a" fill="#CB26E9" />
-          <Bar dataKey="LastWeek" fill="#CCEB24"  />
+          <Bar dataKey="Done" stackId="a" barSize={25}  fill="#64D03E"  />
+          <Bar dataKey="Pending" stackId="a"  barSize={25} fill="#EC8D4B" />
+          <Bar dataKey="Cancel" stackId="a"  barSize={25} fill="#DC2C2B" />
+          <Bar dataKey="LastWeek" fill="#CCEB24" barSize={25}   />
         </BarChart>
       </ResponsiveContainer>
       </div>

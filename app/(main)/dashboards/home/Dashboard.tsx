@@ -164,14 +164,14 @@ const Dashboard:React.FC<DashbaordProps> = ({
                 <div className="w-full bg-slate-600 rounded-md hover:bg-slate-500/40 transition p-2 text-[14px] text-neutral-100">
                     <div className="text-white text-[16px] font-semibold flex items-center justify-between">
                        <div> Weekly Statictical</div>
-                        <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
+                        <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5 cursor-pointer" >View<MdOutlineCallMade className="w-4 h-4 "/></div>
                     </div>
                     <div className="text-neutral-400 font-normal text-[14px] mb-2">
                         Total income in this week compared with last week.
                     </div>
                     <div className="flex items-center justify-end">
                         <div className="flex items-center justify-start pr-2">
-                            <div className="px-1">Date: </div>
+                            <div className="px-1">Date : </div>
                             <div>{new Date(thisWeek[0]).toLocaleDateString()}</div>
                             <div className="px-1"> - </div>
                             <div>{new Date(thisWeek[thisWeek.length -1]).toLocaleDateString()}</div>

@@ -117,7 +117,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
                 })}
             </div>
            </div>
-            <div className="absolute bottom-2 right-2 text-[14px] text-neutral-100 ">Total:{total}</div>
+            <div className="absolute bottom-2 right-2 text-[14px] text-neutral-100 ">Total : {total}</div>
         </div>
     )
 }

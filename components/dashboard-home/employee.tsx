@@ -23,7 +23,7 @@ const Employee:React.FC<EmployeeProps> =({
         <div>
             <div className="text-white text-[16px] font-semibold flex items-center justify-between">
                 <div> Employee</div>
-                <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5">View<MdOutlineCallMade className="w-4 h-4 "/></div>
+                <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5 cursor-pointer">View<MdOutlineCallMade className="w-4 h-4 "/></div>
             </div>
             <div className="text-neutral-400 font-normal text-[14px] ">
                 All Positiion and role of administrator.
@@ -31,22 +31,22 @@ const Employee:React.FC<EmployeeProps> =({
             <div className="flex items-center justify-between gap-4">
                 <table id="trend-sale-table">
                     <tr>
-                        <td>
+                        <td className="px-2 py-0.5">
                             Total 
                         </td>
-                        <td>
+                        <td className="px-2 py-0.5">
                             {member && member.length} Member
                         </td>
                     </tr>
                     <tr>
                      
-                        <td>Active</td>
-                        <td>2 Member</td>
+                        <td className="px-2 py-0.5">Active</td>
+                        <td className="px-2 py-0.5">2 Member</td>
                     </tr>
                     <tr>
                       
-                        <td>Inactive</td>
-                        <td>{member && member.length -2} Member</td>
+                        <td className="px-2 py-0.5">Inactive</td>
+                        <td className="px-2 py-0.5">{member && member.length -2} Member</td>
                     </tr>
                 </table>
               

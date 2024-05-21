@@ -33,7 +33,7 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                             width="30"
                             height="30"
                             alt="name"
-                            className="rounded-full aspect-square"
+                            className="rounded-full aspect-square object-cover"
                         />
                     </div>
                     <div className="capitalize">{name || <Skeleton/> }</div>
