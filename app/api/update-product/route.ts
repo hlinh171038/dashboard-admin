@@ -48,7 +48,7 @@ export async function POST(request:Request) {
                 stock,
                 size,
                 color,
-                designFor: person
+               
             }
         })
         return NextResponse.json(product)
