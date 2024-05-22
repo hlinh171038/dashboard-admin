@@ -28,6 +28,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DiscountSearch from "@/components/products/discount-search";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import SelectProvince from "@/app/(main)/profile/selectProvince";
+import SelectDistrict from "@/app/(main)/profile/selectDistrict";
+import SelectCommune from "@/app/(main)/profile/selectCommune";
 
 export const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','gold','silver']
 export const sizeArr = [,'S','4XL','<25','M',"25-30",'35-40','L','>50','45-50','XL','30-35','40-45','3XL',]
@@ -37,7 +40,7 @@ type formData = {
   userId: string,
   title: string,
   brand: string,
-  stock: number,
+  // stock: number,
   weight: number,
   location: string,
   description: string,
@@ -47,12 +50,16 @@ type formData = {
   salePrice: number,
   color: string[],
   size: string[],
-  person: string[],
+  // person: string[],
   tag: string[],
   image: string,
   category: string,
   unit: string,
-  discountId: string[]
+  discountId: string[],
+  stock: number[],
+  province: string,
+  district: string,
+  commune: string
 }
 
 interface AddNewProductProps {
@@ -75,11 +82,24 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
  
   const [cate,setCate] = useState('')
 
+  // bien the
+  const [addVariant,setAddVariant] = useState<any>([])
+  const [colorVariant,setColorVariant] = useState<any>('') ;
+  const [sizeVariant,setSizeVariant] = useState<any>('') ;
+  const [stockVariant,setStockVariant] = useState<any>('') ;
+
+  //dia chi
+  const [provinces,setProvinces] = useState<any>([])
+    const [districts,setDistricts] = useState<any>([])
+    const [communes,setCommunes] = useState<any>([])
+    const [provinceSelected,setProvinceSelected] = useState<any>(null)
+    const [districtSelected,setDistrictSelected] = useState<any>(null)
+
   const schema: ZodType<formData> = z.object({
       userId: z.string(),
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
-      stock: z.coerce.number().lte(10000).gte(1),
+      // stock: z.coerce.number().lte(10000).gte(1),
       weight: z.coerce.number().lte(100).gte(0.1),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
@@ -89,12 +109,16 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       salePrice: z.coerce.number().lte(100000000).gte(1),
       color: z.array(z.string()).nonempty(),
       size: z.array(z.string()).nonempty(),
-      person: z.array(z.string()).nonempty(),
+      // person: z.array(z.string()).nonempty(),
       tag: z.array(z.string()).nonempty(),
       image: z.string(),
       category: z.string(),
       unit: z.string(),
-      discountId: z.array(z.string())
+      discountId: z.array(z.string()),
+      stock: z.array(z.coerce.number()),
+      province: z.string(),
+      district: z.string(),
+      commune: z.string()
   })
 
   
@@ -115,7 +139,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           weight: 0,
           location: '',
           description: '',
-          stock: 0,
+          // stock: 0,
           category: 'cloth',
           tag:[],
           unit: 'vnd',
@@ -126,8 +150,12 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           salePrice: 0,
           color: [],
           size: [],
-          person:[],
+          // person:[],
           discountId: [],
+          stock: [],
+          province: '',
+          district: '',
+          commune: ''
         }
       })
 
@@ -142,13 +170,21 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const salePrice = watch('salePrice')
       const color = watch('color')
       const size = watch('size')
-      const person = watch('person')
+      // const person = watch('person')
       const stock = watch('stock')
       const userId = watch('userId')
       const discountId = watch('discountId')
+      const province = watch('province')
+      const district = watch('district')
+      const commune = watch('commune')
+
+      console.log(province)
+      console.log(district)
+      console.log(commune)
 
 
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
         setIsLoading(true)
         axios.post('/api/add-new-product',data)
               .then((res)=>{
@@ -260,44 +296,120 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         }
       },[defaultPrice,margin,setCustomerValue])
 
-      //handle add checkbox
-      const handleCheckbox = (check:any,value:any) =>{
+      ///////////////////////////////////////////////////////////////////dia chi////////////////////////////////////////////////
+       // province |||| district  ||| commune data
+  // data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
+// data districts
+useEffect(()=>{
+    if(provinceSelected) {
+        console.log(provinceSelected)
+        console.log(provinceSelected?.idProvince)
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/?idProvince=${provinceSelected?.idProvince}`)
+            .then((res:any)=>{
+                setDistricts(res?.data)
+            })
+            .catch((err:any)=>{
+                console.log(err)
+            })
+    } 
+  },[provinceSelected])
+    console.log(districts)
+// data commune
+useEffect(()=>{
+    if(districtSelected) {
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune/?idDistrict=${districtSelected?.idDistrict}`)
+        .then((res:any)=>{
+            setCommunes(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+    }
+   
+},[districtSelected])
+
+      // //handle add checkbox
+      // const handleCheckbox = (check:any,value:any) =>{
         
        
-        const index = check.findIndex((val:string)=>val === value)
-        //console.log(index)
-        if(index!== -1){
-          const deleteColor = check.splice(index,1);
-         setCustomerValue('color',check);
-         return;
-        }
-       check.push(value)
-        setCustomerValue('color',check);
+      //   const index = check.findIndex((val:string)=>val === value)
+      //   //console.log(index)
+      //   if(index!== -1){
+      //     const deleteColor = check.splice(index,1);
+      //    setCustomerValue('color',check);
+      //    return;
+      //   }
+      //  check.push(value)
+      //   setCustomerValue('color',check);
        
-      }
-      //handleCheckSize
-      const handleCheckSize = (check:any,value:any)=>{
-        const index = check.findIndex((val:string)=>val === value)
-        if(index!== -1){
-           check.splice(index,1);
-         setCustomerValue('size',check);
-         return;
-        }
-       check.push(value)
-        setCustomerValue('size',check);
+      // }
+      // //handleCheckSize
+      // const handleCheckSize = (check:any,value:any)=>{
+      //   const index = check.findIndex((val:string)=>val === value)
+      //   if(index!== -1){
+      //      check.splice(index,1);
+      //    setCustomerValue('size',check);
+      //    return;
+      //   }
+      //  check.push(value)
+      //   setCustomerValue('size',check);
        
-      }
-      //handle check person
-      const handleCheckPerson = (check:any,value:any)=>{
-        const index = check.findIndex((val:string)=>val === value)
-        if(index!== -1){
-           check.splice(index,1);
-         setCustomerValue('person',check);
-         return;
-        }
-       check.push(value)
-        setCustomerValue('person',check);
+      // }
+      // //handle check person
+      // const handleCheckPerson = (check:any,value:any)=>{
+      //   const index = check.findIndex((val:string)=>val === value)
+      //   if(index!== -1){
+      //      check.splice(index,1);
+      //    setCustomerValue('person',check);
+      //    return;
+      //   }
+      //  check.push(value)
+      //   setCustomerValue('person',check);
        
+      // }
+
+      ////////////////////////////////////////////////////////////////////////bien the//////////////////////////////////////////////////////////
+      // const addInput = (
+      //   <div className="grid grid-cols-3 gap-2">
+      //           <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={colorVariant} placeholder="color" />
+      //           <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={sizeVariant} placeholder="size"/>
+      //           <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={stockVariant} placeholder="stock"/>
+      //   </div>
+      // )
+      
+      const addNewVariant = (colorInpit:string,sizeInput: string, stockInput:number) =>{
+        console.log(colorVariant)
+        console.log(sizeVariant)
+        console.log(stockVariant)
+        // check fill all
+        if(!colorVariant || !sizeVariant || !stockVariant) {
+          toast.warning("fill all !!!");
+          return;
+        }
+        //add to arrayVariant
+        const array = [...addVariant]
+        const id =array.length;
+        const obj = {id,color:colorVariant, size:sizeVariant, stock:stockVariant}
+        array.push(obj)
+        setAddVariant(array)
+        // set to data
+        setCustomerValue('color',[...color ,colorVariant])
+        setCustomerValue('size',[...size ,sizeVariant])
+        setCustomerValue('stock',[...stock ,stockVariant])
+        // set variant default
+        setColorVariant('');
+        setSizeVariant('');
+        setStockVariant('');
       }
 
       //handle ctr + z
@@ -376,7 +488,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                 </div>
                  {/* stock , weight */}
                  <div className="row-span-1 grid grid-cols-2 w-full gap-2 ">
-                    <div className="col-span-1 relative">
+                    {/* <div className="col-span-1 relative">
                       <InputNumber 
                         id="stock"
                         title="Stock"
@@ -387,7 +499,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                         unit="#"
                       />
                       {errors.stock && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.stock.message as string}</span>}
-                    </div>
+                    </div> */}
                     <div className=" relative col-span-1">
                       <InputNumber 
                           id="weight"
@@ -471,8 +583,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           </div>
           <div className="bg-slate-600 rounded-md w-full grid grid-cols-3 gap-2 h-full p-2">
            
-            <div className="col-span-3 grid grid-cols-3 gap-2 mb-2">
-                 {/* color  array checkbox*/}
+            {/* <div className="col-span-3 grid grid-cols-3 gap-2 mb-2">
+                 
                  <div className="relative">
                   <Checkbox 
                     handleCheck ={ handleCheckbox}
@@ -500,8 +612,28 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                     />
                     {errors.person && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.person.message as string}</span>}
                   </div>
-            {/* size array checkbox*/}
+         
+
+            </div> */}
+            {/* bien the */}
+            <div>
+              <div className="grid grid-cols-3 gap-2">
+                <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={colorVariant} placeholder="color" />
+                <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={sizeVariant} placeholder="size"/>
+                <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={stockVariant} placeholder="stock"/>
+              </div>
+              <button onClick={()=>addNewVariant(colorVariant,sizeVariant,stockVariant)}>add new Variant </button>
+              <div>
+              {addVariant && addVariant.map((item:any)=>{
+                return <div key={item?.id}>
+                            <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={item?.color} placeholder="color" />
+                            <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={item?.size} placeholder="size"/>
+                            <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={item?.stock} placeholder="stock"/>
+                      </div>
+              })}
+              </div>
             </div>
+            
             {/* unit */}
             <div className="col-span-3 grid grid-cols-3 gap-2">
                 <div className="relative">
@@ -653,6 +785,14 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
               )}
               {errors.tag && <span className="absolute top-[90%] left-2 text-[13px] text-red-600">{errors.tag.message as string}</span>}
             </div>
+            {/* dia chi */}
+            <div className="flex flex-col gap-4 mb-4">
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                        <div className="grid grid-cols-2 gap-2">
+                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune}/> 
+                        </div>
+                    </div>
           </div>
 
             </div>

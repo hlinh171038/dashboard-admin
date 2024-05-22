@@ -88,7 +88,7 @@ const TopCategory:React.FC<TopCategoryProps> = ({
     console.log(total)
     console.log(trendCategory)
     return (
-        <div className={cn("bg-slate-600 rounded w-full  py-2  transition-all duration-300 relative",
+        <div className={cn("bg-slate-600 rounded w-full px-2  py-2  transition-all duration-300 relative",
                             productCondition && productCondition ? 'hover:opacity-[1]':'hover:bg-slate-500/40'
                         )}>
             <div className="text-[16px] text-neutral-100 font-semibold ">Popular Category</div>

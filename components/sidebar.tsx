@@ -41,6 +41,7 @@ import {
 import Button from "./button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegister from "@/app/hooks/useRegisterModal";
+import { BiSolidCategoryAlt } from "react-icons/bi";
   
 
 const menuItems = [
@@ -88,6 +89,11 @@ const menuItems = [
         title:"Transactions",
         icon: MdAttachMoney,
         link: "/dashboards/transaction"
+    },
+    {
+        title:"Categories",
+        icon: BiSolidCategoryAlt,
+        link: "/dashboards/category"
     },
 ]
 

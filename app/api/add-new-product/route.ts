@@ -24,7 +24,9 @@ export async function POST(request:Request) {
         stock,
         size,
         color,
-        person,
+        province,
+        district,
+        commune,
         discountId
     } = body
     
@@ -50,7 +52,9 @@ export async function POST(request:Request) {
             stock,
             size,
             color,
-            designFor: person
+            province,
+            district,
+            commune
         }
     })
 

@@ -72,6 +72,9 @@ model Product {
   image String?
   category String?
   weight Int?
+  province       String?
+  district       String?
+  commune        String?
   location String?
   description String?
   defaultPrice Int?
@@ -79,12 +82,13 @@ model Product {
   tax Int?
   tag String[]
   unit String?
+  
   transportation String[]
   salePrice Int?
-  stock Int?
+  stock Int[]
   color String[]
   size String[]
-  designFor String[]
+ 
   created_at DateTime @default(now())
 
   //transaction Transaction[]
@@ -224,4 +228,10 @@ model History {
   title String?
   type String?
   link String?
+}
+
+model Category {
+  id String @default(cuid()) @id
+  name String?
+  Quantity Int?
 }
