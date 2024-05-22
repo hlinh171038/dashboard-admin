@@ -233,5 +233,6 @@ model History {
 model Category {
   id String @default(cuid()) @id
   name String?
-  Quantity Int?
+  quantity Int?
+  created_at DateTime @default(now())
 }
