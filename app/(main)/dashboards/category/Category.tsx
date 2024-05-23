@@ -8,6 +8,7 @@ import { useDebounce } from 'use-debounce'
 import TableCategory from './table'
 import { User } from '@prisma/client'
 import HeaderCustomer from './header'
+import Pagination from './pagination'
 
 
 interface CategoryProps {
@@ -32,34 +33,19 @@ const Category:React.FC<CategoryProps> = ({
 }) => {
 
   const [status,setStatus] = useState(true);
-  const [categoryDataSearch,setCategoryDataSearch] = useState<any>(null)
+  const [addNewLoading,setAddNewLoading] = useState<boolean>(false)
   const router = useRouter()
 
   console.log(category)
 
-  
-
-  // const handleAddCategory = () =>{
-  //   if(text === '') {
-  //     toast.warning('Fill out category !!!');
-  //      return;
-  //   }
-
-  //   axios.post('/api/add-new-category',{text})
-  //     .then((res:any)=>{
-  //       console.log(res?.data);
-  //       toast.success('success.');
-  //       router.refresh();
-  //     })
-  //     .catch((err:any)=>{
-  //       toast.error('Some thing went wrong !!!')
-  //     })
-  // }
-
+  const start = (page as number - 1) * Number(per_page) ; // 0,5,10
+  const end= Number(page)  * Number(per_page) ;//5,10,15
+  const max = Math.ceil(category.length / per_page);
    // handle loading
    const handleLoading = useCallback((value:boolean)=>{
       setStatus(value)
   },[])
+
 
  
   return (
@@ -72,7 +58,7 @@ const Category:React.FC<CategoryProps> = ({
               category2 ={category2}
               user2 ={users}
               handleLoading = {handleLoading}
-          
+              setAddNewLoading = {setAddNewLoading}
               />
           {/* <input type="text" onChange={(e:any)=>setText(e.target.value)} value={text} />
           <div onClick={handleAddCategory}>Add New Category +</div>
@@ -84,9 +70,20 @@ const Category:React.FC<CategoryProps> = ({
             page = {page}
             status ={status}
             per_page = {per_page}
+            start ={start}
+            end ={end}
             category = {category}
-            setCategoryDataSearch = {setCategoryDataSearch}
+            addNewLoading = {addNewLoading}
           />
+          <div className='flex items-center justify-end '>
+            <Pagination 
+              page = {page}
+              per_page ={per_page}
+              max={max}
+              search ={search}
+              handleLoading={handleLoading}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -23,8 +23,10 @@ interface TableCategoryProps {
     currentUser: any;
     user2: User[] | any;
     status: any;
-    setCategoryDataSearch: any;
+    addNewLoading: any;
     category: Category[] | any;
+    start: number;
+    end: number
 }
 
 const TableCategory:React.FC<TableCategoryProps> = ({
@@ -35,9 +37,10 @@ const TableCategory:React.FC<TableCategoryProps> = ({
     per_page,
     currentUser,
     user2,
-    status,
-    setCategoryDataSearch,
-    category
+    addNewLoading,
+    category,
+    start,
+    end
 }) =>{
     const router = useRouter()
     const [checkId,setCheckId] = useState<any>([])
@@ -48,8 +51,8 @@ const TableCategory:React.FC<TableCategoryProps> = ({
     console.log(page)
     console.log(per_page)
     console.log(search)
-    const start = (page as number - 1) * Number(per_page) ; // 0,5,10
-    const end= Number(page)  * Number(per_page) ;//5,10,15
+    // const start = (page as number - 1) * Number(per_page) ; // 0,5,10
+    // const end= Number(page)  * Number(per_page) ;//5,10,15
 
     const updateData = data.slice(start,end)
     console.log(updateData)
@@ -123,28 +126,7 @@ const TableCategory:React.FC<TableCategoryProps> = ({
        // router.push(`/dashboards/customers?search=&role=&action=&start=&end=&page=1&per_page=10`);
     },[router])
 
-    // search + skelton
-    // useEffect( ()=>{
-    //     setIsLoading(true)
-    //    // console.log(array)
-    //     axios.post('/api/filter-category',{search})
-    //         .then((res)=>{
-    //             console.log(res.data)
-    //             setData(res.data && res.data)
-    //             setCategoryDataSearch(res.data && res.data)
-    //             //toast.success('search ');
-    //             router.refresh()
-               
-    //         })
-    //         .catch((err:any)=>{
-    //             toast.error("Something went wrong !!!")
-    //         }).finally(()=>{
-    //             setCheckId([]);
-    //             setIsLoading(false)
-               
-    //         })
-    //  },[search,router,setCategoryDataSearch])
-    // console.log(data)
+   
 
     useEffect(()=>{
 
@@ -162,7 +144,7 @@ const TableCategory:React.FC<TableCategoryProps> = ({
     const array = [0,1,2,3,4,5,6,7,8,9,10]
   
     return (
-        <div>
+        <div className="px-2">
             {checkId.length >0 && (
                 <button
                     disabled ={isLoading}
@@ -174,14 +156,14 @@ const TableCategory:React.FC<TableCategoryProps> = ({
                 
             )}
             <table className="w-full text-[14px] text-neutral-400 mt-2">
-            <tr className="font-bold text-[15px] text-neutral-100">
+            <tr className="font-semibold text-[15px] text-neutral-100">
                 <td></td>
                 <td>STT</td>
                 <td>Category Name</td>
                 <td>Quantity</td>
                 <td></td>
             </tr>
-            {isLoading  ? (
+            {isLoading || addNewLoading ? (
                 
             array.map((item:any)=>{
                     return (

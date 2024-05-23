@@ -19,6 +19,7 @@ import { toast } from "sonner"
 import { RxCross2 } from "react-icons/rx"
 import ExportFile from "@/components/customers/export-file"
 import CopyLink from "@/components/customers/copylink"
+import { MdOutlineKeyboardCommandKey } from "react-icons/md"
 
 interface HeaderProps {
     category: Category[] | any;
@@ -26,7 +27,7 @@ interface HeaderProps {
     user2: User[] | any;
     currentUser: any;
     handleLoading: (value:boolean) => void;
-    
+    setAddNewLoading: any;
 }
 
 const Headercategory:React.FC<HeaderProps> = ({
@@ -35,7 +36,7 @@ const Headercategory:React.FC<HeaderProps> = ({
     currentUser,
     category2 = [],
     handleLoading,
-    
+    setAddNewLoading
 }) =>{
     const [text,setText] = useState('')
     const [textAdd,setTextAdd] = useState('')
@@ -57,7 +58,7 @@ const Headercategory:React.FC<HeaderProps> = ({
       toast.warning('Fill out category !!!');
        return;
     }
-
+        setAddNewLoading(true)
     axios.post('/api/add-new-category',{text:textAdd})
       .then((res:any)=>{
         console.log(res?.data);
@@ -66,10 +67,13 @@ const Headercategory:React.FC<HeaderProps> = ({
         router.refresh();
       })
       .catch((err:any)=>{
-        toast.error('Some thing went wrong !!!')
+    
+        toast.error(err?.response?.data?.error || 'some thing went wrong')
       })
       .finally(()=>{
-        router.push(`/dashboards/category?search=&page=1&per_page=10`);
+        setAddNewLoading(false)
+        setTextAdd('')
+        setOpenAdd(false)
       })
   }
 
@@ -191,10 +195,31 @@ const Headercategory:React.FC<HeaderProps> = ({
                </div>
             </div>
             {openAdd && (
-                 <div>
-                     <input type="text" onChange={(e:any)=>setTextAdd(e.target.value)} value={textAdd} />
-                    <div onClick={handleAddCategory}>Add New Category +</div>
+                 <div className=" relative flex flex-col gap-0.5 transition-all duration-300">
+                    {/* <div className="text-[15px] text-neutral-100">Add New Category </div> */}
+                    <div className="flex items-center justify-start gap-1 px-2 py-1 w-full">
+                     <input 
+                        type="text"
+                        onChange={(e:any)=>setTextAdd(e.target.value)} 
+                        value={textAdd} 
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleAddCategory() // Call the function on Enter press
+                            }
+                          }}
+                        placeholder="Category name.."
+                        className="w-full rounded-md px-2 py-1 bg-slate-500/50 text-[14px] text-neutral-100 outline-none"
+                     />
+                     <div className="absolute top-[0.4rem] right-[4.6rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
+                            <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
+                            <span>Enter |</span>
+                        </div>
+                    <div 
+                        onClick={handleAddCategory}
+                        className="absolute top-1 right-2 underline px-2 py-1 rounded-md hover:opacity-[0.7] text-neutral-100 hover:text-white text-[14px] cursor-pointer"
+                    >Add New </div>
                  </div>
+                </div>
             )}
            
         </div>
