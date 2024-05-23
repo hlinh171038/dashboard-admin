@@ -14,7 +14,7 @@ interface ExportFileProps {
 const ExportFile:React.FC<ExportFileProps> = ({ data, filename, currentUser }) =>{
  const [open,setOpen] = useState(false)
    const handleExport = () =>{
-      if(currentUser.permission === 'read') {
+      if(currentUser?.permission === 'read') {
         toast.warning('Only export files with execute permissions !!!');
         return;
       }

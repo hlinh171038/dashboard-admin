@@ -1,12 +1,8 @@
 import prisma from '@/lib/prisma'
 
-export async function getAllCategory({search}:{search?:string }) {
+export async function getAllCategory2() {
     try {
-    
         const category = await prisma.category.findMany({
-            where: {
-                name: {contains: search}
-            },
             orderBy: {
                 created_at: 'desc'
             }
