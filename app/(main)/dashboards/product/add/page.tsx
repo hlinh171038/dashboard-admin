@@ -8,6 +8,7 @@ import { getAllDiscount } from "@/app/actions/getAllDiscount"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
 import { getAllTransaction2 } from "@/app/actions/getAllTransaction2"
 import { getAllUser2 } from "@/app/actions/getAllUser2"
+import { getAllCategory2 } from "@/app/actions/getAllCategory2"
 //import authOptions from "@/app/api/auth/[...nextauth]/options"
 
 const Product = async() =>{
@@ -15,6 +16,7 @@ const Product = async() =>{
   const session = await getServerSession(authOptions)
   const users = await getAllUser2()
   const discount = await getAllDiscount({})
+  const categorys = await getAllCategory2()
   
 
   if(session) {
@@ -31,6 +33,7 @@ const Product = async() =>{
         user = {user}
         currentUser = {session}
         users ={users}
+        categorys = {categorys}
         />
         
     </div>

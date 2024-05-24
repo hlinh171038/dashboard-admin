@@ -2,6 +2,8 @@
 
 import { cn } from '@/lib/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { FaRegSquare } from 'react-icons/fa';
+import { FaRegSquareCheck } from 'react-icons/fa6';
 import { IoMdArrowDropup } from "react-icons/io";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { toast } from 'sonner';
@@ -68,9 +70,13 @@ const SelectCommune:React.FC<provincesProps> = ({
         <div className="text-neutral-200 text-[15px] capitalize">{id}</div>
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
-           <div  ref={boxRef} className="bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-between gap-0.5" onClick={handleOpenSort}>
+           <div  ref={boxRef} 
+                  className={cn("bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-between gap-0.5" ,
+                  openSort && 'bg-neutral-100 '
+                )}
+                  onClick={handleOpenSort}>
               <div className={cn("duration-300 transition-all",
-                 text ===`--- choose your ${id} ---` ? 'text-neutral-400 capitalize' : 'text-neutral-100 '
+                 text ===`--- choose your ${id} ---` ? (openSort ? 'text-slate-900': 'text-neutral-400') : (openSort ? 'text-slate-900' : 'text-neutral-100')
                )}> {text}</div>
                {openSort && data && data.length > 0 ? (<IoMdArrowDropup  className='w-4 h-4 text-neutral-100'/>): (<MdOutlineArrowDropDown  className='w-4 h-4 text-neutral-100'/>)}
                
@@ -83,8 +89,20 @@ const SelectCommune:React.FC<provincesProps> = ({
                     return <div 
                                 key={id ==="province" ? item?.idProvince  : (id === 'district' ? item?.idDistrict : item?.idCommune)}
                                 onClick={()=>handleOption(item?.name)}
+                                className='group hover:bg-neutral-100 hover:text-slate-900 transition-all duration-300 hover:px-2 hover:py-1 rounded-md w-full flex items-center justify-between'
                             >
                                 {item?.name}
+                                {text === item?.name ?(
+                                <FaRegSquareCheck
+                                    className=" w-4 h-4 text-neutral-100 font-thin group-hover:text-slate-900"
+                                    
+                                    />
+                            ):(
+                                <FaRegSquare
+                                    className="w-4 h-4 text-neutral-100 group-hover:text-slate-900"
+                                    
+                                    />
+                            )}
                             </div>
                 })}
                         

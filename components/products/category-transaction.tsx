@@ -1,32 +1,63 @@
 "use client"
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+import { IoIosArrowDown, IoMdArrowDropup } from "react-icons/io";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import { FaRegSquareCheck } from "react-icons/fa6";
+import { FaRegSquare } from "react-icons/fa";
 
 interface TransactionProps {
-    handleAddTransaction: (transaction:any,value:string) =>void;
+    //handleAddTransaction: (transaction:any,value:string) =>void;
     transaction: any
-    exercute?:any
+    exercute?:any;
+    id: string;
+    setCustomerValue: any;
 }
 
 const Transaction:React.FC<TransactionProps> = ({
-    handleAddTransaction,
+    //handleAddTransaction,
     transaction = [],
-    exercute
+    exercute,
+    id,
+    setCustomerValue
 })=>{
     const [array,setArray] =useState([])
     const [open,setOpen] = useState(false)
     const [openSort,setOpenSort] = useState(false)
-    const [textSort,setTextSort] = useState('sort by ...')
+    const [text,setText] = useState(`--- choose your ${id} ---`)
+    const [textArr,setTextArr] = useState<any>([])
     const boxRef = useRef<any>(null);
-   
+
+     //handle choose
+  const handlechoose = (item:string,id:number) =>{
+    console.log(item)
+    //check item
+    const arr = [...textArr];
+    console.log(arr)
+    const index = arr && arr.findIndex((it:any) => it.value == item);
+    console.log(item === arr[0]?.value)
+    console.log(index)
+    if(index !== -1) {
+        console.log('try1')
+        arr && arr.splice(index,1);
+        console.log(array)
+    } else {
+        const obj = {
+            id: id,
+            value: item
+        }
+        arr.push(obj)
+    }
+    console.log(arr)
+    setTextArr(arr);
+    setOpenSort(!openSort) 
+    const cus:string[] = [];
+    arr && arr.forEach((item:any)=>{
+        cus.push(item?.value)
+    }) 
+    setCustomerValue('transaction',cus)
+  }
+   console.log(textArr)
 
      //handle click outside
      const handleClickOutside = (event:any) => {
@@ -50,32 +81,90 @@ const Transaction:React.FC<TransactionProps> = ({
           return () => document.removeEventListener('click', handleClickOutside);
         }
       }, [openSort]);
-    
+    const transactions = [
+        {
+            id:1,
+            value:'1. Payment (Online Payment, Cash on Delivery, Installment)'
+        },
+        {
+            id:2,
+            value:'2. E-wallet (MoMo Wallet, ZaloPay Wallet)'
+        },
+        {
+            id:3,
+            value:'3. Credit/Debit Card'
+        },
+        {
+            id:4,
+            value:'4. Cash on Delivery (COD)'
+        },
+        {
+            id:5,
+            value:'5. Credit/Debit Card'
+        },
+    ]
     return (
         <div className="flex flex-col gap-1  ">
-            <div className="text-neutral-200 text-[15px] mb-[-3px]">Transportation</div>
-           <div className=" w-full text-[14px] text-neutral-200 ">
-                   
-                   <div  ref={boxRef} className="bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-start gap-0.5" onClick={handleOpenSort}>
-                    {transaction.length >0 ?(
-                        transaction.map((item:any)=>{
-                            return <div 
-                                    className="cursor-pointer"
-                                    key={item}>
-                                        {item} |
+          
+               <div className='relative w-full'>
+                            <div className="text-neutral-200 text-[15px] capitalize ">{id}</div>
+                              <div className=" w-full text-[14px] text-neutral-200 ">
+                                      
+                                <div  
+                                        ref={boxRef} 
+                                        className={cn("bg-slate-500/60 rounded-md  px-2 py-1 w-full cursor-pointer flex items-center justify-between gap-0.5",
+                                                    openSort && 'bg-neutral-100 '
+                                              )} 
+                                        onClick={handleOpenSort}
+                                >
+                                  <div className={cn("duration-300 transition-all focus:bg-neutral-100 focus:text-slate-900 capitalize",
+                                    text ===`--- choose your ${id} ---` ? (openSort ? 'text-slate-900': 'text-neutral-400') : (openSort ? 'text-slate-900' : 'text-neutral-100')
+                                    
+                                  )}> {textArr.length > 0 ? (
+                                    <div className="flex items-center justify-start gap-2">
+                                        {textArr.map((item:any)=>{
+                                            return <div key={item?.id}>
+                                                        {item?.id} |
+                                                    </div>
+                                        })}
                                     </div>
-                        })
-                    ):"Transaction..."}
+                                  ):text}</div>
+                                  {!openSort  ? (<MdOutlineArrowDropDown  className='w-4 h-4 text-neutral-100'/>): (<IoMdArrowDropup  className='w-4 h-4 text-neutral-100'/>)}
+                                  
+                                </div>
+                                
+                                  <div className={cn("absolute top-[3.2rem] left-0 bg-slate-500 rounded-md w-full  duration-300 transition-all cursor-pointer z-10  ",
+                                  openSort ? 'flex flex-col gap-1 px-2 py-2 space-y-1' : 'hidden'
+                              )}>
+                              {transactions && transactions.map((item:any)=>{
+                                  return <div
+                                              key={item?.id}  
+                                              onClick={()=>handlechoose(item?.value,item?.id)}
+                                              className=" group flex items-center justify-between capitalize hover:bg-neutral-100 hover:text-slate-900 transition-all duration-300 hover:px-2 hover:py-1 rounded-md w-full"
+                                          >
+                                            {item?.value}
+                                            <div className="flex items-center justify-end gap-2 ">
+                                              {textArr.some((it:any) => it.value === item?.value) ? (
+                                                  <FaRegSquareCheck
+                                                      className="w-4 h-4 text-neutral-100 font-thin group-hover:text-slate-900"
+                                                     
+                                                      />
+                                              ):(
+                                                  <FaRegSquare 
+                                                      className="w-4 h-4 text-neutral-100 group-hover:text-slate-900"
+                                                      
+                                                      />
+                                              )}
+                                             
+                                            </div>
+                                          </div>
+                              })}
+                              
+                              
                     </div>
-                   <div className={cn("absolute top-[3.2rem] left-0 bg-slate-500/60 rounded-md w-full duration-300 transition-all cursor-pointer z-10",
-                                   openSort ? 'flex flex-col gap-1 px-2 py-1' : 'hidden'
-                               )}>
-                             
-                       <div onClick={()=>handleAddTransaction(array,'payment on delivery')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">online</div>
-                       <div onClick={()=>handleAddTransaction(array,'payment on card')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">offline</div>
-                      
-                   </div>
-               </div>
+                              
+                            </div>
+                        </div>
         </div>
     )
 }

@@ -79,7 +79,7 @@ const InputPrice:React.FC<InputNumberProps> = (
                         <div className="absolute top-1 left-2 text-[14px] text-neutral-200 flex items-center justify-center">{unit ==='vnd'?'đ':(unit === 'dollar' ? '$':unit)}</div>
                         <input 
                             type={type}
-                            className="px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-[14px] text-neutral-200 focus:outline-none w-full" 
+                            className="pl-8 rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
                             placeholder={placeholder} 
                             {...register(id)}
                             disabled={exercute}

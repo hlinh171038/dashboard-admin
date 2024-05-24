@@ -81,7 +81,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
     // coupon
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=>{
-            return item.type === 'coupon'
+            return item.type === 'coupon' &&  new Date(item.endDate) > new Date()
         });
        
         setCoupon(result)
@@ -90,7 +90,10 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
     //voucher
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=>{
-            return item.type === 'voucher'
+            console.log(new Date(item.endDate));
+            console.log(new Date())
+            console.log(new Date(item.endDate) > new Date())
+            return item.type === 'voucher' &&  new Date(item.endDate) > new Date()
         });
       
         setVoucher(result)
@@ -99,7 +102,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
     //rewards
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=>{
-            return item.type === 'rewards'
+            return item.type === 'rewards' &&  new Date(item.endDate) > new Date()
         });
        
         setRewards(result)
@@ -109,7 +112,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
     // ship
     useEffect(()=>{
         const result = discount && discount.filter((item:any)=>{
-            return item.type === 'ship'
+            return item.type === 'ship' &&  new Date(item.endDate) > new Date()
         });
       
         setShip(result)
@@ -233,7 +236,7 @@ const DiscountSearch:React.FC<DiscountSearchProps> = ({
                             <td>Delete</td>
                         </tr>
                        
-                    { chosen.map((item:any)=>{
+                    { chosen .map((item:any)=>{
                         return <tr key={item.id} className="text-neutral-400 text-[14px]">
                                     <td>{item.title}</td>
                                     <td>{item.type}</td>

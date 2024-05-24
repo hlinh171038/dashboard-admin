@@ -17,7 +17,7 @@ import InputNumber from "@/components/products/Input-number";
 import { FaPlus } from "react-icons/fa6";
 import InputPrice from "@/components/products/input-price";
 import axios from "axios";
-import { Discount, User } from "@prisma/client";
+import { Category, Discount, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Checkbox from "@/components/products/checkbox";
@@ -31,6 +31,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SelectProvince from "@/app/(main)/profile/selectProvince";
 import SelectDistrict from "@/app/(main)/profile/selectDistrict";
 import SelectCommune from "@/app/(main)/profile/selectCommune";
+import { GoPlus } from "react-icons/go";
 
 export const colorArr = ['red','orange','blue','brown','pink','yellow','purple','grey','white','black','green','beige','aqua','gold','silver']
 export const sizeArr = [,'S','4XL','<25','M',"25-30",'35-40','L','>50','45-50','XL','30-35','40-45','3XL',]
@@ -40,13 +41,13 @@ type formData = {
   userId: string,
   title: string,
   brand: string,
-  // stock: number,
+   //stock: number,
   weight: number,
   location: string,
   description: string,
   defaultPrice: number,
-  tax: number,
-  transaction: string[],
+  margin: number,
+ transaction: string[],
   salePrice: number,
   color: string[],
   size: string[],
@@ -67,6 +68,7 @@ interface AddNewProductProps {
     currentUser: any;
     discount: Discount[] | any
     users: User[] | any;
+    categorys: Category[] | any;
 }
 
 
@@ -74,7 +76,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
     user,
     users = [],
     discount,
-    currentUser
+    currentUser,
+    categorys = []
 }) => {
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
@@ -100,11 +103,11 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       // stock: z.coerce.number().lte(10000).gte(1),
-      weight: z.coerce.number().lte(100).gte(0.1),
+      weight: z.coerce.number().lte(100).gte(0.001),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
-      tax: z.coerce.number().lte(100).gte(1),
+      margin: z.coerce.number().lte(100).gte(1),
       transaction: z.array(z.string()).nonempty(),
       salePrice: z.coerce.number().lte(100000000).gte(1),
       color: z.array(z.string()).nonempty(),
@@ -112,7 +115,9 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       // person: z.array(z.string()).nonempty(),
       tag: z.array(z.string()).nonempty(),
       image: z.string(),
-      category: z.string(),
+      category: z.string().min(1,{
+        message: "You havent chosen category yet !!!"
+      }),
       unit: z.string(),
       discountId: z.array(z.string()),
       stock: z.array(z.coerce.number()),
@@ -140,7 +145,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           location: '',
           description: '',
           // stock: 0,
-          category: 'cloth',
+          category: '', // ?
           tag:[],
           unit: 'vnd',
           transaction: [],
@@ -166,7 +171,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const transaction = watch('transaction')
       const unit = watch('unit')
       const defaultPrice = watch('defaultPrice')
-      const margin = watch('margin')
+   
       const salePrice = watch('salePrice')
       const color = watch('color')
       const size = watch('size')
@@ -177,10 +182,26 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       const province = watch('province')
       const district = watch('district')
       const commune = watch('commune')
+      const margin = watch('margin')
 
-      console.log(province)
-      console.log(district)
-      console.log(commune)
+     console.log(userId)
+     console.log(title)
+     console.log(category)
+     console.log(tag)
+     console.log(transaction)
+     console.log(typeof(unit))
+     console.log(defaultPrice)
+     console.log(margin)
+     console.log(salePrice)
+     console.log(color)
+     console.log(size)
+     console.log(stock)
+     console.log(userId)
+     console.log(discountId)
+     console.log(province)
+     console.log(district)
+     console.log(commune)
+
 
 
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -265,27 +286,31 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
         setCustomerValue('tag',tag)
         setCate('')
       }
+      
 
       // handle delete tag
       const handleDeleteTagItem = useCallback((id:string)=>{
+        console.log(id)
         const result = [...tag];
-        const re = result.filter((item:any)=> item.id !== id)
+        console.log(result)
+        const re = result.filter((item:any)=> item !== id)
         setCustomerValue('tag',re)
       },[setCustomerValue,tag])
 
+      
       //handle add transaction
-      const handleAddTransaction = (transaction:any,value:string) =>{
+      // const handleAddTransaction = (transaction:any,value:string) =>{
        
-          const index = transaction.find((val:string)=>val === value)
+      //     const index = transaction.find((val:string)=>val === value)
   
-          if(index) {
-            const newTra = transaction.splice(index,1)
-            setCustomerValue('transaction',transaction);
-            return
-          }
-          transaction.push(value)
-          setCustomerValue('transaction',transaction)
-      }
+      //     if(index) {
+      //       const newTra = transaction.splice(index,1)
+      //       setCustomerValue('transaction',transaction);
+      //       return
+      //     }
+      //     transaction.push(value)
+      //     setCustomerValue('transaction',transaction)
+      // }
       // auto updated price
     
       useEffect(()=>{
@@ -338,66 +363,42 @@ useEffect(()=>{
    
 },[districtSelected])
 
-      // //handle add checkbox
-      // const handleCheckbox = (check:any,value:any) =>{
-        
-       
-      //   const index = check.findIndex((val:string)=>val === value)
-      //   //console.log(index)
-      //   if(index!== -1){
-      //     const deleteColor = check.splice(index,1);
-      //    setCustomerValue('color',check);
-      //    return;
-      //   }
-      //  check.push(value)
-      //   setCustomerValue('color',check);
-       
-      // }
-      // //handleCheckSize
-      // const handleCheckSize = (check:any,value:any)=>{
-      //   const index = check.findIndex((val:string)=>val === value)
-      //   if(index!== -1){
-      //      check.splice(index,1);
-      //    setCustomerValue('size',check);
-      //    return;
-      //   }
-      //  check.push(value)
-      //   setCustomerValue('size',check);
-       
-      // }
-      // //handle check person
-      // const handleCheckPerson = (check:any,value:any)=>{
-      //   const index = check.findIndex((val:string)=>val === value)
-      //   if(index!== -1){
-      //      check.splice(index,1);
-      //    setCustomerValue('person',check);
-      //    return;
-      //   }
-      //  check.push(value)
-      //   setCustomerValue('person',check);
-       
-      // }
-
-      ////////////////////////////////////////////////////////////////////////bien the//////////////////////////////////////////////////////////
-      // const addInput = (
-      //   <div className="grid grid-cols-3 gap-2">
-      //           <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={colorVariant} placeholder="color" />
-      //           <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={sizeVariant} placeholder="size"/>
-      //           <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={stockVariant} placeholder="stock"/>
-      //   </div>
-      // )
+     
       
       const addNewVariant = (colorInpit:string,sizeInput: string, stockInput:number) =>{
         console.log(colorVariant)
         console.log(sizeVariant)
         console.log(stockVariant)
         // check fill all
-        if(!colorVariant || !sizeVariant || !stockVariant) {
-          toast.warning("fill all !!!");
+        if(!colorVariant ) {
+          toast.warning("fill out color !!!");
           return;
         }
+        if(!sizeVariant ) {
+          toast.warning("fill out size !!!");
+          return;
+        }
+        if(!stockVariant ) {
+          toast.warning("fill out quantity in stock !!!");
+          return;
+        }
+        
         //add to arrayVariant
         const array = [...addVariant]
+        //check  same size,color
+        console.log(array)
+        let count = 0;
+       const result =  array?.find((item:any) =>{
+          
+          if( item.color === colorVariant && item.size === sizeVariant) {
+            count += 1;
+          }
+        });
+        if(count >0) {
+          toast.warning("The same size and color is existed !!!");
+          return;
+        }
+        console.log(array)
         const id =array.length;
         const obj = {id,color:colorVariant, size:sizeVariant, stock:stockVariant}
         array.push(obj)
@@ -410,6 +411,7 @@ useEffect(()=>{
         setColorVariant('');
         setSizeVariant('');
         setStockVariant('');
+        
       }
 
       //handle ctr + z
@@ -477,12 +479,18 @@ useEffect(()=>{
                     />
                     {errors.brand && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.brand.message as string}</span>}
                   </div>
-                  <CategoryRadio 
-                    id="category"
-                    register={register}
-                    errors={errors}
-                    category={category}
-                  />
+                  <div className="col-span-1 relative">
+                    <CategoryRadio 
+                      id="category"
+                      register={register}
+                      errors={errors}
+                      category={category}
+                      categorys = {categorys}
+                      setCustomerValue = {setCustomerValue}
+                    />
+                    {errors.category && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.category.message as string}</span>}
+                  </div>
+                  
                  
 
                 </div>
@@ -500,7 +508,7 @@ useEffect(()=>{
                       />
                       {errors.stock && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.stock.message as string}</span>}
                     </div> */}
-                    <div className=" relative col-span-1">
+                    <div className=" relative col-span-2">
                       <InputNumber 
                           id="weight"
                           title="Weight"
@@ -513,42 +521,12 @@ useEffect(()=>{
                          {errors.weight && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
                     </div>
                  </div>
-                 {/* location + description */}
+                 {/*  description */}
                  <div className="row-span-2 grid grid-cols-2 w-full gap-2 ">
 
-                    <div className="col-span-1 relative h-full">
-                      <div className="h-full">
-                              <div className="flex flex-col items-start justify-start  relative h-full">
-                                  <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
-                                  <textarea
-                                      {...register("location")} 
-                                      className="
-                                      outline-none 
-                                      bg-slate-500/60 
-                                      border-0 
-                                       
-                                      focus:border-0 
-                                   
-                                      h-full
-                                      
-                                      text-neutral-200
-                                      focus:outline-none
-                                      w-full
-                                      rounded-md
-                                      px-2 
-                                      py-1
-                                      text-[14px]
-                                      " 
-
-                                      placeholder="Bussiness's location"
-                                  />
-                              </div>
-                             
-                          </div>
-                          {errors.location && <span className="absolute top-[85%] left-0 text-[13px] text-red-600">{errors.location.message as string}</span>}
-                    </div>
+                    
                     {/* description */}
-                    <div className="col-span-1 relative h-full">
+                    <div className="col-span-2 relative h-full">
                     <div className="h-full">
                               <div className="flex flex-col items-start justify-start  relative h-full">
                                   <label htmlFor="address" className="text-neutral-200 text-[15px] ">Description</label>
@@ -561,13 +539,15 @@ useEffect(()=>{
                                        
                                       focus:border-0 
                                       h-full
-                                      
+                                      focus:bg-white 
+                                      transition-all 
+                                      focus:text-slate-900
                                       text-neutral-200
                                       focus:outline-none
                                       w-full
                                       rounded-md
                                       px-2 
-                                      
+                                      placeholder:capitalize
                                       text-[14px]
                                       " 
 
@@ -616,22 +596,72 @@ useEffect(()=>{
 
             </div> */}
             {/* bien the */}
-            <div>
-              <div className="grid grid-cols-3 gap-2">
-                <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={colorVariant} placeholder="color" />
-                <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={sizeVariant} placeholder="size"/>
-                <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={stockVariant} placeholder="stock"/>
-              </div>
-              <button onClick={()=>addNewVariant(colorVariant,sizeVariant,stockVariant)}>add new Variant </button>
-              <div>
+            <div className="text-neutral-100 text-[15px] mb-[-4px]">Variant {`(${addVariant && addVariant.length <9 && addVariant.length >0 ? `0${addVariant.length}`: addVariant.length})`}</div>
+            <div className="col-span-3 w-full flex flex-col gap-2">
+             
+            <div className="flex flex-col gap-2">
+            
               {addVariant && addVariant.map((item:any)=>{
-                return <div key={item?.id}>
-                            <input type="text" onChange={(e:any)=>setColorVariant(e.target.value)} value={item?.color} placeholder="color" />
-                            <input type="text" onChange={(e:any)=>setSizeVariant(e.target.value)} value={item?.size} placeholder="size"/>
-                            <input type="text" onChange={(e:any)=>setStockVariant(e.target.value)} value={item?.stock} placeholder="stock"/>
+                return <div key={item?.id} className="grid grid-cols-3 gap-2 w-full">
+                            <input 
+                                type="text" 
+                                onChange={(e:any)=>setColorVariant(e.target.value)} 
+                                value={item?.color} 
+                                placeholder="color" 
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
+                                
+                            <input 
+                                type="text" 
+                                onChange={(e:any)=>setSizeVariant(e.target.value)} 
+                                value={item?.size} 
+                                placeholder="size"
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
+                            <input 
+                                type="number" 
+                                onChange={(e:any)=>setStockVariant(e.target.value)} 
+                                value={item?.stock} 
+                                placeholder="stock"
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
                       </div>
               })}
               </div>
+              <div className="grid grid-cols-3 gap-2 w-full">
+                
+                <input 
+                    type="text" 
+                    onChange={(e:any)=>setColorVariant(e.target.value)} 
+                    value={colorVariant} 
+                    placeholder="color" 
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                />
+                <input 
+                    type="text" 
+                    onChange={(e:any)=>setSizeVariant(e.target.value)} 
+                    value={sizeVariant} 
+                    placeholder="size"
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                    />
+                <input 
+                    type="number" 
+                    onChange={(e:any)=>setStockVariant(e.target.value)} 
+                    value={stockVariant} 
+                    placeholder="stock"
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                    />
+              </div>
+              <div className="flex items-center justify-end ">
+                <button 
+                    onClick={()=>addNewVariant(colorVariant,sizeVariant,stockVariant)}
+                    className="bg-[#4fa29e] rounded-md px-2 py-1 text-[14px] text-neutral-100 hover:opacity-[0.7] hover:text-white flex items-center justify-start gap-2"
+                  >
+                    <GoPlus className="w-4 h-4 text-neutral-100 "/>
+                    Variant 
+                </button>
+              </div>
+              
             </div>
             
             {/* unit */}
@@ -642,14 +672,17 @@ useEffect(()=>{
                     unit={unit}
                     register={register}
                     errors={errors}
+                    setCustomerValue={setCustomerValue}
                   />
                    {errors.unit && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.unit.message as string}</span>}
                 </div>
             {/* transportation */}
                 <div className="relative">
-                  <Transaction 
-                      handleAddTransaction = {handleAddTransaction}
+                  <Transaction
+                      id="transaction"
+                      
                       transaction = {transaction}
+                      setCustomerValue={setCustomerValue}
                   />
                   {errors.transaction && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.transaction.message as string}</span>}
                 </div>
@@ -675,15 +708,16 @@ useEffect(()=>{
                     {/* tax */}
                   <div className="relative col-span-1">
                     <InputNumber
-                      id= "tax"
-                      title="Tax"
-                      placeholder="tax"
+                      id= "margin"
+                      title="Sale Percent"
+                      placeholder="percent"
                       type="number"
                       register={register}
                       errors={errors}
+                    
                       unit="%"
                     />
-                    {errors.tax && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
+                    {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
                   </div>
               {/* discount */}
                 {/* <div className="relative">
@@ -708,6 +742,7 @@ useEffect(()=>{
                       //value={salePrice}
                       register={register}
                       errors={errors}
+                      disabled
                       unit={unit ? unit:'vnd'}
                     />
                     {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
@@ -769,11 +804,11 @@ useEffect(()=>{
                   {tag.length >0 && tag.map((item:any)=>{
                     return (<div 
                               key={item}
-                              className="bg-slate-900 text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
+                              className="bg-[#4FA29E] text-white text-[12px] rounded-md flex items-center justify-center gap-2 px-1 py-0.5"
                             >
                               <span>{item}</span>
                               <span
-                                onClick={() =>handleDeleteTagItem(item.id)}
+                                onClick={() =>handleDeleteTagItem(item)}
                                 className="text-[14px] text-red-600 cursor-pointer"
                               >
                                 <RxCross2 />
@@ -786,13 +821,43 @@ useEffect(()=>{
               {errors.tag && <span className="absolute top-[90%] left-2 text-[13px] text-red-600">{errors.tag.message as string}</span>}
             </div>
             {/* dia chi */}
-            <div className="flex flex-col gap-4 mb-4">
-                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
-                        <div className="grid grid-cols-2 gap-2">
-                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
-                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune}/> 
-                        </div>
-                    </div>
+            <div className=" col-span-2 grid grid-cols-3 gap-2 mb-4">
+                <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune}/> 
+            </div>
+            <div className="col-span-2 relative h-full">
+              <div className="h-full">
+                      <div className="flex flex-col items-start justify-start  relative h-full">
+                          <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
+                          <textarea
+                              {...register("location")} 
+                              className="
+                              outline-none 
+                              bg-slate-500/60 
+                              border-0 
+                                
+                              focus:border-0 
+                            
+                              h-32
+                              focus:bg-neutral-100 
+                              focus:text-slate-900
+                              text-neutral-200
+                              focus:outline-none
+                              w-full
+                              rounded-md
+                              px-2 
+                              py-1
+                              text-[14px]
+                              " 
+
+                              placeholder="Bussiness's location"
+                          />
+                      </div>
+                      
+                  </div>
+                  {errors.location && <span className="absolute top-[85%] left-0 text-[13px] text-red-600">{errors.location.message as string}</span>}
+            </div>
           </div>
 
             </div>
@@ -800,7 +865,7 @@ useEffect(()=>{
           <button 
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={cn("px-2 py-1 rounded-md bg-slate-900 hover:bg-slate-800/80 flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
+              className={cn("px-2 py-1 rounded-md bg-[#4fa29e] hover:opacity-[0.7] flex items-center justify-center gap-2 text-neutral-200 w-full text-[15px] ",
                             isLoading ?'cursor-not-allowed': 'cursor-pointer'
               )}
             > 
