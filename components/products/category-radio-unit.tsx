@@ -31,7 +31,7 @@ const CategoryRadioUnit:React.FC<CategoryRadioProps> = ({
     setCustomerValue
 }) =>{
   const [openSort,setOpenSort] = useState(false)
-  const [text,setText] = useState(`--- choose your ${id} ---`)
+  const [text,setText] = useState(unit ? unit :`--- choose your ${id} ---`)
   const boxRef = useRef<any>(null);
 
    //handle click outside

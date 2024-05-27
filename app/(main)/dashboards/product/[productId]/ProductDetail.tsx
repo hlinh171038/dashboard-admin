@@ -13,7 +13,7 @@ import InputPrice from "@/components/products/input-price"
 import QuestionNotified from "@/components/question-notified"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Discount, Product, User } from "@prisma/client"
+import { Category, Discount, Product, User } from "@prisma/client"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -29,6 +29,10 @@ import { RxCross2 } from "react-icons/rx"
 import DiscountSearch from "@/components/products/discount-search"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { truncate } from "fs"
+import { GoPlus } from "react-icons/go"
+import SelectProvince from "@/app/(main)/profile/selectProvince"
+import SelectDistrict from "@/app/(main)/profile/selectDistrict"
+import SelectCommune from "@/app/(main)/profile/selectCommune"
 
 type formData = {
     productId: string,
@@ -50,7 +54,10 @@ type formData = {
     tag: string[],
     image: string,
     category: string,
-    unit: string
+    unit: string,
+    province: string,
+    district: string,
+    commune: string
   }
 
 interface ProductDetailProps {
@@ -58,6 +65,7 @@ interface ProductDetailProps {
     discount: Discount[] | any;
     currentUser: any;
     users: User[] | any;
+    categorys: Category[] | any;
 }
 
 
@@ -65,13 +73,23 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
     product,
     discount,
     currentUser,
-    users = []
+    users = [],
+    categorys = []
 }) =>{
     const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
   const [exercute,setExercute] = useState(true)
   //const [userId,setUserId] = useState(user?.id )
   const [cate,setCate] = useState('')
+
+  //dia chi
+  const [provinces,setProvinces] = useState<any>([])
+    const [districts,setDistricts] = useState<any>([])
+    const [communes,setCommunes] = useState<any>([])
+    const [provinceSelected,setProvinceSelected] = useState<any>(null)
+    const [districtSelected,setDistrictSelected] = useState<any>(null)
+
+  
 
 
   const schema: ZodType<formData> = z.object({
@@ -94,7 +112,10 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       tag: z.array(z.string()).nonempty(),
       image: z.string(),
       category: z.string(),
-      unit: z.string()
+      unit: z.string(),
+      province: z.string(),
+      district: z.string(),
+      commune: z.string()
   })
 
     const {
@@ -125,7 +146,10 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           salePrice: product.salePrice,
           color: product.color,
           size: product.size,
-          person: product.designFor
+          person: product.designFor,
+          province: '',
+          district: '',
+          commune: ''
         }
       })
 
@@ -144,8 +168,33 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       const stock = watch('stock')
       const userId = watch('userId')
       const discountId = watch('discountId')
+      const province = watch('province')
+      const district = watch('district')
+      const commune = watch('commune')
 
-      console.log(transaction)
+      console.log(province)
+      console.log(district)
+      console.log(commune)
+
+      // bien the
+    const [addVariant,setAddVariant] = useState<any>([])
+    const [colorVariant,setColorVariant] = useState<any>('') ;
+    const [sizeVariant,setSizeVariant] = useState<any>('') ;
+    const [stockVariant,setStockVariant] = useState<any>('') ;
+
+    useEffect(()=>{
+      const existedVariant:any[] = []
+      if(color && color.length > 0) {
+        color.forEach((item:any,index:number) =>{
+          const obj = {id:item.id, color:item, size:size[index], stock:stock[index] }
+          existedVariant.push(obj);
+        })
+      }
+
+    
+      console.log(existedVariant);
+      setAddVariant(existedVariant)
+    },[])
 
    
       const onSubmit: SubmitHandler<FieldValues> = (data) => {  
@@ -276,7 +325,106 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
         }
       },[setCustomerValue,tag,exercute])
 
+
+      /////////////////////////////////////////////////////////////// add new variant /////////////////////////////////////////
   
+      const addNewVariant = (colorInpit:string,sizeInput: string, stockInput:number) =>{
+        console.log(colorVariant)
+        console.log(sizeVariant)
+        console.log(stockVariant)
+        // check fill all
+        if(!colorVariant ) {
+          toast.warning("fill out color !!!");
+          return;
+        }
+        if(!sizeVariant ) {
+          toast.warning("fill out size !!!");
+          return;
+        }
+        if(!stockVariant ) {
+          toast.warning("fill out quantity in stock !!!");
+          return;
+        }
+        
+        //add to arrayVariant
+        const array = [...addVariant]
+        //check  same size,color
+        console.log(array)
+        let count = 0;
+       const result =  array?.find((item:any) =>{
+          
+          if( item.color === colorVariant && item.size === sizeVariant) {
+            count += 1;
+          }
+        });
+        if(count >0) {
+          toast.warning("The same size and color is existed !!!");
+          return;
+        }
+        console.log(array)
+        const id =array.length;
+        const obj = {id,color:colorVariant, size:sizeVariant, stock:stockVariant}
+        array.push(obj)
+        setAddVariant(array)
+        // set to data
+        setCustomerValue('color',[...color ,colorVariant])
+        setCustomerValue('size',[...size ,sizeVariant])
+        setCustomerValue('stock',[...stock ,stockVariant])
+        // set variant default
+        setColorVariant('');
+        setSizeVariant('');
+        setStockVariant('');
+        
+      }
+
+      // useEffect(()=>{
+        
+      //   if(defaultPrice !== 0 && margin !==0){
+      //     const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
+      //     setCustomerValue('salePrice',price)
+      //   }
+      // },[defaultPrice,margin,setCustomerValue])
+
+         // province |||| district  ||| commune data
+  // data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
+// data districts
+useEffect(()=>{
+    if(provinceSelected) {
+        console.log(provinceSelected)
+        console.log(provinceSelected?.idProvince)
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/district/?idProvince=${provinceSelected?.idProvince}`)
+            .then((res:any)=>{
+                setDistricts(res?.data)
+            })
+            .catch((err:any)=>{
+                console.log(err)
+            })
+    } 
+  },[provinceSelected])
+    console.log(districts)
+// data commune
+useEffect(()=>{
+    if(districtSelected) {
+        axios.get(`https://vietnam-administrative-division-json-server-swart.vercel.app/commune/?idDistrict=${districtSelected?.idDistrict}`)
+        .then((res:any)=>{
+            setCommunes(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+    }
+   
+},[districtSelected])
 
       //handle ctr + z
   useEffect(() => {
@@ -354,7 +502,9 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                     register={register}
                     errors={errors}
                     category={category}
+                    categorys ={categorys}
                     exercute = {exercute}
+                    setCustomerValue = {setCustomerValue}
                   />
                  
 
@@ -459,84 +609,119 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           <div className="bg-slate-600 rounded-md w-full grid grid-cols-3 gap-2 h-full p-2">
            
             <div className="col-span-3 grid grid-cols-3 gap-2 mb-2">
-                 {/* color  array checkbox*/}
-                 <div className="relative">
-                  <Checkbox 
-                    handleCheck ={ handleCheckbox}
-                    array={colorArr}
-                    column= {3}
-                    title="Color"
-                    colorValue ={color}
-                    exercute = {exercute}
-                  />
-                   {errors.color && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.color.message as string}</span>}
-                 </div>
-                  <div className="relative">
-                    <CheckboxSize 
-                      handleCheck={handleCheckSize}
-                      array={sizeArr}
-                      column={3}
-                      title="Size"
-                      sizeValue = {size}
-                      exercute = {exercute}
+                  {/* bien the */}
+            <div className="text-neutral-100 text-[15px] mb-[-4px]">Variant {`(${addVariant && addVariant.length <9 && addVariant.length >0 ? `0${addVariant.length}`: addVariant.length})`}</div>
+            <div className="col-span-3 w-full flex flex-col gap-2">
+             
+            <div className="flex flex-col gap-2">
+            
+              {addVariant && addVariant.map((item:any)=>{
+                return <div key={item?.id} className="grid grid-cols-3 gap-2 w-full">
+                            <input 
+                                type="text" 
+                                onChange={(e:any)=>setColorVariant(e.target.value)} 
+                                value={item?.color} 
+                                placeholder="color" 
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
+                                
+                            <input 
+                                type="text" 
+                                onChange={(e:any)=>setSizeVariant(e.target.value)} 
+                                value={item?.size} 
+                                placeholder="size"
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
+                            <input 
+                                type="number" 
+                                onChange={(e:any)=>setStockVariant(e.target.value)} 
+                                value={item?.stock} 
+                                placeholder="stock"
+                                className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                                />
+                      </div>
+              })}
+              </div>
+              <div className="grid grid-cols-3 gap-2 w-full">
+                
+                <input 
+                    type="text" 
+                    onChange={(e:any)=>setColorVariant(e.target.value)} 
+                    value={colorVariant} 
+                    placeholder="color" 
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
+                />
+                <input 
+                    type="text" 
+                    onChange={(e:any)=>setSizeVariant(e.target.value)} 
+                    value={sizeVariant} 
+                    placeholder="size"
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
                     />
-                     {errors.size && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.size.message as string}</span>}
-                  </div>
-                  <div className="relative">
-                    <CheckboxPerson
-                      handleCheck={handleCheckPerson}
-                      array={personArr}
-                      column={2}
-                      title="Design for"
-                      personValue ={person}
-                      exercute = {exercute}
+                <input 
+                    type="number" 
+                    onChange={(e:any)=>setStockVariant(e.target.value)} 
+                    value={stockVariant} 
+                    placeholder="stock"
+                    className="rounded-md px-2 py-1 w-full text-[14px] outline-none cursor-pointer bg-slate-500/60 focus:bg-white transition-all focus:text-slate-900 text-neutral-200 placeholder:capitalize" 
                     />
-                    {errors.person && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.person.message as string}</span>}
-                  </div>
-            {/* size array checkbox*/}
+              </div>
+              <div className="flex items-center justify-end ">
+                <button 
+                    onClick={()=>addNewVariant(colorVariant,sizeVariant,stockVariant)}
+                    className="bg-[#4fa29e] rounded-md px-2 py-1 text-[14px] text-neutral-100 hover:opacity-[0.7] hover:text-white flex items-center justify-start gap-2"
+                  >
+                    <GoPlus className="w-4 h-4 text-neutral-100 "/>
+                    Variant 
+                </button>
+              </div>
+              
+            </div>
             </div>
             {/* unit */}
             <div className="col-span-3 grid grid-cols-3 gap-2">
-                <div className="relative">
+                <div className="relative col-span-1">
                   <CategoryRadioUnit
                     id="unit"
                     unit={unit}
                     register={register}
                     errors={errors}
                     exercute ={exercute}
+                    setCustomerValue={setCustomerValue}
                   />
                    {errors.unit && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.unit.message as string}</span>}
                 </div>
             {/* transportation */}
-                <div className="relative">
+                <div className="relative col-span-2">
                   <Transaction 
-                      handleAddTransaction = {handleAddTransaction}
+                      id="transaction"
                       transaction = {transaction}
                       exercute ={exercute}
+                      setCustomerValue={setCustomerValue}
                   />
                   {errors.transaction && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.transaction.message as string}</span>}
                 </div>
-                
-            {/* defualt price */}
-                <div className="relative">
-                  <InputPrice 
-                    id= "defaultPrice"
-                    title="Price"
-                    placeholder="price"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    unit={unit ? unit:'vnd'}
-                    exercute={exercute}
-                    value={defaultPrice}
-                  />
-                   {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
-                </div>
             
             </div>
-            <div className="col-span-3 grid-cols-2 gap-2 ">
+           
+            <div className="col-span-3 grid grid-cols-3 gap-2 ">
+                {/* defualt price */}
+                <div className="relative  ">
+                      <InputPrice 
+                        id= "defaultPrice"
+                        title="Price"
+                        placeholder="price"
+                        type="number"
+                        register={register}
+                        errors={errors}
+                        unit={unit ? unit:'vnd'}
+                        exercute={exercute}
+                        value={defaultPrice}
+                      />
+                      {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
+                    </div>
                 {/* tax */}
-                <div className="relative col-span-1">
+                <div className="relative ">
                   <InputNumber
                     id= "tax"
                     title="Tax"
@@ -551,7 +736,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                 </div>
       
               {/* price sale */}
-              <div className="relative col-span-1">
+              <div className="relative ">
                 <InputNumber
                     id= "salePrice"
                     title="Sale's Price"
@@ -565,6 +750,12 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
                   />
                   {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
               </div>
+            </div>
+             {/* dia chi */}
+             <div className=" col-span-3 grid grid-cols-3 gap-2 mb-4">
+                <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune}/> 
             </div>
             <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
               <div className="col-span-1  ">

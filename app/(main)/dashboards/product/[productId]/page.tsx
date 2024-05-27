@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth"
 import { getAllDiscount2 } from "@/app/actions/getAllDiscount2"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
 import { getAllUser2 } from "@/app/actions/getAllUser2"
+import { getAllCategory2 } from "@/app/actions/getAllCategory2"
 
 interface IParams {
     productId: string
@@ -15,6 +16,7 @@ const ProductId = async({params}:{params:IParams}) =>{
     const discount = await getAllDiscount2()
     const session = await getServerSession(authOptions)
     const users = await getAllUser2()
+    const categorys = await getAllCategory2()
  
     return (
         <ProductDetail
@@ -22,6 +24,7 @@ const ProductId = async({params}:{params:IParams}) =>{
             discount = {discount}
             currentUser = {session}
             users = {users}
+            categorys = {categorys}
         />
     )
 }

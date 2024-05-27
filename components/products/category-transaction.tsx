@@ -25,8 +25,10 @@ const Transaction:React.FC<TransactionProps> = ({
     const [open,setOpen] = useState(false)
     const [openSort,setOpenSort] = useState(false)
     const [text,setText] = useState(`--- choose your ${id} ---`)
-    const [textArr,setTextArr] = useState<any>([])
+    const [textArr,setTextArr] = useState<any>(transaction ? transaction : [])
     const boxRef = useRef<any>(null);
+
+    console.log(textArr)
 
      //handle choose
   const handlechoose = (item:string,id:number) =>{
@@ -34,28 +36,29 @@ const Transaction:React.FC<TransactionProps> = ({
     //check item
     const arr = [...textArr];
     console.log(arr)
-    const index = arr && arr.findIndex((it:any) => it.value == item);
-    console.log(item === arr[0]?.value)
+    const index = arr && arr.findIndex((it:any) => it == item);
+    console.log(item === arr[0])
     console.log(index)
     if(index !== -1) {
         console.log('try1')
         arr && arr.splice(index,1);
         console.log(array)
     } else {
-        const obj = {
-            id: id,
-            value: item
-        }
-        arr.push(obj)
+        // const obj = {
+        //     id: id,
+        //     value: item
+        // }
+        arr.push(item)
     }
     console.log(arr)
-    setTextArr(arr);
+   
     setOpenSort(!openSort) 
-    const cus:string[] = [];
-    arr && arr.forEach((item:any)=>{
-        cus.push(item?.value)
-    }) 
-    setCustomerValue('transaction',cus)
+    // const cus:string[] = [];
+    // arr && arr.forEach((item:any)=>{
+    //     cus.push(item?.value)
+    // }) 
+    setTextArr(arr);
+    setCustomerValue('transaction',arr)
   }
    console.log(textArr)
 
@@ -81,27 +84,30 @@ const Transaction:React.FC<TransactionProps> = ({
           return () => document.removeEventListener('click', handleClickOutside);
         }
       }, [openSort]);
+      useEffect(()=>{
+        setTextArr(transaction && transaction)
+      },[transaction])
     const transactions = [
         {
             id:1,
-            value:'1. Payment (Online Payment, Cash on Delivery, Installment)'
+            title:'1. Payment (Online Payment, Cash on Delivery, Installment)',
+            value: 'Payment'
         },
         {
             id:2,
-            value:'2. E-wallet (MoMo Wallet, ZaloPay Wallet)'
+            title:'2. E-wallet (MoMo Wallet, ZaloPay Wallet)',
+            value: "E-wallet"
         },
         {
             id:3,
-            value:'3. Credit/Debit Card'
+            title:'3. Credit/Debit Card',
+            value: "Card"
         },
         {
             id:4,
-            value:'4. Cash on Delivery (COD)'
-        },
-        {
-            id:5,
-            value:'5. Credit/Debit Card'
-        },
+            title:'4. Cash on Delivery (COD)',
+            value: 'COD'
+        }
     ]
     return (
         <div className="flex flex-col gap-1  ">
@@ -123,8 +129,8 @@ const Transaction:React.FC<TransactionProps> = ({
                                   )}> {textArr.length > 0 ? (
                                     <div className="flex items-center justify-start gap-2">
                                         {textArr.map((item:any)=>{
-                                            return <div key={item?.id}>
-                                                        {item?.id} |
+                                            return <div key={item}>
+                                                        {item} |
                                                     </div>
                                         })}
                                     </div>
@@ -142,9 +148,9 @@ const Transaction:React.FC<TransactionProps> = ({
                                               onClick={()=>handlechoose(item?.value,item?.id)}
                                               className=" group flex items-center justify-between capitalize hover:bg-neutral-100 hover:text-slate-900 transition-all duration-300 hover:px-2 hover:py-1 rounded-md w-full"
                                           >
-                                            {item?.value}
+                                            {item?.title}
                                             <div className="flex items-center justify-end gap-2 ">
-                                              {textArr.some((it:any) => it.value === item?.value) ? (
+                                              {textArr.includes(item?.value) ? (
                                                   <FaRegSquareCheck
                                                       className="w-4 h-4 text-neutral-100 font-thin group-hover:text-slate-900"
                                                      
