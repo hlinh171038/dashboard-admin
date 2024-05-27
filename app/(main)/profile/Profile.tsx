@@ -331,10 +331,10 @@ useEffect(() => {
                         disabled={check}
                     />
                     <div className="flex flex-col gap-4 mb-4">
-                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected={setProvinceSelected}/>
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected={setProvinceSelected} errors={errors}/>
                        <div className="grid grid-cols-2 gap-2">
-                        <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected={setDistrictSelected}/> 
-                        <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
+                        <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected={setDistrictSelected} errors={errors}/> 
+                        <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune} errors={errors}/> 
                        </div>
                     </div>
                     <InputCustomerId 

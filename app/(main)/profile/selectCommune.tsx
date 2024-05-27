@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 interface provincesProps {
     data: any[];
     id: string;
-  
+    errors?: any;
     setCustomValue: (id:string, value: any) =>void;
     commune: string
 }
@@ -19,7 +19,7 @@ interface provincesProps {
 const SelectCommune:React.FC<provincesProps> = ({
     data = [],
     setCustomValue,
-  
+    errors,
     id,
     commune
 }) => {
@@ -67,7 +67,10 @@ const SelectCommune:React.FC<provincesProps> = ({
     },[])
   return (
     <div className='relative'>
-        <div className="text-neutral-200 text-[15px] capitalize">{id}</div>
+        <div className="text-neutral-200 text-[15px] capitalize flex items-center justify-between">
+          <div>{id}</div>
+          <div>{errors?.commune && <span className="absolute top-0 right-0 text-[13px] text-red-600">{errors?.commune?.message as string}</span>}</div>
+        </div>
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
            <div  ref={boxRef} 

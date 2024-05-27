@@ -118,12 +118,20 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       category: z.string().min(1,{
         message: "You havent chosen category yet !!!"
       }),
-      unit: z.string(),
+      unit: z.string().min(1,{
+        message: "Choose currency unit !!!"
+      }),
       discountId: z.array(z.string()),
       stock: z.array(z.coerce.number()),
-      province: z.string(),
-      district: z.string(),
-      commune: z.string()
+      province: z.string().min(1,{
+        message: "Choose your province !!!"
+      }),
+      district: z.string().min(1,{
+        message: "Choose your district !!!"
+      }),
+      commune: z.string().min(1,{
+        message: "Choose your commune !!!"
+      }),
   })
 
   
@@ -147,7 +155,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           // stock: 0,
           category: '', // ?
           tag:[],
-          unit: 'vnd',
+          unit: '',
           transaction: [],
           defaultPrice: 0,
           margin: 0,
@@ -464,7 +472,7 @@ useEffect(()=>{
                     type="text"
                     errors={errors}
                   />
-                  {errors.title && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.title.message as string}</span>}
+                  {errors.title && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.title.message as string}</span>}
                 </div>
                 {/* brand, category */}
                 <div className="row-span-1 grid grid-cols-2 w-full gap-2 ">
@@ -477,7 +485,7 @@ useEffect(()=>{
                         type="text"
                         errors={errors}
                     />
-                    {errors.brand && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.brand.message as string}</span>}
+                    {errors.brand && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.brand.message as string}</span>}
                   </div>
                   <div className="col-span-1 relative">
                     <CategoryRadio 
@@ -488,7 +496,7 @@ useEffect(()=>{
                       categorys = {categorys}
                       setCustomerValue = {setCustomerValue}
                     />
-                    {errors.category && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.category.message as string}</span>}
+                    {errors.category && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.category.message as string}</span>}
                   </div>
                   
                  
@@ -496,18 +504,7 @@ useEffect(()=>{
                 </div>
                  {/* stock , weight */}
                  <div className="row-span-1 grid grid-cols-2 w-full gap-2 ">
-                    {/* <div className="col-span-1 relative">
-                      <InputNumber 
-                        id="stock"
-                        title="Stock"
-                        register={register}
-                        placeholder="manager stock"
-                        type="number"
-                        errors={errors}
-                        unit="#"
-                      />
-                      {errors.stock && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.stock.message as string}</span>}
-                    </div> */}
+              
                     <div className=" relative col-span-2">
                       <InputNumber 
                           id="weight"
@@ -518,7 +515,7 @@ useEffect(()=>{
                           errors={errors}
                           unit="kg"
                         />
-                         {errors.weight && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
+                         {errors.weight && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
                     </div>
                  </div>
                  {/*  description */}
@@ -556,47 +553,18 @@ useEffect(()=>{
                               </div>
                               
                           </div>
-                          {errors.description && <span className="absolute top-[85%] left-0 text-[13px] text-red-600">{errors.description.message as string}</span>}
+                          {errors.description && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.description.message as string}</span>}
                     </div>
                  </div>
             </div>
           </div>
           <div className="bg-slate-600 rounded-md w-full grid grid-cols-3 gap-2 h-full p-2">
-           
-            {/* <div className="col-span-3 grid grid-cols-3 gap-2 mb-2">
-                 
-                 <div className="relative">
-                  <Checkbox 
-                    handleCheck ={ handleCheckbox}
-                    array={colorArr}
-                    column= {3}
-                    title="Color"
-                  />
-                   {errors.color && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.color.message as string}</span>}
-                 </div>
-                  <div className="relative">
-                    <CheckboxSize 
-                      handleCheck={handleCheckSize}
-                      array={sizeArr}
-                      column={3}
-                      title="Size"
-                    />
-                     {errors.size && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.size.message as string}</span>}
-                  </div>
-                  <div className="relative">
-                    <CheckboxPerson 
-                      handleCheck={handleCheckPerson}
-                      array={personArr}
-                      column={2}
-                      title="Design for"
-                    />
-                    {errors.person && <span className="absolute top-[100%] left-0 text-[13px] text-red-600">{errors.person.message as string}</span>}
-                  </div>
-         
-
-            </div> */}
+          
             {/* bien the */}
-            <div className="text-neutral-100 text-[15px] mb-[-4px]">Variant {`(${addVariant && addVariant.length <9 && addVariant.length >0 ? `0${addVariant.length}`: addVariant.length})`}</div>
+            <div className="text-neutral-100 text-[15px] mb-[-4px] flex items-center justify-between w-full col-span-3">
+              <div>Variant {`(${addVariant && addVariant.length <9 && addVariant.length >0 ? `0${addVariant.length}`: addVariant.length})`}</div>
+              <div>{(errors.color || errors.size || errors.stock) && <span className=" text-[13px] text-red-600">Add new variant now</span> }</div>
+            </div>
             <div className="col-span-3 w-full flex flex-col gap-2">
              
             <div className="flex flex-col gap-2">
@@ -666,7 +634,7 @@ useEffect(()=>{
             
             {/* unit */}
             <div className="col-span-3 grid grid-cols-3 gap-2">
-                <div className="relative">
+                <div className="relative col-span-1">
                   <CategoryRadioUnit
                     id="unit"
                     unit={unit}
@@ -674,21 +642,24 @@ useEffect(()=>{
                     errors={errors}
                     setCustomerValue={setCustomerValue}
                   />
-                   {errors.unit && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.unit.message as string}</span>}
+                   {errors.unit && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.unit.message as string}</span>}
                 </div>
             {/* transportation */}
-                <div className="relative">
+                <div className="relative col-span-2">
                   <Transaction
                       id="transaction"
                       
                       transaction = {transaction}
                       setCustomerValue={setCustomerValue}
                   />
-                  {errors.transaction && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.transaction.message as string}</span>}
+                  {errors.transaction && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.transaction.message as string}</span>}
                 </div>
                 
-            {/* defualt price */}
-                <div className="relative">
+           
+            </div>
+            <div className="col-span-3 grid grid-cols-3 gap-2">
+               {/* defualt price */}
+               <div className="relative col-span-1">
                   <InputPrice 
                     id= "defaultPrice"
                     title="Price"
@@ -700,11 +671,9 @@ useEffect(()=>{
                   
                     value={defaultPrice}
                   />
-                   {errors.defaultPrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
+                   {errors.defaultPrice && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
                 </div>
                 
-            </div>
-            <div className="col-span-3 grid grid-cols-2 gap-2">
                     {/* tax */}
                   <div className="relative col-span-1">
                     <InputNumber
@@ -717,21 +686,9 @@ useEffect(()=>{
                     
                       unit="%"
                     />
-                    {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
+                    {errors.margin && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
                   </div>
-              {/* discount */}
-                {/* <div className="relative">
-                  <InputNumber 
-                      id= "margin"
-                      title="Discount"
-                      placeholder="discount"
-                      type="number"
-                      register={register}
-                      errors={errors}
-                      unit='%'
-                    />
-                    {errors.margin && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
-                </div> */}
+              
                 {/* price sale */}
                 <div className="relative col-span-1">
                   <InputNumber 
@@ -745,9 +702,47 @@ useEffect(()=>{
                       disabled
                       unit={unit ? unit:'vnd'}
                     />
-                    {errors.salePrice && <span className="absolute top-[75%] left-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
+                    {errors.salePrice && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.salePrice.message as string}</span>}
                 </div>
-                </div>
+            </div>
+            {/* dia chi */}
+            <div className=" col-span-3 grid grid-cols-3 gap-2 mb-4">
+                <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected} errors={errors}/>
+                <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected} errors={errors}/> 
+                <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune} errors={errors}/> 
+            </div>
+            <div className="col-span-3 relative h-full">
+              <div className="h-full">
+                      <div className="flex flex-col items-start justify-start  relative h-full">
+                          <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
+                          <textarea
+                              {...register("location")} 
+                              className="
+                              outline-none 
+                              bg-slate-500/60 
+                              border-0 
+                                
+                              focus:border-0 
+                            
+                              h-28
+                              focus:bg-neutral-100 
+                              focus:text-slate-900
+                              text-neutral-200
+                              focus:outline-none
+                              w-full
+                              rounded-md
+                              px-2 
+                              py-1
+                              text-[14px]
+                              " 
+
+                              placeholder="Bussiness's location"
+                          />
+                      </div>
+                      
+                  </div>
+                  {errors.location && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.location.message as string}</span>}
+            </div>
             <div className="col-span-3 grid grid-cols-2 gap-2 rounded-md ">
               <div className="col-span-1  ">
                 <div className="text-neutral-100 text-[15px] mt-1">Coupon & voucher</div>
@@ -818,46 +813,9 @@ useEffect(()=>{
                   })}
                 </div>
               )}
-              {errors.tag && <span className="absolute top-[90%] left-2 text-[13px] text-red-600">{errors.tag.message as string}</span>}
+              {errors.tag && <span className="absolute top-[0.4rem] right-4 text-[13px] text-red-600">{errors.tag.message as string}</span>}
             </div>
-            {/* dia chi */}
-            <div className=" col-span-2 grid grid-cols-3 gap-2 mb-4">
-                <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomerValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
-                <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomerValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
-                <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomerValue}   commune = {commune}/> 
-            </div>
-            <div className="col-span-2 relative h-full">
-              <div className="h-full">
-                      <div className="flex flex-col items-start justify-start  relative h-full">
-                          <label htmlFor="address" className="text-neutral-200 text-[15px] ">Location</label>
-                          <textarea
-                              {...register("location")} 
-                              className="
-                              outline-none 
-                              bg-slate-500/60 
-                              border-0 
-                                
-                              focus:border-0 
-                            
-                              h-32
-                              focus:bg-neutral-100 
-                              focus:text-slate-900
-                              text-neutral-200
-                              focus:outline-none
-                              w-full
-                              rounded-md
-                              px-2 
-                              py-1
-                              text-[14px]
-                              " 
-
-                              placeholder="Bussiness's location"
-                          />
-                      </div>
-                      
-                  </div>
-                  {errors.location && <span className="absolute top-[85%] left-0 text-[13px] text-red-600">{errors.location.message as string}</span>}
-            </div>
+            
           </div>
 
             </div>

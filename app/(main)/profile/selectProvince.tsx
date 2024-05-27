@@ -10,7 +10,7 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 interface provincesProps {
     data: any[];
     id: string;
-
+    errors?: any;
     setCustomValue: (id:string, value: any) =>void;
     setProvinceSelected?: any
     province: string
@@ -21,7 +21,8 @@ const SelectProvince:React.FC<provincesProps> = ({
     setCustomValue,
     setProvinceSelected,
     id,
-    province
+    province,
+    errors
 }) => {
 
     const [array,setArray] =useState([])
@@ -65,7 +66,10 @@ const SelectProvince:React.FC<provincesProps> = ({
       },[])
   return (
     <div className='relative'>
-        <div className="text-neutral-200 text-[15px] capitalize ">{id}</div>
+        <div className="text-neutral-200 text-[15px] capitalize flex items-center justify-between">
+          <div>{id}</div>
+          <div>{errors?.province && <span className="absolute top-0 right-0 text-[13px] text-red-600">{errors?.province?.message as string}</span>}</div>
+        </div>
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
             <div  ref={boxRef} 

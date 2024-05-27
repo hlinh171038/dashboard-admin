@@ -12,6 +12,7 @@ interface provincesProps {
     data: any[];
     id: string;
     setDistrictSelected: any;
+    errors?: any;
     setCustomValue: (id:string, value: any) =>void;
     district: string
 }
@@ -21,6 +22,7 @@ const SelectDistrict:React.FC<provincesProps> = ({
     setCustomValue,
     setDistrictSelected,
     id, 
+    errors,
     district
 }) => {
 
@@ -69,7 +71,10 @@ const SelectDistrict:React.FC<provincesProps> = ({
    
   return (
     <div className='relative'>
-        <div className="text-neutral-200 text-[15px] capitalize">{id}</div>
+        <div className="text-neutral-200 text-[15px] capitalize flex items-center justify-between">
+          <div>{id}</div>
+          <div>{errors?.district && <span className="absolute top-0 right-0 text-[13px] text-red-600">Choose district</span>}</div>
+        </div>
            <div className=" w-full text-[14px] text-neutral-200 ">
                    
            <div  ref={boxRef}  
