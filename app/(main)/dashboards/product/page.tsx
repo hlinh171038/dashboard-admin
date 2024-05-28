@@ -10,6 +10,7 @@ import { getAllProduct2 } from "@/app/actions/getAllProduct2";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getAllUser2 } from "@/app/actions/getAllUser2";
+import { getAllCategory2 } from "@/app/actions/getAllCategory2";
 
 
 
@@ -30,11 +31,7 @@ const page = async({searchParams}:{searchParams:{[key:string]: string | string[]
     const customer = await getAllUser2()
     const transaction = await getAllTransaction2()
 
-    // const start = (page - 1) * per_page; // 0,5,10
-    // const end = start + per_page;//5,10,15
-    // const max = Math.ceil(product.length / per_page);
-    
-    // const updateProduct = product.slice(start,end)
+   const  categorys = await getAllCategory2()
     return (
         <div>
             <Product 
@@ -53,6 +50,7 @@ const page = async({searchParams}:{searchParams:{[key:string]: string | string[]
                 product2 = {product2}
                 currentUser = {currentUser}
                 customer = {customer}
+                categorys ={categorys}
              />
         </div>
     )

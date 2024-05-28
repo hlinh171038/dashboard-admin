@@ -6,18 +6,23 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
 import { useRouter } from "next/navigation";
-import { Product, User } from "@prisma/client";
+import { Category, Product, User } from "@prisma/client";
 import { Slider } from "@/components/ui/slider"
+import Categoryfilter from "./filter/category";
+import axios from "axios";
+import CategoryBrand from "./filter/category-brand";
 
 
 interface FilterProps {
     product: Product[] | any;
     product2: Product[] | any;
+    categorys: Category[] | any;
 }
 
 const Filter:React.FC<FilterProps> = ({
     product =[],
-    product2 =[]
+    product2 =[],
+    categorys = []
 }) => {
 
     const router = useRouter()
@@ -31,6 +36,8 @@ const Filter:React.FC<FilterProps> = ({
         endDate:new Date(),
         key: 'selection'
     })
+
+    const [provinces,setProvinces] = useState<any>([])
 
     const {
         register,
@@ -46,7 +53,8 @@ const Filter:React.FC<FilterProps> = ({
             location: '',
             start: '',
             end: '',
-            stock: ''
+            stock: '',
+        
         }
       })
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -64,6 +72,7 @@ const Filter:React.FC<FilterProps> = ({
       const end = watch('end')
       const stock = watch('stock')
       const price = watch('price')
+  
 
     
      //handle customeValue
@@ -94,6 +103,7 @@ const Filter:React.FC<FilterProps> = ({
         setCustomeValue('price','');
         setCustomeValue('start','');
         setCustomeValue('end','');
+      
         router.push(`/dashboards/product?search=&brand=${brand}&category=${category}&location=${location}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
     },[brand,category,stock,location,price,start,end,setCustomeValue,router])
 
@@ -131,6 +141,18 @@ const Filter:React.FC<FilterProps> = ({
         }
        setCategoryArr(result)
     },[product2])
+
+    // data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
 
     //find largest and smalleset price
     useEffect(()=>{
@@ -174,69 +196,43 @@ const Filter:React.FC<FilterProps> = ({
         </div>
           {/* brand */}
           <div>
-            <div className="font-bold text-[15px]">Brand:</div>
-            <div className="grid grid-cols-5 gap-0.5 justify-items-start px-2 ">
-                {brandArr && brandArr.map((item:any)=>{
-                    return (
-                        <label key={item.id} htmlFor="" className="flex items-center justify-center">
-                            <input {...register("brand")} type="radio" value={item} />
-                            {item}
-                        </label>
-                    )
-                })}
-            </div>
+       
+       
+            <CategoryBrand
+                id="brand"
+                register={register}
+                errors={errors}
+                category={brand}
+                categorys = {brandArr && brandArr}
+                setCustomerValue = {setCustomeValue}
+            />
+
         </div>
         {/*  category */}
         <div>
-        <div  className="font-bold text-[14px]">Category:</div>
-            <div className="grid grid-cols-5 gap-0.5 justify-items-start px-2 ">
-                {categoryArr && categoryArr.map((item:any) =>{
-                    return (
-                        <label key={item.id} htmlFor="" className="flex items-center justify-center">
-                            <input {...register("category")} type="radio" value={item} />
-                            {item}
-                        </label>
-                    )
-                })}
-            </div>
+     
+            <Categoryfilter
+                      id="category"
+                      register={register}
+                      errors={errors}
+                      category={category}
+                      categorys = {categorys}
+                      setCustomerValue = {setCustomeValue}
+                    />
         </div>
         <div className="grid grid-cols-2">
                 {/* location */}
-            <div>
-            <div  className="font-bold text-[14px]">Location:</div>
-                <div className="grid grid-col-2 gap-0.5 justify-items-start px-2">
-                        <div className="flex items-center justify-start gap-4">
-                            <label  htmlFor="" className="col-span-1 flex items-center justify-center">
-                                <input {...register("location")} type="radio" value='north' />
-                                Nothern Side
-                            </label>
-                            <label  htmlFor="" className="col-span-1 flex items-center justify-center">
-                                <input {...register("location")} type="radio" value='other' />
-                                Other
-                            </label>
-                        </div>
-                        <label  htmlFor="" className="col-span-1 flex items-center justify-center">
-                            <input {...register("location")} type="radio" value='sothern' />
-                            Sothern Side
-                        </label>
-                        
-                </div>
-            </div>
+          
+            <Categoryfilter
+                      id="location"
+                      register={register}
+                      errors={errors}
+                      category={location}
+                      categorys = {provinces}
+                      setCustomerValue = {setCustomeValue}
+                    />
             {/* stock */}
-            <div>
-            <div  className="font-bold text-[14px]">Stock:</div>
-                <div className="flex flex-col justify-start items-start gap-0.5 px-2">
-                        <label  htmlFor="" className="flex items-center justify-center">
-                            <input {...register("stock")} type="radio" value='inStock' />
-                            In Stock
-                        </label>
-                        <label  htmlFor="" className="flex items-center justify-center">
-                            <input {...register("stock")} type="radio" value='outOfStock' />
-                            Out of Stock
-                        </label>
-                    
-                </div>
-            </div>
+           
         </div>
         {/* price */}
         <div className="font-bold text-[14px] mb-[-6px]">

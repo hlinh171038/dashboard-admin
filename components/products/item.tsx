@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useCallback, useEffect, useState } from "react";
+import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { FaRegSquare } from "react-icons/fa";
 import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
@@ -14,7 +15,8 @@ interface ItemProductProps {
     title: string,
     img: string,
     description: string,
-    price: number,
+    priceDefault: number,
+    salePrice: number,
     brand: string,
     category: string,
     location: string,
@@ -22,6 +24,8 @@ interface ItemProductProps {
     stock: number,
     id: string,
     check: boolean;
+    isSalePrice: boolean,
+    city: string,
     handleOtherCheck: (id:string) =>void;
 }
 
@@ -30,14 +34,17 @@ const ItemProduct:React.FC<ItemProductProps> = (
     title,
     img,
     description,
-    price,
+    priceDefault,
+    salePrice,
     brand,
     category,
     location,
     created_at,
     stock,
+    city,
     id,
     check,
+    isSalePrice,
     handleOtherCheck
 }
 ) =>{
@@ -51,6 +58,9 @@ const ItemProduct:React.FC<ItemProductProps> = (
    const month = new Date(created_at).getMonth() + 1;
    const triggerMonth = month <10 ? "0"+ month: month
    const year = new Date(created_at).getFullYear().toString()
+
+   const [blockRedict, setBlockRedict] = useState<boolean>(isSalePrice)
+   const [price,setPrice] = useState<number>(priceDefault ? priceDefault : 0)
 
    //handle view detail
 
@@ -74,6 +84,29 @@ const ItemProduct:React.FC<ItemProductProps> = (
         })
    },[id,router])
 
+   const handleUpdateBlock = useCallback(()=>{
+    setIsLoading(true)
+    setBlockRedict(!blockRedict)
+    axios.post('/api/update-isSalePrice-product',{id,isSalePrice:!blockRedict})
+        .then((res:any)=>{
+            console.log(res.data);
+            if(res?.data?.isSalePrice === true) {
+                toast.success('Block.')
+            } else {
+                toast.success('UnBlock.')
+            }
+            
+        })
+        .catch((err:any) =>{
+            console.log(err)
+            toast.error('Something went wrong')
+            setBlockRedict(!blockRedict)
+        })
+        .finally(()=>{
+             setIsLoading(false)
+        })
+},[blockRedict,id])
+
     useEffect(()=>{
        if(location.includes('ho chi minh') || location.includes('hồ ')){
             setResult('sothern')
@@ -84,6 +117,9 @@ const ItemProduct:React.FC<ItemProductProps> = (
        }
     },[location])
     
+    useEffect(()=>{
+        isSalePrice ? setPrice(priceDefault) : setPrice(salePrice)
+    },[isSalePrice,priceDefault,salePrice])
     return (
        <tr>
             <td className="w-6">
@@ -109,12 +145,13 @@ const ItemProduct:React.FC<ItemProductProps> = (
                 {brand}
             </td>
             <td>
+                {/* {isSalePrice ? salePrice.toLocaleString('vi', {style : 'currency', currency : 'VND'}): priceDefault.toLocaleString('vi', {style : 'currency', currency : 'VND'})} */}
                 {price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
             </td>
             <td>
                 {category}
             </td>
-            <td>{result}</td>
+            <td>{city && city.slice(9)}</td>
             <td>
                 {triggerDay + "/" + 
                    triggerMonth + "-" + 
@@ -122,7 +159,16 @@ const ItemProduct:React.FC<ItemProductProps> = (
             </td>
             <td className="">
                 <div className="flex items-center justify-center">
-                    <div>{stock}</div>
+                {
+                    blockRedict ? 
+                    (
+                        <BsToggleOn className="w-8 h-8 text-neutral-100" onClick={handleUpdateBlock}/>
+                    )
+                    :
+                    (
+                        <BsToggleOff className="w-8 h-8 text-neutral-100" onClick={handleUpdateBlock} />
+                    )
+                }
                 </div>
             </td>
             <td className="">

@@ -13,7 +13,7 @@ import {
   import ExportFile from "./export-file"
 import { LuClipboardCopy } from "react-icons/lu"
 import Filter from "./filter"
-import { Product, User } from "@prisma/client"
+import { Category, Product, User } from "@prisma/client"
 import CopyLink from "../customers/copylink"
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "sonner"
@@ -29,6 +29,7 @@ interface ProducHeaderProps {
     product2: Product[] | any;
     currentUser: any;
     customer: User[] | any;
+    categorys: Category[] | any;
 }
 
 const ProductHeader:React.FC<ProducHeaderProps> = ({
@@ -41,7 +42,8 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
     product = [],
     product2 = [],
     currentUser,
-    customer = []
+    customer = [],
+    categorys = []
 }) =>{
     const [text,setText] = useState('')
     const [query] = useDebounce(text, 300);
@@ -177,6 +179,7 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
                                 <Filter
                                     product2 = {product2}
                                     product = {product}
+                                    categorys = {categorys}
                                 />
                         </PopoverContent>
                     </Popover>

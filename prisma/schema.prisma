@@ -82,7 +82,7 @@ model Product {
   tax Int?
   tag String[]
   unit String?
-  
+  isSalePrice Boolean?
   transportation String[]
   salePrice Int?
   stock Int[]

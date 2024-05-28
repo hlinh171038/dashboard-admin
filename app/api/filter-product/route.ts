@@ -9,16 +9,16 @@ export async function POST(request:Request) {
         if(query){
             data.OR =[
                 {
-                    title: {contains: query}
+                    title: {contains: query.toLowerCase() || query.toUpperCase() || query}
                    },
                    {
-                    brand: {contains: query}
+                    brand: {contains: query.toLowerCase() || query.toUpperCase() || query}
                    },
                    {
-                    category: {contains:query}
+                    category: {contains:query.toLowerCase() || query.toUpperCase() || query}
                    },
                    {
-                    location: {contains:query}
+                    location: {contains:query.toLowerCase() || query.toUpperCase() || query}
                    }
             ]
            }

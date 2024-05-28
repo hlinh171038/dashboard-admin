@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma'
-import { contains } from 'validator'
+
 
 
 export async function getAllProduct({query,category,brand,price,location,stock,start,end}: {query?:string, category?:string,brand?:string,price?:string,location?:string,stock?:string,start?:string,end?:string}) {
@@ -10,16 +10,16 @@ export async function getAllProduct({query,category,brand,price,location,stock,s
        if(query){
         data.OR =[
             {
-                title: {contains: query}
+                title: {contains: query.toLowerCase() || query.toUpperCase() || query}
                },
                {
-                brand: {contains: query}
+                brand: {contains: query.toLowerCase() || query.toUpperCase() || query}
                },
                {
-                category: {contains:query}
+                category: {contains:query.toLowerCase() || query.toUpperCase() || query}
                },
                {
-                location: {contains:query}
+                location: {contains:query.toLowerCase() || query.toUpperCase() || query}
                }
         ]
        }

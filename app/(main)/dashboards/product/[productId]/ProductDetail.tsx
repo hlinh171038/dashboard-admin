@@ -39,18 +39,18 @@ type formData = {
     discountId:string[],
     title: string,
     brand: string,
-    stock: number,
+    stock: number[],
     weight: number,
     location: string,
     description: string,
     defaultPrice: number,
-    //margin: number,
-    tax: number,
+    margin: number,
+    //tax: number,
     transaction: string[],
     salePrice: number,
     color: string[],
     size: string[],
-    person: string[],
+    //person: string[],
     tag: string[],
     image: string,
     category: string,
@@ -97,18 +97,18 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
     discountId: z.array(z.string()).nonempty(),
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
-      stock: z.coerce.number().lte(10000).gte(1),
-      weight: z.coerce.number().lte(100).gte(0.001),
+      stock: z.array(z.coerce.number()),
+      weight: z.coerce.number().lte(100).gte(1),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
-      //margin: z.coerce.number().lte(100).gte(1),
-      tax: z.coerce.number().lte(100).gte(1),
+      margin: z.coerce.number().lte(100).gte(1),
+      //tax: z.coerce.number().lte(100).gte(1),
       transaction: z.array(z.string()).nonempty(),
       salePrice: z.coerce.number().lte(100000000).gte(1),
       color: z.array(z.string()).nonempty(),
       size: z.array(z.string()).nonempty(),
-      person: z.array(z.string()).nonempty(),
+      //person: z.array(z.string()).nonempty(),
       tag: z.array(z.string()).nonempty(),
       image: z.string(),
       category: z.string(),
@@ -149,12 +149,12 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
           unit: product.unit,
           transaction: product.transportation,
           defaultPrice: product.defaultPrice,
-          //margin: product.margin,
-          tax: product.tax,
+          margin: product.margin,
+          //tax: product.tax,
           salePrice: product.salePrice,
           color: product.color,
           size: product.size,
-          person: product.designFor,
+          //person: product.designFor,
           province: product?.province,
           district: product?.district,
           commune: product?.commune
@@ -385,13 +385,13 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
         
       }
 
-      // useEffect(()=>{
+      useEffect(()=>{
         
-      //   if(defaultPrice !== 0 && margin !==0){
-      //     const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
-      //     setCustomerValue('salePrice',price)
-      //   }
-      // },[defaultPrice,margin,setCustomerValue])
+        if(defaultPrice !== 0 && margin !==0){
+          const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
+          setCustomerValue('salePrice',price)
+        }
+      },[defaultPrice,margin,setCustomerValue])
 
          // province |||| district  ||| commune data
   // data provinces
@@ -540,7 +540,7 @@ useEffect(()=>{
                           placeholder="product weight"
                           type="number"
                           errors={errors}
-                          unit="kg"
+                          unit="g"
                           exercute ={exercute}
                         />
                          {errors.weight && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
@@ -698,7 +698,7 @@ useEffect(()=>{
                       {errors.defaultPrice && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.defaultPrice.message as string}</span>}
                     </div>
                 {/* tax */}
-                <div className="relative ">
+                {/* <div className="relative ">
                   <InputNumber
                     id= "tax"
                     title="Tax"
@@ -710,7 +710,20 @@ useEffect(()=>{
                     exercute ={exercute}
                   />
                   {errors.tax && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.tax.message as string}</span>}
-                </div>
+                </div> */}
+                <div className="relative">
+                    <InputNumber
+                      id= "margin"
+                      title="Sale Percent"
+                      placeholder="percent"
+                      type="number"
+                      register={register}
+                      errors={errors}
+                      exercute ={exercute}
+                      unit="%"
+                    />
+                    {errors.margin && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.margin.message as string}</span>}
+                  </div>
       
               {/* price sale */}
               <div className="relative ">

@@ -7,7 +7,7 @@ import HotestProduct from "@/components/products/hotest-product";
 import Pagination from "@/components/products/pagination";
 import TableProduct from "@/components/products/table"
 import TotalProduct from "@/components/products/total-product";
-import {  Transaction, User } from "@prisma/client";
+import {  Category, Transaction, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -27,6 +27,7 @@ interface ProductProps {
     product2:  any;
     currentUser: any;
     customer: User[] | any;
+    categorys: Category[] | any;
 }
 
 const Product:React.FC<ProductProps> = ({
@@ -44,7 +45,8 @@ const Product:React.FC<ProductProps> = ({
     transaction = [],
     product2 =[],
     currentUser,
-    customer = []
+    customer = [],
+    categorys = []
 }) =>{
     const [thisWeek,setThisWeek] = useState<Date[]>([])
     const [lastWeek,setLastWeek] = useState<Date[]>([])
@@ -171,6 +173,7 @@ const Product:React.FC<ProductProps> = ({
                         product2 = {product2}
                         currentUser = {currentUser}
                         customer = {customer}
+                        categorys = {categorys}
                     />
                     <div className="px-2">
                         <TableProduct
@@ -180,6 +183,7 @@ const Product:React.FC<ProductProps> = ({
                             brand = {brand}
                             price = {price}
                             location = {location}
+                            
                             stock = {stock}
                             startDate = {startDate}
                             endDate = {endDate}
@@ -188,6 +192,7 @@ const Product:React.FC<ProductProps> = ({
                             status ={status}
                             currentUser ={currentUser}
                             users = {customer}
+                           
                         />
                     </div>
                 </div>

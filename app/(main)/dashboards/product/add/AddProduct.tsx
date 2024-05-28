@@ -103,7 +103,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       // stock: z.coerce.number().lte(10000).gte(1),
-      weight: z.coerce.number().lte(100).gte(0.001),
+      weight: z.coerce.number().lte(1000).gte(1),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),
@@ -168,7 +168,8 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
           stock: [],
           province: '',
           district: '',
-          commune: ''
+          commune: '',
+          isSalePrice: false
         }
       })
 
@@ -513,7 +514,7 @@ useEffect(()=>{
                           placeholder="product weight"
                           type="number"
                           errors={errors}
-                          unit="kg"
+                          unit="g"
                         />
                          {errors.weight && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.weight.message as string}</span>}
                     </div>

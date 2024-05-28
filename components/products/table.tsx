@@ -231,127 +231,21 @@ const TableProduct:React.FC<TableProductProps> = ({
                 <td></td>
                 <td>Title</td>
                 <td className="relative">
-                    <Select
-                        onValueChange={(e) =>handlePushBrand(e)}
-                    >
-                        <SelectTrigger className=" ">
-                            Brand
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Brand</SelectItem>
-                            {brandArr.map((item: any)=>{
-                                return  <SelectItem key={item} value={item as string}  >{item}</SelectItem>
-                            })}
-                             
-                        </SelectContent>
-                    </Select>
-
+                    Brand
                 </td>
                 <td>
-                    <Select
-                        onValueChange={(e)=>handlePushPrice(e)}
-                    >
-                        <SelectTrigger className=" ">
-                            Price
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Price</SelectItem>
-                            <SelectItem value='100000' >
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4"/>
-                                    <span>100.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='1000000'>
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4" />
-                                    <span>1.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='5000000' >
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4"/>
-                                    <span>5.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='10000000'>
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4" />
-                                    <span>10.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='25000000' >
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4"/>
-                                    <span>25.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='50000000'>
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4" />
-                                    <span>50.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='75000000' >
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4"/>
-                                    <span>75.000.000</span>
-                                </div>
-                            </SelectItem>
-                            <SelectItem value='100000000'>
-                                <div className="flex items-center justify-start">
-                                    <MdOutlineKeyboardArrowLeft className="w-4 h-4" />
-                                    <span>100.000.000</span>
-                                </div>
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                    Price
                 </td>
                 <td className="relative">
-                    <Select
-                        onValueChange={(e)=>handlePushCategory(e)}
-                    >
-                        <SelectTrigger className="">
-                            Category
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Item</SelectItem>
-                            {categoryArr.map((item: any)=>{
-                                return  <SelectItem key={item} value={item }>{item}</SelectItem>
-                            })}
-                           
-                        </SelectContent>
-                    </Select>
+                    Category
                 </td>
                 <td>
-                    <Select
-                        onValueChange={(e)=>handlePushLocation(e)}
-                    >
-                        <SelectTrigger className="">
-                            Location
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Location</SelectItem>
-                            <SelectItem value="north-side" defaultChecked={true}>North Side</SelectItem>
-                            <SelectItem value="soth-side" defaultChecked={true}>Soth Side</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    Location
                 </td>
                 <td>Created At</td>
                 <td>
                     <div className="flex items-center justify-center">
-                    <Select
-                        onValueChange={(e)=>handlePushStock(e)}
-                    >
-                        <SelectTrigger className=" ">
-                            Stock
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Location</SelectItem>
-                            <SelectItem value="in-stock" defaultChecked={true}>In stock</SelectItem>
-                            <SelectItem value="out-of-stock" defaultChecked={true}>Out of stock</SelectItem>
-                        </SelectContent>
-                    </Select>
+                            Sale Price
                     </div>
                 </td>
                 <td></td>
@@ -392,36 +286,21 @@ const TableProduct:React.FC<TableProductProps> = ({
                         brand = {item.brand as string}
                         category = {item.category as string}
                         location = {item.location as string}
+                        city = {item.province as string}
                         description={item.description as string }
                         img={item.image as string}
-                        price={item.defaultPrice as number }
+                        priceDefault={item.defaultPrice as number }
+                        salePrice ={item.salePrice as number}
                         created_at={item.created_at }
                         stock={item.stock as number}
                         id = {item.id}
                         check={checkId && checkId.includes(item.id)}
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                        isSalePrice = {item.isSalePrice}
                     />
                     )
                 }))}
-            {/* {data.map((item:any)=>{
-                return (
-                    <ItemProduct
-                        key={item.id}
-                        title={item.title as string }
-                        brand = {item.brand as string}
-                        category = {item.category as string}
-                        location = {item.location as string}
-                        description={item.description as string }
-                        img={item.image as string}
-                        price={item.defaultPrice as number }
-                        created_at={item.created_at }
-                        stock={item.stock as number}
-                        id = {item.id}
-                        check={checkId && checkId.includes(item.id)}
-                        handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
-                    />
-                )
-            })} */}
+            
     
           
        </table>
