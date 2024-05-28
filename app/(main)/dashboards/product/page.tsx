@@ -19,13 +19,13 @@ const page = async({searchParams}:{searchParams:{[key:string]: string | string[]
     const category = typeof searchParams.category === 'string' ? searchParams.category : ''
     const brand = typeof searchParams.brand ==='string' ? searchParams.brand : ''
     const price = typeof searchParams.price ==='string' ? searchParams.price : ''
-    const location = typeof searchParams.location ==='string' ? searchParams.location : ''
+    const province = typeof searchParams.province ==='string' ? searchParams.province : ''
     const stock = typeof searchParams.stock === 'string' ? searchParams.stock : ''
     const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
     const per_page = typeof searchParams.per_page === 'string' ? Number(searchParams.per_page) : 10
     const start = typeof searchParams.start === 'string' ? searchParams.start : ''
     const end = typeof searchParams.end === 'string' ? searchParams.end : ''
-    const product = await getAllProduct({query,category,brand,price,location,stock,start,end})
+    const product = await getAllProduct({query,category,brand,price,province,stock,start,end})
     const product2 = await getAllProduct2()
     const currentUser = await getServerSession(authOptions);
     const customer = await getAllUser2()
@@ -40,7 +40,7 @@ const page = async({searchParams}:{searchParams:{[key:string]: string | string[]
                 category = {category}
                 brand = {brand}
                 price = {price}
-                location = {location}
+                province = {province}
                 stock = {stock}
                 start = {start}
                 end = {end}

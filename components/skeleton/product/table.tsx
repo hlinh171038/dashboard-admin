@@ -32,7 +32,7 @@ export const TableSkeleton = () =>{
                 <td>
                     Created At
                 </td>
-                <td>Stock</td>
+                <td>Sale Price</td>
                 <td></td>
             </tr>
             

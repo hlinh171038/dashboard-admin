@@ -22,7 +22,7 @@ interface ProducHeaderProps {
     category: string
     brand: string
     price: string
-    location: string
+    province: string
     stock: string
     search: string
     product: Product[] | any;
@@ -36,7 +36,7 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
     category,
     brand,
     price,
-    location,
+    province,
     stock,
     search,
     product = [],
@@ -66,14 +66,14 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
 
     //handle reset
     const handleReset = useCallback(()=>{
-        router.push(`/dashboards/product/?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10`)
+        router.push(`/dashboards/product/?query=&category=&brand=&province=&price=&stock=&page=1&per_page=10`)
         setText('')
     },[router])
 
     useEffect(()=>{
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${price}&stock=${stock}&page=1&per_page=10`)
+        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&province=${province}&price=${price}&stock=${stock}&page=1&per_page=10`)
        
-    },[query,category,price,location,stock,brand,router,])
+    },[query,category,price,province,stock,brand,router,])
 
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{

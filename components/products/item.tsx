@@ -118,8 +118,10 @@ const ItemProduct:React.FC<ItemProductProps> = (
     },[location])
     
     useEffect(()=>{
+        console.log(isSalePrice)
         isSalePrice ? setPrice(priceDefault) : setPrice(salePrice)
-    },[isSalePrice,priceDefault,salePrice])
+        console.log(price)
+    },[isSalePrice])
     return (
        <tr>
             <td className="w-6">

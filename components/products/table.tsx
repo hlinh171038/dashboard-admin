@@ -28,11 +28,11 @@ interface TableProductProps {
     brand: string
     price: string
     stock: string
-    location: string
+    province: string
     startDate: string
     endDate: string
     start: number
-    end: number
+    end: number 
     status: boolean
     currentUser:any
     users: User[] | any;
@@ -45,7 +45,7 @@ const TableProduct:React.FC<TableProductProps> = ({
     brand,
     price,
     stock,
-    location,
+    province,
     startDate,
     endDate,
     start,
@@ -100,7 +100,7 @@ const TableProduct:React.FC<TableProductProps> = ({
             }).finally(()=>{
                 setCheckId([]);
                 setIsLoading(false)
-                router.push('/dashboards/product?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10')
+                router.push('/dashboards/product?query=&category=&brand=&province=&price=&stock=&page=1&per_page=10')
             })
             axios.post('/api/create-new-history',{
                 userId: currentUserInfo && currentUserInfo.id,
@@ -150,33 +150,10 @@ const TableProduct:React.FC<TableProductProps> = ({
 
     //handle back product
     const handleBackProduct = useCallback(()=>{
-        router.push(`/dashboards/product/?query=&category=&brand=&location=&price=&stock=&page=1&per_page=10`)
+        router.push(`/dashboards/product/?query=&category=&brand=&province=&price=&stock=&page=1&per_page=10`)
     },[router])
 
-    // handle push category
-    const handlePushCategory = (value:string) =>{
-        router.push(`/dashboards/product/?query=${query}&category=${value==='all'?'':value}&brand=${brand}&location=${location}&price=${price}&stock=${stock}&page=1&per_page=10`)
-    }
-    //handle push brand
-    const handlePushBrand = (value:string) =>{
-        
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${value==='all'?'':value}&location=${location}&price=${price}&stock=${stock}&page=1&per_page=10`)
-    }
-
-    //handle push location
-    const handlePushLocation = (value:string) =>{
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${value==='all'?'':value}&price=${price}&stock=${stock}&page=1&per_page=10`)
-    }
-
-    //handle push price
-    const handlePushPrice = (value:string) =>{
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${value==='all'?'':value}&stock=${stock}&page=1&per_page=10`)
-    }
-    
-    //handle push stock
-    const handlePushStock = (value:string) =>{
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${price}&stock=${value==='all'?'':value}&page=1&per_page=10`)
-    }
+   
     
     useEffect(()=>{
        fillterCategory()
@@ -187,7 +164,7 @@ const TableProduct:React.FC<TableProductProps> = ({
      useEffect( ()=>{
         setIsLoading(true)
        // console.log(array)
-        axios.post('/api/filter-product',{query,category,brand,location,price,stock,startDate,endDate})
+        axios.post('/api/filter-product',{query,category,brand,province,price,stock,startDate,endDate})
             .then((res)=>{
                 console.log(res.data)
                 setData(res.data && res.data)
@@ -202,7 +179,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                 setIsLoading(false)
                
             })
-     },[query,category,brand,location,price,stock,startDate,endDate,router])
+     },[query,category,brand,province,price,stock,startDate,endDate,router])
     console.log(data)
 
     useEffect(()=>{

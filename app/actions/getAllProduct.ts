@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 
 
 
-export async function getAllProduct({query,category,brand,price,location,stock,start,end}: {query?:string, category?:string,brand?:string,price?:string,location?:string,stock?:string,start?:string,end?:string}) {
+export async function getAllProduct({query,category,brand,price,province,stock,start,end}: {query?:string, category?:string,brand?:string,price?:string,province?:string,stock?:string,start?:string,end?:string}) {
     try {
        let product:any[] = []
         const data:any= {}
@@ -29,12 +29,8 @@ export async function getAllProduct({query,category,brand,price,location,stock,s
         if(brand) {
             data.brand = brand;
         }
-        if(location) {
-            if(location === 'north-side'){
-                data.location = {contains: 'ha n'}
-            } else if( location === 'soth-side') {
-                data.location = {contains: 'ho c'}
-            } 
+        if(province) {
+           data.province = province;
         }
         if(price) {
             const convertPrice = Number(price);

@@ -13,7 +13,7 @@ interface PaginationParams {
     query: string;
     category: string;
     brand: string;
-    location: string;
+    province: string;
     price: string;
     stock: string;
     handleLoading: (value:boolean) => void;
@@ -26,7 +26,7 @@ const Pagination:React.FC<PaginationParams> = ({
     query,
     category,
     brand,
-    location,
+    province,
     price,
     stock,
     handleLoading
@@ -43,9 +43,9 @@ const Pagination:React.FC<PaginationParams> = ({
     const handleNavigate = useCallback((value1: number,value2: number) =>{
         setTempPage(value1)
         
-        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&location=${location}&price=${price}&stock=${stock}&page=${value1}&per_page=${value2}`)
+        router.push(`/dashboards/product/?query=${query}&category=${category}&brand=${brand}&province=${province}&price=${price}&stock=${stock}&page=${value1}&per_page=${value2}`)
         
-    },[router,query,category,brand,location,price,stock,])
+    },[router,query,category,brand,province,price,stock,])
 
     useEffect(()=>{
         if(page === tempPage) {

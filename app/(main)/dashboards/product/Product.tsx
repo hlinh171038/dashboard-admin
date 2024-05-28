@@ -17,7 +17,7 @@ interface ProductProps {
     page: number;
     per_page: number;
     category: string;
-    location: string;
+    province: string;
     brand: string;
     price: string;
     stock: string;
@@ -36,7 +36,7 @@ const Product:React.FC<ProductProps> = ({
     page,
     per_page,
     category,
-    location,
+    province,
     brand,
     price,
     stock,
@@ -166,7 +166,7 @@ const Product:React.FC<ProductProps> = ({
                         category ={category}
                         brand={brand}
                         price={price}
-                        location={location}
+                        province={province}
                         stock={stock}
                         search={query}
                         product = {product}
@@ -182,7 +182,7 @@ const Product:React.FC<ProductProps> = ({
                             category ={category}
                             brand = {brand}
                             price = {price}
-                            location = {location}
+                            province = {province}
                             
                             stock = {stock}
                             startDate = {startDate}
@@ -204,7 +204,7 @@ const Product:React.FC<ProductProps> = ({
                     query ={query}
                     category ={category}
                     brand ={brand}
-                    location ={location}
+                    province ={province}
                     stock = {stock}
                     price ={price}
                     handleLoading = {handleLoading}

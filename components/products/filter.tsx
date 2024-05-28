@@ -50,7 +50,7 @@ const Filter:React.FC<FilterProps> = ({
             brand: '',
             price: '',
             category: '',
-            location: '',
+            province: '',
             start: '',
             end: '',
             stock: '',
@@ -62,12 +62,12 @@ const Filter:React.FC<FilterProps> = ({
 
         const start = data.start !=='' ? new Date(new Date(data.start).getTime() ).toISOString() : ''
         const end = data.end !=='' ? new Date(new Date(data.end).getTime() + 86400000).toISOString() : ''
-        router.push(`/dashboards/product?search=&brand=${data.brand}&category=${data.category}&location=${data.location}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
+        router.push(`/dashboards/product?search=&brand=${data.brand}&category=${data.category}&province=${data.province}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
       }
     
       const brand = watch('brand')
       const category = watch('category')
-      const location = watch('location')
+      const province = watch('prvince')
       const start = watch('start')
       const end = watch('end')
       const stock = watch('stock')
@@ -99,13 +99,13 @@ const Filter:React.FC<FilterProps> = ({
         setCustomeValue('brand','');
         setCustomeValue('category','');
         setCustomeValue('stock','');
-        setCustomeValue('location','');
+        setCustomeValue('province','');
         setCustomeValue('price','');
         setCustomeValue('start','');
         setCustomeValue('end','');
       
-        router.push(`/dashboards/product?search=&brand=${brand}&category=${category}&location=${location}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
-    },[brand,category,stock,location,price,start,end,setCustomeValue,router])
+        router.push(`/dashboards/product?search=&brand=${brand}&category=${category}&province=${province}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
+    },[brand,category,stock,province,price,start,end,setCustomeValue,router])
 
 
      //handle slider
@@ -224,10 +224,10 @@ const Filter:React.FC<FilterProps> = ({
                 {/* location */}
           
             <Categoryfilter
-                      id="location"
+                      id="province"
                       register={register}
                       errors={errors}
-                      category={location}
+                      category={province}
                       categorys = {provinces}
                       setCustomerValue = {setCustomeValue}
                     />

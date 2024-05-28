@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request:Request) {
     try {
         const body = await request.json()
-        const {query,category,brand,location,price,stock,startDate,endDate} = body;
+        const {query,category,brand,province,price,stock,startDate,endDate} = body;
         const data:any = {}
         if(query){
             data.OR =[
@@ -18,7 +18,7 @@ export async function POST(request:Request) {
                     category: {contains:query.toLowerCase() || query.toUpperCase() || query}
                    },
                    {
-                    location: {contains:query.toLowerCase() || query.toUpperCase() || query}
+                    province: {contains:query.toLowerCase() || query.toUpperCase() || query}
                    }
             ]
            }
@@ -29,12 +29,8 @@ export async function POST(request:Request) {
         if(brand) {
             data.brand = brand;
         }
-        if(location) {
-            if(location === 'north-side'){
-                data.location = {contains: 'ha n'}
-            } else if( location === 'soth-side') {
-                data.location = {contains: 'ho c'}
-            } 
+        if(province) {
+            data.province = province;
         }
         if(price) {
             const convertPrice = Number(price);
