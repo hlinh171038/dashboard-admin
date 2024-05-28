@@ -12,10 +12,10 @@ export async function POST(request:Request) {
          if(search) {
              query.OR =[
                  { 
-                     name: {contains:search}
+                     name: {contains: search.toLowerCase() || search.toUpperCase() || search}
                  },
                  {
-                     email: {contains: search}
+                     email: {contains: search.toLowerCase() || search.toUpperCase() || search}
                  }
              ]
          }
