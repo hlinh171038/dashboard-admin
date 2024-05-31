@@ -1,7 +1,7 @@
 "use client"
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { FaRegSquare } from 'react-icons/fa';
 import { FaRegSquareCheck } from 'react-icons/fa6';
@@ -31,6 +31,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
     const [isLoading,setIsLoading] = useState<any>(false) 
     const [text,setText] = useState<any>('')
     const router = useRouter()
+    const input2Ref = useRef<any>(null);
 
     const handleUpdate = () =>{
         //check text
@@ -58,6 +59,13 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
         toast.warning("cancel update category");
         setUpdate(false)
       };
+      useEffect(()=>{
+        if (update) {
+            console.log(input2Ref)
+            input2Ref.current.focus(); // Focus on input if opened
+          }
+      },[update])
+
   return (
     <tr>
         <td className='w-[5%]'>
@@ -80,6 +88,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
         <td className='w-[60%] px-2 py-1'>{update ? (
             <div className='relative w-full '>
                  <input 
+                         ref={input2Ref}
                         type="text" 
                         value={text} 
                         onChange={(e:any)=>setText(e.target.value)} 
