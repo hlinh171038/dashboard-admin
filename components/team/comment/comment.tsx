@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import { Comment, HeartReply, Relly, User } from "@prisma/client"
 import Content from "./content"

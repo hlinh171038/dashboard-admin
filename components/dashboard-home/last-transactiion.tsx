@@ -69,7 +69,8 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
                             image ={item.user.image}
                             status={item.status}
                             date ={item.date}
-                            price ={item.totalPrice}
+                            price ={item.price}
+                            quantity = {item.quantity}
                         />
                         )
                     })}

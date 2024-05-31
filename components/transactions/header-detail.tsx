@@ -28,7 +28,7 @@ const HeaderDetail:React.FC<HeaderDetailProps> = ({
                         <span>
                             <GoDotFill 
                             className={cn("w-4 h-4",
-                                        status === 'cancel' ? 'text-red-600' :(status ==="confirmed" ? "text-green-400" : 'text-yellow-400')
+                                        status === 'cancel' ? 'text-red-600' :(status ==="done" ? "text-green-400" : 'text-yellow-400')
                                         )}/>
                         </span>
                        <span className="text-neutral-200 text-[14px] capitalize"> {status}</span>

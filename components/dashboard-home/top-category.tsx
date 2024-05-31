@@ -48,13 +48,17 @@ const TopCategory:React.FC<TopCategoryProps> = ({
                 })
             }
         })
+
+        console.log(result)
         setTrendCategory(result)
     },[product,transaction])
 
+    console.log(trendCategory)
     // slice data
     
     useEffect (()=>{
         const array = [...trendCategory];
+        console.log(array)
         const obj:any ={}
         array.sort((a:any,b:any)=>{
           if(a.count > b.count) return -1;
@@ -71,13 +75,19 @@ const TopCategory:React.FC<TopCategoryProps> = ({
           obj.category = 'orther'
           obj.count= total;
           const first = array.slice(0,5);
+          console.log(obj);
      
          first.push(obj);
+         console.log(first)
         setData(first)
+        } else {
+            setData(array)
         }
      
-        setData(array)
+       
        },[trendCategory])
+
+       console.log(data)
    
     useEffect(()=>{
        const result = data && data.reduce((calculator:number,currentValue:any)=> calculator + currentValue.count,0);

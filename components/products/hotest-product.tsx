@@ -289,7 +289,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
             <div>
                 <table id="trend-sale-table" className="w-full text-start text-[14px] gap-2 ">
                     {openBrand && (
-                        <tr className="font-bold text-[15px]">
+                        <tr className="font-semibold text-[15px]">
                             <td className="text-neutral-100 px-2">Brand Name</td>
                             <td className="text-neutral-100 px-2">Quanity</td>
                             <td className="text-neutral-100 px-2">Stock</td>

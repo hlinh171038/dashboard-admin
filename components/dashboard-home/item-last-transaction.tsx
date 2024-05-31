@@ -5,12 +5,14 @@ import Image from "next/image"
 import '@/app/globals.css'
 
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useEffect, useState } from "react";
 interface ItemLastTransactionProps {
     name: string,
     image: string,
     status: string,
     date:string,
-    price: number,
+    price: number[],
+    quantity: number[],
     id: string
 }
 
@@ -20,9 +22,22 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
     image,
     status,
     date,
-    price,
+    price = [],
+    quantity = [],
     id
 }) =>{
+    const [total,setTotal] = useState<number>(0);
+
+    useEffect(()=>{
+        const priceArr = [...price];
+        const quantityArr = [...quantity];
+        let result = 0;
+        priceArr.forEach((item:any,index:number)=>{
+            result +=(item * quantityArr[index])
+        });
+        console.log(result);
+        setTotal(result)
+    },[price,quantity])
     return (
         <tr key={id} className="text-neutral-400 text-[15px]">
             <td  className="py-1">
@@ -54,9 +69,9 @@ const ItemLastTransaction:React.FC<ItemLastTransactionProps> = ({
                 </div>
             </td>
             <td className="px-2">{new Date(date).toLocaleDateString()}</td>
-            {/* <td  className={cn("px-2",
+            <td  className={cn("px-2",
                         status === 'cancel' && 'text-red-600'
-                    )}>{status === "cancel" ? '-'+ price.toLocaleString('vi', {style : 'currency', currency : 'VND'}):price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td> */}
+                    )}>{status === "cancel" ? '-'+ total.toLocaleString('vi', {style : 'currency', currency : 'VND'}):total.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </td>
         </tr>
     )
 }

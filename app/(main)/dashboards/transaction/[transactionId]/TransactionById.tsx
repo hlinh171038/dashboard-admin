@@ -48,6 +48,9 @@ const TransactionById:React.FC<TransactionByIdProps> = ({
             name:'delivered'  
         },
         {
+            name:'done'  
+        },
+        {
             name:'cancel'  
         },
     ]

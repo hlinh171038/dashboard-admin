@@ -42,9 +42,9 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
         <div className="flex items-center justify-between">
             <div className="">
                 <div className="flex items-center justify-start gap-2">
-                    <div className="text-[35px] text-neutral-400 ">{total && total.length && total.length <10 ? `0${total.length}`: total.length}</div>
+                    <div className="text-[35px] text-neutral-400 ">{total && total.length && total.length <10 && total.length >0 ? `0${total.length}`: total.length}</div>
                     <div className="text-[12px] ">
-                        <div className="mb-[-2px] text-green-500">+ {increse &&  increse.length && increse.length <10 ? `0${increse.length}`: increse.length}</div>
+                        <div className="mb-[-2px] text-green-500">+ {increse &&  increse.length && increse.length <10 && increse.length >0 ? `0${increse.length}`: increse.length}</div>
                         <div className="text-neutral-400">in this week</div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
                     <div>
                         Active
                     </div>
-                    <div>2 member</div>
+                    <div> 02 member</div>
                 </div>
                 <div className="flex items-center justify-start gap-2">
                     <div>
@@ -65,7 +65,7 @@ const TotalAdminCard:React.FC<TotalUserCardProps> = ({
                     <div>
                         Inactive
                     </div>
-                    <div>{total && total.length -2} member</div>
+                    <div>{total && (total.length -2) >0 &&  (total.length -2) <10 ?`0${total.length}`: total.length} member</div>
                 </div>
             </div>
             </div>

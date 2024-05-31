@@ -7,6 +7,7 @@ import { FaRegSquare } from 'react-icons/fa';
 import { FaRegSquareCheck } from 'react-icons/fa6';
 import { MdOutlineKeyboardCommandKey } from 'react-icons/md';
 import { TfiPencilAlt } from "react-icons/tfi";
+import OutsideClickHandler from 'react-outside-click-handler';
 import { toast } from 'sonner';
 
 interface ItemCategoryProps {
@@ -52,6 +53,11 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
                 setUpdate(false)
             })
     }
+      //handle out side input
+      const handleClickOutside = () => {
+        toast.warning("cancel update category");
+        setUpdate(false)
+      };
   return (
     <tr>
         <td className='w-[5%]'>
@@ -85,6 +91,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
                         className="w-full rounded-md px-2 py-1 bg-slate-500/50 text-[14px] text-neutral-100 outline-none pr-20" 
                 />
                 {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 absolute top-[0.2rem] right-2"/>:(
+                     <OutsideClickHandler onOutsideClick={handleClickOutside}>
                     <div>
                         <div className="absolute top-[0.2rem] right-[4.6rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
                                     <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
@@ -96,6 +103,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
                             >Update 
                             </div>
                     </div>
+                    </OutsideClickHandler>
                 )}
                         
                     </div>

@@ -125,7 +125,7 @@ const RightChart:React.FC<ChartProps> = ({
     for(let i=0;i<data.length;i++ ) {
       const day =new Date( data[i].date).getDay()
       for(let j =0 ;j<array.length;j++) {
-          if(day === array[j].id && data[i].status === 'pending') {
+          if(day === array[j].id && data[i].status === ('waitting for confirmation'|| 'confirmed' || 'transporting' || 'delivered')) {
               array[j].Pending += data[i].totalPrice;
           }
       }

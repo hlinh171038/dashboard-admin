@@ -116,6 +116,9 @@ const Headercategory:React.FC<HeaderProps> = ({
         const result = category && category.find((item:any)=>item.email === currentUser.user.email);
         setCurrent(result)
      },[currentUser,category])
+
+     console.log(category)
+     console.log(category2)
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">
@@ -126,7 +129,7 @@ const Headercategory:React.FC<HeaderProps> = ({
                     
                             <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md flex items-center justify-center">M</div>
                         </div>
-                        {category2 && category2.length < category.length && (
+                        {category && category.length < category2.length && (
                             <div className="absolute bottom-[-20px] left-0 text-[13px] text-green">
                                 {category.length === 0 ? (
                                     <span className="text-red-600 flex items-center justify-start gap-8" >

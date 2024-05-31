@@ -48,9 +48,9 @@ interface TotalUserCardProps {
         <div className="bg-slate-600 rounded-md p-2 relative">
             <div className="font-semibold text-[16px] text-neutral-100">User Manager</div>
             <div className="flex items-center justify-start gap-2">
-                <div className="text-[35px] text-neutral-400 ">{users && users.length && (users.length <10 && users.length>0) ? `0${users.length}`: users.length}</div>
+                <div className="text-[35px] text-neutral-400 ">{users && users.length && users.length <10 && users.length>0 ? `0${users.length}`: users.length}</div>
                 <div className="text-[12px] ">
-                    <div className="mb-[-2px] text-green-500">+ {totalUserThisWeek &&totalUserThisWeek.length < 10 && users.length>0 ? `0${totalUserThisWeek.length}`: totalUserThisWeek.length }</div>
+                    <div className="mb-[-2px] text-green-500">+ {totalUserThisWeek &&totalUserThisWeek.length < 10 && totalUserThisWeek.length>0 ? `0${totalUserThisWeek.length}`: totalUserThisWeek.length }</div>
                     <div className="text-neutral-400">in this week</div>
                 </div>
             </div>
