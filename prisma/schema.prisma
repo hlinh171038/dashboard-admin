@@ -110,11 +110,20 @@ model Transaction {
   transportation String?
   type String?
   bank String?
-
+  image String[]
+  title String[]
+  size String[]
+  color String[]
+  price Int[]
+  quantity Int[]
+ 
    user User @relation(fields: [userId], references: [id],onDelete: Cascade)
   //product Product @relation(fields: [productId],references: [id],onDelete: Cascade)
   discount Discount @relation(fields: [discountId], references: [id],onDelete: Cascade)
 }
+
+
+
 
 model Discount {
   id String @default(cuid()) @id

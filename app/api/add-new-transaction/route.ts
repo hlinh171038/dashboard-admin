@@ -15,7 +15,13 @@ export async function POST(request: Request) {
             totalPrice,
             transportation,
             type,
-            bank
+            bank,
+            image,
+            price,
+            title,
+            size,
+            color,
+            quantity
         } = body;
 
         const transaction = await prisma.transaction.create({
@@ -28,7 +34,13 @@ export async function POST(request: Request) {
                 totalPrice,
                 transportation,
                 type,
-                bank
+                bank,
+                image,
+                title,
+                size,
+                color,
+                price,
+                quantity
             }
         })
 

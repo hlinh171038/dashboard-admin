@@ -10,17 +10,17 @@ const TransactionDate:React.FC<TransactionDateProps> = ({
     const r=event.toLocaleTimeString('en-US')
     const date = event.toLocaleDateString("en-US",options as any);
     return (
-        <div className="text-neutral-200 text-[15px] px-2">
-            <div className="text-[18px] capitalize mx-2 mt-2">Transaction Date </div>
+        <div className="text-neutral-200 text-[14px] px-2">
+            <div className="text-[16px] capitalize font-semibold  mt-2">Transaction Date </div>
             <hr/>
-            <table className="w-[100%] mx-2 ">
+            <table className="w-[100%]  mt-2">
                 <tr>
                     <td  className="w-[40%]"> Date :</td>
                     <td className="text-neutral-400 text-thin">{date}</td>
                 </tr>
                
                 <tr>
-                    <td  className="w-[40%]">Time:</td>
+                    <td  className="w-[40%]">Time :</td>
                     <td className="text-neutral-400 text-thin">{r}</td>
                 </tr>
             </table>

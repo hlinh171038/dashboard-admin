@@ -33,7 +33,7 @@ const ItemType:React.FC<ItemTypeProps> = ({
     return (
         <div 
             key={item}
-            className="bg-slate-900 text-neutral-100 px-2 py-1 flex items-center justify-center rounded-md"
+            className="bg-[#4fa29e] text-neutral-100 px-2 py-1 flex items-center justify-center rounded-md"
         >
             <span> {item}</span>
             <span className="flex items-center justify-start gap-2">

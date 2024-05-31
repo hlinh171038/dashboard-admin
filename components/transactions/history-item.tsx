@@ -23,7 +23,7 @@ const HistoryItem:React.FC<HistoryItemProps> = ({
     const date = event.toLocaleDateString("en-US",options as any);
     return (
         <div className="flex items-start flex-col gap-[1px]">
-            <div className="flex items-center justify-start gap-2">
+            <div className="flex items-center justify-start gap-2 text-[14px]">
                 <div>{date}</div>
                 <div>{r}</div>
             </div>
@@ -32,7 +32,7 @@ const HistoryItem:React.FC<HistoryItemProps> = ({
                         <span>
                             <GoDotFill 
                             className={cn("w-4 h-4",
-                                        status === 'pending' ? 'text-yellow-400' :(status ==="done" ? "text-green-400" : 'text-red-600')
+                                        status === 'cancel' ? 'text-red-600' :(status ==="confirmed" ? "text-green-400" : 'text-yellow-400')
                                         )}/>
                         </span>
                        <span className=" capitalize"> {status}</span>

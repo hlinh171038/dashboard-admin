@@ -15,10 +15,10 @@ const History:React.FC<HistoryProps> =({
     
     return (
         <div className="text-neutral-200 text-[15px] px-2">
-            <div className="text-[18px] capitalize mx-2 mt-2">History </div>
+            <div className="text-[16px] capitalize font-semibold  ">History </div>
             <hr/>
             <div
-                className="flex flex-col gap-2 px-2"
+                className="flex flex-col gap-2 mt-2"
             >
                 {history.map((item:any)=>{
                     return <HistoryItem

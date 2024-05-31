@@ -8,10 +8,10 @@ export async function getAllDiscount({search,type,percent, countFrom, countTo, d
         if(search) {
             query.OR = [
                 {
-                    title: {contains: search}
+                    title: {contains: search.toLowerCase() || search.toUpperCase() || search}
                 },
                 {
-                    code:{contains: search}
+                    code:{contains: search.toLowerCase() || search.toUpperCase() || search}
                 }
             ]
         }

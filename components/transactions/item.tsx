@@ -16,6 +16,7 @@ interface ItemProps {
     userImage: string
     userId: string
     productId: string
+    id:string
 }
 
 const Item:React.FC<ItemProps> = ({
@@ -27,7 +28,8 @@ const Item:React.FC<ItemProps> = ({
     total,
     userImage,
     userId,
-    productId
+    productId,
+    id,
 }) => {
     const router = useRouter()
     const [statusColor,setStatusColor] = useState('')
@@ -69,17 +71,20 @@ const Item:React.FC<ItemProps> = ({
             <td> 
                 <span>{triggerDay + "/" + 
                    triggerMonth + "-" + 
-                   year} 
+                   year + "-"} 
                 </span>
+                <span>{r}</span>
             </td>
-            <td>{r}</td>
+            <td>
+                {id}
+            </td>
             
             <td >
                 <div className={`${statusColor} rounded-md  py-1 flex items-center justify-center capitalize hover:opacity-75 hover:text-white text-neutral-100 cursor-pointer transition-all duration-300`}>
                 {status}
                 </div>
             </td>
-            <td className="text-end">{total.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td>
+            {/* <td className="text-end">{total.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td> */}
             <td className="">
                 <div className="w-full flex justify-end items-center px-2">
                     <button 

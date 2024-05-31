@@ -138,13 +138,13 @@ const Filter:React.FC<FilterProps> =({
                 <div className="flex items-center justify-start gap-2">
                     <button 
                         onClick={handleSubmit(onSubmit)}
-                        className="flex items-center justify-center px-2 py-1 border border-slate-900 bg-slate-900 hover:bg-slate-800 cursor-pointer text-neutral-200 test-[15px] w-full rounded-md"
+                        className="flex items-center justify-center px-2 py-1 border  bg-[#4FA29E] hover:opacity-[0.7] cursor-pointer text-neutral-200 test-[15px] w-full rounded-md"
                     >
                         {`show`}
                     </button>
                     <button
                         onClick={handleReset}
-                        className="flex items-center justify-center px-2 py-1 bg-neutral-100 border border-slate-900  cursor-pointer test-[15px] w-full rounded-md"
+                        className="flex items-center justify-center px-2 py-1 bg-neutral-100 border border-[#4FA29E] cursor-pointer test-[15px] w-full rounded-md"
                     >
                         Reset
                     </button>
@@ -186,9 +186,9 @@ const Filter:React.FC<FilterProps> =({
                     <div>Amount from </div>
                     <div>
                         <div>
-                            <input type="number" {...register('countFrom')} className="rounded-md border border-slate-900 px-2 py-0.5"/>
+                            <input type="number" {...register('countFrom')} className="rounded-md border border-[#4FA29E] px-2 py-0.5"/>
                             <span> to </span>
-                            <input type="number" {...register('countTo')} className="rounded-md border border-slate-900 px-2 py-0.5" />
+                            <input type="number" {...register('countTo')} className="rounded-md border border-[#4FA29E] px-2 py-0.5" />
                         </div>
                     </div>
                 </div>

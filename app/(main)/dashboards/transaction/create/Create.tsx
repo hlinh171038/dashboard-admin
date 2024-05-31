@@ -22,11 +22,15 @@ type dataForm ={
     productId: string[],
     discountId: string,
     status: string,
-    amount: number,
-    totalPrice: number,
+    image: string[],
     transportation: string,
     type: string,
-    bank: string
+    bank: string,
+    title: string[],
+     price: number[],
+     quantity: number[],
+    size:string[],
+    color: string[]
 }
 
 const Create:React.FC<CreateProps> = ({
@@ -47,6 +51,20 @@ const Create:React.FC<CreateProps> = ({
     const [isLoading,setIsLoading] = useState(false)
     const [discountItem,setDiscountItem] = useState("Add Discount")
     const [openDiscount,setOpenDiscount] = useState(false)
+    // product
+    const [openCustome,setOpenCustome] = useState(false)
+    const [size,setSize] = useState<any>([]);
+    const [color,setColor] = useState<any>([]);
+    const [chooseId,setChooseId] = useState('');
+    const [chooseSize,setChooseSize] = useState('');
+    const [chooseColor,setChooseColor] = useState('');
+    const [chooseTitle,setChooseTitle] = useState('');
+    const [chooseImage,setChooseImage] = useState('');
+    const [choosePrice,setChoosePrice] = useState(0);
+    const [chooseQuantity,setChooseQuantity] = useState(0);
+
+    //total product
+    const [totalProduct,setTotalProduct] = useState<any>([]);
 
 
   
@@ -55,8 +73,12 @@ const Create:React.FC<CreateProps> = ({
         discountId: z.string(),
         productId: z.array(z.string()).nonempty(),
         status: z.string(),
-        amount: z.number().gte(1),
-        totalPrice: z.number().gte(10000),
+        image: z.array(z.string()).nonempty(),
+        title: z.array(z.string()).nonempty(),
+        size: z.array(z.string()).nonempty(),
+        color: z.array(z.string()).nonempty(),
+         quantity: z.array(z.coerce.number()),
+         price: z.array(z.coerce.number()),
         transportation: z.string(),
         type: z.string(),
         bank: z.string()
@@ -75,12 +97,18 @@ const Create:React.FC<CreateProps> = ({
             userId:'',
             discountId: '',
             productId: [],
-            status: 'cancel', // cancel,pending,done
+            status: 'watting for confirmation', 
             amount: 0,
             totalPrice: 0,
             transportation: '',
             type: '',
-            bank: ''
+            bank: '',
+            image: [],
+            title: [],
+            size: [],
+            color: [],
+            price: [],
+            quantity: []
         }
       })
       const userId = watch('userId')
@@ -91,10 +119,21 @@ const Create:React.FC<CreateProps> = ({
 
       const type = watch('type');
       const bank = watch('bank')
+      const size1 = watch('size')
+      const color1 = watch('color')
+      const title = watch('title')
+      const price = watch('price')
+      const quantity = watch('quantity')
+      const image = watch('image')
+      console.log(size1);
+      console.log(color1);
+      console.log(productId)
+      console.log(price)
+      console.log(quantity)
 
  
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
-
+        console.log(data)
         setIsLoading(true)
         axios.post('/api/add-new-transaction', data)
                 .then((res)=>{
@@ -133,34 +172,7 @@ const Create:React.FC<CreateProps> = ({
             shouldTouch: true
         })
       },[setValue])
-      //handle add product
-      const handleAddProduct = useCallback((value:any)=>{
-            
-            let array = productItem;
-            const checkExist = array.findIndex((item:any) => item.id === value.id)
-
-            if(checkExist === -1) {
-                const result = [...array,{...value,count:1}]
-                array = result;
-                setProductItem(result)
-            } else {
-                let result = array[checkExist].count ++;
-                if(array[checkExist].stock <= result) {
-                     result = array[checkExist].count --;
-                     return ;
-                }
-                setProductItem(array)
-                setOpenProduct(false)
-            }
-       
-            const arrayId = [...array];
-   
-            const empty: string[]= [];
-            arrayId.forEach((item)=>{
-                empty.push(item.id)
-            })
-            setCustomerValue('productId',empty)
-      },[productItem,setCustomerValue])
+      
    
 
       //handleAdduser 
@@ -202,7 +214,7 @@ const Create:React.FC<CreateProps> = ({
     },[productItem,setCustomerValue])
     //card trigger
     useEffect(()=>{
-        if(transportation === 'card'){
+        if(transportation === 'E-wallet' || transportation === 'Payment' || transportation === 'Card'){
             setOpenCard(true)
             setCustomerValue('type','')
             setCustomerValue('bank','')
@@ -212,6 +224,105 @@ const Create:React.FC<CreateProps> = ({
         }
     },[transportation,setCustomerValue])
 
+    // product
+
+    const handleOpenCustome = (item:any) =>{
+        console.log(item)
+     
+        console.log(item)
+        console.log(item?.size)
+        setSize(item?.size)
+        setColor(item?.color)
+        setOpenCustome(true)
+        setChooseSize('')
+        setChooseColor('')
+        setChooseId(item?.id)
+        setChoosePrice(item?.defaultPrice);
+        setChooseImage(item?.image);
+        setChooseTitle(item?.title)
+        setChooseQuantity(0)
+    }
+    // handle choose size
+    const handleChooseSize =  (item:string) =>{
+        setChooseSize(item);
+        //setCustomerValue('size',array)
+    }
+      // handle choose color
+      const handleChooseColor =  (item:string) =>{
+        setChooseColor(item);
+        //setCustomerValue('size',array)
+    }
+ console.log(chooseSize)
+ console.log(chooseColor)
+
+ //handle add new
+ const handleAddNew = () =>{
+    if(chooseColor === '' || chooseColor === '') {
+        toast.warning('choose size and color');
+        return;
+    }
+    const array1 = [...productId,chooseId]
+    const array2 = [...color1,chooseColor]
+    const array3 = [...size1,chooseSize]
+    const array4 = [...title,chooseTitle]
+    const array5 = [...price,choosePrice]
+    const array6 = [...quantity,chooseQuantity]
+    const array7 = [...image,chooseImage]
+    setCustomerValue('productId',array1)
+    setCustomerValue('color',array2)
+    setCustomerValue('size',array3)
+    setCustomerValue('title',array4)
+    setCustomerValue('price',array5)
+    setCustomerValue('quantity',array6)
+    setCustomerValue('image',array7)
+ 
+    setChooseColor('');
+    setChooseSize('');
+    setChooseId('');
+    setChooseTitle('');
+    setChoosePrice(0);
+    setChooseQuantity(0)
+    setChooseImage('')
+
+    const total = [...totalProduct]
+
+    const obj = {
+        id:chooseId,
+        image:chooseImage,
+        title:chooseTitle,
+        color:chooseColor,
+        size:chooseSize,
+        quantity:chooseQuantity,
+        price:choosePrice
+    }
+    const result = total.push(obj)
+    console.log(result)
+    setTotalProduct(total)
+ }
+    const transactions = [
+        {
+            id:1,
+            title:'1. Payment (Online Payment, Cash on Delivery, Installment)',
+            value: 'Payment'
+        },
+        {
+            id:2,
+            title:'2. E-wallet (MoMo Wallet, ZaloPay Wallet)',
+            value: "E-wallet"
+        },
+        {
+            id:3,
+            title:'3. Credit/Debit Card',
+            value: "Card"
+        },
+        {
+            id:4,
+            title:'4. Cash on Delivery (COD)',
+            value: 'COD'
+        }
+    ]
+   
+    console.log(totalProduct)
     return (
         <div className="bg-slate-600 rounded-md px-2 py-4">
             <form  
@@ -267,7 +378,8 @@ const Create:React.FC<CreateProps> = ({
                         {product.map((item:any)=>{
                             return <div
                                         key={item.id}
-                                        onClick={()=>handleAddProduct(item)}
+                                        // onClick={()=>handleAddProduct(item)}
+                                        onClick={()=>handleOpenCustome(item)}
                                         className="cursor-pointer"
                                     >
                                         {item.title}
@@ -275,8 +387,43 @@ const Create:React.FC<CreateProps> = ({
                         })}
                     </div>
                 </div>
-                
+                {/* size and color */}
+                <div>
+                    {/* size */}
+                    <div>
+                        {size.length >0 ?(
+                            size.map((item:any)=>{
+                                return <div key={item} onClick={()=>handleChooseSize(item)}>{item}</div>
+                            })
+                        ) : 'loading'}
+                    </div>
+                     {/* color */}
+                     <div>
+                        {color.length >0 ?(
+                            color.map((item:any)=>{
+                                return <div key={item} onClick={()=>handleChooseColor(item)}>{item}</div>
+                            })
+                        ) : 'loading'}
+                    </div>
+                    <input type="number" name="quantity" value={chooseQuantity} onChange={(e:any)=>setChooseQuantity(e.target.value)}/>
+                </div>
+                {/* add product */}
+                {chooseColor !=='' && chooseSize !=='' && chooseQuantity > 0  && (
+                    <div onClick={handleAddNew}>Add + </div>
+                )}
 
+                {/* total product */}
+                <div>
+                    {totalProduct && totalProduct.length > 0 && (
+                        totalProduct.map((item:any)=>{
+                            return (
+                                <div key={item?.id}>
+                                    {item?.title}
+                                </div>
+                            )
+                        })
+                    )}
+                </div>
                <div className={cn("bg-slate-500/60 rounded-md w-full  overflow-hidden px-2",
                                     
                                 !openProduct && productItem.length>0 ? 'block min-h-9 h-auto px-2 py-1 mt-2' : 'h-0 hidden'
@@ -309,7 +456,7 @@ const Create:React.FC<CreateProps> = ({
                                 openDiscount ? 'block' : "hidden"
                                     )}
                     >
-                        {discount.map((item:any)=>{
+                        {discount&& discount.filter((item:any)=> new Date(item?.endDate) > new Date()).map((item:any)=>{
                             return <div
                                         key={item.id}
                                         onClick={()=>handleAddDiscount(item)}
@@ -320,7 +467,7 @@ const Create:React.FC<CreateProps> = ({
                     </div>
                 </div>
                {/* status */}
-               <div>
+               {/* <div>
                     <div className="text-[14px] text-neutral-100">Status</div>
                     <label className="flex items-center justify-start gap-2 text-neutral-200 text-[14px]">
                         <input 
@@ -349,11 +496,22 @@ const Create:React.FC<CreateProps> = ({
                          />
                         Done
                     </label>
-               </div>
+               </div> */}
                {/* transportation */}
                <div>
                 <div className="text-[14px] text-neutral-100">Transportation</div>
-                    <label className="flex items-center justify-start gap-2 text-neutral-200 text-[14px]">
+                 { transactions && transactions.map((item:any)=>{
+                    return <label key={item?.id} className="flex items-center justify-start gap-2 text-neutral-200 text-[14px]">
+                                <input 
+                                type="radio" 
+                                {...register("transportation")}
+                                value={item?.value}
+                                className="text-neutral-200 text-[14px]"
+                                />
+                                {item?.title}
+                            </label>
+                 })}
+                    {/* <label className="flex items-center justify-start gap-2 text-neutral-200 text-[14px]">
                         <input 
                         type="radio" 
                         {...register("transportation")}
@@ -370,7 +528,7 @@ const Create:React.FC<CreateProps> = ({
                         className="text-neutral-200 text-[14px]"
                         />
                         payment by card
-                    </label>
+                    </label> */}
                 
                </div>
                {/*  */}

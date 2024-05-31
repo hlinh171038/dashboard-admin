@@ -13,10 +13,10 @@ export async function POST(request:Request) {
         if(search) {
             query.OR = [
                 {
-                    title: {contains: search}
+                    title: {contains: search.toLowerCase() || search.toUpperCase() || search}
                 },
                 {
-                    code:{contains: search}
+                    code:{contains: search.toLowerCase() || search.toUpperCase() || search}
                 }
             ]
         }

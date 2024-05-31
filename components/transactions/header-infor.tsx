@@ -11,6 +11,10 @@ interface HeaderInforProps {
     sdt: string;
     image: string;
     id: string;
+    province: string;
+    district: string;
+    commune: string;
+    location: string;
 }
 
 const HeaderInfor:React.FC<HeaderInforProps> = ({
@@ -18,52 +22,62 @@ const HeaderInfor:React.FC<HeaderInforProps> = ({
     email,
     sdt,
     image,
-    id
+    id,
+    province,
+    district,
+    commune,
+    location
 }) =>{
     const router = useRouter()
+
+    console.log(province)
+    console.log(district)
+    console.log(commune)
+    console.log(location)
     return (
 
         <div className="text-neutral-200 text-[15px] px-2">
            <div className="flex items-center justify-between">
-                <div className="text-[18px] capitalize mx-2 mt-2">User </div> 
+                <div className="text-[16px] font-semibold">User Information </div> 
                 <div 
-                    className="text-[14px] capitalize mx-2 mt-2 text-neutral-400 text-thin underline cursor-pointer"
+                    className="text-[14px] capitalize  mt-2 text-neutral-400 text-thin  cursor-pointer"
                     onClick={()=> router.push(`/dashboards/customers/${id}`)}
                 >
                     Detail 
                 </div>
            </div>
             <hr/>
-            <div className="flex items-center justify-start gap-2 px-2 mt-2">
+            <div className="flex items-center justify-start gap-4  mt-2">
                 <div>
                     <Image 
                         src={image ? image: '/avatar'}
-                        width="50"
-                        height="50"
+                        width="45"
+                        height="45"
                         alt="avatar"
-                        className="rounded-full aspect-square"
+                        className="rounded-full aspect-square object-cover"
                     />
                 </div>
                 <div >
-                    <div className="mb-[-1px]">{name}</div>
-                    <div className="flex items-center justify-start gap-[1px]">
-                        <div>
-                            <GoDotFill className={cn('w-4 h-4 text-green-500')}/>
-                        </div>
-                        <div className="text-neutral-400">active</div>
+                    <div className="mb-[-1px] capitalize text-[14px]">{name}</div>
+                    <div className="flex items-center justify-start gap-[1px] text-neutral-400 text-[14px] font-thin">
+                        {province ? province : `<Update>`}
                     </div>
                 </div>
             </div>
-            <table className="w-[100%] mx-2 px-2">
+            <table className="w-[100%]  mt-4 text-[14px]">
 
                
                 <tr>
-                    <td  className="w-[40%]">Email:</td>
+                    <td  className="w-[20%]">Email:</td>
                     <td className="text-neutral-400 text-thin">{email}</td>
                 </tr>
                 <tr>
-                    <td  className="w-[40%]">SDT:</td>
+                    <td  className="w-[15%]">SDT:</td>
                     <td className="text-neutral-400 text-thin">{sdt}</td>
+                </tr>
+                <tr>
+                    <td  className="w-[15%] flex">Address:</td>
+                    <td className="text-neutral-400 text-thin">{(location && commune && district && province) ? (location +', ' + commune +', ' + district +', '+ province) : "<Updating>"  }</td>
                 </tr>
             </table>
             

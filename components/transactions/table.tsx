@@ -113,7 +113,7 @@ const Table:React.FC<TableProps> = ({
                     Date
                 </td>
                 <td>
-                    Time
+                    Product Code
                 </td>
                
                 <td className="text-center">
@@ -131,9 +131,7 @@ const Table:React.FC<TableProps> = ({
                         </SelectContent>
                     </Select>
                 </td>
-                <td className="text-end">
-                    Total Price
-                </td>
+               
                 <td 
                     className="text-end"
                 >View Detail</td>
@@ -155,11 +153,11 @@ const Table:React.FC<TableProps> = ({
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
-                                <td>
+                                {/* <td>
                                     <div className="flex items-center justify-end">
                                         <Skeleton className="h-4 w-[70px]" />
                                     </div>
-                                </td>
+                                </td> */}
                                 <td>
                                     <div className="flex items-center justify-end">
                                         <Skeleton className="h-4 w-[50px]" />
@@ -171,6 +169,7 @@ const Table:React.FC<TableProps> = ({
                 ):(updateData && updateData.map((item:any)=>{
                     return (<Item 
                         key={item.id}
+                        id={item.id}
                         productId = {item.id}
                         userName = {item.user.name}
                         userImage = {item.user.image}
