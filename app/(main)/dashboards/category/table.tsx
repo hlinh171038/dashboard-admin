@@ -149,7 +149,7 @@ const TableCategory:React.FC<TableCategoryProps> = ({
                 <button
                     disabled ={isLoading}
                     onClick={()=>handleDelete(checkId)}
-                    className="absolute top-2 left-[45%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                    className="absolute top-2 left-[32.5%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
                     Delete
                     {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
                 </button>

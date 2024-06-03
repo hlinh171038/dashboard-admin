@@ -105,7 +105,7 @@ const Header:React.FC<HeaderProps> = ({
                         )}
                             <input
                                 ref={inputRef} 
-                                className="w-full px-2 py-1 pl-8 rounded-md bg-slate-500/60 text-[14px] text-neutral-100 focus:outline-none" 
+                                className="w-full px-2 py-1 pl-8 pr-16 rounded-md bg-slate-500/60 text-[14px] text-neutral-100 focus:outline-none" 
                                 placeholder="Search ... "
                                 onChange={(e)=> setText(e.target.value)}
                                 value={text}

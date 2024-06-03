@@ -18,7 +18,7 @@ const ItemTableQuantity:React.FC<ItemTableQuantityProps> = ({
             <td className="capitalize px-2">{position}</td>
             <td>
                 <div className="flex items-center justify-center">
-                {count}
+                {count && count <10 && count>0 ? `0${count}`: count}
                 </div>
             </td>
             <td className="underline ">

@@ -58,12 +58,12 @@ interface TotalUserCardProps {
 
     },[])
     return (
-        <div className="bg-slate-600 rounded-md p-2 relative">
-            <div className="text-[15px] text-neutral-100 font-bold">Team manager</div>
+        <div className="bg-slate-600 rounded-md py-2 relative">
+            <div className="text-[16px]  text-neutral-100 font-semibold capitalize">Team manager</div>
             <div className="flex items-center justify-start gap-2">
-                <div className="text-[35px] text-neutral-400 ">{admin && admin.length}</div>
+                <div className="text-[35px] text-neutral-400 ">{admin && admin.length <10 && admin.length>0 ? `0${admin.length}`: admin.length}</div>
                 <div className="text-[12px] ">
-                    <div className="mb-[-2px] text-green-500">+ {adminThisWeek.length}</div>
+                    <div className="mb-[-2px] text-green-500">+ {adminThisWeek && adminThisWeek.length <10 && adminThisWeek.length>0 ? `0${adminThisWeek.length}`: adminThisWeek.length}</div>
                     <div className="text-neutral-400">in this week</div>
                 </div>
             </div>
