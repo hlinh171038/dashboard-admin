@@ -96,7 +96,8 @@ const Table:React.FC<TableProps> = ({
                     User
                 </td>
                 <td>
-                    <Select
+                    Payment
+                    {/* <Select
                         onValueChange={(e) =>handlePushPayment(e)}
                     >
                         <SelectTrigger className=" ">
@@ -107,7 +108,7 @@ const Table:React.FC<TableProps> = ({
                             <SelectItem value="online">Online</SelectItem>
                             <SelectItem value="offline">Offline</SelectItem>
                         </SelectContent>
-                    </Select>
+                    </Select> */}
                 </td>
                 <td>
                     Date
@@ -116,8 +117,9 @@ const Table:React.FC<TableProps> = ({
                     Product Code
                 </td>
                
-                <td className="text-center">
-                    <Select
+                <td className="">
+                    Status
+                    {/* <Select
                         onValueChange={(e) =>handlePushStatus(e)}
                     >
                         <SelectTrigger className=" ">
@@ -129,7 +131,7 @@ const Table:React.FC<TableProps> = ({
                             <SelectItem value="pending">Pending</SelectItem>
                             <SelectItem value="done">Done</SelectItem>
                         </SelectContent>
-                    </Select>
+                    </Select> */}
                 </td>
                
                 <td 

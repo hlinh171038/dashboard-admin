@@ -80,9 +80,10 @@ const Item:React.FC<ItemProps> = ({
             </td>
             
             <td >
-                <div className={`${statusColor} rounded-md  py-1 flex items-center justify-center capitalize hover:opacity-75 hover:text-white text-neutral-100 cursor-pointer transition-all duration-300`}>
+                 {status}
+                {/* <div className={`${statusColor} rounded-md  py-1 flex items-center justify-center capitalize hover:opacity-75 hover:text-white text-neutral-100 cursor-pointer transition-all duration-300`}>
                 {status}
-                </div>
+                </div> */}
             </td>
             {/* <td className="text-end">{total.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</td> */}
             <td className="">

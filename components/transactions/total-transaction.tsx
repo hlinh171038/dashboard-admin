@@ -27,9 +27,9 @@ interface TotalUserCardProps {
         <div className="bg-slate-600 rounded-md p-2 relative">
             <div className="font-bold text-[15px] text-neutral-100">Transaction Manager</div>
             <div className="flex items-center justify-start gap-2">
-                <div className="text-[35px] text-neutral-400 ">{transaction && transaction.length}</div>
+                <div className="text-[35px] text-neutral-400 ">{transaction && transaction.length <10 && transaction.length>0 ? `0${transaction.length}`: transaction.length}</div>
                 <div className="text-[12px] ">
-                    <div className="mb-[-2px] text-green-500">+ {totalTransactionThisWeek.length}</div>
+                    <div className="mb-[-2px] text-green-500">+ {totalTransactionThisWeek && totalTransactionThisWeek.length <10 && totalTransactionThisWeek.length>0 ? `0${totalTransactionThisWeek.length}`: totalTransactionThisWeek.length}</div>
                     <div className="text-neutral-400">in this week</div>
                 </div>
             </div>

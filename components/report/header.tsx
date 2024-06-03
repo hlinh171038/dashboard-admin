@@ -74,7 +74,7 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
     return (
         <div className="mb-4">
             <div className="flex justify-between items-center ">
-                <div className="relative">
+                <div className="relative w-[31.5%]">
                         <div className="absolute top-2 left-2 "><IoSearchSharp className="w-3 h-3 text-white"/></div>
                         <div className="absolute top-1.5 right-2 text-[11px] text-neutral-400 flex items-center justify-start gap-1">
                             <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md flex items-center justify-center">Ctrl</div>
@@ -107,7 +107,7 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                         
                         <input 
                             ref={inputRef}
-                            className="px-2 py-1 pl-8 pr-16 rounded-md bg-slate-500/60 text-[14px] text-neutral-200 focus:outline-none" 
+                            className="w-full px-2 py-1 pl-8 pr-16 rounded-md bg-slate-500/60 text-[14px] text-neutral-200 focus:outline-none" 
                             placeholder="Search ... "
                             value={text}
                             onChange={(e)=>setText(e.target.value)}

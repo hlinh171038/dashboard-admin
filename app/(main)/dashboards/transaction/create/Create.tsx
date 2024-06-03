@@ -30,7 +30,9 @@ type dataForm ={
      price: number[],
      quantity: number[],
     size:string[],
-    color: string[]
+    color: string[],
+    totalPrice: number,
+    amount: number
 }
 
 const Create:React.FC<CreateProps> = ({
@@ -81,7 +83,9 @@ const Create:React.FC<CreateProps> = ({
          price: z.array(z.coerce.number()),
         transportation: z.string(),
         type: z.string(),
-        bank: z.string()
+        bank: z.string(),
+        totalPrice: z.coerce.number(),
+        amount: z.coerce.number()
     })
    
 
@@ -125,11 +129,15 @@ const Create:React.FC<CreateProps> = ({
       const price = watch('price')
       const quantity = watch('quantity')
       const image = watch('image')
+      const totalPrice1 = watch('totalPrice')
+      const amount1 = watch('amount');
       console.log(size1);
       console.log(color1);
       console.log(productId)
       console.log(price)
       console.log(quantity)
+      console.log(totalPrice1)
+      console.log(amount1)
 
  
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -194,24 +202,38 @@ const Create:React.FC<CreateProps> = ({
 
       // amount
       useEffect(()=>{
-        const initialValue = 0;
-        const sumWithInitial = productItem.reduce(
-        (accumulator:number, currentValue:any) => accumulator + currentValue.count,
-        initialValue,
-        );
-        setAmount(sumWithInitial)
-        setCustomerValue('amount',sumWithInitial)
-    },[productItem,setCustomerValue])
+        console.log(quantity)
+        console.log(price)
+       
+        
+       let result = quantity && quantity.reduce((accumulator:number, currentValue:any)=> accumulator + currentValue, 0);
+        // const initialValue = 0;
+        // const sumWithInitial = productItem.reduce(
+        // (accumulator:number, currentValue:any) => accumulator + currentValue.count,
+        // initialValue,
+        // );
+        // setAmount(sumWithInitial)
+        console.log(result)
+         setCustomerValue('amount',result)
+
+    },[setCustomerValue,quantity,price])
 
     //total price
     useEffect(()=>{
-        const total = productItem.reduce(
-            (accumulator:number,currentValue:any) => accumulator + currentValue.salePrice,
-            0
-        )
-        setTotalPrice(total)
-        setCustomerValue('totalPrice',total)
-    },[productItem,setCustomerValue])
+        console.log(quantity)
+        console.log(price)
+        let count = 0;
+       price && price.forEach((item:any,index:number) => {
+            count += item * quantity[index];
+        })
+        // const total = productItem.reduce(
+        //     (accumulator:number,currentValue:any) => accumulator + currentValue.salePrice,
+        //     0
+        // )
+        // setTotalPrice(total)
+        console.log(count)
+         setCustomerValue('totalPrice',count)
+    },[price,quantity,setCustomerValue])
     //card trigger
     useEffect(()=>{
         if(transportation === 'E-wallet' || transportation === 'Payment' || transportation === 'Card'){

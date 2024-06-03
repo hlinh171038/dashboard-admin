@@ -241,7 +241,7 @@ useEffect(() => {
                             />
                             
                         </div>
-                        <div className="text-neutral-100 text-[14px] w-full text-end mb-2 px-2">Total: {chart === 'thisWeek' ? totalTransactionThisWeek &&totalTransactionThisWeek.length:(chart === 'lastWeek'? totalTransactionLastWeek && totalTransactionLastWeek.length: transaction2 && transaction2.length)}</div>
+                        <div className="text-neutral-100 text-[14px] w-full text-end mb-2 px-2">Total : {chart === 'thisWeek' ? totalTransactionThisWeek &&totalTransactionThisWeek.length:(chart === 'lastWeek'? totalTransactionLastWeek && totalTransactionLastWeek.length: transaction2 && transaction2.length)}</div>
                     </div>
                 </div>
                 {/* col-2 */}

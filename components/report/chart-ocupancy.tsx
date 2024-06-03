@@ -210,7 +210,7 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
             className="flex items-center justify-between px-2 py-2 text-neutral-400 text-[14px]"
         >
             <div className='flex flex-col '>
-                <div className='text-[15px] text-neutral-100 capitalize'>transaction failed</div>
+                <div className='text-[16px] font-semibold text-neutral-100 capitalize'>Customer Report</div>
                 <div className=''>The transaction was canceled by the customer</div>
             </div>
             <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 ">
@@ -272,8 +272,8 @@ const ChartOcupancy:React.FC<ChartOcupancyProps> = ({
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="proceed" fill="#E96F28"  barSize={20}/>
-                    <Bar dataKey="pending" fill="#64D03E"  barSize={20}/>
+                    <Bar dataKey="proceed" fill="#64D03E"  barSize={20}/>
+                    <Bar dataKey="pending" fill="#EEB316"  barSize={20}/>
                     <Bar dataKey="help" fill="#B42A2C"  barSize={20}/>
                 </BarChart>
             </ResponsiveContainer>

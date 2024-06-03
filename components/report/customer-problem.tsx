@@ -25,8 +25,8 @@ interface CustomerProblemProps {
     search: string;
     role: string;
     status: string;
-    start: string;
-    end: string
+    start: number;
+    end: number;
     page: number;
     per_page: number;
     loading:boolean;
@@ -55,6 +55,9 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
     const [currentUserInfo,setCurrentUserInfo] = useState<any>([])
     const router = useRouter()
 
+  
+    // update data
+    const updateData = data && data.slice(start,end)
      //handle orther check
      const handleOtherCheck = useCallback((id:string)=>{
         const tempArr = [...checkId];
@@ -162,7 +165,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                 <button
                     disabled ={isLoading}
                     onClick={()=>handleDelete(checkId)}
-                    className="absolute top-0 left-[30%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                    className="absolute top-0 left-[32.5%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
                     Delete
                     {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
                 </button>
@@ -202,7 +205,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                             </tr>
                         )
                     })
-                ):(data && data.map((item:any)=>{
+                ):(updateData && updateData.map((item:any)=>{
                     return (<ItemCustomerReport
                         key={item.id}
                         email = {item.mailSend}

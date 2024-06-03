@@ -115,8 +115,15 @@ const RightChart:React.FC<ChartProps> = ({
     //done status
     for(let i=0;i<data.length;i++ ) {
         const day =new Date( data[i].date).getDay()
+        console.log(day)
+        console.log(data[i].status)
+        console.log(data[i].status === 'done')
         for(let j =0 ;j<array.length;j++) {
+          console.log(array[j].id);
+          console.log(day);
+          console.log(array[j].id === day)
             if(day === array[j].id && data[i].status === 'done') {
+              console.log('try1')
                 array[j].Done += data[i].totalPrice;
             }
         }
@@ -125,7 +132,9 @@ const RightChart:React.FC<ChartProps> = ({
     for(let i=0;i<data.length;i++ ) {
       const day =new Date( data[i].date).getDay()
       for(let j =0 ;j<array.length;j++) {
-          if(day === array[j].id && data[i].status === ('waitting for confirmation'|| 'confirmed' || 'transporting' || 'delivered')) {
+          if(day === array[j].id && (data[i].status === 'watting for confirmation'|| data[i].status === 'confirmed' || data[i].status ==='transporting' || data[i].status ==='delivered')) {
+            console.log('try2')
+
               array[j].Pending += data[i].totalPrice;
           }
       }
@@ -136,12 +145,14 @@ const RightChart:React.FC<ChartProps> = ({
         const day =new Date( data[i].date).getDay()
         for(let j =0 ;j<array.length;j++) {
             if(day === array[j].id && data[i].status === 'cancel') {
+              console.log('try3')
+              
                 array[j].Cancel += data[i].totalPrice;
             }
         }
     }
    
-
+    console.log(array)
     
     setChartThisWeek(array)
 },[])
