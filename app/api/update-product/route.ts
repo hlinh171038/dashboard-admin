@@ -23,7 +23,10 @@ export async function POST(request:Request) {
             salePrice,
             color,
             size,
-            person
+            person,
+            province,
+            district,
+            commune
             } = body;
 
         const product = await prisma.product.update({
@@ -48,7 +51,9 @@ export async function POST(request:Request) {
                 stock,
                 size,
                 color,
-               
+               province,
+               district,
+               commune
             }
         })
         return NextResponse.json(product)
