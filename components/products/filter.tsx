@@ -67,7 +67,7 @@ const Filter:React.FC<FilterProps> = ({
     
       const brand = watch('brand')
       const category = watch('category')
-      const province = watch('prvince')
+      const province = watch('province')
       const start = watch('start')
       const end = watch('end')
       const stock = watch('stock')
@@ -104,8 +104,8 @@ const Filter:React.FC<FilterProps> = ({
         setCustomeValue('start','');
         setCustomeValue('end','');
       
-        router.push(`/dashboards/product?search=&brand=${brand}&category=${category}&province=${province}&stock=${stock}&price=${price}&start=${start}&end=${end}&page=1&per_page=10`)
-    },[brand,category,stock,province,price,start,end,setCustomeValue,router])
+        router.push(`/dashboards/product?search=&brand=&category=&province=&stock=&price=&start=&end=&page=1&per_page=10`)
+    },[setCustomeValue,router])
 
 
      //handle slider

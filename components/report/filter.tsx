@@ -77,8 +77,8 @@ const Filter:React.FC<FilterProps> = ({
         setCustomeValue('status','');
         setCustomeValue('start','');
         setCustomeValue('end','');
-        router.push(`/analytics/report?search=&status=${status}&role=${role}&start=${start}&end=${end}&page=1&per_page=10`);
-    },[status,end,role,router,setCustomeValue,start])
+        router.push(`/analytics/report?search=&status=&role=&start=&end=&page=1&per_page=10`);
+    },[router,setCustomeValue])
     return (
         <div className="w-full">
              {/* header filter */}

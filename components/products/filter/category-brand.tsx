@@ -69,6 +69,12 @@ const CategoryBrand:React.FC<CategoryRadioProps> = ({
         return () => document.removeEventListener('click', handleClickOutside);
       }
     }, [openSort]);
+
+    useEffect(()=>{
+      if(category === ''){
+        setText(`--- choose your ${id} ---`)
+      }
+    },[category,id])
     return (
         <div className="  w-full flex flex-col items-start justify-start gap-[1%] relative h-[70px]">
                    

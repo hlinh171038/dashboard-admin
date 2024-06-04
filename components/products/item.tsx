@@ -153,7 +153,7 @@ const ItemProduct:React.FC<ItemProductProps> = (
             <td>
                 {category}
             </td>
-            <td>{city && city.slice(9)}</td>
+            <td>{city && city.includes('Thành phố')? city.slice(10):(city && city.includes('Tỉnh')? city.slice(5):city)}</td>
             <td>
                 {triggerDay + "/" + 
                    triggerMonth + "-" + 
