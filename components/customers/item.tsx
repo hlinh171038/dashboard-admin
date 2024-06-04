@@ -119,7 +119,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             </span>
         </td>
         <td>
-            {province && province.slice(10)}
+            {province && province.includes('Thành phố')? province.slice(10):(province && province.includes('Tỉnh')? province.slice(5):province)}
         </td>
         <td>{role === 'yes' ? 'Admin': 'User'}</td>
         <td className="">
