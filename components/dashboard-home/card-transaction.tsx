@@ -47,6 +47,7 @@ const CardTransaction:React.FC<CardTransactionProps> = ({
         setTransactionThisWeek(done)
     },[thisWeek,transaction])
 
+    console.log(transactionThisWeek)
     // income last week
     useEffect(()=>{
         let array = [...lastWeek]

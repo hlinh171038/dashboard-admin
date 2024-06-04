@@ -6,8 +6,9 @@ import {  User } from "@prisma/client"
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoBasketOutline, IoReturnDownBackOutline } from "react-icons/io5";
-import { MdHistory } from "react-icons/md";
+import { MdAutoDelete, MdHistory } from "react-icons/md";
 import { toast } from "sonner";
 
 interface HistoryProps {
@@ -87,12 +88,12 @@ const History:React.FC<HistoryProps> = ({
             for(let i=0; i<remain;i++){
                 temp.push(data[data.length -1-i].id)
             }
-        
+
           handleDelete(temp)
-        
+
         }
     },[data,handleDelete])
-    
+
     console.log(query)
     // search by quey fron url
     useEffect(()=>{
@@ -118,19 +119,20 @@ const History:React.FC<HistoryProps> = ({
 //             setData(res.data && res.data)
 //             //toast.success('search ');
 //             router.refresh()
-           
+
 //         })
 //         .catch((err:any)=>{
 //             toast.error("Something went wrong !!!")
 //         }).finally(()=>{
 //             setCheckId([]);
 //             setIsLoading(false)
-           
+
 //         })
 //  },[query,router])
 
 //  console.log(history)
- 
+console.log(checkId)
+
     return (
         <div className="px-2">
             <div className=" relative bg-slate-600 rounded-md p-2  text-[14px] text-neutral-400 flex flex-col gap-2">
@@ -142,12 +144,12 @@ const History:React.FC<HistoryProps> = ({
                 <div className="flex items-center justify-start gap-1">
                 <div className=" text-[11px] text-neutral-400 flex items-center justify-start gap-1">
                     <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Ctrl</div>
-            
+
                     <div className="border border-neutral-400 px-1 py-[0.01rem] rounded-md">Z</div>
                 </div>
             </div>
             </div>
-            
+
             <HeaderHistory
                 currentUser ={ currentUser}
                 customer={data}
@@ -155,11 +157,13 @@ const History:React.FC<HistoryProps> = ({
                 user = {user}
             />
             {checkId.length >0 && (
-                <button 
-                    onClick={()=>handleDelete(checkId)}
-                    className="absolute top-2 right-2">
-                    Delete
-                </button>
+                 <button
+                 disabled ={isLoading}
+                 onClick={()=>handleDelete(checkId)}
+                 className="absolute top-2 left-[32.5%] text-neutral-100 px-2 py-1 bg-red-600 rounded-md text-[14px] flex items-center justify-start gap-0.5">
+                 Delete
+                 {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="flex items-center justify-end"><MdAutoDelete className="w-4 h-4"/></div>}
+             </button>
             )}
             <div>
                 {data && data.map((item:any)=>{
@@ -176,23 +180,23 @@ const History:React.FC<HistoryProps> = ({
                         />
                     )
                 })}
-                
+
             </div>
             {data && data.length === 0 &&(
             <div className="w-full flex flex-col items-center justify-center gap-1 text-neutral-100 text-[14px] h-[60vh]">
-               
-                   
+
+
                     <div className="flex flex-col gap-1 items-center justify-center">
                         <div className="flex items-center justify-start gap-2">
                         <IoBasketOutline  className="w-6 h-6 text-neutral-100 font-thin"/>
                         <div className=" text-[14px] uppercase">No result found !!!</div>
                         </div>
                         <div className="flex items-center justify-start gap-2">
-                            <span className="text-thin text-[14px] text-neutral-400 flex items-center justify-center gap-1">Click here  <span><IoReturnDownBackOutline onClick={handleBackProduct} className="text-neutral-200 w-4 h-4 cursor-pointer hover:text-white transition-all duration-300"/></span> to back to all customer</span> 
+                            <span className="text-thin text-[14px] text-neutral-400 flex items-center justify-center gap-1">Click here  <span><IoReturnDownBackOutline onClick={handleBackProduct} className="text-neutral-200 w-4 h-4 cursor-pointer hover:text-white transition-all duration-300"/></span> to back to all customer</span>
                         </div>
                     </div>
             </div>
-            
+
         )}
         </div>
         </div>

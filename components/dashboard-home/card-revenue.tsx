@@ -52,9 +52,10 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
                 }
         });
       
+        console.log(result)
          // income done ststus
        const done = result && result.filter((item:any)=>item.status === 'done')
-    
+        console.log(done)
         setTransactionThisWeek(done)
     },[thisWeek,transaction])
 
@@ -77,7 +78,7 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
     //total income this week
     useEffect(()=>{
         const result = transactionThisWeek && transactionThisWeek.reduce((accumulator:any, currentValue:any)=> accumulator + currentValue.totalPrice,0);
-   
+        console.log(result)
         setTotalPriceThisWeek(result)
      },[transactionThisWeek])
  
@@ -104,7 +105,7 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
         })
  
        let total = result && result.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
-  
+        console.log(total)
        setTotalThisWeek(total)
      },[product,transactionThisWeek])
 
