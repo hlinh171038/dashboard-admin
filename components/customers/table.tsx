@@ -141,7 +141,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 setIsLoading(false)
                
             })
-     },[search,role,status,province,startDate,endDate,router])
+     },[search,role,statusURL,province,startDate,endDate,router])
     console.log(data)
 
     useEffect(()=>{

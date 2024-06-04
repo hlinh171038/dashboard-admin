@@ -25,6 +25,7 @@ const Filter:React.FC<FilterProps> = ({
         key: 'selection'
     })
     const [provinces,setProvinces] = useState<any>([])
+    const[reset,setReset] = useState(false)
 
     const {
         register,
@@ -52,6 +53,8 @@ const Filter:React.FC<FilterProps> = ({
       const start = watch('start');
       const end = watch('end');
       const province = watch('province');
+
+      console.log(province)
 
 
      //handle customeValue
@@ -95,8 +98,8 @@ const Filter:React.FC<FilterProps> = ({
         setCustomeValue('start','');
         setCustomeValue('end','');
         setCustomeValue('province','');
-        router.push(`/dashboards/customers?search=&role=${role}&status=${status}&province=${province}&start=${start}&end=${end}&page=1&per_page=10`);
-    },[status,province,end,role,router,setCustomeValue,start])
+        router.push(`/dashboards/customers?search=&role=&status=&province=&start=&end=&page=1&per_page=10`);
+    },[setCustomeValue,router])
     return (
         <div className="w-full">
              {/* header filter */}
@@ -124,7 +127,7 @@ const Filter:React.FC<FilterProps> = ({
         </div>
           {/* role */}
           <div>
-            <div className="font-bold text-[15px]">Role:</div>
+            <div className="font-semibold text-[16px]">Role:</div>
             <div className="flex items-center justify-start gap-4 px-2">
                 <label htmlFor="" className="flex items-center justify-center">
                     <input {...register("role")} type="radio" value="yes" />
@@ -138,7 +141,7 @@ const Filter:React.FC<FilterProps> = ({
         </div>
         {/*  action */}
         <div>
-        <div  className="font-bold text-[15px]">Status:</div>
+        <div  className="font-semibold text-[16px]">Status:</div>
             <div className="flex items-center justify-start gap-4 px-2">
                 <label htmlFor="" className="flex items-center justify-center">
                     <input {...register("status")} type="radio" value='true' />

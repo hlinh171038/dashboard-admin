@@ -68,11 +68,18 @@ const Categoryfilter:React.FC<CategoryRadioProps> = ({
         return () => document.removeEventListener('click', handleClickOutside);
       }
     }, [openSort]);
+    useEffect(()=>{
+      console.log(category)
+      if(category === '') {
+        setText(`--- choose your ${id} ---`)
+      }
+    },[category,id])
+    console.log(text)
     return (
         <div className="  w-full flex flex-col items-start justify-start gap-[1%] relative h-[70px]">
                    
                    <div className='relative w-full'>
-                            <div className="text-slate-900 text-[15px] capitalize ">{id}</div>
+                            <div className="text-slate-900 font-semibold text-[16px] capitalize ">{id}</div>
                               <div className=" w-full text-[14px] text-neutral-200 ">
                                       
                                 <div  
