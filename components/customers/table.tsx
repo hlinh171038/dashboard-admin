@@ -24,6 +24,8 @@ interface TableCustomerProps {
     start?: number;
     end?: number;
     status: boolean;
+    statusURL :string;
+    province : string;
     currentUser: any;
     user2: User[] | any;
 }
@@ -39,6 +41,8 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     start,
     end,
     status,
+    statusURL,
+    province,
     currentUser,
     user2
 }) =>{
@@ -122,7 +126,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
     useEffect( ()=>{
         setIsLoading(true)
        // console.log(array)
-        axios.post('/api/filter-user',{search,role,action,startDate,endDate})
+        axios.post('/api/filter-user',{search,role,status:statusURL,province,startDate,endDate})
             .then((res)=>{
                 console.log(res.data)
                 setData(res.data && res.data)
@@ -137,7 +141,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 setIsLoading(false)
                
             })
-     },[search,role,action,startDate,endDate,router])
+     },[search,role,status,province,startDate,endDate,router])
     console.log(data)
 
     useEffect(()=>{
@@ -169,7 +173,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                 <td>Name</td>
                 <td>Email</td>
                 <td>Date</td>
-                <td>Time</td>
+                <td>Location</td>
                 <td>
                     Role
                 </td>
@@ -225,6 +229,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                         role={item.role}
                         action={item.action}
                         block = {item.block}
+                        province = {item.province}
                         check={checkId && checkId.includes(item.id)}
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                     />

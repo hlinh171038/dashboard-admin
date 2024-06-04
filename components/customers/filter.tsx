@@ -1,12 +1,14 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form"
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
+import Categoryfilter from "../products/filter/category";
+import axios from "axios";
 
 interface FilterProps {
     customer: User[] | any
@@ -22,6 +24,7 @@ const Filter:React.FC<FilterProps> = ({
         endDate:new Date(),
         key: 'selection'
     })
+    const [provinces,setProvinces] = useState<any>([])
 
     const {
         register,
@@ -32,7 +35,8 @@ const Filter:React.FC<FilterProps> = ({
       } = useForm<FieldValues>({
         defaultValues: {
             role: '',
-            action: null,
+            status: '',
+            province: '',
             start: '',
             end: '',
         }
@@ -40,13 +44,14 @@ const Filter:React.FC<FilterProps> = ({
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const start = data.start !=='' ? new Date(new Date(data.start).getTime() ).toISOString() : ''
         const end = data.end !=='' ? new Date(new Date(data.end).getTime() + 86400000).toISOString() : ''
-        router.push(`/dashboards/customers?search=&role=${data.role}&action=${data.action}&start=${start}&end=${end}&page=1&per_page=10`)
+        router.push(`/dashboards/customers?search=&role=${data.role}&status=${data.status}&province=${province}&start=${start}&end=${end}&page=1&per_page=10`)
       }
     
       const role = watch('role');
-      const action = watch('action');
+      const status = watch('action');
       const start = watch('start');
       const end = watch('end');
+      const province = watch('province');
 
 
      //handle customeValue
@@ -73,13 +78,25 @@ const Filter:React.FC<FilterProps> = ({
     //   start: '',
     //   end: '',
 
+     // data provinces
+  useEffect(()=>{
+    axios.get('https://vietnam-administrative-division-json-server-swart.vercel.app/province')
+        .then((res:any)=>{
+            setProvinces(res?.data)
+        })
+        .catch((err:any)=>{
+            console.log(err)
+        })
+  },[])
+
     const handleReset = useCallback(()=>{
         setCustomeValue('role','');
-        setCustomeValue('action',null);
+        setCustomeValue('status','');
         setCustomeValue('start','');
         setCustomeValue('end','');
-        router.push(`/dashboards/customers?search=&role=${role}&action=${action}&start=${start}&end=${end}&page=1&per_page=10`);
-    },[action,end,role,router,setCustomeValue,start])
+        setCustomeValue('province','');
+        router.push(`/dashboards/customers?search=&role=${role}&status=${status}&province=${province}&start=${start}&end=${end}&page=1&per_page=10`);
+    },[status,province,end,role,router,setCustomeValue,start])
     return (
         <div className="w-full">
              {/* header filter */}
@@ -121,18 +138,27 @@ const Filter:React.FC<FilterProps> = ({
         </div>
         {/*  action */}
         <div>
-        <div  className="font-bold text-[15px]">Active:</div>
+        <div  className="font-bold text-[15px]">Status:</div>
             <div className="flex items-center justify-start gap-4 px-2">
                 <label htmlFor="" className="flex items-center justify-center">
-                    <input {...register("action")} type="radio" value='true' />
-                    Active
+                    <input {...register("status")} type="radio" value='true' />
+                    Block
                 </label>
                 <label htmlFor="" className="flex items-center justify-center">
-                    <input {...register("action")} type="radio" value="false" />
-                   Inactive
+                    <input {...register("status")} type="radio" value="false" />
+                   UnBlock
                 </label>
             </div>
         </div>
+        {/* location */}
+        <Categoryfilter
+                      id="province"
+                      register={register}
+                      errors={errors}
+                      category={province}
+                      categorys = {provinces}
+                      setCustomerValue = {setCustomeValue}
+                    />
         {/* date */}
 
         <div className="py-2">

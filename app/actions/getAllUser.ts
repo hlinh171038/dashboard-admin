@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma"
 
 
-export async function getAlluser({search,role,action,start,end}:{search?: string,role?:string,action?:string,start?:string, end?:string}) {
+export async function getAlluser({search,role,status,province,start,end}:{search?: string,role?:string,status?:string,province?:string,start?:string, end?:string}) {
     try {
         // const {search} = params
         console.log(search)
@@ -20,11 +20,11 @@ export async function getAlluser({search,role,action,start,end}:{search?: string
         if(role) {
             query.role = role
         }
-        if(action){
-            if(action === 'true') {
-                query.action = true
-            }else if(action === 'false') {
-                query.action = false
+        if(status){
+            if(status === 'true') {
+                query.block = true
+            }else if(status === 'false') {
+                query.block = false
             } 
         }
         if(start && end) {
@@ -39,6 +39,10 @@ export async function getAlluser({search,role,action,start,end}:{search?: string
             
            
             
+        }
+        // province
+        if(province) {
+            query.province = province
         }
 
         const users = await prisma.user.findMany({

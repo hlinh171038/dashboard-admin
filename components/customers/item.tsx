@@ -20,6 +20,7 @@ interface ItemCustomerProps {
     action: boolean;
     check: boolean;
     block: boolean;
+    province: string;
     handleOtherCheck: (id:string) =>void;
 }
 
@@ -34,6 +35,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     action,
     block,
     check,
+    province,
     handleOtherCheck
 }
 
@@ -112,10 +114,12 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
                    triggerMonth + "-" + 
                    year} 
             </span>
-          
+            <span>
+               -{new Date(created_at).toLocaleTimeString('en-US')}
+            </span>
         </td>
         <td>
-            {new Date(created_at).toLocaleTimeString('en-US')}
+            {province && province.slice(10)}
         </td>
         <td>{role === 'yes' ? 'Admin': 'User'}</td>
         <td className="">

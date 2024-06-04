@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request:Request) {
     try {
         const body = await request.json()
-        const {search,role,action,startDate,endDate} = body;
+        const {search,role,status,province,startDate,endDate} = body;
 
          // const {search} = params
 
@@ -23,13 +23,18 @@ export async function POST(request:Request) {
          if(role) {
              query.role = role
          }
-         if(action){
-             if(action === 'true') {
-                 query.action = true
-             }else if(action === 'false') {
-                 query.action = false
-             } 
-         }
+         if(status){
+            if(status === 'true') {
+                query.block = true
+            }else if(status === 'false') {
+                query.block = false
+            } 
+        }
+        // province
+        if(province) {
+            query.province = province
+        }
+
          if(startDate && endDate) {
              query.AND =[
                  {

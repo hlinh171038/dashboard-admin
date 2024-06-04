@@ -20,6 +20,8 @@ interface Cusromerprops {
     per_page: number;
     role: string;
     action: string;
+    status: string;
+    province: string;
     start: string;
     end: string;
     search: string;
@@ -32,6 +34,8 @@ const Customer:React.FC<Cusromerprops> = ({
     per_page,
     role,
     action,
+    status:statusURL,
+    province,
     start:startDate,
     end:endDate,
     search,
@@ -185,6 +189,8 @@ const Customer:React.FC<Cusromerprops> = ({
                             start = {start}
                             end = {end}
                             status ={status}
+                            statusURL ={statusURL}
+                            province = {province}
                             currentUser = {currentUser}
                             user2 = {user2}
                         />

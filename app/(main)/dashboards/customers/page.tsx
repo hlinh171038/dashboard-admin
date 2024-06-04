@@ -12,9 +12,11 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
     const per_page = typeof searchParams.per_page ==='string' ? Number(searchParams.per_page): 10
     const role = typeof searchParams.role === 'string' ? searchParams.role: ''
     const action = typeof searchParams.action === 'string' ? searchParams.action: ''
+    const status = typeof searchParams.status === 'string' ? searchParams.status: ''
+    const province = typeof searchParams.province === 'string' ? searchParams.province: ''
     const start = typeof searchParams.start === 'string' ? searchParams.start: ''
     const end = typeof searchParams.end === 'string' ? searchParams.end: ''
-    const users = await getAlluser({search,role,action,start,end})
+    const users = await getAlluser({search,role,status,province,start,end})
     const users2 = await getAllUser2()
     const currentUser = await getServerSession(authOptions);
     
@@ -28,6 +30,8 @@ const CustomerPage = async({searchParams}:{searchParams: { [key: string]: string
                 per_page ={per_page}
                 role = {role}
                 action ={ action}
+                status ={status}
+                province = {province}
                 start = {start}
                 end = {end}
                 search ={search}

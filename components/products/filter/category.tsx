@@ -90,7 +90,7 @@ const Categoryfilter:React.FC<CategoryRadioProps> = ({
                                   
                                 </div>
                                 
-                                  <div className={cn("absolute top-[3.2rem] left-0 bg-white border border-slate-900 rounded-md w-full  duration-300 transition-all cursor-pointer z-10  ",
+                                  <div className={cn("absolute top-[3.2rem] left-0 bg-white border border-slate-900 rounded-md w-full h-32 duration-300 transition-all cursor-pointer z-10 overflow-x-hidden ",
                                   openSort ? 'flex flex-col gap-1 px-2 py-2 space-y-1' : 'hidden'
                               )}>
                               {categorys && categorys.map((item:any)=>{
