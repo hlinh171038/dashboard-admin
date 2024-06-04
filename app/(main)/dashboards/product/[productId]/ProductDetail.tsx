@@ -388,7 +388,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       useEffect(()=>{
         
         if(defaultPrice !== 0 && margin !==0){
-          const  price =Number(defaultPrice) - ((Number(defaultPrice) * Number(margin))/100);
+          const  price =Number(defaultPrice) + ((Number(defaultPrice) * Number(margin))/100);
           setCustomerValue('salePrice',price)
         }
       },[defaultPrice,margin,setCustomerValue])
