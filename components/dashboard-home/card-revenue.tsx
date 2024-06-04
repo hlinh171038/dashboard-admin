@@ -92,40 +92,43 @@ const CardRevenue:React.FC<CardTransactionProps> = ({
      // default price this week
      useEffect(()=>{
         const result:any[] = []
-        transactionThisWeek && transactionThisWeek.forEach((item:any)=>{
-            if(item.productId.length >0 && item.status === 'done') {
-                item.productId.forEach((ele:any)=>{
-                    product.forEach((it:any)=>{
-                        if(ele === it.id ) {
-                            result.push(it)
-                        }
-                    })
-                })
-            }
-        })
+    //     transactionThisWeek && transactionThisWeek.forEach((item:any)=>{
+    //         if(item.productId.length >0 && item.status === 'done') {
+    //             item.productId.forEach((ele:any)=>{
+    //                 product.forEach((it:any)=>{
+    //                     if(ele === it.id ) {
+    //                         result.push(it)
+    //                     }
+    //                 })
+    //             })
+    //         }
+    //     })
  
-       let total = result && result.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
+    //    let total = result && result.reduce((calculator:any, currentValue:any,index:number)=> calculator + (currentValue.defaultPrice ),0)
+   let total = transactionThisWeek && transactionThisWeek.reduce((accumulator:any, currentValue:any)=> accumulator + currentValue.amount,0)
         console.log(total)
        setTotalThisWeek(total)
      },[product,transactionThisWeek])
 
      // default price last week
      useEffect(()=>{
-        const result:any[] = []
-        transactionLastWeek && transactionLastWeek.forEach((item:any)=>{
-            if(item.productId.length >0) {
-                item.productId.forEach((ele:any)=>{
-                    product.forEach((it:any)=>{
-                        if(ele === it.id) {
-                            result.push(it)
-                        }
-                    })
-                })
-            }
-        })
-         // income done ststus
-       const done = result && result.filter((item:any)=>item.status === 'done')
-       let total = done && done.reduce((calculator:any, currentValue:any)=> calculator + currentValue.defaultPrice,0)
+    //     const result:any[] = []
+    //     transactionLastWeek && transactionLastWeek.forEach((item:any)=>{
+    //         if(item.productId.length >0) {
+    //             item.productId.forEach((ele:any)=>{
+    //                 product.forEach((it:any)=>{
+    //                     if(ele === it.id) {
+    //                         result.push(it)
+    //                     }
+    //                 })
+    //             })
+    //         }
+    //     })
+    //      // income done ststus
+    //    const done = result && result.filter((item:any)=>item.status === 'done')
+       let total = transactionLastWeek && transactionLastWeek.reduce((accumulator:any, currentValue:any)=> accumulator + currentValue.amount,0)
+        console.log(total)
+      
        setTotalLastWeek(total)
 
      },[product,transactionLastWeek])

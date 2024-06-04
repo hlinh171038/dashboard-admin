@@ -32,6 +32,7 @@ type dataForm ={
     size:string[],
     color: string[],
     totalPrice: number,
+    //totalDefaultPrice: number,
     amount: number
 }
 
@@ -63,6 +64,8 @@ const Create:React.FC<CreateProps> = ({
     const [chooseTitle,setChooseTitle] = useState('');
     const [chooseImage,setChooseImage] = useState('');
     const [choosePrice,setChoosePrice] = useState(0);
+    const [chooseDefaultPrice,setChooseDefaultPrice] = useState(0);
+    const [defaultPrice,setDefaultPrice] = useState(0)
     const [chooseQuantity,setChooseQuantity] = useState(0);
 
     //total product
@@ -85,6 +88,7 @@ const Create:React.FC<CreateProps> = ({
         type: z.string(),
         bank: z.string(),
         totalPrice: z.coerce.number(),
+        //totalDefaultPrice: z.coerce.number(),
         amount: z.coerce.number()
     })
    
@@ -104,6 +108,7 @@ const Create:React.FC<CreateProps> = ({
             status: 'watting for confirmation', 
             amount: 0,
             totalPrice: 0,
+            //toalDefaultPrice: 0,
             transportation: '',
             type: '',
             bank: '',
@@ -112,6 +117,7 @@ const Create:React.FC<CreateProps> = ({
             size: [],
             color: [],
             price: [],
+            //defaultPrice: [],
             quantity: []
         }
       })
@@ -127,6 +133,7 @@ const Create:React.FC<CreateProps> = ({
       const color1 = watch('color')
       const title = watch('title')
       const price = watch('price')
+      //const defaultPrice = watch('defaultPrice')
       const quantity = watch('quantity')
       const image = watch('image')
       const totalPrice1 = watch('totalPrice')
@@ -138,6 +145,7 @@ const Create:React.FC<CreateProps> = ({
       console.log(quantity)
       console.log(totalPrice1)
       console.log(amount1)
+     
 
  
       const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -200,23 +208,23 @@ const Create:React.FC<CreateProps> = ({
         setCustomerValue('discountId',value.id)
     },[setCustomerValue])
 
-      // amount
-      useEffect(()=>{
-        console.log(quantity)
-        console.log(price)
+    //   // amount
+    //   useEffect(()=>{
+    //     console.log(quantity)
+    //     console.log(price)
        
         
-       let result = quantity && quantity.reduce((accumulator:number, currentValue:any)=> accumulator + currentValue, 0);
-        // const initialValue = 0;
-        // const sumWithInitial = productItem.reduce(
-        // (accumulator:number, currentValue:any) => accumulator + currentValue.count,
-        // initialValue,
-        // );
-        // setAmount(sumWithInitial)
-        console.log(result)
-         setCustomerValue('amount',result)
+    //    let result = quantity && quantity.reduce((accumulator:number, currentValue:any)=> accumulator + currentValue, 0);
+    //     // const initialValue = 0;
+    //     // const sumWithInitial = productItem.reduce(
+    //     // (accumulator:number, currentValue:any) => accumulator + currentValue.count,
+    //     // initialValue,
+    //     // );
+    //     // setAmount(sumWithInitial)
+    //     console.log(result)
+    //      setCustomerValue('amount',result)
 
-    },[setCustomerValue,quantity,price])
+    // },[setCustomerValue,quantity,price])
 
     //total price
     useEffect(()=>{
@@ -226,14 +234,22 @@ const Create:React.FC<CreateProps> = ({
        price && price.forEach((item:any,index:number) => {
             count += item * quantity[index];
         })
-        // const total = productItem.reduce(
-        //     (accumulator:number,currentValue:any) => accumulator + currentValue.salePrice,
-        //     0
-        // )
-        // setTotalPrice(total)
         console.log(count)
          setCustomerValue('totalPrice',count)
     },[price,quantity,setCustomerValue])
+
+     //total default price
+     useEffect(()=>{
+        console.log(quantity)
+        console.log(price)
+        let count = 0;
+       price && price.forEach((item:any,index:number) => {
+            count += item * quantity[index];
+        })
+        console.log(count)
+         setCustomerValue('totalPrice',count)
+    },[price,quantity,setCustomerValue])
+
     //card trigger
     useEffect(()=>{
         if(transportation === 'E-wallet' || transportation === 'Payment' || transportation === 'Card'){
@@ -259,7 +275,8 @@ const Create:React.FC<CreateProps> = ({
         setChooseSize('')
         setChooseColor('')
         setChooseId(item?.id)
-        setChoosePrice(item?.defaultPrice);
+        setChooseDefaultPrice(item?.defaultPrice)
+        setChoosePrice(item?.salePrice);
         setChooseImage(item?.image);
         setChooseTitle(item?.title)
         setChooseQuantity(0)
@@ -290,6 +307,8 @@ const Create:React.FC<CreateProps> = ({
     const array5 = [...price,choosePrice]
     const array6 = [...quantity,chooseQuantity]
     const array7 = [...image,chooseImage]
+    
+    //const array8 = [...amount,chooseDefaultPrice]
     setCustomerValue('productId',array1)
     setCustomerValue('color',array2)
     setCustomerValue('size',array3)
@@ -297,6 +316,9 @@ const Create:React.FC<CreateProps> = ({
     setCustomerValue('price',array5)
     setCustomerValue('quantity',array6)
     setCustomerValue('image',array7)
+    //setCustomerValue('defaultPrice',array8)
+    setDefaultPrice(defaultPrice + (chooseDefaultPrice * chooseQuantity));
+    setCustomerValue('amount', defaultPrice)
  
     setChooseColor('');
     setChooseSize('');
@@ -305,6 +327,7 @@ const Create:React.FC<CreateProps> = ({
     setChoosePrice(0);
     setChooseQuantity(0)
     setChooseImage('')
+    setChooseDefaultPrice(0)
 
     const total = [...totalProduct]
 
