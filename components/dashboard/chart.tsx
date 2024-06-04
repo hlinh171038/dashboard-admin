@@ -123,7 +123,10 @@ const Chart:React.FC<ChartProps> = ({
     for(let i=0;i<totalTransactionThisWeek.length;i++ ) {
       const day =new Date( totalTransactionThisWeek[i].date).getDay()
       for(let j =0 ;j<array.length;j++) {
-          if(day === array[j].id && totalTransactionThisWeek[i].status === 'pending') {
+          if(day === array[j].id && totalTransactionThisWeek[i].status === 'watting for confirmation'||
+          day === array[j].id && totalTransactionThisWeek[i].status === 'confirmed' || 
+          day === array[j].id && totalTransactionThisWeek[i].status ==='transporting' || 
+          day === array[j].id && totalTransactionThisWeek[i].status ==='delivered') {
               array[j].Pending += totalTransactionThisWeek[i].totalPrice;
           }
       }

@@ -18,10 +18,14 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
 }) =>{
     const [transactionThisWeek,setTransactionThisWeek] = useState<any>([])
     //const [transactionLastWeek,setTransactionLastWeek] = useState<any>([])
+    const [paymentAmount,setPaymentAmount] = useState(0)
+    const [wallettAmount,setWalletAmount] = useState(0)
     const [cardAmount,setCardAmount] = useState(0)
-    const [cashAmount,setCashAmount] = useState(0)
+    const [CODAmount,setCODAmount] = useState(0)
     const [cardPercent,setCardPercent] = useState(0)
-    const [cashPercent,setCashPercent] = useState(0)
+    const [paymentPercent,setPaymentPercent] = useState(0)
+    const [walletPercent,setWalletPercent] = useState(0)
+    const [CODPercent,setCODPercent] = useState(0)
 
     // income this week
     useEffect(()=>{
@@ -40,21 +44,32 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
 
     //card this week
     useEffect(()=>{
-       const result = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='card');
-      setCardAmount(result.length)
-      const result2 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='payment');
-      setCashAmount(result2.length);
+       const result = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='Payment');
+       setPaymentAmount(result.length)
+      const result2 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='E-Wallet');
+      setWalletAmount(result2.length);
+      const result3 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation !=='Card');
+      setCardAmount(result3.length)
+      const result4 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='COD');
+      setCODAmount(result4.length);
     },[transactionThisWeek])
 
     //percent
     useEffect(()=>{
-        const cardPercent = Math.round((cardAmount *100) /(cardAmount +cashAmount));
-    
-        setCardPercent(cardPercent);
-        const cashPercent = Math.round((cashAmount *100) /(cardAmount +cashAmount));
+        const payment = Math.round((paymentAmount *100) /(paymentAmount + wallettAmount + cardAmount +CODAmount));
+        setPaymentPercent(payment)
+       
+        const wallet = Math.round((wallettAmount *100) /(paymentAmount + wallettAmount + cardAmount +CODAmount));
+        setWalletPercent(wallet)
+
+        const card = Math.round((cardAmount *100) /(paymentAmount + wallettAmount + cardAmount +CODAmount));
+        setCardPercent(card)
+
+        const COD = Math.round((CODAmount *100) /(paymentAmount + wallettAmount + cardAmount +CODAmount));
+        setCODPercent(COD)
       
-        setCashPercent(cashPercent);
-    },[cashAmount,cardAmount])
+       
+    },[paymentAmount,wallettAmount,cardAmount,CODAmount])
     return (
        <div className="bg-slate-600 hover:bg-slate-500/40 text-[14px] text-neutral-100 rounded-md p-2">
         <div className="text-white text-[16px] font-semibold flex items-center justify-between mb-2">
@@ -63,13 +78,13 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                     </div>
          {transactionThisWeek && transactionThisWeek.length > 0 ?(
             <div className="w-full  text-[15px] text-neutral-100 flex  flex-col gap-1">
-            {/* card */}
+            {/* payment */}
             <div>
-                <div>Card</div>
+                <div>Payment</div>
                 <div className="w-full h-5 bg-neutral-200 rounded-md ">
-                    <div className={` h-5 rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px] `} style={{width:`${cardPercent}%`,backgroundColor:"#64D03E",color:"#CCEB24"}}>
-                        {cardPercent !== 0 &&(
-                            <span className="mt-1">{cardPercent}%</span>
+                    <div className={` h-5 rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px] `} style={{width:`${paymentPercent}%`,backgroundColor:"#64D03E",color:"#CCEB24"}}>
+                        {paymentPercent !== 0 &&(
+                            <span className="mt-1">{paymentPercent}%</span>
                         )}
                         
                     </div>
@@ -77,11 +92,35 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
             </div>
             {/* cash */}
             <div>
-            <div>Cash</div>
+            <div>E-Wallet</div>
                 <div className="w-full h-5 bg-neutral-200 rounded-md ">
-                    <div className={` h-5  rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px]`} style={{width:`${cashPercent}%`,backgroundColor:'#CCEB24',color:"#64D03E"}}>
-                        {cashPercent!== 0 &&(
-                                <span className="mt-1">{cashPercent}%</span>
+                    <div className={` h-5  rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px]`} style={{width:`${walletPercent}%`,backgroundColor:'#EC8D4B',color:"#64D03E"}}>
+                        {walletPercent!== 0 &&(
+                                <span className="mt-1">{walletPercent}%</span>
+                            )}
+                        
+                    </div>
+                </div>
+            </div>
+            {/* card */}
+            <div>
+            <div>Card</div>
+                <div className="w-full h-5 bg-neutral-200 rounded-md ">
+                    <div className={` h-5  rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px]`} style={{width:`${cardPercent}%`,backgroundColor:'#468AE2',color:"#64D03E"}}>
+                        {cardPercent!== 0 &&(
+                                <span className="mt-1">{cardPercent}%</span>
+                            )}
+                        
+                    </div>
+                </div>
+            </div>
+            {/* COD */}
+            <div>
+            <div>COD</div>
+                <div className="w-full h-5 bg-neutral-200 rounded-md ">
+                    <div className={` h-5  rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px]`} style={{width:`${CODPercent}%`,backgroundColor:'#DB2B78',color:"#64D03E"}}>
+                        {CODPercent!== 0 &&(
+                                <span className="mt-1">{CODPercent}%</span>
                             )}
                         
                     </div>
