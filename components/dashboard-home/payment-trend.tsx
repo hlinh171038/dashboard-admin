@@ -46,7 +46,7 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
     useEffect(()=>{
        const result = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='Payment');
        setPaymentAmount(result.length)
-      const result2 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='E-Wallet');
+      const result2 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation ==='E-wallet');
       setWalletAmount(result2.length);
       const result3 = transactionThisWeek && transactionThisWeek.filter((item:any)=> item.transportation !=='Card');
       setCardAmount(result3.length)
