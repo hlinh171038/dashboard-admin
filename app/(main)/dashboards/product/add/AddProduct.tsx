@@ -307,20 +307,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
       },[setCustomerValue,tag])
 
       
-      //handle add transaction
-      // const handleAddTransaction = (transaction:any,value:string) =>{
-       
-      //     const index = transaction.find((val:string)=>val === value)
-  
-      //     if(index) {
-      //       const newTra = transaction.splice(index,1)
-      //       setCustomerValue('transaction',transaction);
-      //       return
-      //     }
-      //     transaction.push(value)
-      //     setCustomerValue('transaction',transaction)
-      // }
-      // auto updated price
+     
     
       useEffect(()=>{
         

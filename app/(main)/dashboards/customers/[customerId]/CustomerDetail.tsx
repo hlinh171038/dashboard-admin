@@ -28,7 +28,25 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import SelectProvince from "@/app/(main)/profile/selectProvince"
 import SelectDistrict from "@/app/(main)/profile/selectDistrict"
 import SelectCommune from "@/app/(main)/profile/selectCommune"
+import {ZodType, z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod'
+import validator from 'validator';
 
+type formData = {
+    name: string,
+    email: string,
+    phone: any,
+     role: string,
+    //active: string,
+    imgUrl: string,
+    province: string,
+    district: string;
+    commune: string;
+    address: string,
+    //password: string,
+    //confirmPassword: string,
+    //block: boolean,
+}
 
 
 
@@ -55,6 +73,35 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
 
     const router = useRouter()
 
+    const schema: ZodType<formData> = z.object({
+        name: z.string().min(3).max(20),
+        email:z.string().email(),
+        emailVerified:z.string().email(),
+        phone: z.string().refine(validator.isMobilePhone),
+        role: z.string(),
+        //active: z.string(),
+        imgUrl: z.string(),
+        province: z.string().min(1, {
+            message:"Choosen province"
+        }),
+        district: z.string().min(1,{
+            message:"Choosen district"
+        }),
+        commune: z.string().min(1,{
+            message: "Choose commune"
+        }),
+        //block: z.boolean(),
+        address: z.string().min(10),
+        //password:z.string().min(5).max(20),
+        //check password and password confirm
+        //confirmPassword: z.string()
+    })
+    // .refine((data) => data.password === data.confirmPassword, {
+    //     message: "Passwords don't match",
+    //     path: ["confirmPassword"], // path of error
+    //   });
+    
+
   
    const {
     register,
@@ -63,6 +110,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
     setValue,
     formState: { errors },
   } = useForm<FieldValues>({
+    resolver: zodResolver(schema) ,
     defaultValues: {
         id: userById?.id,
         name: userById ?.name,
@@ -276,46 +324,60 @@ useEffect(() => {
                 {check && (<div className="w-full text-end text-red-600 text-[14px]">Only Updated with exercute permission</div>)}
                 </div>
                 <form>
-                    <InputCustomerId
-                         id="name"
-                         title ="username"
-                         register={register}
-                         placeholder = "username"
-                         type = "text"
-                         errors={errors}
-                         defaultValues={name}
-                         disabled={check}
-                    />
-                    <InputCustomerId
-                        id="email" 
-                        title ="email"
-                        register={register}
-                        placeholder = "email"
-                        type = "text"
-                        errors={errors}
-                        defaultValues={email}
-                        disabled={check}
-                    />
-                     <InputCustomerId
-                        id="emailVerified" 
-                        title ="emailVerified"
-                        register={register}
-                        placeholder = "emailVerified"
-                        type = "text"
-                        errors={errors}
-                        defaultValues={emailVerified}
-                        disabled={check}
-                    />
-                    <InputCustomerId 
-                        id="phone"
-                        title ="phone"
-                        register={register}
-                        placeholder = "phone"
-                        type = "text"
-                        errors={errors}
-                        defaultValues={phone}
-                        disabled={check}
-                    />
+                    <div className="relative">
+                        <InputCustomerId
+                                id="name"
+                                title ="username"
+                                register={register}
+                                placeholder = "username"
+                                type = "text"
+                                errors={errors}
+                                defaultValues={name}
+                                disabled={check}
+                            />
+                        {errors.name && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.name.message as string}</span>}
+                    </div>
+                    <div className="relative">
+                        <InputCustomerId
+                            id="email" 
+                            title ="email"
+                            register={register}
+                            placeholder = "email"
+                            type = "text"
+                            errors={errors}
+                            defaultValues={email}
+                            disabled={check}
+                        />
+                        {errors.email && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.email.message as string}</span>}
+                    </div>
+                    
+                    <div className="relative">
+                        <InputCustomerId
+                            id="emailVerified" 
+                            title ="emailVerified"
+                            register={register}
+                            placeholder = "emailVerified"
+                            type = "text"
+                            errors={errors}
+                            defaultValues={emailVerified}
+                            disabled={check}
+                        />
+                        {errors.emailVerified && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.emailVerified.message as string}</span>}
+                    </div>
+                    <div className="relative">
+                        <InputCustomerId 
+                            id="phone"
+                            title ="phone"
+                            register={register}
+                            placeholder = "phone"
+                            type = "text"
+                            errors={errors}
+                            defaultValues={phone}
+                            disabled={check}
+                        />
+                        {errors.phone && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
+                    </div>
+                    
                     <div
                         className="flex flex-col justify-start gap-2 text-neutral-200 text-[15px] mb-4"
                     >
@@ -326,32 +388,25 @@ useEffect(() => {
                         <div className="bg-slate-500/60 inline-block px-2 py-1 rounded-md text-[14px]">{role === 'no' ? "User": 'Admin'}</div>
                     </div>
                     <div className="flex flex-col gap-4 mb-4">
-                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected} errors={errors}/>
                         <div className="grid grid-cols-2 gap-2">
-                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
+                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected} errors={errors}/> 
                             <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
                         </div>
                     </div>
-                    <InputCustomerId 
-                        id="address"
-                        title ="address"
-                        register={register}
-                        placeholder = "address"
-                        type = "text"
-                        errors={errors}
-                        defaultValues={address}
-                        disabled={check}
-                    />
-                  
-                   {/* <input 
-                        type="submit"
-                        value="Update User"
-                        onClick={handleSubmit(onSubmit)}
-                        disabled = {isLoading || check}
-                        className={cn("w-full px-2 py-1 rounded flex items-center justify-center text-[15px] text-white bg-[#4FA29E] hover:text-neutral-200 hover:opacity[0.7] transition-all duration-300 cursor-pointer",
-                                    isLoading && 'cursor-not-allowed', check && 'cursor-not-allowed'
-                                )}
-                   /> */}
+                    <div className="relative">
+                        <InputCustomerId 
+                            id="address"
+                            title ="address"
+                            register={register}
+                            placeholder = "address"
+                            type = "text"
+                            errors={errors}
+                            defaultValues={address}
+                            disabled={check}
+                        />
+                        {errors.address && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.address.message as string}</span>}
+                    </div>
                     <button 
                         onClick={handleSubmit(onSubmit)}
                         disabled = {isLoading || check}

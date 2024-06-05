@@ -272,7 +272,7 @@ console.log(communes)
                             errors ={errors}
                             disabled = {isLoading}
                         />
-                        {errors.name && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.name.message as string}</span>}
+                        {errors.name && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.name.message as string}</span>}
                     </div>
                    
                      <div className="relative">
@@ -299,7 +299,7 @@ console.log(communes)
                                 
                                 </label>
                         </div>
-                        {errors.password && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.password.message as string}</span>}
+                        {errors.password && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.password.message as string}</span>}
                     </div>
                     
                     <div>
@@ -330,7 +330,7 @@ console.log(communes)
                                 
                                 </label>
                         </div>
-                        {errors.confirmPassword && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.confirmPassword.message as string}</span>}
+                        {errors.confirmPassword && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.confirmPassword.message as string}</span>}
                     </div>
                     
                     <div>
@@ -347,7 +347,7 @@ console.log(communes)
                             errors ={errors}
                             disabled = {isLoading}
                         />
-                        {errors.email && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.email.message as string}</span>}
+                        {errors.email && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.email.message as string}</span>}
                     </div>
                     {/* email verified */}
                     <div className="relative">
@@ -361,7 +361,7 @@ console.log(communes)
                             disabled = {isLoading}
                             question
                         />
-                        {errors.emailVerified && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.emailVerified.message as string}</span>}
+                        {errors.emailVerified && <span className="absolute top-[0.1rem] right-4 text-[13px] text-red-600">{errors.emailVerified.message as string}</span>}
                     </div>
                     
                       {/* phone */}
@@ -389,13 +389,13 @@ console.log(communes)
                                 
                                 </label>
                         </div>
-                            {errors.phone && <span className="absolute top-12 left-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
+                            {errors.phone && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.phone.message as string}</span>}
                     </div>
                     <div className="flex flex-col gap-4 mb-4">
-                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected}/>
+                        <SelectProvince data={provinces} id={'province'} setCustomValue = {setCustomValue}  province = {province} setProvinceSelected = {setProvinceSelected} errors={errors}/>
                         <div className="grid grid-cols-2 gap-2">
-                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected}/> 
-                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune}/> 
+                            <SelectDistrict data={districts} id={'district'} setCustomValue = {setCustomValue}   district = {district} setDistrictSelected = {setDistrictSelected} errors={errors}/> 
+                            <SelectCommune data={communes} id={'commune'} setCustomValue = {setCustomValue}   commune = {commune} errors={errors}/> 
                         </div>
                     </div>
                         {/* address */}
@@ -418,7 +418,7 @@ console.log(communes)
                                     placeholder="Address"
                                 />
                             </div>
-                            {errors.address && <span className="absolute top-[90%] left-0 text-[13px] text-red-600">{errors.address.message as string}</span>}
+                            {errors.address && <span className="absolute top-[0.1rem] right-0 text-[13px] text-red-600">{errors.address.message as string}</span>}
                         </div>
                        
                     </div>
