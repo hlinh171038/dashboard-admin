@@ -17,15 +17,37 @@ interface TotalUserCardProps {
  }) =>{
     const [percent,setPercent] = useState(0)
     useEffect(()=>{
-        const result = Math.round(((totalTransactionThisWeek.length - totalTransactionLastWeek.length) *100)/totalTransactionLastWeek.length);
+        // const result = Math.round(((totalTransactionThisWeek.length - totalTransactionLastWeek.length) *100)/totalTransactionLastWeek.length);
        
+        // setPercent(result)
+        let thisWeek = 0;
+        let lastWeek = 0;
+         if(totalTransactionThisWeek && totalTransactionThisWeek.length > 0) {
+            thisWeek = totalTransactionThisWeek.length;
+         }
+          if(totalTransactionLastWeek && totalTransactionLastWeek.length >0) {
+            lastWeek = totalTransactionLastWeek.length;
+         } 
+         console.log(thisWeek); // 1
+         console.log(lastWeek); // 0
+
+         if(lastWeek === 0) {
+            if(thisWeek === 0) {
+                setPercent(0)
+            }else {
+                setPercent(100)
+            }
+           return;
+         }
+        const result = Math.round(((thisWeek - lastWeek) *100)/lastWeek);
+       console.log(result);
         setPercent(result)
     },[totalTransactionLastWeek,totalTransactionThisWeek])
 
   
     return (
         <div className="bg-slate-600 rounded-md p-2 relative">
-            <div className="font-bold text-[15px] text-neutral-100">Transaction Manager</div>
+            <div className="font-semibold text-[16px] text-neutral-100">Transaction Manager</div>
             <div className="flex items-center justify-start gap-2">
                 <div className="text-[35px] text-neutral-400 ">{transaction && transaction.length <10 && transaction.length>0 ? `0${transaction.length}`: transaction.length}</div>
                 <div className="text-[12px] ">

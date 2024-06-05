@@ -185,7 +185,7 @@ useEffect(() => {
                     {/* weekly statatitical */}
                     <div className="bg-slate-600 rounded-md">
                     <div className="px-2 py-2">
-                        <div className="text-[15px] text-neutral-100 font-bold ">Weekly Statictical</div>
+                        <div className="text-[16px] text-neutral-100 font-semibold ">Weekly Statictical</div>
                         <div className="text-[14px] text-neutral-400">Amount of transaction each day</div>
                     </div>
                     <div className=" flex items-center justify-start gap-1 text-[14px] text-neutral-100 px-2 py-1">
@@ -280,14 +280,14 @@ useEffect(() => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full flex items-center justify-end text-[13px] text-neutral-400">Date:{chartRight === 'thisWeek' ?(
+                <div className="w-full flex items-center justify-end text-[13px] text-neutral-400">Date : {chartRight === 'thisWeek' ?(
                     <span className="flex items-center justify-start gap-0.5 ">
                         <span>{new Date(thisWeek[0]).toDateString()}</span>
                         <span>-</span>
                         <span>{new Date(thisWeek[thisWeek.length -1]).toDateString()}</span>
                     </span>
                 ):(chartRight === 'lastWeek'? (
-                    <span className="flex items-center justify-start gap-0.5 ">
+                    <span className="flex items-center justify-start gap-0.5 "> 
                         <span>{new Date(lastWeek[0]).toDateString()}</span>
                         <span>-</span>
                         <span>{new Date(lastWeek[lastWeek.length -1]).toDateString()}</span>

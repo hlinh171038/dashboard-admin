@@ -91,7 +91,7 @@ const DetailCustomer:React.FC<DetailCustomerProps> = ({
             message: "Choose commune"
         }),
         //block: z.boolean(),
-        address: z.string().min(10),
+        address: z.string().min(2),
         //password:z.string().min(5).max(20),
         //check password and password confirm
         //confirmPassword: z.string()
