@@ -50,47 +50,47 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
         router.push(`/analytics/report/${id}`)
     },[router,id])
 
-    const handleCallApi = useCallback(()=>{
+    // const handleCallApi = useCallback(()=>{
        
-        axios.post('/api/update-mail-2',{id,support,status})
-        .then((res:any)=>{
-            toast.success("updated !")
-            router.refresh()
-        })
-        .catch((err:any)=>{
-            toast.error("Something went wrong !")
-        })
-        .finally(()=>{
+    //     axios.post('/api/update-mail-2',{id,support,status})
+    //     .then((res:any)=>{
+    //         toast.success("updated !")
+    //         router.refresh()
+    //     })
+    //     .catch((err:any)=>{
+    //         toast.error("Something went wrong !")
+    //     })
+    //     .finally(()=>{
 
-        })
-    },[router,status,support,id])
+    //     })
+    // },[router,status,support,id])
 
-    const handleSelected = useCallback((value:any)=>{
-        if(!current) {
-            toast.warning('You are not loggin or not admin');
-            return ;
-        } 
+    // const handleSelected = useCallback((value:any)=>{
+    //     if(!current) {
+    //         toast.warning('You are not loggin or not admin');
+    //         return ;
+    //     } 
        
-        setStatus(value);
-        setSupport(current.email)
+    //     setStatus(value);
+    //     setSupport(current.email)
       
-        setApi(true)
-         //handleCallApi(id,status,support)
+    //     setApi(true)
+    //      //handleCallApi(id,status,support)
 
-    },[current])
+    // },[current])
 
 
 
-    useEffect(()=>{
-        const result = user && user.find((item:any)=>item.email === currentUser.user.email && item.role === 'yes');
-        //console.log(result);
-        setCurrent(result)
-     },[currentUser,user])
-     useEffect(()=>{
-        if(api === true) {
-            handleCallApi()
-        }
-     },[api,handleCallApi])
+    // useEffect(()=>{
+    //     const result = user && user.find((item:any)=>item.email === currentUser.user.email && item.role === 'yes');
+    //     //console.log(result);
+    //     setCurrent(result)
+    //  },[currentUser,user])
+    //  useEffect(()=>{
+    //     if(api === true) {
+    //         handleCallApi()
+    //     }
+    //  },[api,handleCallApi])
 
      useEffect(()=>{
         setStatus(!dataStatus ?'choose status': dataStatus)
@@ -129,7 +129,8 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
             )}
             </td>
             <td>
-            <Select
+                {dataStatus }
+            {/* <Select
                 onValueChange={(e) =>handleSelected(e)}
             >
                 <SelectTrigger className=" ">
@@ -141,7 +142,7 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
                     <SelectItem value="help">Need Help</SelectItem>
                 
                 </SelectContent>
-            </Select>
+            </Select> */}
             </td>
             <td className="underline cursor-pointer" onClick={handleDetail}>
                 Detail

@@ -1,23 +1,30 @@
 "use client"
 
+import CategoryRadio from "@/components/products/category-radio";
+import CategoryReport from "@/components/report/category";
 import { cn } from "@/lib/utils";
 import { Mail } from "@prisma/client"
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { MdCopyAll } from "react-icons/md";
 import { toast } from "sonner";
 
 interface ReportByIdProps {
     mailById: Mail[] | any;
+    currentUser: any;
 }
 
 const ReportById:React.FC<ReportByIdProps> = ({
-    mailById: mail
+    mailById: mail,
+    currentUser
 }) =>{
    // console.log(mail);
     const router = useRouter()
+    const [customerValue,setCustomerValue] = useState<string>('')
+    
 
     //handle coppy id
 
@@ -25,6 +32,29 @@ const ReportById:React.FC<ReportByIdProps> = ({
     navigator.clipboard.writeText(id)
     toast.success("coppied to clipboard")
   }
+
+// handle Update report
+const handleUpdate = (value:string) =>{
+    if(!currentUser) {
+        toast.warning('You are not loggin or not admin');
+        return ;
+    } 
+   
+    //setIsLoading(true)
+    console.log(value);
+    axios.post('/api/update-mail-2',{id:mail?.id,support:currentUser.email,status:value})
+    .then((res:any)=>{
+        toast.success("updated !")
+        router.refresh()
+    })
+    .catch((err:any)=>{
+        toast.error("Something went wrong !")
+    })
+    .finally(()=>{
+
+    })
+}
+
   //handle ctr + z
   useEffect(() => {
     const handleKeyDown = (event:any) => {
@@ -46,14 +76,14 @@ const ReportById:React.FC<ReportByIdProps> = ({
                    
                     <div className="grid grid-cols-6 gap-2">
                        <div className=" col-span-2 px-4">
-                       <div className="text-[15px] text-neutral-100 underline cursor-pointer" onClick={()=>router.push('/analytics/report')}>Back</div>
+                       {/* <div className="text-[15px] text-neutral-100 underline cursor-pointer" onClick={()=>router.push('/analytics/report')}>Back</div> */}
                         <Image 
                                 src = {mail.userImage ? mail.userImage : '/avatar.png'}
                                 width={300}
                                 height={300}
                                 alt="avatar"
                                 objectFit=""
-                                className="rounded-full aspect-square w-full"
+                                className="rounded-full aspect-square w-full object-cover"
                             />
                              <div
                                 className="flex item-center justify-start gap-1 "
@@ -79,16 +109,26 @@ const ReportById:React.FC<ReportByIdProps> = ({
                         <div className="col-span-4 bg-slate-600 rounded-md p-2 flex flex-col gap-2">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <div className="text-neutral-100 text-[15px]">Information</div>
+                                    <div className="text-neutral-100 text-[16px] uppercase ">Information</div>
                                     <div>All information of reporter</div>
                                 </div>
-                                <div>{mail.status === 'help'? (
+                                {/* <div>{mail.status === 'help'? (
                                         <span className="text-red-600 text-[13px] capitalize">can not solve, need help</span>
                                         ):mail.status ==='pending' ?(
                                             <span className="text-yellow-500 text-[13px]">Pending</span>
                                         ):(
                                             <span className="text-green-600 text-[13px]">Done</span>
                                         )}
+                                </div> */}
+                                <div>
+                                <CategoryReport
+                                    id="category"
+                                    handleUpdate ={handleUpdate}
+                                    customerValue={customerValue}
+                                    categorys ={['need hep','pending','done']}
+                                  
+                                    setCustomerValue = {setCustomerValue}
+                                />
                                 </div>
                             </div>
                             <div className=" ">

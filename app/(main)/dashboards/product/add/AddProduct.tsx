@@ -226,9 +226,21 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                 toast.error('Some thing went wrong')
               })
               .finally(()=>{
-                setIsLoading(false)
+                
               })
-
+          // updated category
+          axios.post('/api/updated-category',{name:data?.category})
+              .then((res)=>{
+                //toast.success('Created new product.')
+               
+                router.refresh()
+              })
+              .catch((err:any)=>{
+                toast.error('Some thing went wrong')
+              })
+              .finally(()=>{
+                
+              })
           axios.post('/api/create-new-history',{
                 userId: currentUserInfo && currentUserInfo.id,
                 title:`add new product`,
