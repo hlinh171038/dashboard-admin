@@ -6,6 +6,7 @@ export async function POST(request:Request) {
     try {
         const {name} = await request.json()
 
+        console.log(name)
         //check id
         const check = await prisma.category.findFirst({
             where: {
@@ -16,13 +17,16 @@ export async function POST(request:Request) {
         if(!check) {
             return NextResponse.json({error:"Category not existed"},{status: 404})
         }
-        let amount = check?.quantity
+        let amount = check?.quantity ;
+        let increasing =  amount as number +1;
+
+        console.log('amount',increasing)
         const result = await prisma.category.updateMany({
             where:{
                 name
             },
             data:{
-                quantity:amount && amount +1,
+                quantity:increasing,
             }
         })
         return NextResponse.json(result)

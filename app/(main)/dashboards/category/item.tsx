@@ -84,7 +84,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
             
         </div>
         </td>
-        <td className='w-[5%] px-2 py-1'>{stt}</td>
+        <td className='w-[5%] px-2 py-1'>{stt && stt<10 && stt>0 ? `0${stt}`: stt}</td>
         <td className='w-[60%] px-2 py-1'>{update ? (
             <div className='relative w-full '>
                  <input 
@@ -118,7 +118,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
                     </div>
                 ): name}
         </td>
-        <td className='w-[20%] px-4'>{quantity}</td>
+        <td className='w-[20%] px-4'>{quantity && quantity<10 && quantity>0 ? `0${quantity}`: quantity}</td>
         <td className='w-[10%]'>
             <TfiPencilAlt onClick={() => setUpdate(!update)} className='w-4 h-4 text-neutral-400 text-[14px] hover:text-neutral-100 cursor-pointer'/>
         </td>

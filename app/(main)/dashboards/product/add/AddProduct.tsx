@@ -236,7 +236,7 @@ const AddNewProduct:React.FC<AddNewProductProps>= ({
                 router.refresh()
               })
               .catch((err:any)=>{
-                toast.error('Some thing went wrong')
+                toast.error('Some thing went wrong category')
               })
               .finally(()=>{
                 
