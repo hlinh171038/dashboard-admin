@@ -9,7 +9,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { MdHistory } from "react-icons/md"
 
 
-
+export const metadata = {
+    title: "Dashboard Inside | History",
+    description: "My description",
+  }
 const LoadingCustomer  =() =>{
     return (
         <div className="px-2">

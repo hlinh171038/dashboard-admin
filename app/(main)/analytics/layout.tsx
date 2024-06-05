@@ -3,7 +3,7 @@ import { Toaster } from "sonner"
 
 
 export const metadata = {
-    title: "Dashboard Inside | Dashboard",
+    title: "Dashboard Inside | Analytics",
     description: "My description",
   }
 const Layout = async (

@@ -2,6 +2,10 @@
 
 import React from 'react'
 import { Skeleton } from "@/components/ui/skeleton"
+export const metadata = {
+    title: "Dashboard Inside | Profile",
+    description: "My description",
+  }
 
 const page = () => {
   return (
