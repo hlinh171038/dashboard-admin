@@ -1,4 +1,4 @@
-import Input from '@/components/imputs/input'
+
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { IoFingerPrintOutline } from 'react-icons/io5'
@@ -13,6 +13,7 @@ import { useDebounce } from 'use-debounce';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import Input from './input';
 
 interface step1Props {
     setInfor : any;
@@ -36,11 +37,23 @@ const Step1:React.FC<step1Props> = ({
         email: z.string().email({message: "Wrong Email Format"}),
       })
 
-      const handleSubmit = (e:any) => {
-       e.preventDefault()
+      const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+      } = useForm<FieldValues>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: ""
+        }
+      })
+
+      const onSubmit: SubmitHandler<FieldValues> = (data) => {
+       //e.preventDefault()
         setIsLoading(true)
         // check email exist or not
-        axios.post('/api/forget-password-check',{email:text})
+        axios.post('/api/forget-password-check',data)
         
             .then((res:any)=>{
                 console.log(res.data)
@@ -108,20 +121,34 @@ const Step1:React.FC<step1Props> = ({
             <div>
             <form ref={form} className='mt-2'>
   
-                <div className='text-neutral-100 text-[15px] mb-0.5'>Enter your email</div>
-                <input type="email" 
+                
+                {/* <input type="email" 
                         name="user_email" 
                         onChange={(e)=> setText(e.target.value)}
                         value={text} 
                         placeholder='Email'
                         className='px-2 py-0.5 rounded-md outline-none placeholder:text-[14px] w-[60%] text-[14px]'
-                    />
+                    /> */}
+                    <div className='relative w-[60%]'>
+                    <div className='text-neutral-100 text-[15px] mb-0.5 relative'>Enter your email</div>
+                      <Input
+                        id="email"
+                        type="email"
+                        label="email"
+                        register= {register}
+                        disabled ={ isLoading}
+                        required
+                        errors={errors}
+
+                      />
+                      {errors?.email && <span className="text-red-600 text-[14px] absolute top-1 right-2">{`${errors?.email?.message}`}</span>}
+                      </div>
                 
                 <textarea name="code" defaultValue={generate} className='hidden'/>
                 <div className="mt-2">
                 <button
                 disabled ={isLoading}
-                    onClick={handleSubmit}
+                    onClick={handleSubmit(onSubmit)}
                     className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-[60%] hover:bg-[#60c3d2] hover:text-white  transition-colors"
                 >
                     Reset PassWord

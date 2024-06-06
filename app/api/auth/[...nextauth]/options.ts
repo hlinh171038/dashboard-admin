@@ -52,6 +52,11 @@ import bcrypt from 'bcrypt'
                   throw new Error('Incorrect password')
               }
 
+              //not admin
+              if(user?.role === 'no') {
+                throw new Error("Use admin account to signIn")
+              }
+
               // block or not
               if(user?.block) {
                 throw new Error("Your account is block")

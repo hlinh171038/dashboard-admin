@@ -1,6 +1,6 @@
 "use client"
 
-import Input from "@/components/imputs/input"
+
 import { cn } from "@/lib/utils"
 import { signIn } from "next-auth/react"
 import Image from "next/image"
@@ -23,6 +23,7 @@ import { FcGoogle } from "react-icons/fc"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import Input from "./input"
 
 
 
@@ -187,7 +188,7 @@ const formSchema = z.object({
       console.log(errors?.email)
     return (
         <div className="w-auto h-screen">
-            <div className="w-full h-full grid grid-cols-2 gap-2 bg-gradient-to-r from-slate-900 via-[#5EC0BD] to-slate-900 ">
+            <div className="w-full h-full grid grid-cols-2 gap-2 bg-gradient-to-r from-slate-900 via-[#5EC0BD]  to-slate-900 ">
                 <div className="px-4">
                     {/* logo */}
                     <div className="flex items-center justify-start gap-1 mt-8">
@@ -217,7 +218,7 @@ const formSchema = z.object({
                                 required
                                 errors={errors}
                             />
-                            {errors?.email && <span className="text-red-600 text-[14px] absolute bottom-[-10px] left-2">{`${errors?.email?.message}`}</span>}
+                            {errors?.email && <span className="text-red-600 text-[14px] absolute top-1 right-2">{`${errors?.email?.message}`}</span>}
                         </div>
                         <div className="relative h-[70px]">
                             <label htmlFor="email" className="text-[14px] text-neutral-100 px-2">Password</label>
@@ -231,10 +232,10 @@ const formSchema = z.object({
                             errors={errors}
                             isVisible ={isVisible}
                         />
-                         {errors?.password && <span className="text-red-600 text-[14px] absolute bottom-[-10px] left-2">{`${errors?.password?.message}`}</span>}
+                         {errors?.password && <span className="text-red-600 text-[14px] absolute top-1 right-2">{`${errors?.password?.message}`}</span>}
                             <div className="absolute top-[50%] right-4"><IoIosEyeOff className="w-4 h-4 text-slate-900" onMouseDown={handleKeyDown} onMouseUp={handleKeyUp}/></div>
                         </div>
-                        <div onClick={()=> router.push('/forget-password?step=1')} className="text-neutral-100 text-[14px] font-bold text-end px-2">Forget Password ?</div>
+                        <div onClick={()=> router.push('/forget-password?step=1')} className="text-neutral-100 text-[14px] font-bold text-end px-2 cursor-pointer">Forget Password ?</div>
                         <div className="px-2">
                             <button
                                 disabled ={isLoading}
