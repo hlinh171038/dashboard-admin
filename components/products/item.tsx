@@ -27,6 +27,7 @@ interface ItemProductProps {
     isSalePrice: boolean,
     city: string,
     handleOtherCheck: (id:string) =>void;
+    currentUserInfor: any;
 }
 
 const ItemProduct:React.FC<ItemProductProps> = (
@@ -45,7 +46,8 @@ const ItemProduct:React.FC<ItemProductProps> = (
     id,
     check,
     isSalePrice,
-    handleOtherCheck
+    handleOtherCheck,
+    currentUserInfor
 }
 ) =>{
 
@@ -85,6 +87,14 @@ const ItemProduct:React.FC<ItemProductProps> = (
    },[id,router])
 
    const handleUpdateBlock = useCallback(()=>{
+    if(!currentUserInfor) {
+        toast.warning(' SignIn to delete !!!');
+        return;
+    }
+    if(currentUserInfor?.role === 'no' || currentUserInfor?.permission ==='read') {
+        toast.warning('Only delete product with exercute peremission !!!');
+        return;
+    }
     setIsLoading(true)
     setBlockRedict(!blockRedict)
     axios.post('/api/update-isSalePrice-product',{id,isSalePrice:!blockRedict})

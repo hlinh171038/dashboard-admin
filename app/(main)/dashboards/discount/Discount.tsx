@@ -48,6 +48,7 @@ const Discount:React.FC<DiscountProps> =({
     const [totalDiscountThisWeek,setTotaDiscountThisWeek] = useState<any>([])
     const [totalDiscountLastWeek,setTotalDiscountLastWeek] = useState<any>([])
     const [status,setStatus] = useState(true)
+    const [current,setCurrent] = useState<any>(null)
 
     let start = (page *per_page) -per_page;
     let end = page * per_page;
@@ -126,6 +127,16 @@ const Discount:React.FC<DiscountProps> =({
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [router]);
+
+  
+  useEffect(()=>{
+
+    if(currentUser) {
+        const result = users && users.find((item:any)=>item.email === currentUser?.user.email);
+        setCurrent(result)
+    }
+    
+  },[currentUser,users])
     return (
         <div className="px-2 w-full">
             <div className="grid grid-cols-7 gap-2 mb-2">
@@ -156,6 +167,7 @@ const Discount:React.FC<DiscountProps> =({
                 search = {search}
                 currentUser ={currentUser}
                 customer = {users}
+                current = {current}
               />
               <Table 
                 //discount ={updateDiscount}
@@ -170,6 +182,7 @@ const Discount:React.FC<DiscountProps> =({
                end ={end}
                status ={status}
                currentUser ={currentUser}
+               current ={current}
                users = {users}
               />
               <Pagination 

@@ -35,6 +35,7 @@ const Category:React.FC<CategoryProps> = ({
   const [status,setStatus] = useState(true);
   const [addNewLoading,setAddNewLoading] = useState<boolean>(false)
   const router = useRouter()
+  const [current,setCurrent] = useState<any>(null)
 
   console.log(category)
 
@@ -46,7 +47,10 @@ const Category:React.FC<CategoryProps> = ({
       setStatus(value)
   },[])
 
-
+  useEffect(()=>{
+    const result = users && users.find((item:any)=>item.email === currentUser.user.email);
+    setCurrent(result)
+ },[currentUser,users])
  
   return (
     <div>
@@ -59,6 +63,7 @@ const Category:React.FC<CategoryProps> = ({
               user2 ={users}
               handleLoading = {handleLoading}
               setAddNewLoading = {setAddNewLoading}
+              
               />
           {/* <input type="text" onChange={(e:any)=>setText(e.target.value)} value={text} />
           <div onClick={handleAddCategory}>Add New Category +</div>

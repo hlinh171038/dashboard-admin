@@ -82,7 +82,11 @@ const TableProduct:React.FC<TableProductProps> = ({
     //handle delete
     const handleDelete = useCallback((array:any[])=>{
         if(!currentUser) {
-            toast.warning('have not login !!!');
+            toast.warning(' SignIn to delete !!!');
+            return;
+        }
+        if(currentUserInfo?.role === 'no' || currentUserInfo?.permission ==='read') {
+            toast.warning('Only delete product with exercute peremission !!!');
             return;
         }
         setIsLoading(true)
@@ -274,6 +278,7 @@ const TableProduct:React.FC<TableProductProps> = ({
                         check={checkId && checkId.includes(item.id)}
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
                         isSalePrice = {item.isSalePrice}
+                        currentUserInfor = {currentUserInfo}
                     />
                     )
                 }))}

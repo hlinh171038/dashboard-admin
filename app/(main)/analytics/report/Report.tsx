@@ -248,6 +248,7 @@ const Report:React.FC<ReportProps> = ({
                     page ={page}
                     per_page = {per_page}
                     loading = {loading}
+                    
                 />
                 <Pagination
                     page ={page}

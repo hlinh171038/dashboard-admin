@@ -81,11 +81,11 @@ const ItemCustomerReport:React.FC<ItemCustomerReportProps> = ({
 
 
 
-    // useEffect(()=>{
-    //     const result = user && user.find((item:any)=>item.email === currentUser.user.email && item.role === 'yes');
-    //     //console.log(result);
-    //     setCurrent(result)
-    //  },[currentUser,user])
+    useEffect(()=>{
+        const result = user && user.find((item:any)=>item.email === currentUser.user.email && item.role === 'yes');
+        //console.log(result);
+        setCurrent(result)
+     },[currentUser,user])
     //  useEffect(()=>{
     //     if(api === true) {
     //         handleCallApi()

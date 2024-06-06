@@ -80,6 +80,10 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
             toast.warning('have not login !!!');
             return;
         }
+        if(currentUserInfo?.permission === 'read') {
+            toast.warning('Only delete with exercute permission !!!');
+            return;
+        }
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-report',{checkId:array})
@@ -160,6 +164,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                 mail2 ={mail2}
                 currentUser ={currentUser}
                 user = {user}
+                currentUserInfor ={currentUserInfo}
             />
             {checkId.length >0 && (
                 <button
@@ -201,7 +206,7 @@ const CustomerProblem:React.FC<CustomerProblemProps> = ({
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
                                 <td><Skeleton className="h-4 w-[50px]" /></td>
-                                <td><Skeleton className="h-4 w-[50px]" /></td>
+                                
                             </tr>
                         )
                     })

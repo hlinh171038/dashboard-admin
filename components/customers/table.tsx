@@ -76,7 +76,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
             toast.warning('Have not login !!!');
             return;
         }
-        if(currentUser?.user?.permission !== 'exercute') {
+        if(currentUser?.user?.permission === 'read') {
             toast.warning('Only delete with exercute permission !!!');
             return;
         }
@@ -232,6 +232,8 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
                         province = {item.province}
                         check={checkId && checkId.includes(item.id)}
                         handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                        currentUser ={currentUser}
+                        users = {user2}
                     />
                 )
             }))}

@@ -28,6 +28,7 @@ interface HeaderProps {
     currentUser: any;
     handleLoading: (value:boolean) => void;
     setAddNewLoading: any;
+  
 }
 
 const Headercategory:React.FC<HeaderProps> = ({
@@ -36,7 +37,8 @@ const Headercategory:React.FC<HeaderProps> = ({
     currentUser,
     category2 = [],
     handleLoading,
-    setAddNewLoading
+    setAddNewLoading,
+   
 }) =>{
     const [text,setText] = useState('')
     const [textAdd,setTextAdd] = useState('')
@@ -88,7 +90,8 @@ const Headercategory:React.FC<HeaderProps> = ({
             toast.warning("Only create new user with exercute peremission !!!");
             return;
         }
-        if(current?.permission && current?.permission === 'read') {
+        if(current?.permission === 'read') {
+            console.log('try2')
             toast.warning("Only create new user with exercute permission !!!");
             return;
         }
@@ -113,12 +116,11 @@ const Headercategory:React.FC<HeaderProps> = ({
     },[])
 
     useEffect(()=>{
-        const result = category && category.find((item:any)=>item.email === currentUser.user.email);
+        const result = user2 && user2.find((item:any)=>item.email === currentUser.user.email);
         setCurrent(result)
-     },[currentUser,category])
+     },[currentUser,user2])
 
-     console.log(category)
-     console.log(category2)
+     
     return (
         <div>
             <div className="flex justify-between items-center px-2 py-2">

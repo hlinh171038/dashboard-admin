@@ -19,6 +19,7 @@ import ExportFile from "@/components/customers/export-file"
 import { LuClipboardCopy } from "react-icons/lu"
 import CopyLink from "@/components/customers/copylink"
 import { RxCross2 } from "react-icons/rx"
+import { toast } from "sonner"
 
 interface HeaderProps {
     discount: Discount[];
@@ -26,6 +27,7 @@ interface HeaderProps {
     search: string;
     currentUser:any;
     customer: User[] | any;
+    current: any;
 }
 
 
@@ -34,7 +36,8 @@ const Header:React.FC<HeaderProps> = ({
     discount2 = [],
     search,
     currentUser,
-    customer = []
+    customer = [],
+    current
 }) =>{
     const [text,setText] = useState('')
     const [query] = useDebounce(text,300)
@@ -47,11 +50,20 @@ const Header:React.FC<HeaderProps> = ({
         setText('')
     },[router])
 
-    
+    console.log(current)
     //handle add new
     const handleAddNew = useCallback(()=>{
+        if(!current){
+            toast.warning("signIn to add !!!");
+            return;
+        }
+        if(current?.permission === 'read') {
+            console.log('try')
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
+        }
         router.push('/dashboards/discount/add')
-    },[router])
+    },[router,current])
 
     useEffect(()=>{
         const handleKeyDown = (event:any) =>{
@@ -123,7 +135,7 @@ const Header:React.FC<HeaderProps> = ({
                 <ExportFile
                     data = {discount}
                     filename='discount'
-                    currentUser={currentUser}
+                    currentUser={current}
                 />
                 {/* coppy link */}
                     <Popover>

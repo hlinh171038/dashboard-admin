@@ -63,7 +63,7 @@ const Member:React.FC<MemberProps> = ({
     const [isLoading,setIsLoading] = useState(false)
     const [data,setData] = useState<any>([])
     const [dele,setDele] = useState(false)
-   
+    const [current,setCurrent] = useState<any>(null)
     
     //handle orther check
     const handleOtherCheck = useCallback((id:string)=>{
@@ -99,8 +99,29 @@ const Member:React.FC<MemberProps> = ({
                 })
     },[router])
 
+    //handle add new
+    const handleAddNew = () =>{
+        if(!current){
+            toast.warning("SignIn to add");
+            return;
+        }
+        if( current?.permission === 'read') {
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
+        }
+        router.push('/analytics/team/add?search=&page=1&per_page=10')
+    }
+
     //handle delete
-    const handleDelete = useCallback((array:any[])=>{
+    const handleDelete =(array:any[])=>{
+        if(!current){
+            toast.warning("SignIn to add !!!");
+            return;
+        }
+        if( current?.permission === 'read') {
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
+        }
         setIsLoading(true)
        // console.log(array)
         axios.post('/api/delete-admin',{checkId:array})
@@ -119,7 +140,7 @@ const Member:React.FC<MemberProps> = ({
                 router.push('/analytics/team?search_admin=&page_admin=1&per_page_admin=10')
             })
             //handleUpdate()
-    },[router])
+    }
 console.log(data)
 
 
@@ -159,7 +180,10 @@ console.log(data)
     console.log(user)
 
   
-    
+    useEffect(()=>{
+        const result = member && member.find((item:any)=>item.email === currentUser.user.email);
+        setCurrent(result)
+     },[currentUser,member])
     return (
         <div className="relative px-2 w-full text-[14px] text-neutral-400">
             
@@ -169,9 +193,10 @@ console.log(data)
                     customer = {data}
                     user2={member}
                     currentUser={currentUser}
+                    
                     />
             
-                <div onClick={()=>router.push('/analytics/team/add')} className="cursor-pointer ">Add +</div>
+                <div onClick={handleAddNew} className="cursor-pointer ">Add +</div>
                 </div>
                 <div className=" flex flex-col gap-2 my-2">
                     {checkId.length >0 && (
@@ -200,19 +225,13 @@ console.log(data)
                                             <td className="w-6 h-6">
                                                 <Skeleton className="h-4 w-4" />
                                             </td>
-                                            <td className="max-w-20" >
-                                                <div className="flex items-center justify-start gap-1">
-                                                    <Skeleton className="h-6 w-6 rounded-full" />
-                                                    <Skeleton className="h-4 w-[70px]" />
-                                                    
-                                                </div>
+                                            <td className="min-w-44" >
+                                                <Skeleton className="h-4 w-[220px]" />
                                             </td>
                                             <td><Skeleton className="h-4 w-[100px]" /></td>
                                             <td><Skeleton className="h-4 w-[70px]" /></td>
                                             <td><Skeleton className="h-4 w-[70px]" /></td>
-                                            <td><Skeleton className="h-4 w-[50px]" /></td>
-                                            <td><Skeleton className="h-4 w-[50px]" /></td>
-                                            <td><Skeleton className="h-4 w-[50px]" /></td>
+                                            <td><div className="flex items-center justify-end"><Skeleton className="h-4 w-[30px]" /></div></td>
                                         </tr>
                                     )
                                 })

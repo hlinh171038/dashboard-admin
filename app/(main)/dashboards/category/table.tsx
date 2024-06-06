@@ -205,6 +205,7 @@ const TableCategory:React.FC<TableCategoryProps> = ({
                         quantity = {item?.quantity}
                          check={checkId && checkId.includes(item.id)}
                          handleOtherCheck = {(id:string)=>handleOtherCheck(id)}
+                         currentUserInfor = {currentUserInfo}
                     />
                 )
             }))}

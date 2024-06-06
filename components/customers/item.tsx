@@ -3,12 +3,13 @@
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaRegSquare } from "react-icons/fa";
 import { FaRegSquareCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 import { BsToggleOn } from "react-icons/bs";
 import { BsToggleOff } from "react-icons/bs";
+import { User } from "@prisma/client";
 
 interface ItemCustomerProps {
     id: string,
@@ -22,6 +23,8 @@ interface ItemCustomerProps {
     block: boolean;
     province: string;
     handleOtherCheck: (id:string) =>void;
+    currentUser: any;
+    users : User[] | any;
 }
 
 const ItemCustomer:React.FC<ItemCustomerProps> = (
@@ -36,7 +39,9 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     block,
     check,
     province,
-    handleOtherCheck
+    handleOtherCheck,
+    currentUser,
+    users
 }
 
 ) =>{
@@ -48,6 +53,7 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     const year = new Date(created_at).getFullYear().toString()
 
     const [blockRedict, setBlockRedict] = useState<boolean>(block)
+    const [current,setCurrent] = useState<any>(null)
     
     const route = useRouter()
     const handleRouteDetailUser = useCallback(()=>{
@@ -55,6 +61,14 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
     },[id,route])
 
     const handleUpdateBlock = useCallback(()=>{
+        if(current?.role === 'no'){
+            toast.warning("login to block!!!");
+            return;
+        }
+        if(current?.permission === 'read'){
+            toast.warning("Only block user with exercute peremission !!!");
+            return;
+        }
         setIsLoading(true)
         setBlockRedict(!blockRedict)
         axios.post('/api/update-block',{id,block:!blockRedict})
@@ -75,8 +89,14 @@ const ItemCustomer:React.FC<ItemCustomerProps> = (
             .finally(()=>{
                  setIsLoading(false)
             })
-    },[blockRedict,id])
+    },[blockRedict,id,current])
 
+    useEffect(()=>{
+        const result = users && users.find((item:any)=>item.email === currentUser.user.email);
+        setCurrent(result)
+     },[currentUser,users])
+
+     console.log(current)
 
     return (
        <tr>

@@ -35,6 +35,7 @@ interface TableProps {
    status: boolean;
    currentUser: any;
    users: User[] | any;
+   current: any;
 }
 
 const Table:React.FC<TableProps> = ({
@@ -50,6 +51,7 @@ const Table:React.FC<TableProps> = ({
     end,
     status,
     currentUser,
+    current,
     users = []
 }) =>{
 
@@ -80,6 +82,10 @@ const Table:React.FC<TableProps> = ({
     const handleDelete = useCallback((array:any[])=>{
         if(!currentUser) {
             toast.warning('have not login !!!');
+            return;
+        }
+        if(current?.permission === 'read') {
+            toast.warning('Only delete with exercute permission !!!');
             return;
         }
         setIsLoading(true)

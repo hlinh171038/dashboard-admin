@@ -17,6 +17,7 @@ interface ItemCategoryProps {
     check: boolean;
     id:string;
     handleOtherCheck: (id:string) =>void;
+    currentUserInfor:any;
 }
 
 const ItemCategory:React.FC<ItemCategoryProps> = ({
@@ -25,7 +26,8 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
     check,
     stt,
     id,
-    handleOtherCheck
+    handleOtherCheck,
+    currentUserInfor
 }) => {
     const [update,setUpdate] = useState<any>(false)
     const [isLoading,setIsLoading] = useState<any>(false) 
@@ -33,7 +35,18 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
     const router = useRouter()
     const input2Ref = useRef<any>(null);
 
+    console.log(currentUserInfor)
+
     const handleUpdate = () =>{
+        if(!currentUserInfor){
+            toast.warning("SignIn to Updated");
+            return;
+        }
+        if(currentUserInfor?.permission === 'read') {
+            console.log('try2')
+            toast.warning("Only create new user with exercute permission !!!");
+            return;
+        }
         //check text
         if(text === '') {
             toast.warning('Fill out !!!');

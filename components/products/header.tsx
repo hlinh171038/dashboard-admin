@@ -53,11 +53,11 @@ const ProductHeader:React.FC<ProducHeaderProps> = ({
     const [current,setCurrent] = useState<any>(null)
 
     const handleAddNew = useCallback(()=>{
-        if(current.role === 'no'){
+        if(current?.role === 'no'){
             toast.warning("Only create new user with exercute peremission !!!");
             return;
         }
-        if(current.permission === 'read') {
+        if(current?.permission === 'read') {
             toast.warning("Only create new user with exercute permission !!!");
             return;
         }

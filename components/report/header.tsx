@@ -26,6 +26,7 @@ interface ProducHeaderProps {
    per_page: number;
    currentUser: any;
    user: User[] | any;
+   currentUserInfor:any;
 }
 
 const ReportHeader:React.FC<ProducHeaderProps> = ({
@@ -35,7 +36,8 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
     currentUser,
     search,
     page,
-    per_page
+    per_page,
+    currentUserInfor
 }) =>{
     const [text,setText] = useState('')
     const [query] = useDebounce(text, 300);
@@ -119,7 +121,7 @@ const ReportHeader:React.FC<ProducHeaderProps> = ({
                 <ExportFile
                     data = {mail}
                     filename='Mail'
-                    currentUser={currentUser}
+                    currentUser={currentUserInfor}
                 />
                 {/* coppy link */}
                     <Popover>

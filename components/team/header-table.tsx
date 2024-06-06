@@ -22,12 +22,14 @@ interface HeaderProps {
     customer: User[] | any;
     user2: User[] | any;
     currentUser: any;
+    
 }
 
 const HeaderTable:React.FC<HeaderProps> = ({
     customer =[],
     user2 = [],
-    currentUser
+    currentUser,
+    
 }) =>{
     const [text,setText] = useState('')
     const [current,setCurrent] = useState<any>([])
@@ -123,7 +125,7 @@ const HeaderTable:React.FC<HeaderProps> = ({
                 <ExportFile
                     data = {customer}
                     filename='administrator'
-                    currentUser={currentUser}
+                    currentUser={current}
                 />
                 {/* coppy link */}
                     <Popover>
