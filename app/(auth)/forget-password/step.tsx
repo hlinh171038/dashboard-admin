@@ -85,7 +85,7 @@ const Step:React.FC<Props> = ({
                 width={4000}
                 height={6000}
                 alt="forget-password"
-                className='object-cover'
+                className='object-cover  rounded-md'
                />
                <div className="absolute top-0 left-0 w-full h-full bg-slate-950/10">
                 
