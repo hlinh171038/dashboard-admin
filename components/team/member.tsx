@@ -105,7 +105,7 @@ const Member:React.FC<MemberProps> = ({
             toast.warning("SignIn to add");
             return;
         }
-        if( current?.permission === 'all') {
+        if( current?.permission !== 'all') {
             toast.warning("Only create new user with lead permission !!!");
             return;
         }
@@ -118,7 +118,7 @@ const Member:React.FC<MemberProps> = ({
             toast.warning("SignIn to add !!!");
             return;
         }
-        if( current?.permission === 'all') {
+        if( current?.permission !== 'all') {
             toast.warning("Only create new user with lead permission !!!");
             return;
         }
