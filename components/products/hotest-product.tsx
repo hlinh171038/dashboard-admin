@@ -291,7 +291,7 @@ const HotestProduct:React.FC<HotestProductProps> = ({
                     {openBrand && (
                         <tr className="font-semibold text-[15px]">
                             <td className="text-neutral-100 px-2">Brand Name</td>
-                            <td className="text-neutral-100 px-2">Quanity</td>
+                            <td className="text-neutral-100 px-2">Quantity</td>
                             <td className="text-neutral-100 px-2">Stock</td>
                         </tr>
                     

@@ -105,8 +105,8 @@ const Member:React.FC<MemberProps> = ({
             toast.warning("SignIn to add");
             return;
         }
-        if( current?.permission === 'read') {
-            toast.warning("Only create new user with exercute permission !!!");
+        if( current?.permission === 'all') {
+            toast.warning("Only create new user with lead permission !!!");
             return;
         }
         router.push('/analytics/team/add?search=&page=1&per_page=10')
@@ -118,8 +118,8 @@ const Member:React.FC<MemberProps> = ({
             toast.warning("SignIn to add !!!");
             return;
         }
-        if( current?.permission === 'read') {
-            toast.warning("Only create new user with exercute permission !!!");
+        if( current?.permission === 'all') {
+            toast.warning("Only create new user with lead permission !!!");
             return;
         }
         setIsLoading(true)
