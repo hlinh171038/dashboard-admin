@@ -49,8 +49,8 @@ const Footer = () =>{
                             </div>
                         </div>
                         <div className="flex items-center justify-start gap-2">
-                            <div onClick={handleNavigate} className="text-neutral-100 px-2 py-1 rounded-full hover:opacity-[0.8] cursor-pointer flex items-center justify-center pt-0.5" style={{backgroundColor:"#5EC0B5"}}>Tell Us More</div>
-                            <div className="bg-neutral-100 px-2 py-1 rounded-full hover:opacity-[0.8] cursor-pointer  flex items-center justify-center pt-0.5" style={{color:"#5EC0B5",border:"2px solid #5EC0B5"}}>Watch Demo</div>
+                            <div onClick={handleNavigate} className="text-neutral-100 px-2 py-1 rounded-full hover:opacity-[0.8] cursor-pointer flex items-center justify-center " style={{backgroundColor:"#5EC0B5"}}>Tell Us More</div>
+                            <div className="bg-neutral-100 px-2 py-1 rounded-full hover:opacity-[0.8] cursor-pointer  flex items-center justify-center " style={{color:"#5EC0B5",border:"2px solid #5EC0B5"}}>Watch Demo</div>
                         </div>
                         <div className="flex -items-center justify-start gap-2">
                             <Link href={`https://www.facebook.com/profile.php?id=100068924575831&locale=vi_VN`}>
