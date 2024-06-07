@@ -185,7 +185,7 @@ const handleSubmit = (e:any) =>{
                 <div >  
                     <div className='relative'>
                         <div>Password Confirm</div>
-                        <input type={isVisible ? 'text' : 'password'} 
+                        <input type={isVisible2 ? 'text' : 'password'} 
                                 name="password" 
                                 onChange={(e)=> setText2(e.target.value)}
                                 value={text2} 
