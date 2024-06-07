@@ -115,7 +115,7 @@ const Member:React.FC<MemberProps> = ({
     //handle delete
     const handleDelete =(array:any[])=>{
         if(!current){
-            toast.warning("SignIn to add !!!");
+            toast.warning("SignIn to delete !!!");
             return;
         }
         if( current?.permission !== 'all') {

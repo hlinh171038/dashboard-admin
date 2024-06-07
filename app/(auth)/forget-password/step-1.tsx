@@ -33,27 +33,31 @@ const Step1:React.FC<step1Props> = ({
     const [isLoading,setIsLoading] = useState(false)
     const router = useRouter()
     const [query] = useDebounce(text, 300);
-    const formSchema = z.object({
-        email: z.string().email({message: "Wrong Email Format"}),
-      })
+    // const formSchema = z.object({
+    //     email: z.string().email({message: "Wrong Email Format"}),
+    //   })
 
-      const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm<FieldValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: ""
-        }
-      })
+    //   const {
+    //     register,
+    //     handleSubmit,
+    //     watch,
+    //     formState: { errors },
+    //   } = useForm<FieldValues>({
+    //     resolver: zodResolver(formSchema),
+    //     defaultValues: {
+    //         email: ""
+    //     }
+    //   })
 
-      const onSubmit: SubmitHandler<FieldValues> = (data) => {
-       //e.preventDefault()
+      const handleSubmit = (e:any) => {
+       e.preventDefault()
+       if(!text.includes('@') || !text.includes('.com')) {
+        toast.warning( 'Not valid Email');
+        return;
+       }
         setIsLoading(true)
         // check email exist or not
-        axios.post('/api/forget-password-check',data)
+        axios.post('/api/forget-password-check',{email:text})
         
             .then((res:any)=>{
                 console.log(res.data)
@@ -121,18 +125,19 @@ const Step1:React.FC<step1Props> = ({
             <div>
             <form ref={form} className='mt-2'>
   
-                
-                {/* <input type="email" 
+            <div className='text-neutral-100 text-[15px] mb-0.5 relative'>Enter your email</div>
+                <input type="email" 
                         name="user_email" 
                         onChange={(e)=> setText(e.target.value)}
                         value={text} 
                         placeholder='Email'
-                        className='px-2 py-0.5 rounded-md outline-none placeholder:text-[14px] w-[60%] text-[14px]'
-                    /> */}
-                    <div className='relative w-[60%]'>
+                        className='px-2 py-1 rounded-md outline-none placeholder:text-[14px] w-[60%] text-[14px] text-slate-900'
+                    />
+                    {/* <div className='relative w-[60%]'>
                     <div className='text-neutral-100 text-[15px] mb-0.5 relative'>Enter your email</div>
                       <Input
                         id="email"
+                        name="user_email" 
                         type="email"
                         label="email"
                         register= {register}
@@ -142,13 +147,13 @@ const Step1:React.FC<step1Props> = ({
 
                       />
                       {errors?.email && <span className="text-red-600 text-[14px] absolute top-1 right-2">{`${errors?.email?.message}`}</span>}
-                      </div>
+                      </div> */}
                 
                 <textarea name="code" defaultValue={generate} className='hidden'/>
                 <div className="mt-2">
                 <button
                 disabled ={isLoading}
-                    onClick={handleSubmit(onSubmit)}
+                    onClick={handleSubmit}
                     className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-[60%] hover:bg-[#60c3d2] hover:text-white  transition-colors"
                 >
                     Reset PassWord
