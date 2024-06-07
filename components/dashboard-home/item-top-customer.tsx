@@ -64,7 +64,7 @@ const [convertTotal,setConvertTotal] = useState(0)
                     className="rounded-full aspect-square object-cover"
                 />
                 <div>
-                    <div>{name}</div>
+                    <div className="capitalize">{name}</div>
                     <div className="text-neutral-400 font-thin">{location}</div>
                 </div>
                 {index === 0 && (

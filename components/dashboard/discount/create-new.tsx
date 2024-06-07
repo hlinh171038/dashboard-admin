@@ -32,7 +32,7 @@ const CreateNew:React.FC<CreateNewProps> = ({
      },[currentUser,customer])
     return (
         <div className="bg-slate-600 rounded-md p-2 relative">
-            <div className="font-semibold text-[15px] text-neutral-100">Action</div>
+            <div className="font-semibold text-[16px] text-neutral-100">Action</div>
             <div className="text-neutral-400 text-[14px]">1. You only create new discount by administrator role.</div>
             <div className="text-neutral-400 text-[14px]">2. This is discount which is created by the shop owner.</div>
             <div className="text-neutral-400 text-[14px]">3. You should regularly manager quantity.</div>
@@ -40,7 +40,7 @@ const CreateNew:React.FC<CreateNewProps> = ({
             <div className="text-neutral-400 text-[14px]">5. Report immediately if have any problem.</div>
             <div
                 onClick={handleNavigate}
-                className="flex items-center justify-between px-2 py-1 mt-3 text-neutral-100 text-[14px] rounded-md border border-[#4FA29E] cursor-pointer hover:text-white">
+                className="flex items-center justify-between px-2 py-1 mt-3 text-neutral-100 text-[14px] rounded-md border border-[#4FA29E] cursor-pointer hover:text-white hover:bg-[#4FA29E] transition-all duration-300">
                 <div>+</div>
                 <div>Create New Discount</div>
                 <div><MdKeyboardArrowRight className="w-4 h-4"/></div>

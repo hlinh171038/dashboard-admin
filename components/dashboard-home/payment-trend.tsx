@@ -84,7 +84,7 @@ const PaymentTrend:React.FC<PaymentTrendProps> = ({
                 <div className="w-full h-5 bg-neutral-200 rounded-md ">
                     <div className={` h-5 rounded-md flex items-center justify-end px-1 text-neutral-400 text-[12px] `} style={{width:`${paymentPercent}%`,backgroundColor:"#64D03E",color:"#CCEB24"}}>
                         {paymentPercent !== 0 &&(
-                            <span className="mt-1">{paymentPercent}%</span>
+                            <span className="">{paymentPercent}%</span>
                         )}
                         
                     </div>
