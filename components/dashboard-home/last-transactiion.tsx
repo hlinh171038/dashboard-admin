@@ -43,7 +43,7 @@ const LastTransaction:React.FC<LastTransactionProps> = ({
         <div className="flex flex-col gap-4 text-white ">
             <div >
                 <div className="text-white text-[16px] font-semibold flex items-center justify-between">
-                    <div> Lastest  Transactiion</div>
+                    <div> Lastest  Transaction</div>
                     <div onClick={handleNavigate} className="text-neutral-400 hover:text-neutral-100 font-thin text-[13px] flex items-center justify-start gap-0.5 cursor-pointer">View<MdOutlineCallMade className="w-4 h-4 "/></div>
                 </div>
                 <div className="text-neutral-400 font-normal text-[14px] ">
