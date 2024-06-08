@@ -120,7 +120,7 @@ const Table:React.FC<TableProps> = ({
                 setIsLoading(false)
                 router.push('/dashboards/discount?search=&page=1&per_page=10')
             })
-    },[router,currentUser,currentUserInfo])
+    },[router,currentUser,currentUserInfo,current])
 
     // filter type
     useEffect(()=>{

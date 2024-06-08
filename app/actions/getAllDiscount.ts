@@ -33,12 +33,20 @@ export async function getAllDiscount({search,type,percent, countFrom, countTo, d
         }
         if(dayStart && dayEnd) {
            
-            query.OR =[
+            // query.OR =[
+            //     {
+            //         startDate:{gte:new Date(dayStart)}
+            //     },
+            //     {
+            //        endDate:{gte: new Date(dayEnd) } 
+            //     }
+            // ]
+            query.AND =[
                 {
-                    startDate:{gte:new Date(dayStart)}
+                    created_at:{gte:dayStart}
                 },
                 {
-                   endDate:{gte: new Date(dayEnd) } 
+                    created_at: {lte:dayEnd}
                 }
             ]
         }

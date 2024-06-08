@@ -76,7 +76,7 @@ const TableCustomer:React.FC<TableCustomerProps> = ({
             toast.warning('Have not login !!!');
             return;
         }
-        if(currentUser?.user?.permission === 'read') {
+        if(currentUserInfo?.permission === 'read') {
             toast.warning('Only delete with exercute permission !!!');
             return;
         }

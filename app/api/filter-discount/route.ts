@@ -6,7 +6,7 @@ export async function POST(request:Request) {
     try {
         const body = await request.json()
         const {search,type,percent,countFrom,countTo,dayStart,dayEnd} = body;
-
+        console.log('type' + type)
 
         let query: any = {}
 
@@ -38,12 +38,20 @@ export async function POST(request:Request) {
         }
         if(dayStart && dayEnd) {
            
-            query.OR =[
+            // query.OR =[
+            //     {
+            //         startDate:{gte:new Date(dayStart)}
+            //     },
+            //     {
+            //        endDate:{gte: new Date(dayEnd) } 
+            //     }
+            // ]
+            query.AND =[
                 {
-                    startDate:{gte:new Date(dayStart)}
+                    created_at:{gte:dayStart}
                 },
                 {
-                   endDate:{gte: new Date(dayEnd) } 
+                    created_at: {lte:dayEnd}
                 }
             ]
         }

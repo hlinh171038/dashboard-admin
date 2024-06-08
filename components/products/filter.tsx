@@ -260,6 +260,7 @@ const Filter:React.FC<FilterProps> = ({
             <DateRangePicker
                 ranges={[dateRange]}
                 onChange={handleSelected}
+                rangeColors={['#4FA29E']}
             />
         </div>
         </div>

@@ -92,6 +92,14 @@ const Filter:React.FC<FilterProps> = ({
         })
   },[])
 
+  const customTheme = {
+    colors: {
+      background: '#fff',
+      color: '#000',
+      // Customize other colors as needed (refer to documentation)
+    }
+  };
+
     const handleReset = useCallback(()=>{
         setCustomeValue('role','');
         setCustomeValue('status','');
@@ -129,11 +137,11 @@ const Filter:React.FC<FilterProps> = ({
           <div>
             <div className="font-semibold text-[16px]">Role:</div>
             <div className="flex items-center justify-start gap-4 px-2">
-                <label htmlFor="" className="flex items-center justify-center">
+                <label htmlFor="" className="flex items-center justify-center gap-0.5">
                     <input {...register("role")} type="radio" value="yes" />
                     Admin
                 </label>
-                <label htmlFor="" className="flex items-center justify-center">
+                <label htmlFor="" className="flex items-center justify-center gap-0.5">
                     <input {...register("role")} type="radio" value="no" />
                     User
                 </label>
@@ -143,11 +151,11 @@ const Filter:React.FC<FilterProps> = ({
         <div>
         <div  className="font-semibold text-[16px]">Status:</div>
             <div className="flex items-center justify-start gap-4 px-2">
-                <label htmlFor="" className="flex items-center justify-center">
+                <label htmlFor="" className="flex items-center justify-center gap-0.5">
                     <input {...register("status")} type="radio" value='true' />
                     Block
                 </label>
-                <label htmlFor="" className="flex items-center justify-center">
+                <label htmlFor="" className="flex items-center justify-center gap-0.5">
                     <input {...register("status")} type="radio" value="false" />
                    UnBlock
                 </label>
@@ -177,6 +185,7 @@ const Filter:React.FC<FilterProps> = ({
             <DateRangePicker
                 ranges={[dateRange]}
                 onChange={handleSelected}
+                rangeColors={['#4FA29E']}
             />
         </div>
         </div>

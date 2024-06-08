@@ -48,7 +48,7 @@ const Filter:React.FC<FilterProps> =({
             type: '',
             percent:0,
             countFrom: 0,
-            countTo: 100,
+            countTo: 0,
             dayStart: '',
             dayEnd: '',
         }
@@ -76,7 +76,7 @@ const Filter:React.FC<FilterProps> =({
         setCustumValue('type','')
         setCustumValue('percent',0)
         setCustumValue('countFrom',0)
-        setCustumValue('countTo',100)
+        setCustumValue('countTo',0)
         setCustumValue('dayStart','')
         setCustumValue('dayEnd','')
         setDateRange({
@@ -204,7 +204,7 @@ const Filter:React.FC<FilterProps> =({
                 <DateRangePicker
                     ranges={[dateRange]}
                     onChange={handleChangeDate}
-                    
+                    rangeColors={['#4FA29E']}
                 />
                 </div>
                 
