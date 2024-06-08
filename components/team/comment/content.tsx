@@ -135,7 +135,7 @@ console.log(commentArr)
                         <div className={cn("absolute top-[2.6rem] right-0 bg-slate-500/60 rounded-md w-full duration-300 transition-all cursor-pointer ",
                                         openSort ? 'flex flex-col gap-1 px-2 py-1' : 'hidden'
                                     )}>
-                            <div onClick={()=>handleSelected('featured')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">Featured Comment</div>
+                            {/* <div onClick={()=>handleSelected('featured')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">Featured Comment</div> */}
                             <div onClick={()=>handleSelected('lastest')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">lastest Comment</div>
                             <div onClick={()=>handleSelected('oldest')} className="text-[14px] text-neutral-400 hover:text-neutral-100 ">Oldest Comment</div>
                         </div>
