@@ -205,7 +205,7 @@ const handleSubmit = (e:any) =>{
                     className="text-white bg-[#5dbebb] py-1 text-[14px] rounded-md flex items-center justify-center w-full hover:bg-[#60c3d2] hover:text-white  transition-colors"
                 >
                     Reset PassWord
-                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5 ml-2"></div>}
+                    {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 ml-2"/>:<div className="w-5 h-5 ml-2"></div>}
                 </button>
             </div>
             <div className='text-[14px] text-neutral-400 underline font-light cursor-pointer' onClick={()=> router.push('/signIn')}>Back to SignIn</div>

@@ -24,6 +24,7 @@ const ReportById:React.FC<ReportByIdProps> = ({
    // console.log(mail);
     const router = useRouter()
     const [customerValue,setCustomerValue] = useState<string>('')
+    const [sp,setSp] = useState<any>('')
     
 
     //handle coppy id
@@ -40,9 +41,10 @@ const handleUpdate = (value:string) =>{
         return ;
     } 
    
+    setSp(currentUser?.user?.email)
     //setIsLoading(true)
     console.log(value);
-    axios.post('/api/update-mail-2',{id:mail?.id,support:currentUser.email,status:value})
+    axios.post('/api/update-mail-2',{id:mail?.id,support:currentUser?.user?.email,status:value})
     .then((res:any)=>{
         toast.success("updated !")
         router.refresh()
@@ -146,7 +148,7 @@ const handleUpdate = (value:string) =>{
                             <div className="">
                                 <div>Admin Support:</div>
                                 <div className="px-2 py-1 rounded-md bg-slate-500/60 w-full flex items-center justify-between">
-                                    <div>{mail.supportBy && mail.supportBy}</div>
+                                    <div>{sp || mail?.supportBy}</div>
                                     <div>{mail.status === 'help'? (
                                         <span className="text-red-600 text-[13px] capitalize">can not solve, need help</span>
                                         ):mail.status ==='pending' ?(

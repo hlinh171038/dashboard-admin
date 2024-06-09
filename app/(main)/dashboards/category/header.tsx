@@ -215,7 +215,7 @@ const Headercategory:React.FC<HeaderProps> = ({
                         placeholder="Category name.."
                         className="w-full rounded-md px-2 py-1 bg-slate-500/50 text-[14px] text-neutral-100 outline-none"
                      />
-                     <div className="absolute top-[0.4rem] right-[4.6rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
+                     <div className="absolute top-[0.5rem] right-[4.6rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
                             <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
                             <span>Enter |</span>
                         </div>

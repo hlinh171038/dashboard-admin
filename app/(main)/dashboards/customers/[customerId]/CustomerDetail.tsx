@@ -415,7 +415,7 @@ useEffect(() => {
                                 )}
                         > 
                         Update Product
-                        {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 "/>:<div className="w-5 h-5"></div>}
+                        {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 ml-2"/>:<div className="w-5 h-5 ml-2"></div>}
                     </button>
                 </form>
            </div>

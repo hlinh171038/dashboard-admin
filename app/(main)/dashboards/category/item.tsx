@@ -115,7 +115,7 @@ const ItemCategory:React.FC<ItemCategoryProps> = ({
                 {isLoading ?  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 absolute top-[0.2rem] right-2"/>:(
                      <OutsideClickHandler onOutsideClick={handleClickOutside}>
                     <div>
-                        <div className="absolute top-[0.2rem] right-[4.6rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
+                        <div className="absolute top-[0.3rem] right-[3.8rem] text-neutral-400 text-[14px] flex items-center justify-start gap-1 ">
                                     <MdOutlineKeyboardCommandKey className="w-4 h-4 " /> 
                                     <span>Enter |</span>
                                 </div>
