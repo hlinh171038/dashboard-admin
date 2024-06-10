@@ -98,7 +98,7 @@ const ProductDetail:React.FC<ProductDetailProps> = ({
       title: z.string().min(3).max(20),
       brand: z.string().min(3).max(50),
       stock: z.array(z.coerce.number()),
-      weight: z.coerce.number().lte(100).gte(1),
+      weight: z.coerce.number().lte(1000).gte(1),
       location: z.string().min(3).max(200),
       description: z.string().min(3).max(200),
       defaultPrice: z.coerce.number().lte(100000000).gte(1),

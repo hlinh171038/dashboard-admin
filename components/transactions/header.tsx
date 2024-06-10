@@ -117,7 +117,7 @@ const Header:React.FC<HeaderProps> = ({
                 className="bg-neutral-200 text-slate-600 text-[13px]"
                 >
                    <DateRangePicker
-                        rangeColors={['#262626']}
+                        rangeColors={['#5fc2be']}
                         ranges={[dateRange]}
                         onChange={handleSelect}
                         maxDate={new Date()}

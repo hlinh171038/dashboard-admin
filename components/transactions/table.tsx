@@ -97,18 +97,7 @@ const Table:React.FC<TableProps> = ({
                 </td>
                 <td>
                     Payment
-                    {/* <Select
-                        onValueChange={(e) =>handlePushPayment(e)}
-                    >
-                        <SelectTrigger className=" ">
-                            Payment
-                        </SelectTrigger>
-                        <SelectContent className="text-[14px] text-slate-600">
-                            <SelectItem value="all" defaultChecked={true}>All Brand</SelectItem>
-                            <SelectItem value="online">Online</SelectItem>
-                            <SelectItem value="offline">Offline</SelectItem>
-                        </SelectContent>
-                    </Select> */}
+                
                 </td>
                 <td>
                     Date
@@ -119,19 +108,7 @@ const Table:React.FC<TableProps> = ({
                
                 <td className="">
                     Status
-                    {/* <Select
-                        onValueChange={(e) =>handlePushStatus(e)}
-                    >
-                        <SelectTrigger className=" ">
-                            Status
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all" defaultChecked={true}>All Status</SelectItem>
-                            <SelectItem value="cancel">Cancel</SelectItem>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="done">Done</SelectItem>
-                        </SelectContent>
-                    </Select> */}
+                
                 </td>
                
                 <td 
@@ -155,11 +132,7 @@ const Table:React.FC<TableProps> = ({
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
                                 <td><Skeleton className="h-4 w-[70px]" /></td>
                                 <td><Skeleton className="h-4 w-[100px]" /></td>
-                                {/* <td>
-                                    <div className="flex items-center justify-end">
-                                        <Skeleton className="h-4 w-[70px]" />
-                                    </div>
-                                </td> */}
+                              
                                 <td>
                                     <div className="flex items-center justify-end">
                                         <Skeleton className="h-4 w-[50px]" />
