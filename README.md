@@ -1,7 +1,11 @@
 
-# MY AIRBNB CLONE
+# DASHBOARD | INSIDE ADMIN
 
-![Alt text](dashboard-home.webp)
+# Admin account to test
+ - minhChuong@gmail.com
+ - mk: 123456
+
+![Alt text](dashboard-home.png)
 
 ## Description
 <p>Dashboard | Inside is the admin page to manage your E-commecial page, like magage user, add new product, manage your customer's order, create discount, solve the customer's problem</p>
@@ -22,6 +26,7 @@
     -  Team Page: See and Manage Admin's account, permission
     -  Comment page: Comment
     -  Contact Us Page: contact with owner, admin.
+    -  History Page: save action in dashboard and automatic deleted after.
 
 
 ## Demo
@@ -35,21 +40,21 @@
  # Desktop
   # Home Page
 
-  ![Alt text](dashboard-home.webp)
+  ![Alt text](dashboard-home.png)
 
  # Product Page
 
-  ![Alt text](dashboard-product.webp)
-  ![Alt text](dashboard-product-add.webp)
-  ![Alt text](dashboard-product-detail.webp)
+  ![Alt text](dashboard-product.png)
+  ![Alt text](dashboard-product-add.png)
+  ![Alt text](dashboard-product-detail.png)
 
  # Team Page
 
-  ![Alt text](dashboard-team.webp)
+  ![Alt text](dashboard-team.png)
 
 # Transaction Page
 
-  ![Alt text](dashboard-transaction.webp)
+  ![Alt text](dashboard-transaction.png)
 
 ## Author
  - [Linh Thái](https://www.facebook.com/Linh201199)
@@ -76,6 +81,20 @@ Start the server
 
 ```bash
   npm run dev
+```
+Generate prisma
+
+```bash
+  npx prisma generate
+```
+
+```bash
+  npx prisma db push
+```
+
+Prisma  Stuido
+```bash
+  npx prisma studio
 ```
 
 ### Deloyment
