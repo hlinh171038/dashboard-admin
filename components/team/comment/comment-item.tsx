@@ -105,7 +105,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
         })
 
         axios.post('/api/create-notify',{
-            userId: currentUserId?.id,
+            userId: id,
                 userName:currentUserId?.name,
                 userImage:currentUserId?.image,
                 commentId: id,
@@ -201,7 +201,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
             })
             
             axios.post('/api/create-notify',{
-                userId: currentUserId?.id,
+                userId: id,
                 userName:currentUserId?.name,
                 userImage:currentUserId?.image,
                 commentId: id,

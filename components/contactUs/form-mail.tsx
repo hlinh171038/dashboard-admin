@@ -143,7 +143,7 @@ export const FormMail:React.FC<ContactUsProps> = ({
 
   useEffect(()=>{
     user && user.forEach((item:any)=>{
-        if(item.email === 'hoanglinh@gmail.com') {
+        if(item.email === 'hoangLinh@gmail.com') {
           setUserId(item)
         }
     })
@@ -213,8 +213,9 @@ export const FormMail:React.FC<ContactUsProps> = ({
         <input 
             type="submit" 
             value="Send"
-            className='bg-slate-900 hover:bg-slate-800 duration-300 transition-all rounded-md px-2 py-1 text-neutral-100 w-full'
+            className='bg-[#5FC2BE] hover:opacity-[0.7] duration-300 transition-all rounded-md px-2 py-1 text-neutral-100 w-full'
             />
+            
         </form>
     </div>
   );
