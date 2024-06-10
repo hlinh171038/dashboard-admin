@@ -219,7 +219,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
                 setIsLoadingHeart(false)
             })
               
-    },[router,currentUserId])
+    },[router,currentUserId,userId])
 
     //handle out side input
     const handleClickOutside = () => {

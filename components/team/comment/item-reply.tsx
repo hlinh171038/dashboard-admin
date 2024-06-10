@@ -124,7 +124,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
             })
         
             axios.post('/api/create-notify',{
-                userId: currentUserId?.id,
+                userId: userId,
                 userName:currentUserId?.name,
                 userImage:currentUserId?.image,
                 commentId: id,
@@ -142,7 +142,7 @@ const ItemReply:React.FC<ItemReplyProps> = ({
                 setIsLoading(false)
             })
         
-    },[router,currentUserId])
+    },[router,currentUserId,userId])
 
     //handle out side input
     const handleClickOutside = () => {
