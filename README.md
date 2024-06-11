@@ -30,10 +30,10 @@
 
 
 ## Demo
-- Airbnb Demo : 
+- Dashboard | Inside Admin Demo : 
 [[https://dashboard-admin-dun.vercel.app]](https://dashboard-admin-dun.vercel.app/signIn)
 - Video Demo on Youtube : 
-[Airbnb demo video](https://youtu.be/IMYshe-oIm0?si=qQehXEyb8XUvNG-1)
+[Dashboard | Inside Admin demo video](https://youtu.be/IMYshe-oIm0?si=qQehXEyb8XUvNG-1)
 
 ## ScreenShots
 
@@ -103,4 +103,3 @@ To run this project, you must link your github repo to [vercel](https://vercel.c
 ### Feedback
 If you have any feedback, please reach out to us at hoanglinh171038@gmail.com
 
-1
