@@ -42,6 +42,16 @@
 
   ![Alt text](dashboard-home.png)
 
+  # SignIn & Forget Password Page
+
+   ![Alt text](signIn.png)
+   ![Alt text](forget-1.png)
+   ![Alt text](forget-2.png)
+
+   # Customer Page
+
+   ![Alt text](customer.png)
+
  # Product Page
 
   ![Alt text](dashboard-product.png)
@@ -51,6 +61,8 @@
  # Team Page
 
   ![Alt text](dashboard-team.png)
+  ![Alt text](dashboard-team-comment.png)
+  ![Alt text](dashboard-team-permission.png)
 
 # Transaction Page
 
