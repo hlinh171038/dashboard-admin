@@ -58,11 +58,12 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
     const [provinceSelected,setProvinceSelected] = useState<any>(null)
     const [districtSelected,setDistrictSelected] = useState<any>(null)
  
+    const alphaNumericRegex = /^[0-9]{1,2}[A-Z]/;
   
     const schema: ZodType<formData> = z.object({
         name: z.string().min(3).max(20),
-        email:z.string().email(),
-        emailVerified:z.string().email(),
+        email:z.string().email().includes('gmail'),
+        emailVerified:z.string().email().includes('gmail'),
         phone: z.string().refine(validator.isMobilePhone),
         role: z.string(),
         active: z.string(),
@@ -77,7 +78,9 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
             message: "Choose commune"
         }),
         block: z.boolean(),
-        address: z.string().min(2),
+        address: z.string().min(2).regex(alphaNumericRegex, {
+            message: 'Input can only contain letters and numbers',
+          }),
         password:z.string().min(5).max(20),
         //check password and password confirm
         confirmPassword: z.string()
@@ -131,6 +134,16 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
                 toast.warning('Have not login !!!')
                 return;
             }
+        
+        //check img
+        if(data?.imgUrl.length <=0) {
+            data.imgUrl = 'https://res.cloudinary.com/dfg5laitb/image/upload/v1718938175/p5qek3lol7isqve76vne.jpg'
+        }
+        // check email have 'gmail' or not
+        // if(!data?.email.toLowerCase().includes('gmail')) {
+        //     toast.warning('Invalid Email !!!')
+        //     return;
+        // }
         setIsLoading(true)
         axios.post('/api/add-new-user', data)
                 .then(()=>{
@@ -411,7 +424,7 @@ console.log(communes)
                                     text-neutral-200
                                     focus:bg-white 
                                     focus:text-slate-900
-                                    focus:border-0 
+                                    focus:outline-none
                                     h-full 
                                     " 
 
