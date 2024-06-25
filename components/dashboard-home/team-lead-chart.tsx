@@ -46,9 +46,21 @@ const data = [
     pv: 4300,
     amt: 2100,
   },
+  {
+    name: 'Page J',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page L',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
 ];
 
-export const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9','#59B6AD','#A21D48'];
+export const colors = ['#EC8D4B','#64D03E', '#CCEB24', '#468AE2','#CB26E9','#59B6AD','#A21D48','#f416b5','#1D3E7A'];
 
 interface TeamLeadCahrtProps {
     users: User[] | any;
@@ -84,12 +96,12 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
             {
               name: 'developer',
               uv: 0,
-              shortname:'Developer'
+              shortname:'Dev'
             },
             {
               name: 'marketing',
               uv: 0,
-              shortname:'Marketing'
+              shortname:'Mar'
             },
             {
               name: 'customer-service',
@@ -109,9 +121,18 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
             {
               name: 'employee',
               uv: 0,
-              shortname:'Staff'
+              shortname:'Emp'
             },
-            
+            {
+              name: 'owner',
+              uv: 0,
+              shortname:'Own'
+            },
+            {
+              name: 'accountant',
+              uv: 0,
+              shortname:'Acc'
+            },
            
           ];
 
@@ -139,12 +160,12 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
         {
           name: 'developer',
           uv: 0,
-          shortname:'Developer'
+          shortname:'Dev'
         },
         {
           name: 'marketing',
           uv: 0,
-          shortname:'Marketing'
+          shortname:'Mar'
         },
         {
           name: 'customer-service',
@@ -164,7 +185,17 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
         {
           name: 'employee',
           uv: 0,
-          shortname:'Staff'
+          shortname:'Emp'
+        },
+        {
+          name: 'owner',
+          uv: 0,
+          shortname:'Own'
+        },
+        {
+          name: 'accountant',
+          uv: 0,
+          shortname:'Acc'
         },
       ];
 
@@ -205,7 +236,7 @@ const TeamLeadCahrt:React.FC<TeamLeadCahrtProps> = ({
               
                <Bar dataKey="uv" fill="#8884d8" barSize={25}  label={{ position: 'top' }}>
                    {data.map((entry, index) => (
-                   <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                   <Cell key={`cell-${index}`} fill={colors[index % 10]} />
                    ))}
                </Bar>
                </BarChart>
