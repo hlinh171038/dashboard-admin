@@ -58,7 +58,7 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
     const [provinceSelected,setProvinceSelected] = useState<any>(null)
     const [districtSelected,setDistrictSelected] = useState<any>(null)
  
-    const alphaNumericRegex = /^[0-9]{1,2}[A-Z]/;
+    const alphaNumericRegex = /^[0-9]{1,5}[a-zA-Z]{0,20}/;
   
     const schema: ZodType<formData> = z.object({
         name: z.string().min(3).max(20),
@@ -79,7 +79,7 @@ const AddNewCustomer:React.FC<AddNewCustomerProps> = ({
         }),
         block: z.boolean(),
         address: z.string().min(2).regex(alphaNumericRegex, {
-            message: 'Input can only contain letters and numbers',
+            message: 'number or number + cappital letter',
           }),
         password:z.string().min(5).max(20),
         //check password and password confirm
@@ -425,6 +425,7 @@ console.log(communes)
                                     focus:bg-white 
                                     focus:text-slate-900
                                     focus:outline-none
+                                    focus:border-slate-500/60
                                     h-full 
                                     " 
 
